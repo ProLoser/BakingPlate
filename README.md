@@ -2,8 +2,15 @@
 
 A union of Cakephp & HTML5 Boilerplate best practices with an influence of GIT
 
+# Instructions
 
-    cake bake myapp.com -app ~/www/ -skel ~/bakingplate/app/vendors/shells/templates/skel
+1. Clone into your root plugins directory into /plugins/generation folder
+2. Open up your terminal and make sure you have the cake bake console installed
+3. Run <code>'cake bake -skel <path to /plugins/generation/vendors/templates/skel>'</code> in your terminal
+	or <code>cake bake myapp.com -app ~/www/ -skel ~/bakingplate/app/vendors/shells/templates/skel</code>
+4. Change to the newly baked project directory and run 'git submodule update --init'
+	
+Voila!
 
 
 # Baking Tasty Cakes

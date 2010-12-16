@@ -1,0 +1,11 @@
+#header #logo
+{
+	width: 210px;
+	float: left;
+	margin: 25px 0 0 18px;
+}
+
+#login_body_window
+{
+	margin-top: -3px;
+}

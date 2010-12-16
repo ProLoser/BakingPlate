@@ -1,0 +1,25 @@
+input[type=button], input[type=submit]
+{
+	padding: 5px 10px 5px 10px;
+	border: 1px solid #cccccc;
+	font-size: 1em;
+}
+
+input.search
+{
+	border: 0px;
+}
+
+.left_switch, .right_switch
+{
+	font-size: 11px;
+}
+
+.media_photos {
+	margin-top: 10px;
+}
+
+#shortcut li
+{
+	margin-bottom: 30px;
+}
