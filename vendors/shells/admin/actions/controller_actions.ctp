@@ -48,6 +48,7 @@
 			$this->flash(__('Invalid <?php echo strtolower($singularHumanName); ?>', true), array('action' => 'index'));
 <?php endif; ?>
 		}
+		$this->recursive = 1;
 		$this->set('<?php echo $singularName; ?>', $this-><?php echo $currentModelName; ?>->read(null, $id));
 	}
 
