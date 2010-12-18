@@ -42,7 +42,7 @@ $siteExtras = Configure::read('Site.extras');
  
   <!-- todo: make this use helper - make it find js from theme
 	 All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <?php echo $this->Html->script('libs/modernizr-1.6.min.js'); ?>
+  <?php echo $this->Html->script('libs/modernizr-1.6.min'); ?>
 </head>
 <?php
 	/* todo: body id & class or not inline with vanilla concept of bakingplate */
