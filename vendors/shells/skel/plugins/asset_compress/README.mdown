@@ -1,0 +1,53 @@
+# Asset Compress
+
+Asset Compress is CakePHP plugin for helping reduce the number of requests your application requires for Javascript and CSS files.  It comes with a handy set of pre-processing features.
+
+## Installing
+
+Clone or download the plugin into one of your plugin paths. From there read the [wiki](http://wiki.github.com/markstory/asset_compress/) for more information.
+
+## Issues
+
+Please report any issues you have with the plugin to the [issue tracker](http://github.com/markstory/asset_compress/issues) on github.
+
+## License
+
+Asset Compress is offered under an [MIT license](http://www.opensource.org/licenses/mit-license.php).
+
+## Copyright
+
+2010 Mark Story (http://mark-story.com)
+
+### Authors
+
+* Mark Story
+* Ben McClure
+* Igor Fomin
+* Rachman Chavik
+* Sumit Madan
+
+### Changelog
+
+#### 0.3
+
+** Backwards incompatible changes**
+
+* Inflection of file names for javascript and css was removed.  This affects both the helper, and the directives supported by each file type.
+* Auto inclusion of all build files in the `afterRender()` callback was removed.  You now need to manually call `includeAssets()`.
+* The default build file is now a magic-hash.  Magic-hash build files, use the md5() of their components as the build filename.  This allows you to easily create build files without worrying about keeping them unique across your application.
+
+** Other changes **
+
+* `AssetCompressHelper::includeAssets()` takes an array of build files you wish to output in that call.  This lets you place some build files at the top of the document, and others at the bottom.
+* `AssetCompressHelper::includeJs()` and `AssetCompressHelper::includeCss()` were added.  These methods function similar to `includeAssets()`.  Each allows you to only include some of the build files.
+* Assets that do not exist now return 404 errors.
+* Two basic filters have been added.  `JsMin` and `CssMin` are now built-in filters.  Both require you to put their libraries in `app/vendors`.
+* Filters for YUI have been added, both a CSS and Javascript filter have been added.  They require you to put yuicompressor in your app's vendors directories.
+
+
+#### 0.2
+
+* Timestampping of build files was added.
+* Filters for CSS files were fixed.
+* Location for asset_compress.ini file was moved into `app/config/asset_compres.ini`.
+* Files in themes should now be auto discovered.
