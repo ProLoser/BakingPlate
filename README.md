@@ -19,7 +19,7 @@ enjoy
 
 1. make mobile detect a plugin?
 2. Add missing stuff to AppCtrlr (filter.filter, geoip, locale)
-3. Use CSSMin instead of CssTidy as default
+3. Slim down initial plugins
 4. Dynamic Pages (if derived app does not need just remove)
 5. gitmodules
     1. Is the a direct copy of repos gitmodules (if so convert plugins & vendors into submods)
@@ -28,6 +28,7 @@ enjoy
 7. Libs - initial PageRoute Added
 8. i18n/l10n stuff
 9. Html5 Boilerplate Theme Finish (nearly there) - based upon Fork of CakePlate by Sams
+9. Non Themed views should use Best Practices (no-started)
 10. more work on Admin Theme (Truly awesome stuff admin comes is a range of colors)
 11. Settings
     1. Decide upon a Setting/Config setup (using Nick Bakers now may change)
@@ -36,5 +37,4 @@ enjoy
 13. Add information to Readme
     1. updating a derived project; use git branches
     2. remove stuff from derived project delete from your active branch
-14. Slim down initial plugins
 15. more see comments
