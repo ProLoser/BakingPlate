@@ -35,8 +35,15 @@ class AppController extends Controller {
 	// todo: resolve - things are missing GeoipComp, ScaffoldComp, filter.filter, Webservice.Webservice
 	
 	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
+        // xxx: is it possible to auto load a helper from within a theme?
+
 	var $helpers = array('Session', 'Html', 'Form', 'Time');
-	var $components = array('Session', 'Cookie', 'RequestHandler',
+	var $components = array(
+                'Session',
+                'Cookie',
+                //'Scaffolding',
+                'RequestHandler',
+                //'Webservice.Webservice',
 		'Auth' => array(
 			'fields' => array(
 				'username' => 'username', 
@@ -59,7 +66,7 @@ class AppController extends Controller {
 		
 		// Enables the filtering helper
 		if ($this->action == 'staff_index') {
-			// remove from above
+			// remove from above why is this and there (belt & braces)
 			$this->helpers[] = 'Filter.Filter';
 		}
 	}
