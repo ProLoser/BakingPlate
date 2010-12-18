@@ -4,7 +4,7 @@
  * PHP 5.2+
  *
  * TODO: Write readme, start wiki make drawing board plans
- * TODO: Implement HTML5 Boilerplate methods here
+ * TODO: Implement HTML5 Boilerplate methods here (check that its inline with Paul, Divya et als work)
  * TODO: Implement Initial Changes to code that this projects bakes based on
  * changes made to my fork of cakeplate
  * TODO: add more things
@@ -22,7 +22,7 @@ $siteExtras = Configure::read('Site.extras');
 	<?php /* todo: make this optional */ ?>
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
 	<title>
-		<?php __('Html5 BakingPlate'); ?>
+		<?php __('BakingPlate: Html5 Boilerplate Theme'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php /* todo: a description var will be set to set within the beforeRender operation of the app */ ?>
@@ -37,12 +37,12 @@ $siteExtras = Configure::read('Site.extras');
 		echo $this->Html->css('style');
 	
 		// media handheld
-		echo $html->css('handheld', null, array('media' => 'handheld'));
+		echo $this->Html->css('handheld', null, array('media' => 'handheld'));
 	?>
  
   <!-- todo: make this use helper - make it find js from theme
 	 All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <script src="/h5bp/js/libs/modernizr-1.6.min.js"></script>
+  <?php echo $this->Html->script('libs/modernizr-1.6.min.js'); ?>
 </head>
 <?php
 	/* todo: body id & class or not inline with vanilla concept of bakingplate */
@@ -51,8 +51,8 @@ $siteExtras = Configure::read('Site.extras');
 <body>
 	<div id="container">
 		<header>
-			<h1><?php echo $this->Html->link(__('Html5 BakingPlate by SamS & ProLoser', true), 'http://github.com/sams/BakingPlate'); ?></h1>
-			<h2><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h2>
+			<h1><?php echo $this->Html->link(__('BakingPlate by SamS & ProLoser', true), 'http://github.com/sams/BakingPlate'); ?></h1>
+			<h2><?php echo $this->Html->link(__('Html5 Boilerplate Theme by SamS for CakePHP', true), 'http://cakephp.org'); ?></h2>
 		</header>
 		<div id="main" role="main">
 
@@ -83,13 +83,10 @@ $siteExtras = Configure::read('Site.extras');
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo $this->Html->url('/h5bp/js/libs/jquery-1.4.4.js'); ?>"%3E%3C/script%3E'))</script>
   
-  
-  <!--  todo: make this use asset compress -->
-  <script src="js/plugins.js"></script>
-  <script src="js/script.js"></script>
-  <!-- end concatenated and minified scripts-->
-
 	<?php
+		// todo: make this use asset compress
+		echo $this->Html->script(array('plugins', 'script'));
+	
 		// footer extras google analytics and yahoo_profiling
 		if($siteExtras['dd_png'])	{
 			echo $this->element('extras/dd_png', array('dd_png' => $siteExtras['dd_png']));
