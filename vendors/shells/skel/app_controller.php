@@ -32,8 +32,11 @@
  */
 class AppController extends Controller {
 	
+	// todo: resolve - things are missing GeoipComp, ScaffoldComp, filter.filter, Webservice.Webservice
+	
+	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
 	var $helpers = array('Session', 'Html', 'Form', 'Time');
-	var $components = array('Session', 'Cookie', 'Scaffolding', 'RequestHandler', 'Webservice.Webservice',
+	var $components = array('Session', 'Cookie', 'RequestHandler',
 		'Auth' => array(
 			'fields' => array(
 				'username' => 'username', 
@@ -56,6 +59,7 @@ class AppController extends Controller {
 		
 		// Enables the filtering helper
 		if ($this->action == 'staff_index') {
+			// remove from above
 			$this->helpers[] = 'Filter.Filter';
 		}
 	}
@@ -68,10 +72,13 @@ class AppController extends Controller {
 	 */
 	function beforeRender() {
 		$this->__habtmValidation();
+		// perhaps use method to set theme see $this->_theme()
 		if ($this->_prefix('staff')) {
 			$this->theme = 'staff';
 		} else {
-			$this->theme = $this->Session->read('Config.locale');
+			// currently hard coding to h5bp for testing
+			//$this->theme = $this->Session->read('Config.locale');
+			$this->theme = 'h5bp';
 		}
 	}
 	
@@ -86,6 +93,7 @@ class AppController extends Controller {
 			Configure::write('debug', 2);
 		}
 		if (Configure::read('debug')) {
+			// todo: add interactive for debugkit or not
 			$this->components[] = 'DebugKit.Toolbar';
 			App::import('Vendor', 'DebugKit.FireCake');
 		}
@@ -118,6 +126,8 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	protected function _setLanguage() {
+		// return early missing stuff prevents loading just now
+		return;
 		$default = Configure::read('Config.language');
 		if ($this->Cookie->read('locale') && !$this->Session->check('Config.locale')) {
 			$this->Session->write('Config.locale', $this->Cookie->read('locale'));
@@ -228,6 +238,22 @@ class AppController extends Controller {
 	        }
 	        $this->{$componentName} = $component;
 	    }
+	}
+	
+	/**
+	 * Set site theme
+	 *
+	 * todo: make it work, set from Site.theme or passed arg
+	 * 	plan to allow theme to be switched off pass false
+	 * 	call no arg or null to set with Configure::read('Site.theme');
+	 *	if prefix is used and matches a theme use it
+	 *
+	 * @param string $theme 
+	 * @return void
+	 * @author Sam
+	 */
+	function _theme($theme = null) {
+	
 	}
 
 }
