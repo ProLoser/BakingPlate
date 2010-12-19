@@ -217,7 +217,8 @@ class AppController extends Controller {
 	
 	/**
 	 * Add component just in time (inside actions - only when needed)
-	 * aware of plugins and config array (if passed)
+	 * aware of plugins and config array (if passed). Doesn't load 
+	 * dependent components.
 	 *
 	 * @param mixed $helpers (single string or multiple array)
 	 */

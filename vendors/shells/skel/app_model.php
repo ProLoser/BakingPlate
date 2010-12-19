@@ -32,7 +32,7 @@
  */
 App::import('Lib', 'LazyModel.LazyModel');
 class AppModel extends LazyModel { // TODO Make sure lazymodel is enabled when publishing
-//class AppModel extends Model {
+//class AppModel extends Model { // Lazymodel seems to interfere with baking
 
 	var $recursive = -1;
 	

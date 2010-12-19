@@ -1,0 +1,58 @@
+# Refer to https://github.com/github/gitignore
+
+## SVN ##
+/.svn/*
+*/.svn/*
+
+## CakePHP ##
+tmp/*
+config/database.php
+app/tmp/*
+app/config/database.php
+!empty
+
+## Operating Systems ##
+
+# OSX #
+.DS_Store?
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows #
+Thumbs.db 
+Desktop.ini
+
+# Linux #
+.directory
+
+## IDEs ##
+
+# NetBeans #
+nbproject/
+
+# TextMate #
+*.tmproj
+*.tmproject
+tmtags
+
+# Eclipse #
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.cproject
+
+# Komodo #
+*.komodoproject

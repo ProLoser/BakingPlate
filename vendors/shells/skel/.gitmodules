@@ -1,0 +1,54 @@
+[submodule "app/plugins/upload_pack"]
+	path = app/plugins/upload_pack
+	url = http://github.com/josegonzalez/uploadpack.git
+[submodule "vendors/php_arrays"]
+	path = vendors/php_arrays
+	url = http://github.com/josegonzalez/php_arrays.git
+[submodule "app/plugins/debug_kit"]
+	path = app/plugins/debug_kit
+	url = http://github.com/cakephp/debug_kit.git
+[submodule "app/plugins/welcome"]
+	path = app/plugins/welcome
+	url = http://github.com/ProLoser/CakePHP-Welcome.git
+[submodule "app/plugins/wizard"]
+	path = app/plugins/wizard
+	url = http://github.com/ProLoser/wizard.git
+[submodule "plugins/linkable"]
+	path = plugins/linkable
+	url = http://github.com/rafaelbandeira3/linkable.git
+[submodule "plugins/lazy_model"]
+	path = plugins/lazy_model
+	url = http://github.com/Phally/lazy_model.git
+[submodule "app/plugins/mi"]
+	path = app/plugins/mi
+	url = http://github.com/AD7six/mi.git
+[submodule "app/plugins/joinable"]
+	path = app/plugins/joinable
+	url = http://github.com/ProLoser/CakePHP-Joinable.git
+[submodule "app/plugins/cacheable"]
+	path = app/plugins/cacheable
+	url = http://github.com/ProLoser/CakePHP-Cacheable.git
+[submodule "app/plugins/csv"]
+	path = app/plugins/csv
+	url = git://github.com/ProLoser/CakePHP-CSV.git
+[submodule "app/plugins/filter"]
+	path = app/plugins/filter
+	url = git://github.com/ProLoser/cakephp-filter-plugin.git
+[submodule "app/plugins/split_form"]
+	path = app/plugins/split_form
+	url = git://github.com/ProLoser/CakePHP-SplitForm-Helper.git
+[submodule "plugins/webservice"]
+	path = plugins/webservice
+	url = git://github.com/josegonzalez/webservice_plugin.git
+[submodule "app/plugins/super_val"]
+	path = app/plugins/super_val
+	url = git://github.com/ProLoser/cakephp-supervalidatable-behavior.git
+[submodule "app/plugins/cart"]
+	path = app/plugins/cart
+	url = git://github.com/ProLoser/CakePHP-Cart.git
+[submodule "app/plugins/geoip"]
+	path = app/plugins/geoip
+	url = git://github.com/ProLoser/cakephp-geoip.git
+[submodule "plugins/clear_cache"]
+	path = plugins/clear_cache
+	url = git://github.com/ceeram/clear_cache.git
