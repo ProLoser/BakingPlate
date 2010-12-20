@@ -16,13 +16,21 @@ class PlateShell extends Shell {
 	}
 	
 	/**
+	 * Overridden method so the heading message stops getting spit out
+	 *
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	function _welcome() {}
+	
+	/**
 	 * Shows a list of available commands
 	 */
 	function main() {
-		$this->out("\nAvailable Commands:");
-		$this->out('Index	- List available plugins');
-		$this->out('Add <#>	- Add a specific plugin');
-		$this->out('All	- Add all available plugins');
+		$this->out("\nAvailable Commands:\n");
+		$this->out('plugins	- List available plugins');
+		$this->out('add <#>	- Add a specific plugin');
+		$this->out('all	- Add all available plugins');
 	}
 	
 	/**
