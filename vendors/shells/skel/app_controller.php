@@ -32,10 +32,7 @@
  */
 class AppController extends Controller {
 	
-	// todo: resolve - things are missing GeoipComp, ScaffoldComp, filter.filter, Webservice.Webservice
-	
 	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
-        // xxx: is it possible to auto load a helper from within a theme?
 
 	var $helpers = array('Session', 'Html', 'Form', 'Time');
 	var $components = array(
@@ -43,7 +40,7 @@ class AppController extends Controller {
                 'Cookie',
                 //'Scaffolding',
                 'RequestHandler',
-                //'Webservice.Webservice',
+                'Webservice.Webservice',
 		'Auth' => array(
 			'fields' => array(
 				'username' => 'username', 
@@ -51,24 +48,18 @@ class AppController extends Controller {
 			),
 			'loginAction' => array('staff' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'login'),
 			'logoutRedirect' => array('action' => 'login'),
-			'loginRedirect' => '/myaccount',	
+			'loginRedirect' => '/',	
 			//'authorize' => 'actions', // TODO Install ACL component?	
 		), 
-		//'Filter.Filter' => array(
-		//	'actions' => array('index', 'staff_index'),
-		//),
+		'Filter.Filter' => array(
+			'actions' => array('index', 'admin_index'),
+		),
 	);
 	var $view = 'Theme';
 
 	function beforeFilter() {
 		$this->_setupAuth();
 		$this->_setLanguage();
-		
-		// Enables the filtering helper
-		if ($this->action == 'staff_index') {
-			// remove from above why is this and there (belt & braces)
-			$this->helpers[] = 'Filter.Filter';
-		}
 	}
 	
 	/**
@@ -79,19 +70,12 @@ class AppController extends Controller {
 	 */
 	function beforeRender() {
 		$this->__habtmValidation();
-		// perhaps use method to set theme see $this->_theme()
-		if ($this->_prefix('staff')) {
-			$this->theme = 'staff';
-		} else {
-			// currently hard coding to h5bp for testing
-			//$this->theme = $this->Session->read('Config.locale');
-			$this->theme = 'h5bp';
-		}
+		$this->_setTheme();
 	}
 	
 	/**
 	 * This allows the enabling of debug mode even if debug is set to off. 
-	 * Simply pass ?shnizzle=1 in the url
+	 * Simply pass ?debug=1 in the url
 	 *
 	 * @author Dean
 	 */
@@ -105,6 +89,28 @@ class AppController extends Controller {
 			App::import('Vendor', 'DebugKit.FireCake');
 		}
 		parent::__construct();
+	}
+	
+	/**
+	 * Set site theme
+	 *
+	 * todo: make it work, set from Site.theme or passed arg
+	 * 	plan to allow theme to be switched off pass false
+	 * 	call no arg or null to set with Configure::read('Site.theme');
+	 *	if prefix is used and matches a theme use it
+	 *
+	 * @param string $theme 
+	 * @return void
+	 * @author Sam
+	 */
+	function _setTheme($theme = null) {
+		if ($this->_prefix('admin')) {
+			$this->theme = 'admin';
+		} else {
+			// currently hard coding to h5bp for testing
+			//$this->theme = $this->Session->read('Config.locale');
+			$this->theme = 'h5bp';
+		}
 	}
 	
 	/**
@@ -246,22 +252,6 @@ class AppController extends Controller {
 	        }
 	        $this->{$componentName} = $component;
 	    }
-	}
-	
-	/**
-	 * Set site theme
-	 *
-	 * todo: make it work, set from Site.theme or passed arg
-	 * 	plan to allow theme to be switched off pass false
-	 * 	call no arg or null to set with Configure::read('Site.theme');
-	 *	if prefix is used and matches a theme use it
-	 *
-	 * @param string $theme 
-	 * @return void
-	 * @author Sam
-	 */
-	function _theme($theme = null) {
-	
 	}
 
 }
