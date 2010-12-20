@@ -36,7 +36,8 @@ class PlateShell extends Shell {
 		$keys = array_keys($plugins);
 		if (!isset($this->args[0])) {
 			$this->plugins();
-			$plugin = $this->in("\nSpecify a plugin #");
+			$this->out($this->nl());
+			$plugin = $this->in('Specify a plugin #');
 		} else {
 			$plugin = $this->args[0];
 		}
@@ -65,9 +66,9 @@ class PlateShell extends Shell {
 	 */
 	function all() {
 		$plugins = $this->_load();
-		$this->out("\nAdding All Git Submodules...\n");
+		$this->out("\nAdding All Plugins...\n");
 		foreach ($plugins as $path => $url) {
-			$this->nl(2);
+			$this->out($this->nl());
 			$this->out('Adding ' . Inflector::humanize($path));
 			$this->hr();
 			exec('git submodule add ' . $url . ' plugins/' . $path);
