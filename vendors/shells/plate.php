@@ -28,9 +28,14 @@ class PlateShell extends Shell {
 	 */
 	function main() {
 		$this->out("\nAvailable Commands:\n");
+		$this->out('bake	- Generates a new app using bakeplate');
 		$this->out('plugins	- List available plugins');
 		$this->out('add <#>	- Add a specific plugin');
 		$this->out('all	- Add all available plugins');
+	}
+	
+	function bake() {
+		exec('cake bake -skel ' . dirname(__FILE__) . DS . 'skel ' . implode(' ', $this->args));
 	}
 	
 	/**
