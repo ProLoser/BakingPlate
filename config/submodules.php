@@ -1,6 +1,6 @@
 <?php
 $config['BakingPlate']['plugins'] = array(
-	'debub_kit'			=> 'git://github.com/cakephp/debug_kit.git',
+	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'welcome'			=> 'git://github.com/ProLoser/CakePHP-Welcome.git',
 	'wizard'			=> 'git://github.com/ProLoser/wizard.git',
 	'linkable'			=> 'git://github.com/rafaelbandeira3/linkable.git',

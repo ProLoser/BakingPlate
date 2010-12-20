@@ -4,11 +4,20 @@
 */
 class PlateShell extends Shell {
 	
+	/**
+	 * Loads the list of submodules from config
+	 *
+	 * @return array submodules
+	 * @author Dean Sofer
+	 */
 	function _load() {
 		Configure::load('BakingPlate.submodules');
 		return Configure::read('BakingPlate.plugins');
 	}
 	
+	/**
+	 * Shows a list of available commands
+	 */
 	function main() {
 		$this->out("\nAvailable Commands:");
 		$this->out('Index	- List available plugins');
@@ -16,20 +25,31 @@ class PlateShell extends Shell {
 		$this->out('All	- Add all available plugins');
 	}
 	
-	function add($plugin = null) {
+	/**
+	 * Add a specific submodule/plugin
+	 *
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	function add() {
 		$plugins = $this->_load();
 		$keys = array_keys($plugins);
-		if (!isset($keys[$plugin-1])) {
-			$this->out("\nPlease specify a valid plugin");
+		if (!isset($this->args[0])) {
 			$this->plugins();
-			return;
+			$plugin = $this->in("\nSpecify a plugin #");
+		} else {
+			$plugin = $this->args[0];
 		}
-		$path = $plugins[$keys[$plugin-1]];
+		
+		$path = $keys[$plugin-1];
 		$url = $plugins[$path];
-		$this->out("\nAdding ".Inflector::humanize($plugin['path'])." Submodule...\n");
+		$this->out("\nAdding ".Inflector::humanize($path)." Submodule...\n");
 		exec('git submodule add ' . $url . ' plugins/' . $path);
 	}
 	
+	/**
+	 * Render a list of submodules
+	 */
 	function plugins() {
 		$plugins = $this->_load();
 		$this->out("\nAvailable Plugins:\n");
@@ -40,13 +60,16 @@ class PlateShell extends Shell {
 		}
 	}
 	
+	/**
+	 * Add all plugins
+	 */
 	function all() {
 		$plugins = $this->_load();
 		$this->out("\nAdding All Git Submodules...\n");
 		foreach ($plugins as $path => $url) {
-			$this->out("\n".'====================================');
+			$this->nl(2);
 			$this->out('Adding ' . Inflector::humanize($path));
-			$this->out('------------------------------------');
+			$this->hr();
 			exec('git submodule add ' . $url . ' plugins/' . $path);
 		}
 	}
