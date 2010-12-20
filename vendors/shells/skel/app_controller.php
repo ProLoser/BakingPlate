@@ -36,11 +36,11 @@ class AppController extends Controller {
 
 	var $helpers = array('Session', 'Html', 'Form', 'Time');
 	var $components = array(
-                'Session',
-                'Cookie',
-                //'Scaffolding',
-                'RequestHandler',
-                'Webservice.Webservice',
+			'Session',
+			'Cookie',
+			//'Scaffolding',
+			'RequestHandler',
+			'Webservice.Webservice',
 		'Auth' => array(
 			'fields' => array(
 				'username' => 'username', 
@@ -48,8 +48,8 @@ class AppController extends Controller {
 			),
 			'loginAction' => array('staff' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'login'),
 			'logoutRedirect' => array('action' => 'login'),
-			'loginRedirect' => '/',	
-			//'authorize' => 'actions', // TODO Install ACL component?	
+			'loginRedirect' => '/',
+			//'authorize' => 'actions', // TODO Install ACL component?
 		), 
 		'Filter.Filter' => array(
 			'actions' => array('index', 'admin_index'),
@@ -99,7 +99,7 @@ class AppController extends Controller {
 	 * 	call no arg or null to set with Configure::read('Site.theme');
 	 *	if prefix is used and matches a theme use it
 	 *
-	 * @param string $theme 
+	 * @param string $theme
 	 * @return void
 	 * @author Sam
 	 */
@@ -230,28 +230,28 @@ class AppController extends Controller {
 	 */
 	function loadComponent($components = array()) {
 	
-	    foreach ((array)$components as $component => $config) {
-	        if (is_int($component)) {
-	            $component = $config;
-	            $config = null;
-	        }
-	        list($plugin, $componentName) = pluginSplit($component);
-	        if (isset($this->{$componentName})) {
-	            continue;
-	        }
-	        App::import('Component', $component);
+		foreach ((array)$components as $component => $config) {
+			if (is_int($component)) {
+				$component = $config;
+				$config = null;
+			}
+			list($plugin, $componentName) = pluginSplit($component);
+			if (isset($this->{$componentName})) {
+				continue;
+			}
+			App::import('Component', $component);
 	
-	        $componentFullName = $componentName.'Component';
-	        $component = new $componentFullName($config);
+			$componentFullName = $componentName.'Component';
+			$component = new $componentFullName($config);
 	
-	        if (method_exists($component, 'initialize')) {
-	            $component->initialize($this);
-	        }
-	        if (method_exists($component, 'startup')) {
-	            $component->startup($this);
-	        }
-	        $this->{$componentName} = $component;
-	    }
+			if (method_exists($component, 'initialize')) {
+				$component->initialize($this);
+			}
+			if (method_exists($component, 'startup')) {
+				$component->startup($this);
+			}
+			$this->{$componentName} = $component;
+		}
 	}
 
 }
