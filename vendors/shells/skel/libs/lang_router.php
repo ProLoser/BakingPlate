@@ -18,7 +18,7 @@ class LangRouter {
  *
  * @var string
  */
-	public $langCode = '(?!js|css|img)[a-z]{2,3}(?<!js|css|img)';
+	public static $langCode = '(?!js|css|img)[a-z]{2,3}(?<!js|css|img)';
 /**
  * Create an extra Route for lang-based URLs
  *
@@ -38,7 +38,7 @@ class LangRouter {
         if ($route == '/') {
             $route = '';
         }
-		Router::connect('/:lang' . $route, $default, array_merge(array('lang' => $this->langCode), $params));
+		Router::connect('/:lang' . $route, $default, array_merge(array('lang' => LangRouter::$langCode), $params));
     }
 /**
  * If you want your non-routed controler actions (like /users/add) to support lang based urls,
@@ -47,7 +47,7 @@ class LangRouter {
  * @return void
  */
     public function localize() {
-		Router::connect('/:lang/:controller/:action/*', array(), array('lang' => $this->langCode));
+		Router::connect('/:lang/:controller/:action/*', array(), array('lang' => LangRouter::$langCode));
     }
 }
 ?>
