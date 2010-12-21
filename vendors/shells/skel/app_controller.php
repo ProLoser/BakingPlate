@@ -139,24 +139,10 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	protected function _setLanguage() {
-		// return early missing stuff prevents loading just now
-		return;
-		$default = Configure::read('Config.language');
-		if ($this->Cookie->read('locale') && !$this->Session->check('Config.locale')) {
-			$this->Session->write('Config.locale', $this->Cookie->read('locale'));
-		} elseif (isset($this->params['locale']) && ($this->params['locale'] !=  $this->Session->read('Config.locale'))) {
-			$this->Session->write('Config.locale', $this->params['locale']);
-			$this->Cookie->write('locale', $this->params['locale'], false, '20 days');
-		} elseif (!$this->Session->check('Config.locale') && !Set::contains($this->params, array('controller' => 'locales', 'action' => 'welcome')) && !$this->_prefix('staff')) {
-			$this->Session->write('Config.referer', $this->params['url']['url']);
-			if ($locale = $this->__getIpCountry()) {
-				$this->redirect(array('locale' => $locale));
-			} else {
-				$this->redirect(array('controller' => 'locales', 'action' => 'welcome'));
-			}
-		}
-		
-		Configure::write('Config.language', $this->Session->read('Config.locale'));
+		if (isset($this->params['lang']) && $this->params['lang'] == Configure::read('Languages.default'))
+			$this->redirect(array('lang' => false));
+		$lang = isset($this->params['lang']) ? $this->params['lang'] : Configure::read('Languages.default');
+		Configure::write('Config.language', $lang);
 	}
 	
 	/**
@@ -197,6 +183,11 @@ class AppController extends Controller {
 		}
 	}
 	
+	/**
+	 * Returns a 2 letter locale code for the current ip address
+	 *
+	 * @return string $countryCode
+	 */
 	private function __getIpCountry() {
 		$this->loadComponent('Geoip.Geoip');
 		$countryCode = $this->Geoip->countryCode($_SERVER['REMOTE_ADDR']);
