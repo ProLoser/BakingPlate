@@ -21,6 +21,17 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+Configure::write('Languages.default', 'us');
+$languages = array(
+	'en',
+	'sp',
+	'fr',
+	'de',
+	'jp',
+	'ch',
+);
+Configure::write('Languages.all', $languages);
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  * This is related to Ticket #470 (https://trac.cakephp.org/ticket/470)

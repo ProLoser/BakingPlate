@@ -51,9 +51,11 @@ class AppHelper extends Helper {
 	 */
 	function url($url = null, $full = false) {
 		if (is_array($url)) {
-			if (!isset($url['locale']) && isset($this->params['locale'])) {
-				$url['locale'] = $this->params['locale'];
-			}    
+			if (!isset($url['lang']) && isset($this->params['lang'])) {
+				$url['lang'] = $this->params['lang'];
+			} elseif (isset($url['lang']) && $url['lang'] == Configure::read('Languages.default')) {
+				unset($url['lang']);
+			}
 			if (!isset($url['plugin'])) {
 				$url['plugin'] = false;
 			}

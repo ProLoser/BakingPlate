@@ -21,24 +21,16 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-Router::parseExtensions('json', 'xml');
+Router::parseExtensions('json', 'xml', 'rss', 'ajax');
  
-$routes = array(
-	array('/', array('controller' => 'pages', 'action' => 'display', 'home')),
-	array('/admin', array('admin' => true, 'controller' => 'pages', 'action' => 'display', 'admin_home')),
-);
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 
-// Maps a locale route to each individual route
-$default = Configure::read('Config.language');
-$locale = '(?!js|css|img)[a-zA-Z]{2,3}(?<!js|css|img)';
+/*
+ * Want localization instead?
+ *
+App::import('Lib', 'LocalizedRouter');
 
-foreach ($routes as $route) {
-	// $route[1]['locale'] = $default; // Sets the default to use if no locale
-	if (!isset($route[1])) $route[1] = array(); // only used because above is commented out
-	$route[2]['locale'] = $locale;
-	Router::connect('/:locale' . $route[0], $route[1], $route[2]);
-	Router::connect($route[0], $route[1], $route[2]);
-}
+LocalizedRouter::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 
-Router::connect('/:locale/:controller', array('action' => 'index'), array('locale' => $locale));
-Router::connect('/:locale/:controller/:action/*', array(), array('locale' => $locale));
+LocalizedRouter::localize();
+ */
