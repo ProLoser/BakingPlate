@@ -62,4 +62,5 @@ enjoy
     2. Remove stuff from derived project delete from your active branch
     3. Selecting a wysiwyg editor for use within the app.
     4. Customising the skel
-12. More see comments
+12. This plugin prevents cake bake from being able create plugins - clash with tasks? 
+13. More see comments
