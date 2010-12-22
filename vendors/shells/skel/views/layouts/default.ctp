@@ -23,7 +23,6 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('CakePHP: the rapid development php framework:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -37,7 +36,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
+			<?php echo $this->element('header'); ?>
 		</div>
 		<div id="content">
 
@@ -47,12 +46,7 @@
 
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt'=> __('CakePHP: the rapid development php framework', true), 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+			<?php echo $this->element('header'); ?>
 		</div>
 	</div>
 </body>

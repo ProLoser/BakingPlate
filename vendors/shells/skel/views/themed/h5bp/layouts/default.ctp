@@ -50,24 +50,18 @@ $siteExtras = Configure::read('Site.extras');
 ?>
 <body>
 	<div id="container">
-		<header>
-			<h1><?php echo $this->Html->link(__('BakingPlate by SamS & ProLoser', true), 'http://github.com/sams/BakingPlate'); ?></h1>
-			<h2><?php echo $this->Html->link(__('Html5 Boilerplate Theme by SamS for CakePHP', true), 'http://cakephp.org'); ?></h2>
+		<header id="header">
+			<?php echo $this->elements('header'); ?>
 		</header>
-		<div id="main" role="main">
+		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $content_for_layout; ?>
 
 		</div>
-		<footer>
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt'=> __('CakePHP: the rapid development php framework', true), 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+		<footer id="footer">
+			<?php echo $this->elements('footer'); ?>
 		</footer>
 	</div>
 	<?php

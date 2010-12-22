@@ -1,1 +1,1 @@
-<h1>CakePlate. The start of your webapp, served on a platter. desktop</h1>
+<h1>CakePlate. The start of your webapp, served on a platter</h1>
