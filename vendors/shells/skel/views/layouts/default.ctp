@@ -36,7 +36,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<?php echo $this->element('header'); ?>
+			<?php echo $this->element('layouts/header'); ?>
 		</div>
 		<div id="content">
 
@@ -46,7 +46,7 @@
 
 		</div>
 		<div id="footer">
-			<?php echo $this->element('header'); ?>
+			<?php echo $this->element('layouts/footer'); ?>
 		</div>
 	</div>
 </body>

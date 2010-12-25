@@ -29,7 +29,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1383/Form
  */
-class FormHelper extends AppHelper {
+class Form5Helper extends AppHelper {
 
 /**
  * Other helpers used by FormHelper

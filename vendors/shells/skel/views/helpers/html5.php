@@ -1,6 +1,6 @@
 <?php
 /**
- * Html Helper class file.
+ * Html5 Helper class file.
  *
  * Simplifies the construction of HTML elements.
  *
@@ -26,7 +26,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1434/HTML
  */
-class HtmlHelper extends AppHelper {
+class Html5Helper extends AppHelper {
 /**
  * html tags used by this helper.
  *
@@ -121,13 +121,6 @@ class HtmlHelper extends AppHelper {
  * @access private
  */
 	var $__docTypes = array(
-		'html4-strict'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
-		'html4-trans'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
-		'html4-frame'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
-		'xhtml-strict' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-		'xhtml-trans' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-		'xhtml-frame' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
-		'xhtml11' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
 		'html5' => '<!DOCTYPE html>'
 	);
 
@@ -150,20 +143,14 @@ class HtmlHelper extends AppHelper {
  *
  * Possible doctypes:
  *
- *  - html4-strict:  HTML4 Strict.
- *  - html4-trans:  HTML4 Transitional.
- *  - html4-frame:  HTML4 Frameset.
- *  - xhtml-strict: XHTML1 Strict.
- *  - xhtml-trans: XHTML1 Transitional.
- *  - xhtml-frame: XHTML1 Frameset.
- *  - xhtml11: XHTML1.1.
+ *  - html5:  HTML5.
  *
  * @param string $type Doctype to use.
  * @return string Doctype string
  * @access public
  * @link http://book.cakephp.org/view/1439/docType
  */
-	function docType($type = 'xhtml-strict') {
+	function docType($type = 'html5') {
 		if (isset($this->__docTypes[$type])) {
 			return $this->__docTypes[$type];
 		}
