@@ -34,12 +34,20 @@ class AppController extends Controller {
 	
 	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
 
-	var $helpers = array('Session', 'Html', 'Form', 'Time');
+	var $helpers = array(
+			'Session',	
+			'Time',
+			'Html',
+			'Form',
+			//'StaticCache.StaticCache',
+			//'AssetCompress.AssetCompress'
+	);
 	var $components = array(
 			'Session',
 			'Cookie',
 			//'Scaffolding',
 			'RequestHandler',
+			//'MobileDetect.MobileDetect',
 			'Webservice.Webservice',
 		'Auth' => array(
 			'fields' => array(
@@ -71,6 +79,7 @@ class AppController extends Controller {
 	function beforeRender() {
 		$this->__habtmValidation();
 		$this->_setTheme();
+		$this->set('description_for_layout', '');
 	}
 	
 	/**
