@@ -51,7 +51,7 @@ $siteExtras = Configure::read('Site.extras');
 <body>
 	<div id="container">
 		<header id="header">
-			<?php echo $this->elements('layouts/header'); ?>
+			<?php echo $this->elements('layout/header'); ?>
 		</header>
 		<div id="content">
 
@@ -61,7 +61,7 @@ $siteExtras = Configure::read('Site.extras');
 
 		</div>
 		<footer id="footer">
-			<?php echo $this->elements('layouts/footer'); ?>
+			<?php echo $this->elements('layout/footer'); ?>
 		</footer>
 	</div>
 	<?php
