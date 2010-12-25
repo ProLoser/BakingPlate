@@ -31,11 +31,11 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 
 1. Clone into your root plugins directory into /plugins/bakingplate folder
 2. Open up your terminal and make sure you have the cake bake console installed
-3. Run 'cake bake **[project_path]** -skel <path to /plugins/bakingplate/vendors/templates/skel>' in your terminal
+3. Run `cake plate bake <project_path>` in your terminal
 4. Change to the newly baked project
-    1. Run `cake plate submodules all` 
-    2. Run `cake plate submodules add <SubmoduleName>` or `git submodule add git-uri (plugin|vendor)/submodule_camel_name` (if you have trouble with the first option)
-5. Run cake schema creations
+    a. Run `cake plate submodules all` 
+    b. Run `cake plate submodules add <Submodule#>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
+5. Run `cake schema creations`
 	
 Voila!
 
