@@ -1,15 +1,9 @@
 <?php
 /**
-* BakingPlate Plugin Task
-*
-* I have found that with BakingPlate installed we can no longer bake plugins
-* and I suspect this task is to blame due to conflict.
-*
-* anyway this task is *should* IMHO be renamed GitPlugins - since it installs via git
-* and another Task later will install via another method or may (investigate the first point)
+* BakingPlate Submodule Task
 * 
 */
-class PluginTask extends Shell {
+class SubmoduleTask extends Shell {
 	
 	var $plugins = array();
 	
@@ -18,9 +12,9 @@ class PluginTask extends Shell {
 		$this->plugins = Configure::read('BakingPlate.plugins');
 		if (!$param) {
 			$this->out("\nAvailable Commands:");
-			$this->out('Index	- List available plugins');
-			$this->out('Add <#>	- Add a specific plugin');
-			$this->out('All	- Add all available plugins');
+			$this->out('Index	- List available submodules');
+			$this->out('Add <#>	- Add a specific submodule');
+			$this->out('All	- Add all available submodules');
 		} elseif (method_exists($this, $param)) {
 			$params = func_get_args();
 			array_shift($params);
@@ -38,7 +32,7 @@ class PluginTask extends Shell {
 	}
 	
 	function index() {
-		$this->out("\nAvailable Plugins:\n");
+		$this->out("\nAvailable Submodules:\n");
 		$i = 0;
 		foreach ($this->plugins as $path => $url) {
 			$i++;

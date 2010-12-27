@@ -29,9 +29,9 @@ class PlateShell extends Shell {
 	function main() {
 		$this->out("\nAvailable Commands:\n");
 		$this->out('bake	- Generates a new app using bakeplate');
-		$this->out('plugins	- List available plugins');
-		$this->out('add <#>	- Add a specific plugin');
-		$this->out('all	- Add all available plugins');
+		$this->out('submodules	- List available submodules');
+		$this->out('add <#>	- Add a specific submodule');
+		$this->out('all	- Add all available submodules');
 	}
 	
 	function bake() {
@@ -50,7 +50,7 @@ class PlateShell extends Shell {
 		if (!isset($this->args[0])) {
 			$this->plugins();
 			$this->out($this->nl());
-			$plugin = $this->in('Specify a plugin #');
+			$plugin = $this->in('Specify a submodule #');
 		} else {
 			$plugin = $this->args[0];
 		}
@@ -64,7 +64,7 @@ class PlateShell extends Shell {
 	/**
 	 * Render a list of submodules
 	 */
-	function plugins() {
+	function submodules() {
 		$plugins = $this->_load();
 		$this->out("\nAvailable Plugins:\n");
 		$i = 0;
@@ -75,11 +75,11 @@ class PlateShell extends Shell {
 	}
 	
 	/**
-	 * Add all plugins
+	 * Add all submodules
 	 */
 	function all() {
 		$plugins = $this->_load();
-		$this->out("\nAdding All Plugins...\n");
+		$this->out("\nAdding All Submodules...\n");
 		foreach ($plugins as $path => $url) {
 			$this->out($this->nl());
 			$this->out('Adding ' . Inflector::humanize($path));
