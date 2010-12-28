@@ -1,6 +1,13 @@
 <?php
 /**
 * BakingPlate Plugin Task
+*
+* I have found that with BakingPlate installed we can no longer bake plugins
+* and I suspect this task is to blame due to conflict.
+*
+* anyway this task is *should* IMHO be renamed GitPlugins - since it installs via git
+* and another Task later will install via another method or may (investigate the first point)
+* 
 */
 class PluginTask extends Shell {
 	
