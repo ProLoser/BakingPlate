@@ -3,7 +3,9 @@
 * BakingPlate Class
 */
 class PlateShell extends Shell {
-	
+
+	var $tasks = array('Project');
+
 	/**
 	 * Loads the list of submodules from config
 	 *
@@ -14,7 +16,7 @@ class PlateShell extends Shell {
 		Configure::load('BakingPlate.submodules');
 		return Configure::read('BakingPlate.plugins');
 	}
-	
+
 	/**
 	 * Overridden method so the heading message stops getting spit out
 	 *
@@ -22,7 +24,7 @@ class PlateShell extends Shell {
 	 * @author Dean Sofer
 	 */
 	function _welcome() {}
-	
+
 	/**
 	 * Shows a list of available commands
 	 */
@@ -33,11 +35,18 @@ class PlateShell extends Shell {
 		$this->out('add <#>	- Add a specific submodule');
 		$this->out('all	- Add all available submodules');
 	}
-	
+
 	function bake() {
-		exec('cake bake -skel ' . dirname(__FILE__) . DS . 'skel ' . implode(' ', $this->args));
+		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+		if (!$this->Project->execute()) {
+			return false;
+		}
+		$this->out(passthru('git init ' . $this->params['app']));
+		chdir($this->params['app']);
+		$this->all();
+		
 	}
-	
+
 	/**
 	 * Add a specific submodule/plugin
 	 *
@@ -60,7 +69,7 @@ class PlateShell extends Shell {
 		$this->out("\nAdding ".Inflector::humanize($path)." Submodule...\n");
 		exec('git submodule add ' . $url . ' plugins/' . $path);
 	}
-	
+
 	/**
 	 * Render a list of submodules
 	 */
@@ -73,7 +82,7 @@ class PlateShell extends Shell {
 			$this->out($i . ') ' . Inflector::humanize($path));
 		}
 	}
-	
+
 	/**
 	 * Add all submodules
 	 */

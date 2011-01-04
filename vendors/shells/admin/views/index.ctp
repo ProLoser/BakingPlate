@@ -48,6 +48,7 @@ foreach ($associations as $type => $data) {
 		?>";?>
 		</p>
 	</div>
+	<?php echo "<?php echo $this->Batch->create('{$alias}')?>"?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 	<?php  foreach ($fields as $field):?>
@@ -60,7 +61,7 @@ foreach ($associations as $type => $data) {
 	$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
 	$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
 	echo "<?php 
-	echo \$this->Filter->row('{$modelClass}', array(
+	echo \$this->Batch->filter(array(
 		{$filterFields}
 	));
 	
@@ -95,10 +96,13 @@ foreach ($associations as $type => $data) {
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
 	
-	echo "<?php endforeach; ?>\n";
+	echo "<?php endforeach;
+	echo \$this->Batch->batch(array(
+		{$filterFields}
+	));?>";
 	?>
 	</table>
-	
+	<?php echo "\t<?php echo $this->Batch->end()?>"?>
 	<div class="paging">
 		<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 		| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
