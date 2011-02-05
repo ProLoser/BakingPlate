@@ -72,7 +72,7 @@ class PlateShell extends Shell {
 	 */
 	function add() {
 		$this->_load();
-		$keys = array_keys($this->submodule);
+		$keys = array_keys($this->submodules);
 		if (!isset($this->args[0])) {
 			$this->browse();
 			$this->out($this->nl());
