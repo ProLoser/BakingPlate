@@ -59,9 +59,9 @@ class AppController extends Controller {
 			'loginRedirect' => '/',
 			//'authorize' => 'actions', // TODO Install ACL component?
 		), 
-		'Filter.Filter' => array(
-			'actions' => array('index', 'admin_index'),
-		),
+		//'Filter.Filter' => array(
+		//	'actions' => array('index', 'admin_index'),
+		//),
 	);
 	var $view = 'Theme';
 
