@@ -42,7 +42,6 @@ class AppModel extends LazyModel { // TODO Make sure lazymodel is enabled when p
 		'Containable',
 		'Mi.OneQuery',
 		'Cacheable.Cacheable',
-		//'Filter.Filter', // TODO something's wrong with the behavior
 	);
 	
 	/**
@@ -57,59 +56,6 @@ class AppModel extends LazyModel { // TODO Make sure lazymodel is enabled when p
 		foreach ($this->virtualFields as $field => $value) {
 			$this->virtualFields[$field] = str_replace($this->name, $this->alias, $value);
 		}
-	}
-	
-	/**
-	 * Allows for custom find types
-	 *
-	 * @param string $type 
-	 * @param string $options 
-	 * @return void
-	 * @author Dean
-	 */
-	function find($type, $options = array()) {
-		$method = null;
-		if(is_string($type)) {
-			$method = sprintf('__find%s', Inflector::camelize($type));
-		}
-		if($method && method_exists($this, $method)) {
-			$return = $this->{$method}($options);
-		
-			if($return === null && !empty($this->query['paginate'])) {
-				unset($this->query['paginate']);
-				$query = $this->query;
-				$this->query = null;
-				return $query;
-			}
-			
-			return $return;
-		} else {
-			$args = func_get_args();
-			return call_user_func_array(array('parent', 'find'), $args);
-		}
-	}
-	
-	/**
-	 * Supplement to the custom find type
-	 *
-	 * @param string $query 
-	 * @return void
-	 * @author Dean
-	 */
-	function beforeFind($query) {
-		if(!empty($query['paginate'])) {
-			$keys = array('fields', 'order', 'limit', 'page');
-			foreach($keys as $key) {
-				if($query[$key] === null || (is_array($query[$key]) && $query[$key][0] === null) ) {
-					unset($query[$key]);
-				}
-			}
-		
-			$this->query = $query;
-			return false;
-		}
-		
-		return true;
 	}
 	
 	/**
