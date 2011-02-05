@@ -49,7 +49,7 @@ class PlateShell extends Shell {
 		$this->out("\nAvailable Commands:\n");
 		$this->out('bake	- Generates a new app using bakeplate');
 		$this->out('browse	- List available submodules');
-		$this->out('add <#>	- Add a specific submodule');
+		$this->out('add <#|submodule_name>	- Add a specific submodule');
 		$this->out('all	- Add all available submodules');
 	}
 
@@ -76,7 +76,7 @@ class PlateShell extends Shell {
 		if (!isset($this->args[0])) {
 			$this->browse();
 			$this->out($this->nl());
-			$plugin = $this->in('Specify a submodule #');
+			$plugin = $this->in('Specify a # or submodule_name');
 		} else {
 			$plugin = $this->args[0];
 		}
