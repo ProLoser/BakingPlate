@@ -86,7 +86,7 @@
 		echo $this->element('extras/cdn_fallback', compact(Configure::read('site.JsLib')));
 	}	
 
-	$this->AssetCompress->script(array('plugins','script','ss'));
+	$this->AssetCompress->script(array('plugins','script'));
 	echo $this->AssetCompress->includeJs();
 
 	// footer extras google analytics and yahoo_profiling
