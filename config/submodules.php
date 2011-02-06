@@ -1,5 +1,5 @@
 <?php
-$config['BakingPlate']['plugins'] = array(
+$config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'interactive'		=> 'git://github.com/mcurry/interactive.git',
 	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
