@@ -14,9 +14,9 @@ $isDebug = Configure::read('debug');
 $siteExtras = Configure::read('Site.extras');
 // first flush here
 ?><!doctype html>  
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if lt IE 7 ]> <html class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 	<meta charset="utf-8">
 	<?php /* todo: make this optional */ ?>
@@ -26,7 +26,7 @@ $siteExtras = Configure::read('Site.extras');
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php /* todo: a description var will be set to set within the beforeRender operation of the app */ ?>
-	<meta name="description" content="">
+	<?php if(isset($description_for_layout)) echo $this->Html->meta('description', array('content' => $description_for_layout)); ?>
 	<?php /* todo: make an option to fill this from some source */ ?>
 	<meta name="author" content="<?php echo $siteExtras['author']; ?>">
 	<?php
@@ -48,7 +48,7 @@ $siteExtras = Configure::read('Site.extras');
 	/* todo: body id & class or not inline with vanilla concept of bakingplate */
 	/* todo: phpied flush twice first before body */
 ?>
-<body>
+<body lang="en">
 	<div id="container">
 		<header id="header">
 			<?php echo $this->element('layout/header'); ?>
@@ -74,9 +74,8 @@ $siteExtras = Configure::read('Site.extras');
 
   <!--  todo: make this element/helper or what
 	Grab Google CDN's jQuery. fall back to local if necessary -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo $this->Html->url('/h5bp/js/libs/jquery-1.4.4.js'); ?>"%3E%3C/script%3E'))</script>
-  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo $this->Html->url('/h5bp/js/libs/jquery-1.5.0.min.js'); ?>"%3E%3C/script%3E'))</script>
 	<?php
 		// todo: make this use asset compress
 		echo $this->Html->script(array('plugins', 'script'));
