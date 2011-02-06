@@ -1,5 +1,25 @@
 <?php
-$config['BakingPlate']['plugins'] = array(
+/**
+ * using markstory asset compress CakeDC is way behind on magic stuff
+ *
+ * could this use a alias system whereby is the value is not a git url
+ * it look for BakingPlate.{key}.{value} to get giturl
+ *
+ * eg within core mark_story => asset_compress
+ * adds submodule asset_compress from group mark_story
+ * 
+ * I think it would be nice for peeps to be able make a group of own desired plugins
+ * of course this is quite easy if using git since user can make a branch on have own
+ * group within - the alis system is not essential but would be nice
+ *
+ * also since users may want CakeDc over Mark Story version of asset compress or other plugins
+ * then some checking to ensure that clashes don't occur - of course git would bork in thise case
+ * too - but Bp should avoid this
+ *
+ * the group vendors is a special case should always goto vendor dir 
+ * 
+ */
+$config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'interactive'		=> 'git://github.com/mcurry/interactive.git',
 	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
@@ -26,14 +46,33 @@ $config['BakingPlate']['extra'] = array(
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 	'wysiwyg'			=> 'git://github.com/josegonzalez/cakephp-wysiwyg-helper.git',
 	'mongodb'			=> 'git://github.com/ichikaway/mongoDB-Datasource.git',
-	'acl_extras'		=> 'git://github.com/markstory/acl_extras.git',
-	'acl_menu'			=> 'git://github.com/markstory/cakephp_menu_component.git',
 	'gzip'				=> 'git://github.com/josegonzalez/gzip-component.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
 	'upload_pack' 		=> 'git://github.com/josegonzalez/uploadpack.git',
 	'update'			=> 'git://github.com/mcurry/update.git',
 	'builder'			=> 'git://github.com/mcurry/builder.git',
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
+);
+
+$config['BakingPlate']['markstory'] = array(
+	'acl_extras'		=> 'git://github.com/markstory/acl_extras.git',
+	'acl_menu'			=> 'git://github.com/markstory/cakephp_menu_component.git',
+        'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
+);
+
+$config['BakingPlate']['proloser'] = array(
+);
+
+$config['BakingPlate']['sams'] = array(
+);
+
+$config['BakingPlate']['mattcurry'] = array(
+);
+
+$config['BakingPlate']['josegonzalez'] = array(
+);
+
+$config['BakingPlate']['webtechnick'] = array(
 );
 
 $config['BakingPlate']['cakedc'] = array(
@@ -43,7 +82,7 @@ $config['BakingPlate']['cakedc'] = array(
 	'search'			=> 'git://github.com/CakeDC/search.git',
 	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
 	'recaptcha'			=> 'git://github.com/CakeDC/recaptcha.git',
-	'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
+	//'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
 	'migrations'		=> 'git://github.com/CakeDC/migrations.git',
 	'tags'				=> 'git://github.com/CakeDC/tags.git',
 	'markup_parsers'	=> 'git://github.com/CakeDC/markup_parsers.git',

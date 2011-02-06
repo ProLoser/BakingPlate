@@ -40,7 +40,7 @@ class AppController extends Controller {
 			'Html',
 			'Form',
 			//'StaticCache.StaticCache',
-			//'AssetCompress.AssetCompress'
+			'AssetCompress.AssetCompress'
 	);
 	var $components = array(
 			'Session',

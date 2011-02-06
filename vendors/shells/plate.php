@@ -5,6 +5,13 @@
 class PlateShell extends Shell {
 
 	var $tasks = array('Project');
+	
+	/**
+	 * _load() populated list of submodules
+	 *
+	 * @var string
+	 */
+	var $submodules = array();
 
 	/**
 	 * Loads the list of submodules from config
@@ -13,8 +20,18 @@ class PlateShell extends Shell {
 	 * @author Dean Sofer
 	 */
 	function _load() {
+		if (Configure::read('BakingPlate'))
+			return;
 		Configure::load('BakingPlate.submodules');
-		return Configure::read('BakingPlate.plugins');
+		
+		if (isset($this->params['group'])) {
+			$this->submodules = Configure::read('BakingPlate.'. $this->params['group']);
+		} else {
+			$submodules = Configure::read('BakingPlate');
+			foreach ($submodules as $group => $modules) {
+				$this->submodules = array_merge($this->submodules, $modules);
+			}
+		}
 	}
 
 	/**
@@ -31,8 +48,8 @@ class PlateShell extends Shell {
 	function main() {
 		$this->out("\nAvailable Commands:\n");
 		$this->out('bake	- Generates a new app using bakeplate');
-		$this->out('submodules	- List available submodules');
-		$this->out('add <#>	- Add a specific submodule');
+		$this->out('browse	- List available submodules');
+		$this->out('add <#|submodule_name>	- Add a specific submodule');
 		$this->out('all	- Add all available submodules');
 	}
 
@@ -54,18 +71,21 @@ class PlateShell extends Shell {
 	 * @author Dean Sofer
 	 */
 	function add() {
-		$plugins = $this->_load();
-		$keys = array_keys($plugins);
+		$this->_load();
+		$keys = array_keys($this->submodule);
 		if (!isset($this->args[0])) {
-			$this->plugins();
+			$this->browse();
 			$this->out($this->nl());
-			$plugin = $this->in('Specify a submodule #');
+			$plugin = $this->in('Specify a # or submodule_name');
 		} else {
 			$plugin = $this->args[0];
 		}
-		
-		$path = $keys[$plugin-1];
-		$url = $plugins[$path];
+		if (is_numeric($plugin)) {
+			$path = $keys[$plugin-1];
+		} else {
+			$path = Inflector::underscore($plugin);
+		}
+		$url = $this->submodules[$path];
 		$this->out("\nAdding ".Inflector::humanize($path)." Submodule...\n");
 		exec('git submodule add ' . $url . ' plugins/' . $path);
 	}
@@ -73,11 +93,11 @@ class PlateShell extends Shell {
 	/**
 	 * Render a list of submodules
 	 */
-	function submodules() {
-		$plugins = $this->_load();
+	function browse() {
+		$this->_load();
 		$this->out("\nAvailable Plugins:\n");
 		$i = 0;
-		foreach ($plugins as $path => $url) {
+		foreach ($this->submodules as $path => $url) {
 			$i++;
 			$this->out($i . ') ' . Inflector::humanize($path));
 		}
@@ -87,12 +107,12 @@ class PlateShell extends Shell {
 	 * Add all submodules
 	 */
 	function all() {
-		$plugins = $this->_load();
-		$this->out("\nAdding All Submodules...\n");
-		foreach ($plugins as $path => $url) {
-			$this->out($this->nl());
+		$this->_load();
+		$this->out("\nAdding All Git Submodules...\n");
+		foreach ($this->submodules as $path => $url) {
+			$this->out($this->nl().'====================================');
 			$this->out('Adding ' . Inflector::humanize($path));
-			$this->hr();
+			$this->out($this->hr());
 			exec('git submodule add ' . $url . ' plugins/' . $path);
 		}
 	}
