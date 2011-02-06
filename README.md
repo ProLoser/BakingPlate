@@ -33,8 +33,8 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 2. Open up your terminal and make sure you have the cake bake console installed
 3. Run `cake plate bake <project_path>` in your terminal
 4. Change to the newly baked project
-    a. Run `cake plate submodules all` 
-    b. Run `cake plate submodules add <Submodule#>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
+    a. Run `cake plate all` 
+    b. Run `cake plate add <#|mod_name>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
 5. Run `cake schema creations`
 	
 Voila!
