@@ -24,7 +24,6 @@
 Router::parseExtensions('json', 'xml', 'rss', 'ajax');
  
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-Router::connect('/about', array('controller' => 'pages', 'action' => 'display', 'about'));
 
 /*
  * Want localization instead?
