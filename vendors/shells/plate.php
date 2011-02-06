@@ -107,6 +107,9 @@ class PlateShell extends Shell {
 	 * Add all submodules
 	 */
 	function all() {
+		if (isset($this->args[0])) {
+			$this->params['group'] = $this->args[0];
+		}
 		$this->_load();
 		$this->out("\nAdding All Git Submodules...\n");
 		foreach ($this->submodules as $path => $url) {
