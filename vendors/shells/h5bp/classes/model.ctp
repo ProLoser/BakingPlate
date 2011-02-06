@@ -132,7 +132,9 @@ endif;
 echo "\n\tvar $actsAs = array(\n";
 foreach ($validate as $field => $validation) {
 	if (strpos($field, '_file_name') !== false) {
-		echo "\t\t'UploadPack.Upload',\n";
+		echo "\t\t'UploadPack.Upload' => array(
+			'$field' => array(),
+		),\n";
 	}
 	if (strpos($field, '_serialized') !== false) {
 		echo "\t\t'Mi.Serialized',\n";

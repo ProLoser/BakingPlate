@@ -44,6 +44,9 @@
 		if (strpos($action, 'add') !== false && $field == $primaryKey) {
 			continue;
 		} elseif (!in_array($field, array('created', 'modified', 'updated'))) {
+			if (strpos($field, '_file_name') !== false) {
+				$field = str_replace('_file_name', '', $field);
+			}
 			echo "\t\techo \$this->Form->input('{$field}');\n";
 		}
 	}
