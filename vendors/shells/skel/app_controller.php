@@ -39,6 +39,8 @@ class AppController extends Controller {
 			'Time',
 			'Html',
 			'Form',
+			//'Manifesto.Manifest',
+			//'Navigation.Navigation'
 			//'StaticCache.StaticCache',
 			'AssetCompress.AssetCompress'
 	);
@@ -68,6 +70,7 @@ class AppController extends Controller {
 	function beforeFilter() {
 		$this->_setupAuth();
 		$this->_setLanguage();
+		//$this->_setStaticCache();
 	}
 	
 	/**
@@ -80,6 +83,18 @@ class AppController extends Controller {
 		$this->__habtmValidation();
 		$this->_setTheme();
 		$this->set('description_for_layout', '');
+
+	    $bodyAttribs = '';
+    	$bodyAttribs = ($this->params['url']['url'] == '/') ? $this->getBodyAttribs(true) : $this->getBodyAttribs();
+    	$this->set('body_attribs_for_layout', $bodyAttribs);
+	}
+/**
+ * function _setStaticCache
+*/
+    function _setStaticCache() {
+	    if(Configure::read('site.staticCache')) {
+	      $this->helpers[] = 'StaticCache.StaticCache'; 
+	    }
 	}
 	
 	/**
@@ -118,7 +133,9 @@ class AppController extends Controller {
 		} else {
 			// currently hard coding to h5bp for testing
 			//$this->theme = $this->Session->read('Config.locale');
-			$this->theme = 'h5bp';
+			if(Configure::read('site.Theme')) {
+				$this->theme = Configure::read('site.Theme');
+			}
 		}
 	}
 	
@@ -129,7 +146,8 @@ class AppController extends Controller {
 	 * @return void
 	 * @access private
 	 */
-	protected function _setupAuth() {	
+	protected function _setupAuth() {
+	    //$this->Acl->allow($aroAlias, $acoAlias);	
 		if ($this->_prefix('admin')) {
 			// TODO Role levels shouldn't be hardcoded
 			if ($this->Auth->user() && $this->Auth->user('role_id') < 1) {
@@ -252,6 +270,32 @@ class AppController extends Controller {
 			}
 			$this->{$componentName} = $component;
 		}
+	}
+  
+	/**
+	 * function getBodyAttribs
+	 * @param $isHome Boolean  
+	 */
+	
+	function getBodyAttribs($isHome = false) {
+	  
+	  if($isHome) {
+	    return  array(
+	      'id' => 'home',
+	      'class' => 'home'
+	    );      
+	  }
+	  
+	  $id = false;
+	  $classes = array();
+	  
+	  $classes[] = $this->params['controller'];
+	  $classes[] = ' ' . $this->action;
+	   
+	  return array(
+	    'id' => $id,
+	    'class' => $classes
+	  );
 	}
 
 }
