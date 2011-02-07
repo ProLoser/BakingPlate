@@ -4,14 +4,21 @@
 */
 class PlateShell extends Shell {
 
-	var $tasks = array('Project');
+	var $tasks = array('Project', 'DbConfig');
 	
 	/**
 	 * _load() populated list of submodules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	var $submodules = array();
+	
+	/**
+	 * _load() populated list of submodules groups
+	 *
+	 * @var array
+	 */
+	var $groups = array();
 
 	/**
 	 * Loads the list of submodules from config
@@ -19,15 +26,19 @@ class PlateShell extends Shell {
 	 * @return array submodules
 	 * @author Dean Sofer
 	 */
-	function _load() {
+	function _load($group = null) {
 		if (Configure::read('BakingPlate'))
 			return;
 		Configure::load('BakingPlate.submodules');
 		
-		if (isset($this->params['group'])) {
-			$this->submodules = Configure::read('BakingPlate.'. $this->params['group']);
+		$submodules = Configure::read('BakingPlate');
+		
+		$this->groups = array_keys($submodules);
+		
+		if (isset($this->params['group']) && $this->params['group'] != 'all') {
+			$this->submodules = $submodules[$this->params['group']];
 		} else {
-			$submodules = Configure::read('BakingPlate');
+			$this->params['group'] = 'all';
 			foreach ($submodules as $group => $modules) {
 				$this->submodules = array_merge($this->submodules, $modules);
 			}
@@ -51,12 +62,26 @@ class PlateShell extends Shell {
 		$this->out('browse	- List available submodules');
 		$this->out('add <#|submodule_name>	- Add a specific submodule');
 		$this->out('all	- Add all available submodules');
+		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group");
 	}
 
 	function bake() {
+		if (!isset($this->params['group'])) {
+			$this->params['group'] = 'core';
+		}
 		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
-		if (!$this->Project->execute()) {
-			return false;
+		if (!is_dir($this->DbConfig->path)) {
+			if ($this->Project->execute()) {
+				$this->DbConfig->path = $this->params['working'] . DS . 'config' . DS;
+			} else {
+				return false;
+			}
+		}
+
+		if (!config('database')) {
+			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
+			$this->args = null;
+			$this->DbConfig->execute();
 		}
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
@@ -111,9 +136,9 @@ class PlateShell extends Shell {
 			$this->params['group'] = $this->args[0];
 		}
 		$this->_load();
-		$this->out("\nAdding All Git Submodules...\n");
+		$this->out("\nAdding {$this->params['group']} git submodules...\n");
 		foreach ($this->submodules as $path => $url) {
-			$this->out($this->nl().'====================================');
+			$this->out($this->nl().'=======================================================');
 			$this->out('Adding ' . Inflector::humanize($path));
 			$this->out($this->hr());
 			exec('git submodule add ' . $url . ' plugins/' . $path);
