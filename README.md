@@ -64,3 +64,6 @@ enjoy
     4. Customising the skel
 12. This plugin prevents cake bake from being able create plugins - clash with tasks? 
 13. More see comments
+
+
+a small change to test github api plugin
