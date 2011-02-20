@@ -26,23 +26,12 @@ class PlateShell extends Shell {
 	 * @return array submodules
 	 * @author Dean Sofer
 	 */
-	function _load($group = null) {
+	function _load() {
 		if (Configure::read('BakingPlate'))
 			return;
 		Configure::load('BakingPlate.submodules');
 		
-		$submodules = Configure::read('BakingPlate');
-		
-		$this->groups = array_keys($submodules);
-		
-		if (isset($this->params['group']) && $this->params['group'] != 'all') {
-			$this->submodules = $submodules[$this->params['group']];
-		} else {
-			$this->params['group'] = 'all';
-			foreach ($submodules as $group => $modules) {
-				$this->submodules = array_merge($this->submodules, $modules);
-			}
-		}
+		$this->submodules = Configure::read('BakingPlate');
 	}
 
 	/**
@@ -110,9 +99,7 @@ class PlateShell extends Shell {
 		} else {
 			$path = Inflector::underscore($plugin);
 		}
-		$url = $this->submodules[$path];
-		$this->out("\nAdding ".Inflector::humanize($path)." Submodule...\n");
-		exec('git submodule add ' . $url . ' plugins/' . $path);
+		$this->_addSubmodule($path);
 	}
 
 	/**
@@ -135,13 +122,44 @@ class PlateShell extends Shell {
 		if (isset($this->args[0])) {
 			$this->params['group'] = $this->args[0];
 		}
+		if (!isset($this->params['group'])) {
+			$this->params['group'] = 'all';
+		}
 		$this->_load();
 		$this->out("\nAdding {$this->params['group']} git submodules...\n");
-		foreach ($this->submodules as $path => $url) {
-			$this->out($this->nl().'=======================================================');
-			$this->out('Adding ' . Inflector::humanize($path));
-			$this->out($this->hr());
-			exec('git submodule add ' . $url . ' plugins/' . $path);
+		foreach ($this->submodules as $group => $list) {
+			if (!empty($this->params['group']) && ($this->params['group'] != $group || $this->params['group'] != 'all'))
+				continue;
+			foreach (array_keys($list) as $path) {
+				$this->_addSubmodule($path);
+			}
 		}
+	}
+	
+	/**
+	 * Adds a submodule via git
+	 *
+	 * @param string $path 
+	 * @param string $url 
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	private function _addSubmodule($path) {
+		foreach ($this->submodules as $group => $list) {
+			if (isset($list[$path])) {
+				$folder = $group;
+				$url = $list[$path];
+				break;
+			}
+		}
+		if (!isset($url)) {
+			$this->out('Submodule not found');
+			return false;
+		}
+		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
+		$this->out($this->nl().'=======================================================');
+		$this->out('Adding ' . Inflector::humanize($path));
+		$this->out($this->hr());
+		exec("git submodule add {$url} {$folder}/{$path}");
 	}
 }
