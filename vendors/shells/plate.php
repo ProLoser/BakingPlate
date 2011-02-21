@@ -128,8 +128,9 @@ class PlateShell extends Shell {
 		$this->_load();
 		$this->out("\nAdding {$this->params['group']} git submodules...\n");
 		foreach ($this->submodules as $group => $list) {
-			if (!empty($this->params['group']) && ($this->params['group'] != $group || $this->params['group'] != 'all'))
+			if (!empty($this->params['group']) && $this->params['group'] != $group && $this->params['group'] != 'all') {
 				continue;
+			}
 			foreach (array_keys($list) as $path) {
 				$this->_addSubmodule($path);
 			}
@@ -157,7 +158,7 @@ class PlateShell extends Shell {
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
-		$this->out($this->nl().'=======================================================');
+		$this->out($this->nl().'===============================================================');
 		$this->out('Adding ' . Inflector::humanize($path));
 		$this->out($this->hr());
 		exec("git submodule add {$url} {$folder}/{$path}");
