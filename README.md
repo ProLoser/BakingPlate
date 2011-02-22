@@ -1,4 +1,4 @@
-# Overview
+# Overview - version 0.0.4a 
 
 BakingPlate is a cake plugin that assists in generating/baking CakePHP projects
 (by which we mean apps that use a core install of cake - see Advanced Installion of Cake) 
