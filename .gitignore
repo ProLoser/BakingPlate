@@ -27,3 +27,7 @@ local.properties
 
 # Komodo #
 *.komodoproject
+.komodotools
+
+# E Texteditor #
+.eprj

@@ -34,3 +34,10 @@ LocalizedRouter::connect('/', array('controller' => 'pages', 'action' => 'displa
 
 LocalizedRouter::localize();
  */
+
+
+/**
+ * Asset Compress
+ */
+Router::connect('/cache_css/*', array('plugin' => 'asset_compress', 'controller' => 'css_files', 'action' => 'get'));
+Router::connect('/cache_js/*', array('plugin' => 'asset_compress', 'controller' => 'js_files', 'action' => 'get'));
