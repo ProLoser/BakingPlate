@@ -4,14 +4,21 @@
 */
 class PlateShell extends Shell {
 
-	var $tasks = array('Project');
+	var $tasks = array('Project', 'DbConfig');
 	
 	/**
 	 * _load() populated list of submodules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	var $submodules = array();
+	
+	/**
+	 * _load() populated list of submodules groups
+	 *
+	 * @var array
+	 */
+	var $groups = array();
 
 	/**
 	 * Loads the list of submodules from config
@@ -19,19 +26,24 @@ class PlateShell extends Shell {
 	 * @return array submodules
 	 * @author Dean Sofer
 	 */
-	function _load() {
-		if (Configure::read('BakingPlate'))
+	function _load($grouped = false) {
+		if (!Configure::read('BakingPlate'))
 			return;
 		Configure::load('BakingPlate.submodules');
 		
-		if (isset($this->params['group'])) {
-			$this->submodules = Configure::read('BakingPlate.'. $this->params['group']);
+		$submodules = Configure::read('BakingPlate');
+		
+		$this->groups = array_keys($submodules);
+		
+		if (isset($this->params['group']) && $this->params['group'] != 'all') {
+			$this->submodules = $submodules[$this->params['group']];
 		} else {
-			$submodules = Configure::read('BakingPlate');
+			$this->params['group'] = 'all';
 			foreach ($submodules as $group => $modules) {
 				$this->submodules = array_merge($this->submodules, $modules);
 			}
 		}
+
 	}
 
 	/**
@@ -40,7 +52,16 @@ class PlateShell extends Shell {
 	 * @return void
 	 * @author Dean Sofer
 	 */
-	function _welcome() {}
+	function _welcome() {
+		
+		Configure::load('BakingPlate.version');
+	
+		$this->Dispatch->clear();
+		$this->out();
+		$this->out('Welcome to BakingPlate v' . Configure::read('BakingPlate.version'));
+		$this->hr();	
+		
+	}
 
 	/**
 	 * Shows a list of available commands
@@ -51,17 +72,45 @@ class PlateShell extends Shell {
 		$this->out('browse	- List available submodules');
 		$this->out('add <#|submodule_name>	- Add a specific submodule');
 		$this->out('all	- Add all available submodules');
+		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group");
 	}
 
 	function bake() {
-		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
-		if (!$this->Project->execute()) {
-			return false;
+		if (!isset($this->params['group'])) {
+			$this->params['group'] = 'core';
 		}
+		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+		if (!is_dir($this->DbConfig->path)) {
+			if ($this->Project->execute()) {
+				$this->DbConfig->path = $this->params['working'] . DS . 'config' . DS;
+			} else {
+				return false;
+			}
+		}
+		
+		$this->log($this->params, 'baking_plate');
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
 		$this->all();
 		
+		if (!config('database')) {
+			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
+			$this->args = null;
+			$this->DbConfig->execute();
+		}
+		
+	}
+	
+	/*
+	 * function gitit
+	 * @param $arg
+	 */
+	
+	function gitit() {
+		//print_r($this->params); die();
+		$this->out(passthru('git init ' . $this->params['app']));
+		chdir($this->params['app']);
+		$this->all();
 	}
 
 	/**
@@ -71,6 +120,7 @@ class PlateShell extends Shell {
 	 * @author Dean Sofer
 	 */
 	function add() {
+		// this will still put vendor code in plugins
 		$this->_load();
 		$keys = array_keys($this->submodules);
 		if (!isset($this->args[0])) {
@@ -78,28 +128,47 @@ class PlateShell extends Shell {
 			$this->out($this->nl());
 			$plugin = $this->in('Specify a # or submodule_name');
 		} else {
-			$plugin = $this->args[0];
+			$plugin = (strpos($this->args[0], ',')) ? explode(',', $this->args[0]) : $this->args[0];
 		}
-		if (is_numeric($plugin)) {
-			$path = $keys[$plugin-1];
+		if(is_array($plugin)) {
+			foreach($plugin as $p) {		
+				if (is_numeric($p)) {
+					$path = $keys[$p-1];
+				} else {
+					$path = Inflector::underscore($p);
+				}
+				$this->_addSubmodule($path);
+			}
 		} else {
-			$path = Inflector::underscore($plugin);
+			if (is_numeric($plugin)) {
+				$path = $keys[$plugin-1];
+			} else {
+				$path = Inflector::underscore($plugin);
+			}
+			$this->_addSubmodule($path);
 		}
-		$url = $this->submodules[$path];
-		$this->out("\nAdding ".Inflector::humanize($path)." Submodule...\n");
-		exec('git submodule add ' . $url . ' plugins/' . $path);
 	}
 
 	/**
 	 * Render a list of submodules
 	 */
 	function browse() {
-		$this->_load();
-		$this->out("\nAvailable Plugins:\n");
-		$i = 0;
-		foreach ($this->submodules as $path => $url) {
-			$i++;
-			$this->out($i . ') ' . Inflector::humanize($path));
+		if(isset($this->args[0]) && $this->args[0] == 'groups') {
+			$this->_load(true);
+			$this->out("\nAvailable Groups:\n");
+			$i = 0;
+			foreach ($this->groups as $group => $name) {
+				$i++;
+				$this->out($i . ') ' . Inflector::humanize($name));
+			}
+		} else {
+			$this->_load();
+			$this->out("\nAvailable Plugins/Vendors:\n");
+			$i = 0;
+			foreach ($this->submodules as $path => $url) {
+				$i++;
+				$this->out($i . ') ' . Inflector::humanize($path));
+			}
 		}
 	}
 
@@ -110,13 +179,50 @@ class PlateShell extends Shell {
 		if (isset($this->args[0])) {
 			$this->params['group'] = $this->args[0];
 		}
+		if (!isset($this->params['group'])) {
+			$this->params['group'] = 'all';
+		}
 		$this->_load();
-		$this->out("\nAdding All Git Submodules...\n");
+		$this->out("\nAdding {$this->params['group']} git submodules...\n");
+
 		foreach ($this->submodules as $path => $url) {
-			$this->out($this->nl().'====================================');
+			$this->out($this->nl().'=======================================================');
 			$this->out('Adding ' . Inflector::humanize($path));
 			$this->out($this->hr());
 			exec('git submodule add ' . $url . ' plugins/' . $path);
 		}
+		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
+		$this->out($this->nl().'===============================================================');
+		$this->out('Adding ' . Inflector::humanize($path));
+		$this->out($this->hr());
+		exec("git submodule add {$url} {$folder}/{$path}");
+	}
+	
+	
+	/**
+	 * Adds a submodule via git
+	 *
+	 * @param string $path 
+	 * @param string $url 
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	private function _addSubmodule($path) {
+		foreach ($this->submodules as $group => $list) {
+			if (isset($list[$path])) {
+				$folder = $group;
+				$url = $list[$path];
+				break;
+			}
+		}
+		if (!isset($url)) {
+			$this->out('Submodule not found');
+			return false;
+		}
+		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
+		$this->out($this->nl().'===============================================================');
+		$this->out('Adding ' . Inflector::humanize($path));
+		$this->out($this->hr());
+		exec("git submodule add {$url} {$folder}/{$path}");
 	}
 }
