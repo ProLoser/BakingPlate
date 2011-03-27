@@ -32,38 +32,51 @@
  */
 class AppController extends Controller {
 	
-	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
-
 	var $helpers = array(
-			'Session',	
+			'Session',
+			'PlatePlus.Plate',
+			'Analogue.Analogue' => array(
+			   array(
+			    'helper' => 'PlatePlus.HtmlPlus',
+			    'rename' => 'Html'
+			   ),
+			   array(
+			    'helper' => 'PlatePlus.FormPlus',
+			    'rename' => 'Form'
+			   )
+		    ),
 			'Time',
-			'Html',
-			'Form',
-			//'Manifesto.Manifest',
+			'AssetCompress.AssetCompress',
 			//'Navigation.Navigation'
-			//'StaticCache.StaticCache',
-			'AssetCompress.AssetCompress'
 	);
 	var $components = array(
 			'Session',
 			'Cookie',
 			//'Scaffolding',
 			'RequestHandler',
-			//'MobileDetect.MobileDetect',
+			//'Wapl.Wapl', tobe checked out
 			'Webservice.Webservice',
-		'Auth' => array(
-			'fields' => array(
-				'username' => 'username', 
-				'password' => 'password',
+			'WebmasterTools.Maintenance',
+			'Auth' => array(
+			    'loginAction' => array(
+				    'controller' => 'users',
+				    'action' => 'login',
+				    'plugin' => 'users',
+				    'admin' => false
+			    ),
+			    'logoutAction' => array(
+				    'controller' => 'users',
+				    'action' => 'login',
+				    'plugin' => 'users',
+				    'admin' => false
+			    ),
 			),
-			'loginAction' => array('staff' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'login'),
-			'logoutRedirect' => array('action' => 'login'),
-			'loginRedirect' => '/',
-			//'authorize' => 'actions', // TODO Install ACL component?
-		), 
-		//'Filter.Filter' => array(
-		//	'actions' => array('index', 'admin_index'),
-		//),
+			//'Referee.Whistle' => array(
+			//    'listeners' => array(
+			//	'DbLog',
+			//	'SysLog'
+			//    )
+			//)
 	);
 	var $view = 'Theme';
 
@@ -82,19 +95,14 @@ class AppController extends Controller {
 	function beforeRender() {
 		$this->__habtmValidation();
 		$this->_setTheme();
-		$this->set('description_for_layout', '');
-
-	    $bodyAttribs = '';
-    	$bodyAttribs = ($this->params['url']['url'] == '/') ? $this->getBodyAttribs(true) : $this->getBodyAttribs();
-    	$this->set('body_attribs_for_layout', $bodyAttribs);
 	}
 /**
  * function _setStaticCache
 */
     function _setStaticCache() {
-	    if(Configure::read('site.staticCache')) {
-	      $this->helpers[] = 'StaticCache.StaticCache'; 
-	    }
+	    //if(is should be cached?) {
+	    	$this->helpers[] = 'StaticCache.StaticCache'; 
+	    //}
 	}
 	
 	/**
@@ -118,10 +126,7 @@ class AppController extends Controller {
 	/**
 	 * Set site theme
 	 *
-	 * todo: make it work, set from Site.theme or passed arg
-	 * 	plan to allow theme to be switched off pass false
-	 * 	call no arg or null to set with Configure::read('Site.theme');
-	 *	if prefix is used and matches a theme use it
+	 * todo: Set Site.Themes.Default to specifiy main theme
 	 *
 	 * @param string $theme
 	 * @return void
@@ -131,10 +136,11 @@ class AppController extends Controller {
 		if ($this->_prefix('admin')) {
 			$this->theme = 'admin';
 		} else {
-			// currently hard coding to h5bp for testing
+			// what about locale
+			$themes = Configure::read('Site.Themes');
 			//$this->theme = $this->Session->read('Config.locale');
-			if(Configure::read('site.Theme')) {
-				$this->theme = Configure::read('site.Theme');
+			if($themes) {
+				$this->theme = array_key_exists($theme, $themes) ? $theme : $themes['Default'];
 			}
 		}
 	}
@@ -147,16 +153,19 @@ class AppController extends Controller {
 	 * @access private
 	 */
 	protected function _setupAuth() {
-	    //$this->Acl->allow($aroAlias, $acoAlias);	
+		$this->Auth->fields = array('username' => 'email', 'password' => 'passwd');
+		$this->Auth->loginError = "This message shows up when the wrong credentials are used";
+		$this->Auth->authError = "This error shows up with the user tries to access a part of the website that is protected.";
+		$this->Auth->allow('index','view', 'display');
+		
 		if ($this->_prefix('admin')) {
 			// TODO Role levels shouldn't be hardcoded
-			if ($this->Auth->user() && $this->Auth->user('role_id') < 1) {
+			if ($this->Auth->user() && !$this->Auth->user('is_admin')) {
 				$this->Session->setFlash('You do not have permission to enter this section');
 				$this->redirect($this->Auth->loginAction);
 			}
-		} else {
-			$this->Auth->allow();
 		}
+		Configure::write('Site.User', $this->Auth->user());
 	}
 	
 	/**
@@ -270,32 +279,6 @@ class AppController extends Controller {
 			}
 			$this->{$componentName} = $component;
 		}
-	}
-  
-	/**
-	 * function getBodyAttribs
-	 * @param $isHome Boolean  
-	 */
-	
-	function getBodyAttribs($isHome = false) {
-	  
-	  if($isHome) {
-	    return  array(
-	      'id' => 'home',
-	      'class' => 'home'
-	    );      
-	  }
-	  
-	  $id = false;
-	  $classes = array();
-	  
-	  $classes[] = $this->params['controller'];
-	  $classes[] = ' ' . $this->action;
-	   
-	  return array(
-	    'id' => $id,
-	    'class' => $classes
-	  );
 	}
 
 }
