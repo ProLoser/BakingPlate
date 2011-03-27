@@ -8,12 +8,12 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
  * @subpackage    cake.app.config
@@ -21,7 +21,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-Configure::write('Languages.default', 'us');
+Configure::write('Languages.default', 'en');
 $languages = array(
 	'en',
 	'sp',
@@ -34,35 +34,19 @@ Configure::write('Languages.all', $languages);
 
 
 /**
- * Using site (lowercase for bootstrap set cfg)
- * and Site for configured db settings
- * by default using either Cofiguration by WebTechNick
- * or Settings by Jose G
+ * BakingPlate: Settings 
  */
+//Configure::write('Site.Themes.Default', 'h5bp');
+//Configure::write('Site.Themes.Mobile', 'h5bp');
 
-Configure::write('site.Name', 'samsherlock.com');
-Configure::write('site.Title', 'SamSherlock.com');
-Configure::write('site.subTitle', 'served by BakingPlate');
-Configure::write('site.Domain', 'samsherlock.ss33');
-Configure::read('site.Author', 'Sam Sherlock & Dean Sofer');
+Configure::write('Site.Name', 'Example');
+Configure::write('Site.Title', 'An Example');
+Configure::write('Site.subTitle', 'served by BakingPlate');
+//Configure::write('Site.Domains.Default', 'example.com');
+//Configure::write('Site.Domains.Mobile', 'm.example.com');
+//Configure::write('Site.Domains.Cdn', 'static.example.com');
+Configure::read('Site.Author', 'Sam Sherlock & Dean Sofer');
 
-/**
- * Theme
- * default theme gets swtiched to; later you can add a mobile theme also for use
- * with mobile detection plugin - which may have a helper to assist in manking
- * themes mobile friendly - mobile detection will use multiple domains
- * this will enable caching of distinct mark up and means that other concepts such as
- * l10n/i18n will still function
- * 
-*/
-//Configure::write('site.DefaultTheme', 'h5bp');
-
-/**
- * StaticCache
- * a plugin based upon Matt Curry's html_cache that is minor reworked to handle
- * non html files (his plugin now does this might go back to that if it works with mobile dection plugin)
-*/
-Configure::write('site.StaticCache', false);
 
 /**
  * Cdn Fallback
@@ -70,45 +54,23 @@ Configure::write('site.StaticCache', false);
  * uncomment the lib cfg and change to WTFYL - make sure that the version
  * is correct for the lib you change to no magic handles this - unless you are
 */
-// Configure::write('site.JsLib.lib', 'jquery');
-Configure::write('site.JsLib.version', '1.5');
-
-/**
- * YahooProfiler
- * an in browser profiling tool - your better of using something more adept
- * to the task - external to browser IMHO; or browser plugin
-*/ 
-Configure::write('site.YahooProfiler', false);
+$defaultJsLib = array(
+        'cdn' => 'Google',
+        'name' => 'jQuery',
+        'version' => '1.5.1',
+        'compressed' => true
+);
+Configure::write('Site.JsLib.Default', $defaultJsLib);
 
 /**
  * Google Analytics
  * leave as false to not use GA but your mad set to site id to use boilerplate hotness eg: UA-XXXXX-X
  * debug turns it off anyway
  */ 
-Configure::write('site.GoogleAnalytics', false);
+//Configure::write('Site.GoogleAnalytics', 'UA-8765-192');
 
-/**
- * Chrome Frame
- * use or not chromeframe meta (you may have a corresponding setting in Apaceh Conf or htaccess)
- *
- * either the meta or the htaccess/conf directive renders chrome within IE; if the machine is able to
- */
-Configure::write('site.ChromeFrame', false);
-
-/**
- * Favions etc
- * favicon and apple icon - uncomment and change the urls to what you want 
-*/
-// Configure::write('site.FavIconUrl', '/img/myicon.ico');
-// Configure::write('site.AppleIconUrl', '/img/myapple-image.png');
-
-/**
- * Drew Diller
- * awesome fixes for IEs crappiness (M$ employed him I hope); he is worth it for humourlet alone skill
- * roundies currently notimplemented
-*/
-// Configure::write('site.DrewDillerPng', 'img, .png');
-// Configure::write('site.DrewDillerRoundies', true);
+// Configure::write('Site.FavIconUrl', '/img/myicon.ico');
+// Configure::write('Site.AppleIconUrl', '/img/myapple-image.png');
 
 /**
  * Additional Plugins Setup
@@ -117,7 +79,16 @@ Configure::write('site.ChromeFrame', false);
  */
 
 /* contact plugin settings */
-Configure::write('Contact.email', 'hello@example.org');
+Configure::write('App.UserClass', 'AppUser');
+Configure::write('Contact.email', 'hello@example.com');
+Configure::write('WebmasterTools.maintenanceMode', false);
+
+/**
+ *
+ *  Webmaster Tools
+ *
+ */
+//require APP . 'plugins/webmaster_tools/config/core.php';
 
 
 /**
