@@ -22,4 +22,4 @@ endif;
 ?>
 <h1>Terms of Service</h1>
 
-<p>linked to from users register</p>
+<p><?php echo $this->Html->link('home', '/'); ?>linked to from users register</p>

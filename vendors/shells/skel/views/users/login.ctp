@@ -16,8 +16,8 @@
 			echo $this->Form->create($model, array('url' => array('action' =>  'login')));
 			echo $this->Form->input('email', array('label' => __d('users', 'Email', true)));
 			echo $this->Form->input('passwd',  array('label' => __d('users', 'Password', true)));
-			echo $this->Form->input('remember_me', array('type' => 'checkbox', 'label' => __d('users', 'Remember Me', true)));
-			echo $this->Form->hidden('User.return_to', array('value' => $return_to));
+			echo $this->Form->input('AppUser.remember_me', array('type' => 'checkbox', 'label' => __d('users', 'Remember Me', true)));
+			echo $this->Form->hidden('AppUser.return_to', array('value' => $return_to));
 			echo $this->Form->end(__d('users', 'Submit', true));
 		?>
 	</fieldset>

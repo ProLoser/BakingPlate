@@ -6,8 +6,7 @@ class AppUsersController extends UsersController {
         
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allowedActions = array('add', 'help');
-		$this->Auth->allowedActions = array('logout');
+		$this->Auth->allowedActions = array('register', 'help', 'index', 'view', 'logout');
 		$this->User = ClassRegistry::init('AppUser');
 	}
 	
@@ -21,7 +20,6 @@ class AppUsersController extends UsersController {
 	}
 	
 	public function login() {
-		debug($this->data);
 		parent::login();
 		$this->render($this->action);
 	}
@@ -36,23 +34,13 @@ class AppUsersController extends UsersController {
 		$this->render($this->action);
 	}
 	
-	public function add() {
-		parent::add();
-		$this->render($this->action);
-	}
-	
-	public function edit($slug = null) {
-		parent::edit($slug);
-		$this->render($this->action);
-	}
-	
-	public function delete() {
-		parent::delete();
-		$this->render($this->action);
-	}
-	
 	public function verify($type = 'email', $token = null) {
 		parent::verify($type, $token);
+		$this->render($this->action);
+	}
+	
+	public function admin_dashboard() {
+		parent::dashboard();
 		$this->render($this->action);
 	}
 	
@@ -79,6 +67,15 @@ class AppUsersController extends UsersController {
 	public function admin_delete() {
 		parent::admin_delete();
 		$this->render($this->action);
+	}
+	
+	public function admin_login() {
+		parent::login();
+		$this->render($this->action);
+	}
+	
+	public function admin_logout() {
+		parent::logout();
 	}
 	
 	public function register() {
