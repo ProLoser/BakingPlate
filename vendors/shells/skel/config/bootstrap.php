@@ -39,13 +39,13 @@ Configure::write('Languages.all', $languages);
 //Configure::write('Site.Themes.Default', 'h5bp');
 //Configure::write('Site.Themes.Mobile', 'h5bp');
 
-Configure::write('Site.Name', 'Example');
-Configure::write('Site.Title', 'An Example');
-Configure::write('Site.subTitle', 'served by BakingPlate');
-//Configure::write('Site.Domains.Default', 'example.com');
-//Configure::write('Site.Domains.Mobile', 'm.example.com');
-//Configure::write('Site.Domains.Cdn', 'static.example.com');
-Configure::read('Site.Author', 'Sam Sherlock & Dean Sofer');
+Configure::write('Site.Name', 'Sam Sherlock');
+Configure::write('Site.Title', 'samsherlock.com');
+Configure::write('Site.subTitle', 'In the spirit of conradiction');
+//Configure::write('Site.Domains.Default', 'samsherlock.ss33');
+//Configure::write('Site.Domains.Mobile', 'm.samsherlock.ss33');
+//Configure::write('Site.Domains.Cdn', 'static.samsherlock.ss33');
+Configure::read('Site.Author', 'Sam Sherlock');
 
 
 /**
@@ -60,7 +60,14 @@ $defaultJsLib = array(
         'version' => '1.5.1',
         'compressed' => true
 );
-Configure::write('Site.JsLib.Default', $defaultJsLib);
+Configure::write('PlatePlus.JsLib.default', $defaultJsLib);
+$modernizrBuild = array(
+        'cdn' => false,
+        'name' => 'modernizr',
+        'version' => '1.7',
+        'compressed' => true
+);
+Configure::write('PlatePlus.JsLib.modernizr', $modernizrBuild);
 
 /**
  * Google Analytics
@@ -81,7 +88,8 @@ Configure::write('Site.JsLib.Default', $defaultJsLib);
 /* contact plugin settings */
 Configure::write('App.UserClass', 'AppUser');
 Configure::write('Contact.email', 'hello@example.com');
-Configure::write('WebmasterTools.maintenanceMode', false);
+Configure::write('WebmasterTools.Maintenance.active', false);
+Configure::write('WebmasterTools.Maintenance.message', 'Closed for Maintenance');
 
 /**
  *
