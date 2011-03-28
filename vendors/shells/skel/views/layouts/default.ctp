@@ -17,7 +17,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo $this->Html->start(array('multihtml' => true));
+echo $this->Html->start(array('docType' => 'html4-trans'));
 ?>
 	<title>
 		<?php echo $title_for_layout; ?>
@@ -39,10 +39,13 @@ echo $this->Html->start(array('multihtml' => true));
 	<div id="container">
 		<div id="header">
 			<?php echo $this->element('layout/header'); ?>
+			<?php echo $this->element('layout/login'); ?>
 		</div>
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
+
+			<?php echo $this->Session->flash('auth'); ?>
 
 			<?php
 				if(isset($sidebar_for_layout)):
@@ -61,14 +64,14 @@ echo $this->Html->start(array('multihtml' => true));
 	</div>
 	<?php
 	// DEBUG FOOTER
-	// only displays during debug - prevents sql log in debug kit
-	if(Configure::read('site.footerSqlDump')) {
-		echo $this->element('sql_dump');
-	}
 	// displays custom data in a table useful for simple debugging -- html displays in overlay, can display yep nope type results on cakephp env vars
 	// can be used with ajax responses update this element. (you can style it to not interfere with your app)
-	if(Configure::read('site.footerCustomVars')) {
-		echo $this->element('debug/footerCustomVars');
+	if(Configure::read('Site.footerCustomVars')) {
+		echo $this->Plate->debugVars();
+	}
+	// only displays during debug - prevents sql log in debug kit
+	if(Configure::read('Site.footerSqlDump')) {
+		echo $this->element('sql_dump');
 	}
 
 	echo $this->Plate->jsLib();
