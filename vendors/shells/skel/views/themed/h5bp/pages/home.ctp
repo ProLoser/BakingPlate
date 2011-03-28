@@ -8,6 +8,7 @@
         
         <h2>Aiming to recreate the Html5 Boilerplate project as a Cake Theme</h2>
         
-        <p>This theme was baked by BakingPlate</p>
+        <p>
+<?php echo $this->Html->link('terms of service', '/pages/display/tos'); ?> This theme was baked by BakingPlate</p>
     </section>
 </article>

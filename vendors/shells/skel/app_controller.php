@@ -32,45 +32,59 @@
  */
 class AppController extends Controller {
 	
-	// xxx: is it pedantic to list initial helpers/compos in alphabetic order? once upon a time Acl needed to be before auth (I think)
-
 	var $helpers = array(
-			'Session',	
+			'Session',
+			'PlatePlus.Plate',
+			'Analogue.Analogue' => array(
+			   array(
+			    'helper' => 'PlatePlus.HtmlPlus',
+			    'rename' => 'Html'
+			   ),
+			   array(
+			    'helper' => 'PlatePlus.FormPlus',
+			    'rename' => 'Form'
+			   )
+		    ),
 			'Time',
-			'Html',
-			'Form',
-			//'Manifesto.Manifest',
-			//'Navigation.Navigation'
-			//'StaticCache.StaticCache',
-			'AssetCompress.AssetCompress'
+			'AssetCompress.AssetCompress',
+			'Navigation.Navigation'
 	);
 	var $components = array(
 			'Session',
 			'Cookie',
 			//'Scaffolding',
 			'RequestHandler',
-			//'MobileDetect.MobileDetect',
+			'Navigation.Menus',
 			'Webservice.Webservice',
-		'Auth' => array(
-			'fields' => array(
-				'username' => 'username', 
-				'password' => 'password',
-			),
-			'loginAction' => array('staff' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'login'),
-			'logoutRedirect' => array('action' => 'login'),
-			'loginRedirect' => '/',
-			//'authorize' => 'actions', // TODO Install ACL component?
-		), 
-		//'Filter.Filter' => array(
-		//	'actions' => array('index', 'admin_index'),
-		//),
+			'Auth' => array(
+			    'loginAction' => array(
+				    'controller' => 'app_users',
+				    'action' => 'login',
+				    'admin' => false
+			    ),
+			    'logoutAction' => array(
+				    'controller' => 'app_users',
+				    'action' => 'login',
+				    'admin' => false
+			    ),
+			)
 	);
+
 	var $view = 'Theme';
+
+	var $attributesForLayout = array(
+			'id' => null,
+			'class' => null
+		);
+
+	var $descriptionForLayout = '';
+	var $keywordsForLayout = '';
+	var $navsForLayout = false;
 
 	function beforeFilter() {
 		$this->_setupAuth();
 		$this->_setLanguage();
-		//$this->_setStaticCache();
+		$this->_setMaintenance();
 	}
 	
 	/**
@@ -80,21 +94,13 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	function beforeRender() {
+	  
 		$this->__habtmValidation();
 		$this->_setTheme();
-		$this->set('description_for_layout', '');
-
-	    $bodyAttribs = '';
-    	$bodyAttribs = ($this->params['url']['url'] == '/') ? $this->getBodyAttribs(true) : $this->getBodyAttribs();
-    	$this->set('body_attribs_for_layout', $bodyAttribs);
-	}
-/**
- * function _setStaticCache
-*/
-    function _setStaticCache() {
-	    if(Configure::read('site.staticCache')) {
-	      $this->helpers[] = 'StaticCache.StaticCache'; 
-	    }
+		$this->__setViewVars();
+		$this->_setStaticCache();
+		
+		$this->set('SiteUser', Configure::read('Site.User'));
 	}
 	
 	/**
@@ -114,81 +120,33 @@ class AppController extends Controller {
 		}
 		parent::__construct();
 	}
-	
-	/**
-	 * Set site theme
-	 *
-	 * todo: make it work, set from Site.theme or passed arg
-	 * 	plan to allow theme to be switched off pass false
-	 * 	call no arg or null to set with Configure::read('Site.theme');
-	 *	if prefix is used and matches a theme use it
-	 *
-	 * @param string $theme
-	 * @return void
-	 * @author Sam
-	 */
-	function _setTheme($theme = null) {
-		if ($this->_prefix('admin')) {
-			$this->theme = 'admin';
+
+/**
+ * Populates layout variables for use
+ *
+ * @return void
+ * @author Dean Sofer
+ */
+	function __setViewVars($varName = '') {
+		if(!empty($varName) && property_exists($this, $varName)) {
+			$this->set(Inflector::underscore($varName), $this->{$varName});
 		} else {
-			// currently hard coding to h5bp for testing
-			//$this->theme = $this->Session->read('Config.locale');
-			if(Configure::read('site.Theme')) {
-				$this->theme = Configure::read('site.Theme');
+			if ($this->params['url']['url'] != '/') {
+				$this->attributesForLayout[] = array(
+					'id' => false,
+					'class' => $this->params['controller'] . ' ' . $this->action,
+				);
 			}
-		}
-	}
-	
-	/**
-	 * Configures the AuthComponent according to the application's settings.
-	 * Override this method in individual controllers for further configuration.
-	 *
-	 * @return void
-	 * @access private
-	 */
-	protected function _setupAuth() {
-	    //$this->Acl->allow($aroAlias, $acoAlias);	
-		if ($this->_prefix('admin')) {
-			// TODO Role levels shouldn't be hardcoded
-			if ($this->Auth->user() && $this->Auth->user('role_id') < 1) {
-				$this->Session->setFlash('You do not have permission to enter this section');
-				$this->redirect($this->Auth->loginAction);
+			$this->set('attributes_for_layout', $this->attributesForLayout);
+			$this->set('description_for_layout', $this->descriptionForLayout);
+			$this->set('keywords_for_layout', $this->keywordsForLayout);
+			if($this->navsForLayout > array()) {
+				$menus_for_layout = array();
+				foreach($this->navsForLayout as $navName => $navData) {
+					$menus_for_layout[$navName] = $navData;
+				}
+				$this->set('menus_for_layout', $menus_for_layout);
 			}
-		} else {
-			$this->Auth->allow();
-		}
-	}
-	
-	/**
-	 * Stores the visitors 2 letter language code to cookie AND session so that the url parameter is optional (and remembered)
-	 *
-	 * @return void
-	 * @author Dean
-	 */
-	protected function _setLanguage() {
-		if (isset($this->params['lang']) && $this->params['lang'] == Configure::read('Languages.default'))
-			$this->redirect(array('lang' => false));
-		$lang = isset($this->params['lang']) ? $this->params['lang'] : Configure::read('Languages.default');
-		Configure::write('Config.language', $lang);
-	}
-	
-	/**
-	 * Checks to see what the current prefix in use is or if a specific prefix is active
-	 * default if none is given.
-	 *
-	 * @param string $prefix optional prefix to compare
-	 * @return boolean
-	 * @access protected
-	 **/
-	function _prefix($prefix = null) {
-		if (isset($this->params['prefix'])) {
-			if ($prefix) {
-				return $this->params['prefix'] == $prefix;
-			} else {
-				return $this->params['prefix'];
-			}
-		} else {
-			return false;
 		}
 	}
 	
@@ -238,6 +196,115 @@ class AppController extends Controller {
 		}
 		parent::redirect($url, $status, $exit);
 	}
+
+/**
+ * function _setMaintenance
+*/
+    function _setMaintenance() {
+		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
+		$mainMode = Configure::read('WebmasterTools.Maintenance');
+		//debug($user);die();
+		if(!isset($user['AppUser']) && $this->action !== 'login') {
+			if($mainMode['active']) {
+				$this->loadComponent(array('WebmasterTools.Maintenance'));
+				$this->Maintenance->activate($mainMode['message']);
+			}
+		}
+	}
+/**
+ * function _setStaticCache
+*/
+    function _setStaticCache() {
+	    if(!Configure::read('Site.User.id')) {
+	    	$this->loadHelper(array('StaticCache.StaticCache')); 
+	    }
+	}
+	
+	/**
+	 * Set site theme
+	 *
+	 * todo: Set Site.Themes.Default to specifiy main theme
+	 *
+	 * @param string $theme
+	 * @return void
+	 * @author Sam
+	 */
+	function _setTheme($theme = null) {
+		if ($this->_prefix('admin')) {
+			$this->theme = 'admin';
+		} else {
+			// what about locale
+			$themes = Configure::read('Site.Themes');
+			//$this->theme = $this->Session->read('Config.locale');
+			if($themes) {
+				$this->theme = array_key_exists($theme, $themes) ? $theme : $themes['Default'];
+			}
+		}
+	}
+	
+	/**
+	 * Configures the AuthComponent according to the application's settings.
+	 * Override this method in individual controllers for further configuration.
+	 *
+	 * @return void
+	 * @access private
+	 */
+	protected function _setupAuth() {
+		$this->Auth->fields = array('username' => 'email', 'password' => 'passwd');
+		$this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
+		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again', true);
+		$this->Auth->allow('index', 'view', 'display');
+		
+		$this->Auth->authorize = 'controller';
+		$this->Auth->autoRedirect = true;
+		$this->Auth->userModel = 'AppUser';
+		
+		$user = $this->Auth->user();
+		$this->set('isAdmin', ($user['AppUser']['role'] == 'admin' && $user['AppUser']['is_admin']));
+		
+		if ($this->_prefix('admin')) {
+			if ($user['AppUser']['role'] == 'admin') {
+				$this->Auth->allow('*');
+			} else {
+				$this->Session->setFlash(__('Sorry, but you need to be Admin to access this location.', true));
+				$this->redirect($this->Auth->loginAction);
+			}
+		}
+		Configure::write('Site.User', $user);
+	}
+	
+	/**
+	 * Stores the visitors 2 letter language code to cookie AND session so that the url parameter is optional (and remembered)
+	 *
+	 * @return void
+	 * @author Dean
+	 */
+	protected function _setLanguage() {
+		if (isset($this->params['lang']) && $this->params['lang'] == Configure::read('Languages.default'))
+			$this->redirect(array('lang' => false));
+		$lang = isset($this->params['lang']) ? $this->params['lang'] : Configure::read('Languages.default');
+		Configure::write('Config.language', $lang);
+	}
+	
+	/**
+	 * Checks to see what the current prefix in use is or if a specific prefix is active
+	 * default if none is given.
+	 *
+	 * @param string $prefix optional prefix to compare
+	 * @return boolean
+	 * @access protected
+	 **/
+	function _prefix($prefix = null) {
+		if (isset($this->params['prefix'])) {
+			if ($prefix) {
+				return $this->params['prefix'] == $prefix;
+			} else {
+				return $this->params['prefix'];
+			}
+		} else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Add component just in time (inside actions - only when needed)
@@ -271,31 +338,39 @@ class AppController extends Controller {
 			$this->{$componentName} = $component;
 		}
 	}
-  
-	/**
-	 * function getBodyAttribs
-	 * @param $isHome Boolean  
-	 */
 	
-	function getBodyAttribs($isHome = false) {
-	  
-	  if($isHome) {
-	    return  array(
-	      'id' => 'home',
-	      'class' => 'home'
-	    );      
-	  }
-	  
-	  $id = false;
-	  $classes = array();
-	  
-	  $classes[] = $this->params['controller'];
-	  $classes[] = ' ' . $this->action;
-	   
-	  return array(
-	    'id' => $id,
-	    'class' => $classes
-	  );
+	/**
+	 * Add component just in time (inside actions - only when needed)
+	 * aware of plugins and config array (if passed). Doesn't load 
+	 * dependent components.
+	 *
+	 * @param mixed $helpers (single string or multiple array)
+	 */
+	function loadHelper($helpers = array()) {
+	
+		foreach ((array)$helpers as $helper => $config) {
+			if (is_int($helper)) {
+				$helper = $config;
+				$config = null;
+			}
+			list($plugin, $helperName) = pluginSplit($helper);
+			if (isset($this->{$helperName})) {
+				continue;
+			}
+			App::import('Helper', $helper);
+	
+			$helperFullName = $helperName.'Helper';
+			$helper = new $helperFullName($config);
+	
+			//if (method_exists($helper, 'initialize')) {
+			//	$helper->initialize($this);
+			//}
+			//if (method_exists($helper, 'startup')) {
+			//	$helper->startup($this);
+			//}
+			App::import('Helper', 'PlatePlus.Plate');
+			$this->helpers[$helperName] = $helper;
+		}
 	}
 
 }
