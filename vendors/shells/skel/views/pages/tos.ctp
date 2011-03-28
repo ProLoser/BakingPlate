@@ -12,19 +12,14 @@
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       cake
- * @subpackage    cake.cake.libs.view.templates.layouts
+ * @subpackage    cake.cake.libs.view.templates.pages
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+if (Configure::read() == 0):
+	$this->cakeError('error404');
+endif;
 ?>
-<!doctype html>
-<?php echo $this->Html->charset(); ?>
-<title><?php echo $page_title; ?></title>
+<h1>Terms of Service</h1>
 
-<style><!--
-P { text-align:center; font:bold 1.1em sans-serif }
-A { color:#444; text-decoration:none }
-A:HOVER { text-decoration: underline; color:#44E }
---></style>
-</head>
-<p><a href="<?php echo $url?>"><?php echo $message?></a></p>
+<p><?php echo $this->Html->link('home', '/'); ?>linked to from users register</p>

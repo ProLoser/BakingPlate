@@ -24,6 +24,14 @@ $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
 	'linkable'			=> 'git://github.com/rafaelbandeira3/linkable.git',
+	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
+	'joinable'			=> 'git://github.com/ProLoser/CakePHP-Joinable.git',
+	'plate_plus'	=> 'git://github.com/sams/PlatePlus.git',
+	'analogue'		=> 'git://github.com/joebeeson/analogue.git',
+	'cacheable'			=> 'git://github.com/ProLoser/CakePHP-Cacheable.git',
+	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
+	'webmaster_tools'		=> 'git://github.com/davidpersson/webmaster_tools.git',
+	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
 );
 
@@ -78,15 +86,23 @@ $config['BakingPlate']['proloser'] = array(
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 );
 
-// howlong said the wind to the moon; soon said the moon to the sun
-//$config['BakingPlate']['sams'] = array(
-//);
+// navigation, static_cache, manifesto
+$config['BakingPlate']['sams'] = array(
+	'navigation'	=> 'git://github.com/sams/cakephp_navigation.git',
+	'static_cache'	=> 'git://github.com/sams/static_cache.git',
+	//'manifesto'	=> 'git://github.com/sams/manifesto.git',
+);
 
 $config['BakingPlate']['mattcurry'] = array(
+	'ab_test'			=> 'git://github.com/mcurry/ab_test.git',
 	'update'			=> 'git://github.com/mcurry/update.git',
 	'builder'			=> 'git://github.com/mcurry/builder.git',
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
 	'interactive'		=> 'git://github.com/mcurry/interactive.git',
+);
+
+$config['BakingPlate']['petteyg'] = array(
+	'wapl' 				=> 'git://github.com/petteyg/wapl.git'
 );
 
 $config['BakingPlate']['josegonzalez'] = array(
@@ -122,7 +138,6 @@ $config['BakingPlate']['cakedc'] = array(
 	'search'			=> 'git://github.com/CakeDC/search.git',
 	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
 	'recaptcha'			=> 'git://github.com/CakeDC/recaptcha.git',
-	'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
 	'migrations'		=> 'git://github.com/CakeDC/migrations.git',
 	'tags'				=> 'git://github.com/CakeDC/tags.git',
 	'markup_parsers'	=> 'git://github.com/CakeDC/markup_parsers.git',

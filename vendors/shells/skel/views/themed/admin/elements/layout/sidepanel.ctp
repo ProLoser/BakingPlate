@@ -3,18 +3,12 @@
 	<ul id="main_menu">
 		<li id="hide_menu"><a href="javascript:;">&laquo;</a></li>
 		<li>
-			<a href=""><?php echo $this->Html->image('icon_pages.png', array('alt'=>'Pages')); ?>User Submitted Data</a>
+			<?php echo $this->Html->link($this->Html->image('icon_pages.png', array('alt'=>'Pages')) . ' Pages', $this->Html->url('/admin/pages/'), array('escape' => false)); ?>
 			<ul>
-				<li><?php echo $this->Html->link('Applications', array('controller' => 'applications', 'action' => 'index'))?></li>
-				<li><?php echo $this->Html->link('Bookings (Agreements)', array('controller' => 'bookings', 'action' => 'index'))?></li>
-				<li><?php echo $this->Html->link('Gallery Uploads', array('controller' => 'gallery_uploads', 'action' => 'index'))?></li>
-				<li><?php echo $this->Html->link('Payments', array('controller' => 'payments', 'action' => 'index'))?></li>
-				<li><?php echo $this->Html->link('Project Preferences', array('controller' => 'project_preferences', 'action' => 'index'))?></li>
-				<li><?php echo $this->Html->link('Referrals', array('controller' => 'referrals', 'action' => 'index'))?></li>
 			</ul>
 		</li>
 		<li>
-			<a href=""><?php echo $this->Html->image('icon_users.png', array('alt'=>'People')); ?>People Data</a>
+			<?php echo $this->Html->link($this->Html->image('icon_users.png', array('alt'=>'Users')) . ' Users', $this->Html->url('/admin/users/'), array('escape' => false)); ?>
 			<ul>
 				<li><?php echo $this->Html->link('Employees', array('controller' => 'employees', 'action' => 'index'))?></li>
 				<li><?php echo $this->Html->link('Recruiters', array('controller' => 'recruiters', 'action' => 'index'))?></li>

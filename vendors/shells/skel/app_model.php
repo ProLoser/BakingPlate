@@ -40,7 +40,7 @@ class AppModel extends LazyModel { // TODO Make sure lazymodel is enabled when p
 		'Joinable.Joinable',
 		'Linkable.Linkable', // TODO Possibly causing behavior errors when trying to bake
 		'Containable',
-		'Mi.OneQuery',
+		//'Mi.OneQuery',
 		'Cacheable.Cacheable',
 	);
 	
