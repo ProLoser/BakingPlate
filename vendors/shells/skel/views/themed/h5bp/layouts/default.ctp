@@ -61,12 +61,12 @@ echo $this->Html->start(array('multihtml' => true));
 	<?php
 	// DEBUG FOOTER
 	// only displays during debug - prevents sql log in debug kit
-	if(Configure::read('site.footerSqlDump')) {
+	if(Configure::read('Site.footerSqlDump')) {
 		echo $this->element('sql_dump');
 	}
 	// displays custom data in a table useful for simple debugging -- html displays in overlay, can display yep nope type results on cakephp env vars
 	// can be used with ajax responses update this element. (you can style it to not interfere with your app)
-	if(Configure::read('site.footerCustomVars')) {
+	if(Configure::read('Site.footerCustomVars')) {
 		echo $this->element('debug/footerCustomVars');
 	}
 

@@ -19,12 +19,5 @@
 ?>
 <!doctype html>
 <?php echo $this->Html->charset(); ?>
-<title><?php echo $page_title; ?></title>
-
-<style><!--
-P { text-align:center; font:bold 1.1em sans-serif }
-A { color:#444; text-decoration:none }
-A:HOVER { text-decoration: underline; color:#44E }
---></style>
-</head>
-<p><a href="<?php echo $url?>"><?php echo $message?></a></p>
+<title><?php echo $title_for_layout; ?></title>
+<?php echo $content_for_layout; ?>

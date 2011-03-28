@@ -6,16 +6,5 @@
 
 <?php
     // prepare for navigation plugin use
-    
-    /*    echo $this->Navigation->create('main', array(
-								array('display' => 'categories',
-								      'link' => '/categories',
-								      'title' => 'Click here to view Sam Sherlock Categories'
-								),
-								array('display' => 'labs',
-								      'link' => '/labs',
-								      'title' => 'Click here to view Sam Sherlock Labs'
-								)
-							));
-    */ 
+        echo $this->Navigation->create('main', array());
 ?>
