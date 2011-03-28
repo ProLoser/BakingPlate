@@ -80,9 +80,5 @@
 			?>
 		</div>
 	</div>
-	<p><?php echo Security::hash('admin', null, TRUE); ?></p>
-	<p><?php echo Security::hash('leons1', null, TRUE); ?></p>
-	<p><?php echo Security::hash('jimmy7', null, TRUE); ?></p>
-	<p><?php echo Security::hash('password', null, TRUE); ?></p>
 </body>
 </html>

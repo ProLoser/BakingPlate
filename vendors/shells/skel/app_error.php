@@ -24,4 +24,10 @@ class AppError extends ErrorHandler {
         $this->controller->set($params); //set variables
         $this->_outputMessage("503"); //output error element
     }
+    
+    function maintenance($params)    {
+        $this->controller->layout = "maintenance"; //if u want to change layout
+        $this->controller->set($params); //set variables
+        $this->_outputMessage("Maintenance"); //output error element
+    }
 }
