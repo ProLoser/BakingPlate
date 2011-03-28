@@ -13,6 +13,7 @@ class PageRoute extends CakeRoute {
 			$Page = new Page();
 			$pages = $Page->find('all', array(
 				'fields' => array('Page.slug'),
+				'conditions' => array('Page.draft' => 0),
 				'recursive' => -1
 			));
 			$slugs = array_flip(Set::extract('/Page/slug', $pages));
