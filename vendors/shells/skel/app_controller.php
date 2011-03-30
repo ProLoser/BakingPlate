@@ -33,21 +33,28 @@
 class AppController extends Controller {
 	
 	var $helpers = array(
-		'Session',	
+		'Session',
+		'PlatePlus.Plate',
+		'Analogue.Analogue' => array(
+			array(
+				'helper' => 'PlatePlus.HtmlPlus',
+				'rename' => 'Html'
+			),
+			array(
+				'helper' => 'PlatePlus.FormPlus',
+				'rename' => 'Form'
+			)
+		),
 		'Time',
-		'Html',
-		'Form',
 		'AssetCompress.AssetCompress',
-		// TODO: What are these for?
-		//'Manifesto.Manifest', 
-		//'Navigation.Navigation'
-		//'StaticCache.StaticCache',
+		'Navigation.Navigation'
 	);
 	var $components = array(
 		'Session',
 		'Cookie',
+		//'Scaffolding',
 		'RequestHandler',
-		//'MobileDetect.MobileDetect',
+		'Navigation.Menus',
 		'Webservice.Webservice',
 		/* Auth Configuration *[delete me]/
 		'Auth' => array(
@@ -61,6 +68,7 @@ class AppController extends Controller {
 			//'authorize' => 'actions', // TODO Install ACL component?
 		),/**/
 	);
+
 	var $view = 'Theme';
 	
 	var $attributesForLayout = array(
@@ -69,11 +77,12 @@ class AppController extends Controller {
 	);
 	var $descriptionForLayout = '';
 	var $keywordsForLayout = '';
+	var $navsForLayout = false;
 
 	function beforeFilter() {
-		//$this->_setupAuth();
-		//$this->_setLanguage();
-		//$this->_setStaticCache();
+		$this->_setupAuth();
+		$this->_setLanguage();
+		$this->_setMaintenance();
 	}
 	
 	/**
@@ -83,9 +92,12 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	function beforeRender() {
+	  
 		$this->__habtmValidation();
 		$this->__setViewVars();
 		$this->_setTheme();
+		
+		$this->set('SiteUser', Configure::read('Site.User'));
 	}
 	
 	/**
@@ -105,23 +117,34 @@ class AppController extends Controller {
 		}
 		parent::__construct();
 	}
-	
+
 	/**
 	 * Populates layout variables for use
 	 *
 	 * @return void
 	 * @author Dean Sofer
 	 */
-	function __setViewVars() {
-		if ($this->params['url']['url'] != '/') {
-			$this->attributesForLayout = array(
-				'id' => false,
-				'class' => $this->params['controller'] . ' ' . $this->action,
-			);
+	function __setViewVars($varName = '') {
+		if(!empty($varName) && property_exists($this, $varName)) {
+			$this->set(Inflector::underscore($varName), $this->{$varName});
+		} else {
+			if ($this->params['url']['url'] != '/') {
+				$this->attributesForLayout[] = array(
+					'id' => false,
+					'class' => $this->params['controller'] . ' ' . $this->action,
+				);
+			}
+			$this->set('attributes_for_layout', $this->attributesForLayout);
+			$this->set('description_for_layout', $this->descriptionForLayout);
+			$this->set('keywords_for_layout', $this->keywordsForLayout);
+			if($this->navsForLayout > array()) {
+				$menus_for_layout = array();
+				foreach($this->navsForLayout as $navName => $navData) {
+					$menus_for_layout[$navName] = $navData;
+				}
+				$this->set('menus_for_layout', $menus_for_layout);
+			}
 		}
-		$this->set('attributes_for_layout', $this->attributesForLayout);
-		$this->set('description_for_layout', $this->descriptionForLayout);
-		$this->set('keywords_for_layout', $this->keywordsForLayout);
 	}
 	
 	/**
@@ -155,20 +178,18 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * Added support for continuing localized urls
-	 *
-	 * @param string $url 
-	 * @param string $status 
-	 * @param string $exit 
-	 * @return void
-	 * @author Dean Sofer
-	 * @access public
+	 * function _setMaintenance
 	 */
-	public function redirect($url, $status = null, $exit = true) {
-		if (is_array($url) && !isset($url['locale']) && isset($this->params['locale'])) {
-			$url['locale'] = $this->params['locale'];
+    function _setMaintenance() {
+		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
+		$mainMode = Configure::read('WebmasterTools.Maintenance');
+		//debug($user);die();
+		if(!isset($user['AppUser']) && $this->action !== 'login') {
+			if($mainMode['active']) {
+				$this->loadComponent(array('WebmasterTools.Maintenance'));
+				$this->Maintenance->activate($mainMode['message']);
+			}
 		}
-		parent::redirect($url, $status, $exit);
 	}
 	
 	/**
@@ -183,10 +204,7 @@ class AppController extends Controller {
 	/**
 	 * Set site theme
 	 *
-	 * todo: make it work, set from Site.theme or passed arg
-	 * 	plan to allow theme to be switched off pass false
-	 * 	call no arg or null to set with Configure::read('Site.theme');
-	 *	if prefix is used and matches a theme use it
+	 * todo: Set Site.Themes.Default to specifiy main theme
 	 *
 	 * @param string $theme
 	 * @return void
@@ -196,10 +214,11 @@ class AppController extends Controller {
 		if ($this->_prefix('admin')) {
 			$this->theme = 'admin';
 		} else {
-			// currently hard coding to h5bp for testing
+			// what about locale
+			$themes = Configure::read('Site.Themes');
 			//$this->theme = $this->Session->read('Config.locale');
-			if(Configure::read('site.Theme')) {
-				$this->theme = Configure::read('site.Theme');
+			if($themes) {
+				$this->theme = array_key_exists($theme, $themes) ? $theme : $themes['Default'];
 			}
 		}
 	}
@@ -212,16 +231,24 @@ class AppController extends Controller {
 	 * @access private
 	 */
 	protected function _setupAuth() {
-		//$this->Acl->allow($aroAlias, $acoAlias);	
+		if (isset($this->components))
+		$this->Acl->allow($aroAlias, $acoAlias);	
+		$this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
+		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again', true);
+		$this->Auth->allow('index', 'view', 'display');
+		
+		$user = $this->Auth->user();
+		$this->set('isAdmin', ($user['AppUser']['role'] == 'admin' && $user['AppUser']['is_admin']));
+		
 		if ($this->_prefix('admin')) {
-			// TODO Role levels shouldn't be hardcoded
-			if ($this->Auth->user() && $this->Auth->user('role_id') < 1) {
-				$this->Session->setFlash('You do not have permission to enter this section');
+			if ($user['AppUser']['role'] == 'admin') {
+				$this->Auth->allow('*');
+			} else {
+				$this->Session->setFlash(__('Sorry, but you need to be Admin to access this location.', true));
 				$this->redirect($this->Auth->loginAction);
 			}
-		} else {
-			$this->Auth->allow();
 		}
+		Configure::write('Site.User', $user);
 	}
 	
 	/**
@@ -255,6 +282,23 @@ class AppController extends Controller {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Added support for continuing localized urls
+	 *
+	 * @param string $url 
+	 * @param string $status 
+	 * @param string $exit 
+	 * @return void
+	 * @author Dean Sofer
+	 * @access public
+	 */
+	public function redirect($url, $status = null, $exit = true) {
+		if (is_array($url) && !isset($url['locale']) && isset($this->params['locale'])) {
+			$url['locale'] = $this->params['locale'];
+		}
+		parent::redirect($url, $status, $exit);
 	}
 	
 	/**

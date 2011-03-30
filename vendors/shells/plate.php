@@ -26,8 +26,8 @@ class PlateShell extends Shell {
 	 * @return array submodules
 	 * @author Dean Sofer
 	 */
-	function _load() {
-		if (Configure::read('BakingPlate'))
+	function _load($grouped = false) {
+		if (!Configure::read('BakingPlate'))
 			return;
 		Configure::load('BakingPlate.submodules');
 		
@@ -40,7 +40,16 @@ class PlateShell extends Shell {
 	 * @return void
 	 * @author Dean Sofer
 	 */
-	function _welcome() {}
+	function _welcome() {
+		
+		Configure::load('BakingPlate.version');
+	
+		$this->Dispatch->clear();
+		$this->out();
+		$this->out('Welcome to BakingPlate v' . Configure::read('BakingPlate.version'));
+		$this->hr();	
+		
+	}
 
 	/**
 	 * Shows a list of available commands
@@ -72,10 +81,31 @@ class PlateShell extends Shell {
 			$this->args = null;
 			$this->DbConfig->execute();
 		}
+		
+		$this->log($this->params, 'baking_plate');
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
 		$this->all();
 		
+		// TODO Conflicts with submodule adding
+		if (!config('database')) {
+			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
+			$this->args = null;
+			$this->DbConfig->execute();
+		}
+		
+	}
+	
+	/*
+	 * function gitit
+	 * @param $arg
+	 */
+	
+	function gitit() {
+		//print_r($this->params); die();
+		$this->out(passthru('git init ' . $this->params['app']));
+		chdir($this->params['app']);
+		$this->all();
 	}
 
 	/**
@@ -85,6 +115,7 @@ class PlateShell extends Shell {
 	 * @author Dean Sofer
 	 */
 	function add() {
+		// this will still put vendor code in plugins
 		$this->_load();
 		$keys = array_keys($this->submodules);
 		if (!isset($this->args[0])) {
@@ -92,12 +123,24 @@ class PlateShell extends Shell {
 			$this->out($this->nl());
 			$plugin = $this->in('Specify a # or submodule_name');
 		} else {
-			$plugin = $this->args[0];
+			$plugin = (strpos($this->args[0], ',')) ? explode(',', $this->args[0]) : $this->args[0];
 		}
-		if (is_numeric($plugin)) {
-			$path = $keys[$plugin-1];
+		if(is_array($plugin)) {
+			foreach($plugin as $p) {		
+				if (is_numeric($p)) {
+					$path = $keys[$p-1];
+				} else {
+					$path = Inflector::underscore($p);
+				}
+				$this->_addSubmodule($path);
+			}
 		} else {
-			$path = Inflector::underscore($plugin);
+			if (is_numeric($plugin)) {
+				$path = $keys[$plugin-1];
+			} else {
+				$path = Inflector::underscore($plugin);
+			}
+			$this->_addSubmodule($path);
 		}
 		$this->_addSubmodule($path);
 	}
@@ -106,12 +149,22 @@ class PlateShell extends Shell {
 	 * Render a list of submodules
 	 */
 	function browse() {
-		$this->_load();
-		$this->out("\nAvailable Plugins:\n");
-		$i = 0;
-		foreach ($this->submodules as $path => $url) {
-			$i++;
-			$this->out($i . ') ' . Inflector::humanize($path));
+		if(isset($this->args[0]) && $this->args[0] == 'groups') {
+			$this->_load(true);
+			$this->out("\nAvailable Groups:\n");
+			$i = 0;
+			foreach ($this->groups as $group => $name) {
+				$i++;
+				$this->out($i . ') ' . Inflector::humanize($name));
+			}
+		} else {
+			$this->_load();
+			$this->out("\nAvailable Plugins/Vendors:\n");
+			$i = 0;
+			foreach ($this->submodules as $path => $url) {
+				$i++;
+				$this->out($i . ') ' . Inflector::humanize($path));
+			}
 		}
 	}
 

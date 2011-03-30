@@ -1,5 +1,6 @@
 <?php
 /**
+ * see if some extra sugar can be added these are old comments on ideas
  * using markstory asset compress CakeDC is way behind on magic stuff
  *
  * could this use a alias system whereby is the value is not a git url
@@ -19,21 +20,51 @@
  * the group vendors is a special case should always goto vendor dir 
  * 
  */
+// Required submodules
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
 	'linkable'			=> 'git://github.com/rafaelbandeira3/linkable.git',
-	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
+	'plate_plus'		=> 'git://github.com/sams/PlatePlus.git',
+	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
+	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
+	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
+	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
 );
-
+// Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/mongoDB-Datasource.git',
 	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
+	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
 );
 
 $config['BakingPlate']['markstory'] = array(
 	'acl_extras'		=> 'git://github.com/markstory/acl_extras.git',
 	'acl_menu'			=> 'git://github.com/markstory/cakephp_menu_component.git',
+	'geshi'				=> 'git://github.com/markstory/cakephp_geshi.git',
+	'vcard'				=> 'git://github.com/markstory/cakephp_vcard.git',
+);
+
+$config['BakingPlate']['davidpersson'] = array(
+	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
+	'media'				=> 'git://github.com/davidpersson/media.git',
+);
+
+$config['BakingPlate']['1marc'] = array(
+	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+);
+
+$config['BakingPlate']['milesj'] = array(
+	'forum'				=> 'git://github.com/milesj/cakephp-forum.git',
+	'uploader'			=> 'git://github.com/milesj/cakephp-uploader.git',
+);
+
+$config['BakingPlate']['mariano'] = array(
+	'tagging'			=> 'git://github.com/mariano/tagging.git',
+	'syrup'				=> 'git://github.com/mariano/syrup.git',
+	'robot'				=> 'git://github.com/mariano/robot.git',
+	'openid'			=> 'git://github.com/mariano/openid.git',
 );
 
 $config['BakingPlate']['proloser'] = array(
@@ -47,14 +78,24 @@ $config['BakingPlate']['proloser'] = array(
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 );
 
+// navigation, static_cache, manifesto
 $config['BakingPlate']['sams'] = array(
+	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
+	'static_cache'		=> 'git://github.com/sams/static_cache.git',
+	'plate_plus'		=> 'git://github.com/sams/PlatePlus.git',
+	'manifesto'			=> 'git://github.com/sams/manifesto.git',
 );
 
-$config['BakingPlate']['mattcurry'] = array(
+$config['BakingPlate']['mcurry'] = array(
+	'ab_test'			=> 'git://github.com/mcurry/ab_test.git',
+	'interactive'		=> 'git://github.com/mcurry/interactive.git',
 	'update'			=> 'git://github.com/mcurry/update.git',
 	'builder'			=> 'git://github.com/mcurry/builder.git',
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
-	'interactive'		=> 'git://github.com/mcurry/interactive.git',
+);
+
+$config['BakingPlate']['petteyg'] = array(
+	'wapl' 				=> 'git://github.com/petteyg/wapl.git'
 );
 
 $config['BakingPlate']['josegonzalez'] = array(
@@ -72,6 +113,15 @@ $config['BakingPlate']['josegonzalez'] = array(
 );
 
 $config['BakingPlate']['webtechnick'] = array(
+	'fileupload'		=> 'git://github.com/webtechnick/CakePHP-FileUpload-Plugin.git',
+	'facebook'			=> 'git://github.com/webtechnick/CakePHP-Facebook-Plugin.git',
+	'seo'				=> 'git://github.com/webtechnick/CakePHP-Seo-Plugin.git',
+	'webtecknick'		=> 'git://github.com/webtechnick/CakePHP-Webtechnick-Plugin.git',
+	'paypal_ipn'		=> 'git://github.com/webtechnick/CakePHP-Paypal-IPN-Plugin.git',
+	'popup'				=> 'git://github.com/webtechnick/CakePHP-Popup-Plugin.git',
+	'configurations'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
+	'gigya'				=> 'git://github.com/webtechnick/CakePHP-Gigya-Plugin.git',
+	'rake'				=> 'git://github.com/webtechnick/CakePHP-Rake-Plugin.git'
 );
 
 $config['BakingPlate']['cakedc'] = array(
@@ -109,6 +159,9 @@ $config['BakingPlate']['mi'] = array(
 	
 );
 
+// Commonly Used Vendors
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
+	'simpletest'		=> '',
+	'phpunit'			=> '',
 );

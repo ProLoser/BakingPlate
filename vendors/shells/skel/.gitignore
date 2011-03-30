@@ -10,6 +10,8 @@ config/database.php
 app/tmp/*
 app/config/database.php
 !empty
+webroot/cache_*/*
+webroot/cache/*
 
 ## Operating Systems ##
 
@@ -56,6 +58,7 @@ local.properties
 
 # Komodo #
 *.komodoproject
+.komodotools
 
 # E Texteditor #
 .eprj

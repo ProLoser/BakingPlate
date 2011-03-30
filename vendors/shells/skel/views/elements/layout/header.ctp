@@ -1,7 +1,7 @@
 
 <div class="hgroup">
-    <h1><?php echo Configure::read('site.Title'); ?></h1>
-    <h2><?php echo Configure::read('site.subTitle'); ?></h2>
+    <h1><?php echo Configure::read('Site.Title'); ?></h1>
+    <h2><?php echo Configure::read('Site.subTitle'); ?></h2>
 </div>
 
 <?php

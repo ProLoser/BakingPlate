@@ -1,4 +1,4 @@
-# Overview
+# Overview - version 0.0.4a1 
 
 BakingPlate is a cake plugin that assists in generating/baking CakePHP projects
 (by which we mean apps that use a core install of cake - see Advanced Installion of Cake) 
@@ -29,15 +29,20 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 
 # Instructions
 
-1. Clone into your root plugins directory into /plugins/bakingplate folder
-2. Open up your terminal and make sure you have the cake bake console installed
+1. Clone into your root plugins directory into /plugins/baking_plate
+2. Open up your terminal and run `cake plate` - you should see a screeb of options
+    a. Browse the available plugins and vendors (making note of corresponding names or numbers of modules to install)
+    b. use `-group` to show repos by Author
+    c. Show a list of available groups `cake plate browse groups`
 3. Run `cake plate bake <project_path>` in your terminal
+    a. the default  group is a set of core plugins; to set a different group use `-group cakedc` 
 4. Change to the newly baked project
     a. Run `cake plate all` 
     b. Run `cake plate add <#|mod_name>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
-5. Run `cake schema creations`
+    c. install a CSV list of numbers to add
+5. Run `cake schema creations` or use the `cake migration` plugin
 	
-Voila!
+Voila! you have a baked your app and initialized it as a git repo
 
 Please if you have ideas fork it, commit, push it, send pull request
 
@@ -45,25 +50,21 @@ enjoy
 
 ## todo:
 
-1. Make mobile detect a plugin using remain cakephp native
-2. Dynamic Pages (if derived app does not need just remove) (this will become a process option)
-3. More dirs in tmp
-4. Libs - initial PageRoute exists
-5. i18n/l10n stuff
-6. Html5 Boilerplate Theme Finish
-7. Default (Non Themed views should use Best Practices
-8. More work on Admin Theme
-9. Settings
+
+1. Dynamic Pages (if derived app does not need just remove) (this will become a process option)
+2. More dirs in tmp
+3. Libs - initial PageRoute exists
+4. i18n/l10n stuff
+5. Html5 Boilerplate Theme Finish
+6. Default Non Themed views should use Best Practices
+7. More work on Admin Theme
+8. Settings
     1. Decide upon a Setting/Config setup (using Nick Bakers now may change)
     2. Decide upon Config Key convention Using Site.theme, Site.author now (or should Config.language be the way)
-10. More Server Cfg Options (Apache2.2, Nginx, .htaccess)
-11. Add information to Readme
+9. More Server Cfg Options (Apache2.2, Nginx, .htaccess)
+10. Add information to Readme
     1. Updating a derived project; using git to ease this burden
     2. Remove stuff from derived project delete from your active branch
     3. Selecting a wysiwyg editor for use within the app.
     4. Customising the skel
-12. This plugin prevents cake bake from being able create plugins - clash with tasks? 
-13. More see comments
-
-
-a small change to test github api plugin
+11. More see comments
