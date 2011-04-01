@@ -37,8 +37,9 @@ class PlateComponent extends Object {
 	 * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
 	 */
 	function initialize(&$controller, $settings = array()) {
+		$this->controller = $controller;
 		if (!isset($this->__settings[$controller->name])) {
-			$settings = $this->__settings[$controller->name];
+			$this->__settings[$controller->name] = $settings;
 		}
 	}
 
@@ -51,7 +52,6 @@ class PlateComponent extends Object {
 	 * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
 	 */
 	function startup(&$controller) {
-		$this->controller = $controller;
 	}
 
 	/**

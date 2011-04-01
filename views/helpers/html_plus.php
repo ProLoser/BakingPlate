@@ -17,6 +17,7 @@
  * @since         CakePHP(tm) v 0.9.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+App::import('Helper', 'Html');
 /**
  * Html Helper class for easy use of HTML widgets.
  *
@@ -26,7 +27,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1434/HTML
  */
-class HtmlPlusHelper extends AppHelper {
+class HtmlPlusHelper extends HtmlHelper {
 
 	/**
 	 * html tags used by this helper.

@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
+App::import('Helper', 'Form');
 /**
  * Form helper library.
  *
@@ -32,7 +32,7 @@
 
 # https://developer.mozilla.org/en/HTML/HTML5/Forms_in_HTML5
 
-class FormPlusHelper extends AppHelper {
+class FormPlusHelper extends FormHelper {
 
 /**
  * Other helpers used by FormHelper
