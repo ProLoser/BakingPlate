@@ -34,7 +34,7 @@ class AppController extends Controller {
 	
 	var $helpers = array(
 		'Session',
-		'PlatePlus.Plate',
+		'BakingPlate.Plate',
 		'Batch.Batch',
 		'Analogue.Analogue' => array(
 			array(
