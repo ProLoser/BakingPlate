@@ -56,11 +56,11 @@ class PlateShell extends Shell {
 	 */
 	function main() {
 		$this->out("\nAvailable Commands:\n");
-		$this->out('bake	- Generates a new app using bakeplate');
-		$this->out('browse	- List available submodules');
-		$this->out('add <#|submodule_name>	- Add a specific submodule');
-		$this->out('all	- Add all available submodules');
-		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group");
+		$this->out('bake				- Generates a new app using bakeplate');
+		$this->out('browse				- List available submodules');
+		$this->out('add <#|submodule_name>		- Add a specific submodule');
+		$this->out('all <group>			- Add all available submodules');
+		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.");
 	}
 
 	function bake() {

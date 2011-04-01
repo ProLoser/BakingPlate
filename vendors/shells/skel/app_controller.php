@@ -35,6 +35,7 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Session',
 		'PlatePlus.Plate',
+		'Batch.Batch',
 		'Analogue.Analogue' => array(
 			array(
 				'helper' => 'PlatePlus.HtmlPlus',
@@ -50,6 +51,7 @@ class AppController extends Controller {
 		'Navigation.Navigation'
 	);
 	var $components = array(
+		'BakingPlate.Plate',
 		'Session',
 		'Cookie',
 		//'Scaffolding',
@@ -78,6 +80,11 @@ class AppController extends Controller {
 	var $descriptionForLayout = '';
 	var $keywordsForLayout = '';
 	var $navsForLayout = false;
+	
+	/**
+	 * $_GET keyword to force debug mode. Set to false or delete to disable.
+	 */
+	var $debugOverride = 'debug';
 
 	function beforeFilter() {
 		$this->_setupAuth();
@@ -92,12 +99,7 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	function beforeRender() {
-	  
-		$this->__habtmValidation();
-		$this->__setViewVars();
 		$this->_setTheme();
-		
-		$this->set('SiteUser', Configure::read('Site.User'));
 	}
 	
 	/**
@@ -107,7 +109,7 @@ class AppController extends Controller {
 	 * @author Dean
 	 */
 	public function __construct() {
-		if (!empty($_GET['debug'])) {
+		if (!empty($this->debugOverride) && !empty($_GET[$this->debugOverride])) {
 			Configure::write('debug', 2);
 		}
 		if (Configure::read('debug')) {
@@ -116,65 +118,6 @@ class AppController extends Controller {
 			App::import('Vendor', 'DebugKit.FireCake');
 		}
 		parent::__construct();
-	}
-
-	/**
-	 * Populates layout variables for use
-	 *
-	 * @return void
-	 * @author Dean Sofer
-	 */
-	function __setViewVars($varName = '') {
-		if(!empty($varName) && property_exists($this, $varName)) {
-			$this->set(Inflector::underscore($varName), $this->{$varName});
-		} else {
-			if ($this->params['url']['url'] != '/') {
-				$this->attributesForLayout[] = array(
-					'id' => false,
-					'class' => $this->params['controller'] . ' ' . $this->action,
-				);
-			}
-			$this->set('attributes_for_layout', $this->attributesForLayout);
-			$this->set('description_for_layout', $this->descriptionForLayout);
-			$this->set('keywords_for_layout', $this->keywordsForLayout);
-			if($this->navsForLayout > array()) {
-				$menus_for_layout = array();
-				foreach($this->navsForLayout as $navName => $navData) {
-					$menus_for_layout[$navName] = $navData;
-				}
-				$this->set('menus_for_layout', $menus_for_layout);
-			}
-		}
-	}
-	
-	/**
-	 * Generates validation error messages for HABTM fields
-	 *
-	 * @return void
-	 * @author Dean
-	 */
-	private function __habtmValidation() {
-		$model = $this->modelClass;
-		if (isset($this->{$model}) && isset($this->{$model}->hasAndBelongsToMany)) {
-			foreach($this->{$model}->hasAndBelongsToMany as $alias => $options) { 
-				if(isset($this->{$model}->validationErrors[$alias])) 
-				{ 
-					$this->{$model}->{$alias}->validationErrors[$alias] = $this->{$model}->validationErrors[$alias]; 
-				} 
-			}
-		}
-	}
-	
-	/**
-	 * Returns a 2 letter locale code for the current ip address
-	 *
-	 * @return string $countryCode
-	 */
-	private function __getIpCountry() {
-		$this->loadComponent('Geoip.Geoip');
-		$countryCode = $this->Geoip->countryCode($_SERVER['REMOTE_ADDR']);
-		$countryCode = strtolower($countryCode);
-		return $countryCode;
 	}
 
 	/**
@@ -193,15 +136,6 @@ class AppController extends Controller {
 	}
 	
 	/**
-	 * TODO: What is this for?
-	 */
-	function _setStaticCache() {
-		if(Configure::read('site.staticCache')) {
-			$this->helpers[] = 'StaticCache.StaticCache'; 
-		}
-	}
-	
-	/**
 	 * Set site theme
 	 *
 	 * todo: Set Site.Themes.Default to specifiy main theme
@@ -211,7 +145,7 @@ class AppController extends Controller {
 	 * @author Sam
 	 */
 	function _setTheme($theme = null) {
-		if ($this->_prefix('admin')) {
+		if ($this->Plate->prefix('admin')) {
 			$this->theme = 'admin';
 		} else {
 			// what about locale
@@ -240,7 +174,7 @@ class AppController extends Controller {
 		$user = $this->Auth->user();
 		$this->set('isAdmin', ($user['AppUser']['role'] == 'admin' && $user['AppUser']['is_admin']));
 		
-		if ($this->_prefix('admin')) {
+		if ($this->Plate->prefix('admin')) {
 			if ($user['AppUser']['role'] == 'admin') {
 				$this->Auth->allow('*');
 			} else {
@@ -263,26 +197,6 @@ class AppController extends Controller {
 		$lang = isset($this->params['lang']) ? $this->params['lang'] : Configure::read('Languages.default');
 		Configure::write('Config.language', $lang);
 	}
-	
-	/**
-	 * Checks to see what the current prefix in use is or if a specific prefix is active
-	 * default if none is given.
-	 *
-	 * @param string $prefix optional prefix to compare
-	 * @return boolean
-	 * @access protected
-	 **/
-	function _prefix($prefix = null) {
-		if (isset($this->params['prefix'])) {
-			if ($prefix) {
-				return $this->params['prefix'] == $prefix;
-			} else {
-				return $this->params['prefix'];
-			}
-		} else {
-			return false;
-		}
-	}
 
 	/**
 	 * Added support for continuing localized urls
@@ -299,39 +213,6 @@ class AppController extends Controller {
 			$url['locale'] = $this->params['locale'];
 		}
 		parent::redirect($url, $status, $exit);
-	}
-	
-	/**
-	 * Add component just in time (inside actions - only when needed)
-	 * aware of plugins and config array (if passed). Doesn't load 
-	 * dependent components.
-	 *
-	 * @param mixed $helpers (single string or multiple array)
-	 */
-	function loadComponent($components = array()) {
-	
-		foreach ((array)$components as $component => $config) {
-			if (is_int($component)) {
-				$component = $config;
-				$config = null;
-			}
-			list($plugin, $componentName) = pluginSplit($component);
-			if (isset($this->{$componentName})) {
-				continue;
-			}
-			App::import('Component', $component);
-	
-			$componentFullName = $componentName.'Component';
-			$component = new $componentFullName($config);
-	
-			if (method_exists($component, 'initialize')) {
-				$component->initialize($this);
-			}
-			if (method_exists($component, 'startup')) {
-				$component->startup($this);
-			}
-			$this->{$componentName} = $component;
-		}
 	}
 
 }
