@@ -38,11 +38,11 @@ class AppController extends Controller {
 		'Batch.Batch',
 		'Analogue.Analogue' => array(
 			array(
-				'helper' => 'PlatePlus.HtmlPlus',
+				'helper' => 'BakingPlate.HtmlPlus',
 				'rename' => 'Html'
 			),
 			array(
-				'helper' => 'PlatePlus.FormPlus',
+				'helper' => 'BakingPlate.FormPlus',
 				'rename' => 'Form'
 			)
 		),
