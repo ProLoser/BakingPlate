@@ -19,7 +19,8 @@
  * @since         CakePHP(tm) v 1.3
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
+$plugins = App::objects('plugin');
+$fields = array_keys($validate);
 echo "<?php\n"; ?>
 class <?php echo $name ?> extends <?php echo $plugin; ?>AppModel {
 	var $name = '<?php echo $name; ?>';
@@ -67,6 +68,8 @@ foreach (array('hasOne', 'belongsTo') as $assocType):
 			$out .= "\t\t\t'conditions' => '',\n";
 			$out .= "\t\t\t'fields' => '',\n";
 			$out .= "\t\t\t'order' => ''\n";
+			if (in_array(Inflector::underscore($relation['alias']) . '_count', $fields))
+				$out .= "\t\t\t'counterCache' => true\n";
 			$out .= "\t\t)";
 			if ($i + 1 < $typeCount) {
 				$out .= ",";
@@ -130,20 +133,19 @@ if (!empty($associations['hasAndBelongsToMany'])):
 endif;
 
 echo "\n\tvar $actsAs = array(\n";
+
 foreach ($validate as $field => $validation) {
-	if (strpos($field, '_file_name') !== false) {
+	if (in_array('UploadPack', $plugins) && strpos($field, '_file_name') !== false) {
 		echo "\t\t'UploadPack.Upload' => array(
 			'$field' => array(),
 		),\n";
 	}
-	if (strpos($field, '_serialized') !== false) {
+	if (in_array('Mi', $plugins) && strpos($field, '_serialized') !== false) 
 		echo "\t\t'Mi.Serialized',\n";
-	}
-	if (strpos($field, 'lft') === 0 && length($field) == 3) {
-		echo "\t\t'Tree',\n";
-	}
+}
+if (in_array('lft', $fields) && in_array('rght', $fields))
+	echo "\t\t'Tree',\n";
 	
-}	
 echo "\n\t);\n";
 ?>
 }

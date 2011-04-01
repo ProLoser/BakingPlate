@@ -21,7 +21,6 @@
 
 	function <?php echo $admin ?>index() {
 		$this-><?php echo $currentModelName ?>->recursive = 0;
-		$this->paginate = $this->Filter->paginate;
 		$<?php echo $pluralName ?> = $this->paginate();
 <?php
 	$compact[] = "'{$pluralName}'";

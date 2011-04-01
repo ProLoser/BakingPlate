@@ -17,20 +17,30 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo $this->Html->start(array('docType' => 'html4-trans'));
+echo $this->Html->start();
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7 ]> <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html xmlns="http://www.w3.org/1999/xhtml" class="no-js"> <!--<![endif]-->
 	<title>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Plate->chromeFrame();
-		
-		echo $this->Html->meta('icon');
-		//echo $this->Plate->siteIcons();
-		//echo $this->Html->meta('author', '');
+		echo $this->Html->meta('description', array('content' => $description_for_layout));
+		echo $this->Html->meta('keywords', array('content' => $keywords_for_layout));
+		echo $this->Html->meta('author', array('content' => Configure::read('site.Author')));
+		echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon'));
+		echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon'));
+		echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon'));
 
-		echo $this->Plate->css();
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css(array('handheld'), null, array('media' => 'handheld'));
+		$this->AssetCompress->css(array(
+			'style',
+		));
+		echo $this->AssetCompress->includeCss();
 		echo $this->Plate->modernizr();
 		echo $scripts_for_layout;
 	?>
@@ -66,26 +76,21 @@ echo $this->Html->start(array('docType' => 'html4-trans'));
 	// DEBUG FOOTER
 	// displays custom data in a table useful for simple debugging -- html displays in overlay, can display yep nope type results on cakephp env vars
 	// can be used with ajax responses update this element. (you can style it to not interfere with your app)
-	if(Configure::read('Site.footerCustomVars')) {
+	if (Configure::read('Site.footerCustomVars')) {
 		echo $this->Plate->debugVars();
-	}
-	// only displays during debug - prevents sql log in debug kit
-	if(Configure::read('Site.footerSqlDump')) {
-		echo $this->element('sql_dump');
 	}
 
 	echo $this->Plate->jsLib();
 	
-	$this->AssetCompress->script(array('plugins','script'));
+	$this->AssetCompress->script(array(
+		'plugins',
+		'script',
+	));
 	echo $this->AssetCompress->includeJs();
 	
-	// footer extras google analytics and yahoo_profiling
-	 echo $this->Plate->pngFix(array('img', '.png'));
-	
-	 echo $this->Plate->profiling();
-	
-	 echo $this->Plate->analytics();
-  
+	echo $this->Plate->pngFix(array('img', '.png'));
+	echo $this->Plate->profiling();
+	echo $this->Plate->analytics();
 ?>
 </body>
 </html>

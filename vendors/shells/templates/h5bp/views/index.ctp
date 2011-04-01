@@ -16,6 +16,7 @@
  * @since         CakePHP(tm) v 1.2.0.5234
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+$plugins = App::objects('plugin');
 ?>
 <h2><?php echo "<?php __('{$pluralHumanName}');?>";?></h2>
 <ul class="actions">
@@ -48,6 +49,7 @@ foreach ($associations as $type => $data) {
 		?>";?>
 		</p>
 	</div>
+	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$alias}')?>"?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 	<?php  foreach ($fields as $field):?>
@@ -56,14 +58,14 @@ foreach ($associations as $type => $data) {
 		<th class="actions"><?php echo "<?php __('Actions');?>";?></th>
 	</tr>
 	<?php
-	$filterFields = "'" . implode("',\n\t\t'", $fields) . "'";
-	$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
-	$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
-	echo "<?php 
-	echo \$this->Filter->row('{$modelClass}', array(
-		{$filterFields}
-	));
-	
+	echo "<?php\n";
+	if (in_array('Batch', $plugins)) {
+		$filterFields = "'" . implode("',\n\t\t'", $fields) . "'";
+		$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
+		$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
+		echo "echo \$this->Batch->filter(array({$filterFields}));\n";
+	}
+	echo "
 	\$i = 0;
 	foreach (\${$pluralVar} as \${$singularVar}):
 		\$class = null;
@@ -96,8 +98,14 @@ foreach ($associations as $type => $data) {
 	echo "\t</tr>\n";
 	
 	echo "<?php endforeach; ?>\n";
+	if (in_array('Batch', $plugins)) {
+		echo "<?php echo \$this->Batch->batch(array({$filterFields})); ?>";
+	}
 	?>
 	</table>
+	<?php if (in_array('Batch', $plugins)) {
+		echo "\t<?php echo \$this->Batch->end()?>";
+	} ?>
 	
 	<div class="paging">
 		<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>

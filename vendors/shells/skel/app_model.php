@@ -31,16 +31,13 @@
  * @subpackage    cake.app
  */
 App::import('Lib', 'LazyModel.LazyModel');
-class AppModel extends LazyModel { // TODO Make sure lazymodel is enabled when publishing
-//class AppModel extends Model { // Lazymodel seems to interfere with baking
+class AppModel extends LazyModel {
 
 	var $recursive = -1;
 	
 	var $actsAs = array(
-		'Joinable.Joinable',
 		'Linkable.Linkable', // TODO Possibly causing behavior errors when trying to bake
 		'Containable',
-		//'Mi.OneQuery',
 		'Cacheable.Cacheable',
 	);
 	
