@@ -1,7 +1,5 @@
 <?php
 /**
- * todo: make default non themed views use a html boilerplate of sorts (not html5)
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -17,9 +15,8 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo $this->Html->start();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
 <!--[if lt IE 7 ]> <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html xmlns="http://www.w3.org/1999/xhtml" class="no-js ie8"> <![endif]-->
@@ -36,11 +33,12 @@ echo $this->Html->start();
 		echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon'));
 		echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon'));
 
-		echo $this->Html->css(array('handheld'), null, array('media' => 'handheld'));
 		$this->AssetCompress->css(array(
 			'style',
 		));
 		echo $this->AssetCompress->includeCss();
+		echo $this->Html->css(array('handheld'), null, array('media' => 'handheld'));
+		echo $this->Html->css(array('cake.generic'));
 		echo $this->Plate->modernizr();
 		echo $scripts_for_layout;
 	?>
@@ -49,7 +47,6 @@ echo $this->Html->start();
 	<div id="container">
 		<div id="header">
 			<?php echo $this->element('layout/header'); ?>
-			<?php echo $this->element('layout/login'); ?>
 		</div>
 		<div id="content">
 
