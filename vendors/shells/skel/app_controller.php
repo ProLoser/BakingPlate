@@ -37,8 +37,14 @@ class AppController extends Controller {
 		'BakingPlate.Plate',
 		'Batch.Batch',
 		'Analogue.Analogue' => array(
-			array('helper' => 'PlatePlus.HtmlPlus', 'rename' => 'Html'),
-			array('helper' => 'PlatePlus.FormPlus', 'rename' => 'Form'),
+			array(
+				'helper' => 'BakingPlate.HtmlPlus',
+				'rename' => 'Html'
+			),
+			array(
+				'helper' => 'BakingPlate.FormPlus',
+				'rename' => 'Form'
+			)
 		),
 		'Time',
 		'AssetCompress.AssetCompress',
