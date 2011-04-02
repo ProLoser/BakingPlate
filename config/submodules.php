@@ -27,6 +27,7 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
+	//'batch'                         => 'git://github.com/ProLoser/CakePHP-Batch.git',	
 	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
