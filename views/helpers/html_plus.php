@@ -1175,7 +1175,8 @@ class HtmlPlusHelper extends HtmlHelper {
 	}
 
 	/**
-	 * function ietag
+	 * ietag
+	 * @deprecated moved to proper home plate helper
 	 * @param $content string markup to be wrapped in ie condition
 	 * @param $iecond string an ie condition
 	 */

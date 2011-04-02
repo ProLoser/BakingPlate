@@ -25,11 +25,10 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 * A Html5 Boilerplate Theme (adhering to all the best practices that apply to cakeapps).
 * User Login/Registration/Management System (ACL One day also) using CakeDC Ucers &amp; ProLoser Welcome plugins.
 * Planned intergration with ProLoser's Cart Plugin.
-* Planned Mobile Detection &amp; Theme Switching (that will support view caching) using subdomains.
 
 ## Instructions
 
-1. Clone into your root plugins directory into /plugins/baking_plate
+1. Clone into your root plugins directory into `/plugins/baking_plate`
 2. Open up your terminal and run `cake plate` - you should see a screeb of options
     a. Browse the available plugins and vendors (making note of corresponding names or numbers of modules to install)
     b. use `-group` to show repos by Author
@@ -37,11 +36,13 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 3. Run `cake plate bake <project_path>` in your terminal
     a. the default  group is a set of core plugins; to set a different group use `-group cakedc` 
 4. Change to the newly baked project
-    a. Run `cake plate all` 
+    a. Run `cake plate all` to add all plugins
     b. Run `cake plate add <#|mod_name>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
     c. install a CSV list of numbers to add
-5. Run `cake schema creations` or use the `cake migration` plugin
-	
+5. Run `cake schema create -plugin PluginName` or use the `cake migration -plugin PluginName`
+6. review code in newly created app removing `[delete me]` strings to enable functionality
+7. *some* configuration settings exist in `boostrap.php`
+
 Voila! you have a baked your app and initialized it as a git repo
 
 Please if you have ideas fork it, commit, push it, send pull request
@@ -75,16 +76,18 @@ enjoy
 
  
 
-# Plate Plus Plugin - 0.1a
+# Plate Plus
 
-Currently this plugin contains helpers that can be used to apply 
-a range of sweet features to projects baked with BakingPlate.
+A Componant and set of helpers that enable more within a bakingplate app
 
 ## The Plate Helper
 
 **That rug really tied the room together, man!**
 
-`var $helpers = array('PlatePlus.Plate')`;
+`var $helpers = array('BakingPlate.Plate')`;
+
+this will output a doctype, html tag & charset
+`echo $this->Plate->start();`
 
 Its a helper that adds a number of features to apps and leaves 
 your layouts clean & basic. The helper that unifies apps baked with [BakingPlate](http://github.com)
@@ -131,9 +134,6 @@ for more information see the test cases for the helper in question
 `var $helpers = array('Analogue.Analogue' => array('PlatePlus.HtmlPlus' => 'Html', 'PlatePlus.FormPlus' => 'Form'))`;
 
 ### Html Plus
-
-this will output a doctype, html tag & charset
-`echo $this->Html->start();`
 
 this will output  a section (falling back to div with 'section' class for non (x)html5 output)
 `echo $this->Html->section($section, $headers);`

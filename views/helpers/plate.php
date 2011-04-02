@@ -82,7 +82,62 @@ class PlateHelper extends AppHelper {
 
 		// todo: set up configure defaults
 	}
-	
+
+	/**
+	 * start creates an initial block of html with auto or param based options
+	 * @param $options mixed an optional array of options for use within the start block
+	 * @example start(array('multihtml' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
+	*/
+	function start($options = null) {
+		# NOTE: for manifesto
+		# todo https://developer.mozilla.org/En/Offline_resources_in_Firefox
+		
+		$htmltag = $docType = '';
+		$htmlAttribs = $manifest = $lang = array();
+		
+		$options['docType'] = (!isset($options['docType']) || $options['docType'] === false) ? $this->Html->__type : $options['docType'];
+		
+		$options['docType'] = ($options['docType'] == 'html4' || $options['docType'] == 'xhtml') ? $options['docType'] . '-trans' : $options['docType'];
+		$lang['lang'] = true;
+
+		// manifest_for_layout
+		if(isset($options['manifest']) &&  ($options['manifest'] !== '' ||  $options['manifest'] !== false)) {
+			$manifestBase = Configure::read('Manifest.basePath') ? Configure::read('Manifest.basePath') . '/' : '/';
+			$manifest['manifest'] = $manifestBase . $options['manifest'] . '.manifest';
+		}
+		
+		if(isset($options['lang']) && $options['lang'] !== false) {
+			$lang['lang'] = (($options['lang'] === true) && Configure::read('Config.language')) ? strtolower(Configure::read('Config.language')) : $options['lang'];
+		} else {
+			$lang['lang'] = false;
+		}
+		
+		$htmlAttribs  = array_merge($manifest, $lang);
+		if(isset($options['multihtml']) && $options['multihtml'] === true) {
+			$ietag= '';
+			$ies = array(6 => 'lt IE 7',7 => 'IE 7', 8 => 'IE 8');
+			foreach($ies as $ieVersion => $condComm) {
+				$htmltag.= "\n";
+				$ietag = $this->Html->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js ie'.$ieVersion)));
+				$htmltag.= $this->ietag($ietag, $condComm);
+			}
+			$htmltag.= "\n";
+			$condComm = '(gte IE 9)|!(IE)';
+			$ietag = $this->Html->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js')));
+			$htmltag.= $this->ietag($ietag, $condComm);
+		} else {
+			$htmltag = "\n" . $this->Html->tag('html', null, $htmlAttribs);
+
+		}
+
+		//if($this->theme) {}
+
+		if($docType == '') {
+			$docType = $this->Html->docType();
+		}
+
+	    return $docType . $htmltag . $this->Html->tag('head') . $this->Html->charset();
+	}
 	
 	/**
 	 * jsLibFallback
@@ -191,6 +246,23 @@ class PlateHelper extends AppHelper {
 		    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
 		}
 	}
+	
+	/**
+	 * the following two methods do the same thing in different ways
+	 * the first does not output non ie (ie+ would be the arg to output
+	 * ie9 and non ie browsers so internet explorer plus other better
+	 * browsers) == (gte IE 9)|!(IE)
+	 *
+	 * the second can output non ie tags with the second arg being
+	 * (gte IE 9)|!(IE) to give you non the same ie+
+	 *
+	 * also we have IEMobile to consider I have PlatePlus outputing this
+	 * correctly and will mv these commits to BakingPlate
+	 *
+	 * start uses the 2nd and start the 1st
+	 *
+	 * so one survives but which
+	 */
 
 	/**
 	 * conditionalComment
@@ -198,7 +270,7 @@ class PlateHelper extends AppHelper {
 	 * @example conditionalComment('all ies')
 	 * @example conditionalComment('just ie7 and below', -7)
 	 * @param $content string of content
-	 * @param $ie mixed true for all ie false for non ie, or string ie condition
+	 * @param $ie mixed true for all ie -or- false for non ie -or- string ie condition
 	 */
 	public function conditionalComment($content, $ie = true) {
 		$iee = 'IE';
@@ -231,6 +303,22 @@ class PlateHelper extends AppHelper {
 			$content = "\n$content\n";
 		}
 	    return sprintf($template, $content, $iee);
+	}
+
+	/**
+	 * function ietag
+	 * @param $content string markup to be wrapped in ie condition
+	 * @param $iecond string an ie condition
+	 */
+	function ietag($content, $iecond = 'IE') {
+		$pre = '<!--[if '.$iecond.' ]> ';
+		$post = ' <![endif]-->';
+		if(strpos($iecond, '!(IE)') !== false) {
+			$pre = trim($pre);
+			$pre .= '<!--> ';
+			$post = ' <!--' . trim($post);
+		}
+	    return $pre . $content . $post;
 	}
 	
 	/**
@@ -345,5 +433,4 @@ class PlateHelper extends AppHelper {
 	public function content_for($variable){
 		$this->_currentView->set($variable, ob_get_clean());
 	}
-    
 }
