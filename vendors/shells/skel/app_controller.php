@@ -35,7 +35,7 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Session',
 		'BakingPlate.Plate',
-		//'Batch.Batch', 
+		//'Batch.Batch',
 		'Analogue.Analogue' => array(
 			array(
 				'helper' => 'BakingPlate.HtmlPlus',
@@ -165,8 +165,8 @@ class AppController extends Controller {
 	 * @access private
 	 */
 	protected function _setupAuth() {
-		if (isset($this->components))
-		$this->Acl->allow($aroAlias, $acoAlias);	
+		if (isset($this->Acl))
+			$this->Acl->allow($aroAlias, $acoAlias);	
 		$this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
 		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again', true);
 		$this->Auth->allow('index', 'view', 'display');
