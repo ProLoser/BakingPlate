@@ -75,20 +75,20 @@ class PlateShell extends Shell {
 				return false;
 			}
 		}
-
-		if (!config('database')) {
-			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
-			$this->args = null;
-			$this->DbConfig->execute();
-		}
 		
-		$this->log($this->params, 'baking_plate');
+		$this->out($this->nl().'Making temp folders writeable...');
+		exec('chmod -R 777 ' . $this->params['app'] . '/tmp/*');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_css');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_js');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/uploads');
+
+		$this->out($this->nl());
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
 		$this->all();
 		
-		// TODO Conflicts with submodule adding
 		if (!config('database')) {
+			$this->out($this->nl());
 			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
 			$this->args = null;
 			$this->DbConfig->execute();
@@ -188,6 +188,7 @@ class PlateShell extends Shell {
 				$this->_addSubmodule($path);
 			}
 		}
+		$this->out($this->nl().'================ Finished Adding Submodules ===================');
 	}
 	
 	/**
