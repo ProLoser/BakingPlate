@@ -22,7 +22,6 @@
  */
 // Required submodules
 $config['BakingPlate']['core'] = array(
-	'plate_plus'		=> 'git://github.com/sams/PlatePlus.git',
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
@@ -83,6 +82,7 @@ $config['BakingPlate']['sams'] = array(
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
 	'manifesto'			=> 'git://github.com/sams/manifesto.git',
+	'contact'			=> 'git://github.com/sams/contact.git',
 );
 
 $config['BakingPlate']['mcurry'] = array(
