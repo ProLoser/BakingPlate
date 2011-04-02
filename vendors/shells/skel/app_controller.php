@@ -34,17 +34,11 @@ class AppController extends Controller {
 	
 	var $helpers = array(
 		'Session',
-		'PlatePlus.Plate',
+		'BakingPlate.Plate',
 		'Batch.Batch',
 		'Analogue.Analogue' => array(
-			array(
-				'helper' => 'PlatePlus.HtmlPlus',
-				'rename' => 'Html'
-			),
-			array(
-				'helper' => 'PlatePlus.FormPlus',
-				'rename' => 'Form'
-			)
+			array('helper' => 'PlatePlus.HtmlPlus', 'rename' => 'Html'),
+			array('helper' => 'PlatePlus.FormPlus', 'rename' => 'Form'),
 		),
 		'Time',
 		'AssetCompress.AssetCompress',

@@ -76,19 +76,12 @@ class PlateShell extends Shell {
 			}
 		}
 
-		if (!config('database')) {
-			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
-			$this->args = null;
-			$this->DbConfig->execute();
-		}
-		
-		$this->log($this->params, 'baking_plate');
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
 		$this->all();
 		
-		// TODO Conflicts with submodule adding
 		if (!config('database')) {
+			$this->out($this->nl());
 			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
 			$this->args = null;
 			$this->DbConfig->execute();
@@ -188,6 +181,7 @@ class PlateShell extends Shell {
 				$this->_addSubmodule($path);
 			}
 		}
+		$this->out($this->nl().'================ Finished Adding Submodules ===================');
 	}
 	
 	/**
