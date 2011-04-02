@@ -75,7 +75,14 @@ class PlateShell extends Shell {
 				return false;
 			}
 		}
+		
+		$this->out($this->nl().'Making temp folders writeable...');
+		exec('chmod -R 777 ' . $this->params['app'] . '/tmp/*');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_css');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_js');
+		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/uploads');
 
+		$this->out($this->nl());
 		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
 		$this->all();
