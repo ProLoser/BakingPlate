@@ -37,11 +37,7 @@ LocalizedRouter::localize();
 
 
 /**
- * Users Plugin routes not all are required the first set are to route to the app native user model & controller
- *
- * the next set is temp set up for shortened route to connect to the plugin
- *
- * neither sets are currenly working
+ * Users Plugin routes
  */
 Router::connect('/users/:action/*', array('controller' => 'app_users'));
 
@@ -56,11 +52,11 @@ Router::connect('/admin/users/:action/*', array('prefix' => 'admin', 'controller
 Router::connect('/cache_css/*', array('plugin' => 'asset_compress', 'controller' => 'css_files', 'action' => 'get'));
 Router::connect('/cache_js/*', array('plugin' => 'asset_compress', 'controller' => 'js_files', 'action' => 'get'));
 
-App::import('Lib', 'routes/PageRoute');
-Router::connect('/:slug', array('controller' => 'pages', 'action' => 'view'), array('routeClass' => 'PageRoute'));
-Router::connect('/', array('controller' => 'pages', 'action' => 'view'));
+//App::import('Lib', 'routes/PageRoute');
+//Router::connect('/:slug', array('controller' => 'pages', 'action' => 'view'), array('routeClass' => 'PageRoute'));
+//Router::connect('/', array('controller' => 'pages', 'action' => 'view'));
 
 /**
  * Webmaster Tools
  */
-require APP . 'plugins/webmaster_tools/config/routes.php';
+//require APP . 'plugins/webmaster_tools/config/routes.php';
