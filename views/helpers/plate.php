@@ -275,9 +275,12 @@ class PlateHelper extends AppHelper {
 	 */
 	public function analytics($code = '') {
 		if (empty($code))
-			$code = Configure::read('Site.GoogleAnalytics');
-		if (!empty($code))
-	    	return $this->_currentView->element('google_analytics', array('plugin' => 'BakingPlate', 'code' => $code));
+			$code = Configure::read('Site.analytics');
+		if (!empty($code) && !Configure::read('debug')) {	
+			if (substr($code, 0, 3) != 'UA-')
+				$code = 'UA-' . $code;
+	    	return $this->_currentView->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
+		}
 	}
 	
 	/**

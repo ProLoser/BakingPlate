@@ -1,7 +1,3 @@
-<?php 
-if (substr($code, 0, 3) != 'UA-')
-	$code = 'UA-' . $code;
-if (!Configure::read('debug')):?>
 <script type="text/javascript">
    var _gaq = [['_setAccount', '<?php echo $code; ?>'], ['_trackPageview']];
    (function(d, t) {
@@ -12,4 +8,3 @@ if (!Configure::read('debug')):?>
     s.parentNode.insertBefore(g, s);
    })(document, 'script');
 </script>
-<?php endif;?>
