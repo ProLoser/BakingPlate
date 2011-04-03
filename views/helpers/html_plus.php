@@ -1148,7 +1148,7 @@ class HtmlPlusHelper extends HtmlHelper {
 		}
 		
 		$htmlAttribs  = array_merge($manifest, $lang);
-		if(isset($options['multihtml']) && $options['multihtml'] === true) {
+		if(!empty($options['iecc'])) {
 			$ietag= '';
 			$ies = array(6 => 'lt IE 7',7 => 'IE 7', 8 => 'IE 8');
 			foreach($ies as $ieVersion => $condComm) {
@@ -1162,16 +1162,13 @@ class HtmlPlusHelper extends HtmlHelper {
 			$htmltag.= $this->ietag($ietag, $condComm);
 		} else {
 			$htmltag = "\n" . $this->tag('html', null, $htmlAttribs);
-
 		}
-
-		//if($this->theme) {}
 
 		if($docType == '') {
 			$docType = $this->docType();
 		}
 
-	    return $docType . $htmltag . $this->tag('head') . $this->charset();
+	    return $docType . $htmltag . "\n<head>\n\t" . $this->charset() . "\n";
 	}
 
 	/**

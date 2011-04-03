@@ -35,7 +35,6 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Session',
 		'BakingPlate.Plate',
-		'Batch.Batch',
 		'Analogue.Analogue' => array(
 			array('helper' => 'PlatePlus.HtmlPlus', 'rename' => 'Html'),
 			array('helper' => 'PlatePlus.FormPlus', 'rename' => 'Form'),
@@ -47,11 +46,9 @@ class AppController extends Controller {
 	var $components = array(
 		'BakingPlate.Plate',
 		'Session',
-		'Cookie',
-		//'Scaffolding',
+		'Batch.Batch',
 		'RequestHandler',
 		'Navigation.Menus',
-		'Webservice.Webservice',
 		/* Auth Configuration *[delete me]/
 		'Auth' => array(
 			'fields' => array(

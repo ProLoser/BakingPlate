@@ -30,7 +30,7 @@ $config['BakingPlate']['core'] = array(
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
 	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
-	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
+	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(

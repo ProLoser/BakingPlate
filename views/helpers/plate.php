@@ -80,7 +80,7 @@ class PlateHelper extends AppHelper {
 		// current view is used by analytics and capture ouput
 		$this->_currentView = &ClassRegistry::getObject('view');
 
-		// todo: set up configure defaults
+		Configure::load('BakingPlate.jslibs');
 	}
 	
 	
@@ -132,7 +132,7 @@ class PlateHelper extends AppHelper {
 			//return 'modernizr';
 		}
 		if(!is_array($options)) {
-			$options = is_string($options) ? Configure::read('PlatePlus.JsLib.' . $options) : $this->_defaultJsLib;
+			$options = is_string($options) ? Configure::read('BakingPlate.JsLib.' . $options) : $this->_defaultJsLib;
 		}
 		
 		$options = is_array($options) ? array_merge($this->_defaultJsLib, $options) : $this->_defaultJsLib;
@@ -154,7 +154,7 @@ class PlateHelper extends AppHelper {
 		}
 		
 		if(!isset($options['version']) || is_null($options['version'])) {
-			$options['version'] = Configure::read('PlatePlus.JsLib.' . (!empty($options['name']) ? $options['name'] : 'default') . '.version');
+			$options['version'] = Configure::read('BakingPlate.JsLib.' . (!empty($options['name']) ? $options['name'] : 'default') . '.version');
 		}
 
 		$options['min'] = (!isset($options['compressed']) ||$options['compressed'] === true) ? '.min' : '';
@@ -187,7 +187,7 @@ class PlateHelper extends AppHelper {
 	 * @param void
 	 */   
 	public function profiling() {
-		if(Configure::read('PlatePlus.YahooProfiler.active'))	{
+		if(Configure::read('BakingPlate.YahooProfiler.active'))	{
 		    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
 		}
 	}
@@ -323,7 +323,7 @@ class PlateHelper extends AppHelper {
 	 * @author Sam Sherlock
 	 */
 	public function modernizr($options = false) {
-	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('PlatePlus.JsLib.modernizr')));
+	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('BakingPlate.JsLib.modernizr')));
 	}
 
 	/**
