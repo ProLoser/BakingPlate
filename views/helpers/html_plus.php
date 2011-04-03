@@ -318,6 +318,7 @@ class HtmlPlusHelper extends HtmlHelper {
 				    'javascriptlink' => '<script type="text/javascript" src="%s"%s></script>',
 				    'javascriptend' => '</script>'
 				);
+			break;
 			case 'xhtml':
 				$this->tags = array(
 				    'html' => '<html%s>',
