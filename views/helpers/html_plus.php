@@ -1101,28 +1101,14 @@ class HtmlPlusHelper extends HtmlHelper {
 	    return $out;
 	}
 
-
-	/**
-	 * @todo
-	 * 	- remove this is old?
-	 */
-	function markuptag() {
-		// read config to see if using html5bp mutlti html   
-		// read config to get lang
-		// manifest_for_layout
-		//if($this->theme) {}
-	    return $this->tag('html');
-	}
-
 	/**
 	 * start creates an initial block of html with auto or param based options
+	 * https://developer.mozilla.org/En/Offline_resources_in_Firefox
+	 *
 	 * @param $options mixed an optional array of options for use within the start block
 	 * @example start(array('multihtml' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
 	*/
 	function start($options = null) {
-		# NOTE: for manifesto
-		# todo https://developer.mozilla.org/En/Offline_resources_in_Firefox
-		
 		$htmltag = $docType = '';
 		$htmlAttribs = $manifest = $lang = array();
 		
@@ -1200,32 +1186,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * html5 tags with html4.5 class fallbacks
 	 * @todo output, audio, flash
 	*/
-	
-	/*
-	 * function header
-	 * @todo
-	 * 	- wraps header items
-	 * 	- group textual headers in a hgroup if array
-	 * 	- add ability to add nav
-	 * 	- add ability to add figure or branding image (css is better for branding)
-	 * @param $headers mixed string/array of headers
-	 * @param $options mixed array of options eg class, add content default is false
-	 */
-	function header($headers, $options = array()) {
-		
-	}
-
-	/*
-	 * function footer
-	 * @todo
-	 * 	-wrap content items with footer
-	 * @param $content mixed string/array of content
-	 * @param $options mixed array of options eg class default is false
-	 */
-	
-	function footer($content, $options = array()) {
-	    
-	}
 
 	/** 
 	 * function article
@@ -1384,11 +1344,12 @@ class HtmlPlusHelper extends HtmlHelper {
 
 	/**
 	 * function mark
+	 * https://developer.mozilla.org/en/HTML/Element/mark
+	 *
 	 * @todo
 	 * @param 
 	 */
 	function mark() {
-		# https://developer.mozilla.org/en/HTML/Element/mark
 		if($this->__type == 'html5') {
 		    
 		} else {
@@ -1398,12 +1359,13 @@ class HtmlPlusHelper extends HtmlHelper {
 
 	/**
 	 * function figure
+	 * https://developer.mozilla.org/en/HTML/Element/figure
+	 *
 	 * @todo
 	 *  - write tests
 	 * @param 
 	 */
 	function figure($figure, $options = array(), $figcaption = '') {
-		# https://developer.mozilla.org/en/HTML/Element/figure
 		if($this->__type == 'html5') {
 		    return $this->tag('figure', $figure, $options);
 		} else {
@@ -1413,12 +1375,13 @@ class HtmlPlusHelper extends HtmlHelper {
 
 	/**
 	 * function figcaption
+	 * https://developer.mozilla.org/en/HTML/Element/figcaption
+	 *
 	 * @todo
 	 * @param 
 	 */
 	function figcaption($text, $options = array()) {
-		# https://developer.mozilla.org/en/HTML/Element/figcaption
-		if($this->__type == 'html5') {
+		if ($this->__type == 'html5') {
 		    return $this->tag('figcaption', $text, $options);
 		} else {
 		    return $this->tag('div', $text, array('class' => 'caption'));

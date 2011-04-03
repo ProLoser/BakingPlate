@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
    var _gaq = [['_setAccount', '<?php echo $code; ?>'], ['_trackPageview']];
    (function(d, t) {
     var g = d.createElement(t),
