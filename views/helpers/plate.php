@@ -174,10 +174,10 @@ class PlateHelper extends AppHelper {
 	 * dd_png
 	 * @param $fixClasses array of elements/classnames to fix
 	 */
-	public function pngFix($fixClasses = array('img', '.png')) {
-		$classes = (is_array($fixClasses)) ? implode(', ', $fixClasses) : $fixClasses;
+	public function pngFix($classes = array('img', '.png')) {
+		$classes = (is_array($classes)) ? implode(', ', $classes) : $classes;
 		$pngFix = $this->Html->script(array('libs/dd_belatedpng')) .
-			    $this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
+			$this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
 	    return $this->conditionalComment($pngFix, -7);
 	}
 
@@ -187,9 +187,7 @@ class PlateHelper extends AppHelper {
 	 * @param void
 	 */   
 	public function profiling() {
-		if(Configure::read('BakingPlate.YahooProfiler.active'))	{
-		    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
-		}
+	    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
 	}
 
 	/**
@@ -275,13 +273,11 @@ class PlateHelper extends AppHelper {
 	 * 	- make the app elements override the plugins
 	 * @param $element string to override the default (elements should be moved into plugin)
 	 */
-	public function analytics($element = '') {
-		$GoogleAnalytics = Configure::read('Site.GoogleAnalytics');
-		if(!$GoogleAnalytics)	{
-		    return;
-		}
-		$element = !empty($element) ? $element : 'extras/google_analytics';
-	    return $this->_currentView->element($element, array('google_analytics' => $GoogleAnalytics));
+	public function analytics($code = '') {
+		if (empty($code))
+			$code = Configure::read('Site.GoogleAnalytics');
+		if (!empty($code))
+	    	return $this->_currentView->element('google_analytics', array('plugin' => 'BakingPlate', 'code' => $code));
 	}
 	
 	/**
@@ -302,17 +298,6 @@ class PlateHelper extends AppHelper {
 		} else {
 		    return $this->Html->tag('meta', null, compact('name', 'content'));
 		}
-	}
-
-	/**
-	 * siteIcons
-	 * @todo
-	 * 	- will output other icons to if they exist
-	 * 	- use phpThumb to generate them (not here comp?)
-	 * @param $icon string uri of icon to be used as favicon
-	 * @author Sam Sherlock
-	 */
-	public function siteIcons($icon) {
 	}
 
 	/**
