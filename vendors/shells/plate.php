@@ -63,18 +63,19 @@ class PlateShell extends Shell {
 		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.");
 	}
 
+	/**
+	 * Generates a new project with a little bit of added fluff
+	 *
+	 * @return void
+	 * @author Dean Sofer
+	 */
 	function bake() {
 		if (!isset($this->params['group'])) {
 			$this->params['group'] = 'core';
 		}
 		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
-		if (!is_dir($this->DbConfig->path)) {
-			if ($this->Project->execute()) {
-				$this->DbConfig->path = $this->params['working'] . DS . 'config' . DS;
-			} else {
-				return false;
-			}
-		}
+		$working = $this->params['working'];
+		$this->Project->execute();
 		
 		$this->out($this->nl().'Making temp folders writeable...');
 		exec('chmod -R 777 ' . $this->params['app'] . '/tmp/*');
@@ -83,10 +84,11 @@ class PlateShell extends Shell {
 		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/uploads');
 
 		$this->out($this->nl());
-		$this->out(passthru('git init ' . $this->params['app']));
 		chdir($this->params['app']);
+		$this->out(passthru('git init'));
 		$this->all();
 		
+		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'config' . DS;
 		if (!config('database')) {
 			$this->out($this->nl());
 			$this->out(__("Your database configuration was not found. Take a moment to create one.", true));
@@ -100,7 +102,6 @@ class PlateShell extends Shell {
 	 * function gitit
 	 * @param $arg
 	 */
-	
 	function gitit() {
 		//print_r($this->params); die();
 		$this->out(passthru('git init ' . $this->params['app']));
