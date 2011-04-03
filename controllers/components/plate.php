@@ -119,7 +119,7 @@ class PlateComponent extends Object {
 		if ($this->controller->params['url']['url'] != '/') {
 			$this->controller->attributesForLayout[] = array(
 				'id' => false,
-				'class' => $this->params['controller'] . ' ' . $this->action,
+				'class' => $this->controller->params['controller'] . ' ' . $this->controller->action,
 			);
 		}
 	}
