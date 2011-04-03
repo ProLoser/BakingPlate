@@ -25,7 +25,7 @@ echo $this->Html->start(array('iecc' => true));
 	<?php echo $this->Plate->chromeFrame(); ?> 
 	<?php echo $this->Html->meta('description', array('content' => $description_for_layout)); ?> 
 	<?php echo $this->Html->meta('keywords', array('content' => $keywords_for_layout)); ?> 
-	<?php echo $this->Html->meta('author', array('content' => 'Dean Sofer')); ?> 
+	<?php echo $this->Html->meta('author', array('content' => 'CakePHP Baking Plate')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
@@ -62,7 +62,7 @@ echo $this->Html->start(array('iecc' => true));
 <?php
 	echo $this->Plate->jsLib();
 	echo $this->AssetCompress->includeJs();
-	echo $this->Plate->pngFix(array('img', '.png'));
+	echo $this->Plate->pngFix();
 	echo $this->Plate->profiling();
 	echo $this->Plate->analytics();
 ?>
