@@ -39,8 +39,8 @@ class PlateShell extends Shell {
 		$this->nl();
 		$this->out('bake				- Generates a new app using bakeplate');
 		$this->out('browse				- List available submodules');
-		$this->out('add <#|submodule_name>		- Add a specific submodule');
-		$this->out('all <group>			- Add all available submodules');
+		$this->out('add <submodule_name|#>		- Add a specific submodule');
+		$this->out('all <group|#>			- Add all available submodules');
 		$this->nl();
 		$this->out('All commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.');
 	}
