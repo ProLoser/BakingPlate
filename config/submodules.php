@@ -27,7 +27,6 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	//'batch'                         => 'git://github.com/ProLoser/CakePHP-Batch.git',	
 	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
@@ -37,6 +36,7 @@ $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/mongoDB-Datasource.git',
 	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
 );
 
 $config['BakingPlate']['markstory'] = array(
@@ -49,10 +49,7 @@ $config['BakingPlate']['markstory'] = array(
 $config['BakingPlate']['davidpersson'] = array(
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'media'				=> 'git://github.com/davidpersson/media.git',
-);
-
-$config['BakingPlate']['1marc'] = array(
-	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+	'queue'				=> 'git://github.com/davidpersson/queue.git',
 );
 
 $config['BakingPlate']['milesj'] = array(
@@ -86,7 +83,6 @@ $config['BakingPlate']['proloser'] = array(
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 );
 
-// navigation, static_cache, manifesto
 $config['BakingPlate']['sams'] = array(
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
