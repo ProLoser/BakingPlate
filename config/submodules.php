@@ -56,8 +56,16 @@ $config['BakingPlate']['1marc'] = array(
 );
 
 $config['BakingPlate']['milesj'] = array(
-	'forum'				=> 'git://github.com/milesj/cakephp-forum.git',
-	'uploader'			=> 'git://github.com/milesj/cakephp-uploader.git',
+	'forum'				=> 'git://github.com/milesj/cake-forum.git',
+	'uploader'			=> 'git://github.com/milesj/cake-uploader.git',
+	'decoda'			=> 'git://github.com/milesj/cake-decoda.git',
+	'we_game'			=> 'git://github.com/milesj/cake-we_game.git',
+	'spam_blocker'		=> 'git://github.com/milesj/cake-spam_blocker.git',
+	'ajax_handler'		=> 'git://github.com/milesj/cake-ajax_handler.git',
+	'data_kit'			=> 'git://github.com/milesj/cake-data_kit.git',
+	'auto_login'		=> 'git://github.com/milesj/cake-auto_login.git',
+	'cache_kill'		=> 'git://github.com/milesj/cake-cache_kill.git',
+	'feeds'				=> 'git://github.com/milesj/cake-feeds.git',
 );
 
 $config['BakingPlate']['mariano'] = array(
