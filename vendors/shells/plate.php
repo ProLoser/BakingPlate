@@ -163,7 +163,7 @@ class PlateShell extends Shell {
 		$this->out("Adding {$this->params['group']} git submodules...");
 		$this->nl();
 		foreach ($this->submodules as $group => $list) {
-			if (!empty($this->params['group']) && $this->params['group'] != $group && srtolower($this->params['group']) != 'all') {
+			if (!empty($this->params['group']) && $this->params['group'] != $group && strtolower($this->params['group']) != 'all') {
 				continue;
 			}
 			foreach (array_keys($list) as $path) {
