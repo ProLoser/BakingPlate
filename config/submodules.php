@@ -168,4 +168,5 @@ $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
 	'phpunit'			=> '',
+	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
 );

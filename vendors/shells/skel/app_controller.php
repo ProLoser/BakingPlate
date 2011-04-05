@@ -73,6 +73,13 @@ class AppController extends Controller {
 	var $navsForLayout = false;
 	
 	/**
+	 * Specifies if an action should be under SSL
+	 *
+	 * @var mixed set to true for all controller actions, set to an array of action names for specific ones
+	 */
+	var $secureActions = false;
+	
+	/**
 	 * $_GET keyword to force debug mode. Set to false or delete to disable.
 	 */
 	var $debugOverride = 'debug';

@@ -29,22 +29,9 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home
  * Want localization instead?
  *
 App::import('Lib', 'LocalizedRouter');
-
 LocalizedRouter::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-
 LocalizedRouter::localize();
  */
-
-
-/**
- * Users Plugin routes
- */
-Router::connect('/users/:action/*', array('controller' => 'app_users'));
-
-Router::connect('/admin', array('controller' => 'pages', 'action' => 'index', 'admin' => true));
-Router::connect('/admin/users/', array('prefix' => 'admin', 'controller' => 'app_users', 'action' => 'index'));
-Router::connect('/admin/users/index', array('prefix' => 'admin', 'controller' => 'app_users', 'action' => 'index'));
-Router::connect('/admin/users/:action/*', array('prefix' => 'admin', 'controller' => 'app_users'));
 
 /**
  * Asset Compress
