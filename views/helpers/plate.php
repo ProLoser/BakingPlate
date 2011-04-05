@@ -80,7 +80,7 @@ class PlateHelper extends AppHelper {
 		// current view is used by analytics and capture ouput
 		$this->_currentView = &ClassRegistry::getObject('view');
 
-		// todo: set up configure defaults
+		Configure::load('BakingPlate.jslibs');
 	}
 
 	/**
@@ -187,7 +187,7 @@ class PlateHelper extends AppHelper {
 			//return 'modernizr';
 		}
 		if(!is_array($options)) {
-			$options = is_string($options) ? Configure::read('PlatePlus.JsLib.' . $options) : $this->_defaultJsLib;
+			$options = is_string($options) ? Configure::read('BakingPlate.JsLib.' . $options) : $this->_defaultJsLib;
 		}
 		
 		$options = is_array($options) ? array_merge($this->_defaultJsLib, $options) : $this->_defaultJsLib;
@@ -209,7 +209,7 @@ class PlateHelper extends AppHelper {
 		}
 		
 		if(!isset($options['version']) || is_null($options['version'])) {
-			$options['version'] = Configure::read('PlatePlus.JsLib.' . (!empty($options['name']) ? $options['name'] : 'default') . '.version');
+			$options['version'] = Configure::read('BakingPlate.JsLib.' . (!empty($options['name']) ? $options['name'] : 'default') . '.version');
 		}
 
 		$options['min'] = (!isset($options['compressed']) ||$options['compressed'] === true) ? '.min' : '';
@@ -229,10 +229,10 @@ class PlateHelper extends AppHelper {
 	 * dd_png
 	 * @param $fixClasses array of elements/classnames to fix
 	 */
-	public function pngFix($fixClasses = array('img', '.png')) {
-		$classes = (is_array($fixClasses)) ? implode(', ', $fixClasses) : $fixClasses;
+	public function pngFix($classes = array('img', '.png')) {
+		$classes = (is_array($classes)) ? implode(', ', $classes) : $classes;
 		$pngFix = $this->Html->script(array('libs/dd_belatedpng')) .
-			    $this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
+			$this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
 	    return $this->conditionalComment($pngFix, -7);
 	}
 
@@ -242,9 +242,7 @@ class PlateHelper extends AppHelper {
 	 * @param void
 	 */   
 	public function profiling() {
-		if(Configure::read('PlatePlus.YahooProfiler.active'))	{
-		    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
-		}
+	    return $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
 	}
 	
 	/**
@@ -363,13 +361,14 @@ class PlateHelper extends AppHelper {
 	 * 	- make the app elements override the plugins
 	 * @param $element string to override the default (elements should be moved into plugin)
 	 */
-	public function analytics($element = '') {
-		$GoogleAnalytics = Configure::read('Site.GoogleAnalytics');
-		if(!$GoogleAnalytics)	{
-		    return;
+	public function analytics($code = '') {
+		if (empty($code))
+			$code = Configure::read('Site.analytics');
+		if (!empty($code) && !Configure::read('debug')) {	
+			if (substr($code, 0, 3) != 'UA-')
+				$code = 'UA-' . $code;
+	    	return $this->_currentView->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
 		}
-		$element = !empty($element) ? $element : 'extras/google_analytics';
-	    return $this->_currentView->element($element, array('google_analytics' => $GoogleAnalytics));
 	}
 	
 	/**
@@ -393,17 +392,6 @@ class PlateHelper extends AppHelper {
 	}
 
 	/**
-	 * siteIcons
-	 * @todo
-	 * 	- will output other icons to if they exist
-	 * 	- use phpThumb to generate them (not here comp?)
-	 * @param $icon string uri of icon to be used as favicon
-	 * @author Sam Sherlock
-	 */
-	public function siteIcons($icon) {
-	}
-
-	/**
 	 * modernizr
 	 * @todo
 	 * 	- resolve path issues
@@ -411,7 +399,7 @@ class PlateHelper extends AppHelper {
 	 * @author Sam Sherlock
 	 */
 	public function modernizr($options = false) {
-	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('PlatePlus.JsLib.modernizr')));
+	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('BakingPlate.JsLib.modernizr')));
 	}
 
 	/**
