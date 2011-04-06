@@ -9,10 +9,18 @@
  * @link http://book.cakephp.org/view/1434/HTML
  */
 
-
 class PlateHelper extends AppHelper {
 	var $helpers = array('Html', 'Form');
-	var $_currentView;
+	var $_view;
+	
+	/**
+	 * Used for naming a store block of output
+	 *
+	 * @var string
+	 */
+	var $__blockName = null;
+	var $__forLayout = true;
+	
  	var $modernizrBuild =  array(
 		    'cdn' => 'default',
 		    'lib' => 'modernizr',
@@ -51,24 +59,16 @@ class PlateHelper extends AppHelper {
 	    );
 	
 	/**
-	 * jsLibFallbac
+	 * jsLibFallback
 	 * @var array named content deployment networks
 	 */
-	private $_jsLibFallback = array(
-		'window.:name || document.write(\'<script src=":path/:lib-:version:min.js">\x3C/script>\')',
-		'!window.:name && document.write(unescape(\'%3Cscript src=":path/:lib-:version:min.js"%3E%3C/script%3E\'))'
-		);
+	private $_jsLibFallback = 'window.:name || document.write(\'<script src=":path/:lib-:version:min.js">\x3C/script>\')';
 	
 	/**
-	 * cdns
-	 * @var array named content deployment networks
+	 * jsLibDefaults
+	 * @var array of base params of a jsLib
 	 */
-	private $_cdns = array(
-		'Google' => '//ajax.googleapis.com/ajax/libs/:lib/:version/:lib:min.js',
-		'Microsoft' => 'http://ajax.aspnetcdn.com/ajax/:name/:lib-:version:min.js',
-		'jQuery' => 'http://code.jquery.com/jquery-:version:min.js',
-		'default' => '/:theme/:type/:lib-:version:min.:type'
-	);
+	private $_jsLibDefaults = array('fallback' => false, 'cdn' => false, 'theme' => false, 'min' => '.min');
 	
 	/**
 	 * contruct
@@ -78,9 +78,20 @@ class PlateHelper extends AppHelper {
 	
 	public function __construct ($settings = array()) {
 		// current view is used by analytics and capture ouput
-		$this->_currentView = &ClassRegistry::getObject('view');
+		$this->_view = &ClassRegistry::getObject('view');
 
-		Configure::load('BakingPlate.jslibs');
+		if(defined('JSLIBFALLBACK')) {
+			$this->_jsLibFallback = JSLIBFALLBACK;
+		}
+
+		// try first app copy of jslibs load BP copy if not
+		Configure::load('jslibs');
+		
+		if(!Configure::read('BakingPlate.JsLib')) {
+			Configure::load('BakingPlate.jslibs');
+		}
+		
+		$this->_jsLibArr = Configure::read('BakingPlate.JsLib');
 	}
 
 	/**
@@ -88,16 +99,12 @@ class PlateHelper extends AppHelper {
 	 * @param $options mixed an optional array of options for use within the start block
 	 * @example start(array('multihtml' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
 	*/
-	function start($options = null) {
+	public function open($options = null) {
 		# NOTE: for manifesto
 		# todo https://developer.mozilla.org/En/Offline_resources_in_Firefox
 		
 		$htmltag = $docType = '';
 		$htmlAttribs = $manifest = $lang = array();
-		
-		$options['docType'] = (!isset($options['docType']) || $options['docType'] === false) ? $this->Html->__type : $options['docType'];
-		
-		$options['docType'] = ($options['docType'] == 'html4' || $options['docType'] == 'xhtml') ? $options['docType'] . '-trans' : $options['docType'];
 		$lang['lang'] = true;
 
 		// manifest_for_layout
@@ -113,7 +120,7 @@ class PlateHelper extends AppHelper {
 		}
 		
 		$htmlAttribs  = array_merge($manifest, $lang);
-		if(isset($options['multihtml']) && $options['multihtml'] === true) {
+		if(isset($options['iecc']) && $options['iecc'] === true) {
 			$ietag= '';
 			$ies = array(6 => 'lt IE 7',7 => 'IE 7', 8 => 'IE 8');
 			foreach($ies as $ieVersion => $condComm) {
@@ -123,6 +130,18 @@ class PlateHelper extends AppHelper {
 			}
 			$htmltag.= "\n";
 			$condComm = '(gte IE 9)|!(IE)';
+			$ietag = $this->Html->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js')));
+			$htmltag.= $this->ietag($ietag, $condComm);
+		} elseif(isset($options['iecc']) && $options['iecc'] == 'IEMobile') {
+			$ietag= '';
+			$ies = array(7 => 'IEMobile 7', 8 => 'IEMobile 8');
+			foreach($ies as $ieVersion => $condComm) {
+				$htmltag.= "\n";
+				$ietag = $this->Html->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js ie'.$ieVersion)));
+				$htmltag.= $this->ietag($ietag, $condComm);
+			}
+			$htmltag.= "\n";
+			$condComm = '(gte IEMobile 8)|!(IEMobile)';
 			$ietag = $this->Html->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js')));
 			$htmltag.= $this->ietag($ietag, $condComm);
 		} else {
@@ -136,23 +155,24 @@ class PlateHelper extends AppHelper {
 			$docType = $this->Html->docType();
 		}
 
-	    return $docType . $htmltag . $this->Html->tag('head') . $this->Html->charset();
+		return $docType . $htmltag . $this->Html->tag('head') . $this->Html->charset();
 	}
 	
 	/**
 	 * jsLibFallback
-	 * @param $options array host = google, lib = jquery, version = null, compressed = true
 	 */
-	public function jsLibFallback($options) {
-		$html5 = ($options['html5'] || $this->Html->getType('short') == 'html5') ? 1 : 0;
-		if($options['name'] == 'SWFObject') $options['name'] = $options['lib'];
-		$fallback = $this->_jsLibFallback[$html5];
-		$options['path'] = $this->webroot('/') . ($this->theme ? 'theme/' . $this->theme . '/' : '') . 'js/libs';
-		//debug($options['path']);
+	public function jsLibFallback($key, $options) {
+		$fallback = $this->_jsLibFallback;
+		// set the name as some jslibs will be mixedcase js objects - but url will be lowercase
+		// the name option maybe set to test the lib to determin if fallback should be loaded
+		$options['name'] = (isset($options['name']) && $options['name'] !== $key) ? $options['name'] : $key;
+		if(!array_key_exists('path', $options)) {
+			$options['path'] = (!$options['theme']) ? $this->webroot . 'js/libs' : $this->webroot('/') . 'js/libs';
+		}
 		foreach($options as $key => $value) {
 			$fallback = str_replace(':'.$key, $value, $fallback);
-		} 
-	    return $fallback;
+		}
+		return $fallback;
 	}
 	
 	
@@ -161,10 +181,10 @@ class PlateHelper extends AppHelper {
 	 * @param options array of options eg host = google, lib = jquery, version = null, compressed = true
 	 */
 	function cdnLib($options) {
-		$cdn = (array_key_exists('cdn', $options) && $options['cdn']) ? $options['cdn'] : 'default';
-		$cdn = (array_key_exists($cdn, $this->_cdns)) ? $this->_cdns[$cdn] : $this->_cdns['default'];
+		//$cdn = '';
+		$cdn = (isset($options) && $options['cdn']) ? $options['cdn'] : ':lib-:version:min';
 		foreach($options as $key => $value) {
-		  $value = ($key == 'theme' && $options['cdn'] == 'default')  ? "$value/": "$value";
+			//$value = ($key == 'theme' && $options['cdn'] == 'local')  ? "$value/": "$value";
 			$cdn = str_replace(':'.$key, $value, $cdn);
 		} 
 	    return $cdn;
@@ -177,52 +197,32 @@ class PlateHelper extends AppHelper {
 	 * @example jsLib(array('cdn' => <cdName>, 'lib' => <libName>, 'version' => <versionRelease>))
 	 * @param array of javascrip library options such as cdn, libname, version, minification
 	 */
-	public function jsLib($options = array()) {
-	  
-	  $options['type']= 'js';
-	  $options['theme']= $this->theme ? $this->theme : false;
-	  
-		if(isset($options['lib']) && $options['lib'] == 'modernizr') {
-			$options['lib'] = '/libs/' . $options['lib'];
-			//return 'modernizr';
-		}
-		if(!is_array($options)) {
-			$options = is_string($options) ? Configure::read('BakingPlate.JsLib.' . $options) : $this->_defaultJsLib;
-		}
-		
-		$options = is_array($options) ? array_merge($this->_defaultJsLib, $options) : $this->_defaultJsLib;
-		
-		$options['html5'] = ($this->Html->getType('short') == 'html5') ? true : false;
-		
-		//print $options['lib'];
-		
-		if(!isset($options['name']) && isset($options['lib'])) {
-			$options['name'] = $this->libs[$options['lib']];
-		}
-		
-		if(!isset($options['cdn'])) {
-			$options['cdn'] = 'default';
-		}
-		
-		if(!isset($options['fallback'])) {
-			$options['fallback'] = false;
-		}
-		
-		if(!isset($options['version']) || is_null($options['version'])) {
-			$options['version'] = Configure::read('BakingPlate.JsLib.' . (!empty($options['name']) ? $options['name'] : 'default') . '.version');
+	public function jsLib($lib = false) {
+
+		if(!$lib) return;
+		$jsLib = array();
+		$jsLibsCfg = Configure::read('BakingPlate.JsLib');
+
+		if(is_string($lib) && array_key_exists($lib, $jsLibsCfg)) {
+			$jsLib = $jsLibsCfg[$lib];
+		} elseif(is_array($lib)) {
+			//  && in_array($lib, $jsLibsCfg)
+			return;
 		}
 
-		$options['min'] = (!isset($options['compressed']) ||$options['compressed'] === true) ? '.min' : '';
+		$jsLib = array_merge($this->_jsLibDefaults, $jsLib); // var to concat build to return including fallback if set etc
 		
-		$cdn = $this->Html->script($this->cdnLib($options));
-		$this->log($cdn, 'plate');
+		if(array_key_exists('url', $jsLib)) return $this->Html->script('url');
 
-		$fallback = '';
-		//$fallback = is_null($version) ? '' : $this->Html->scriptBlock("!window.jQuery && document.write(unescape('%3Cscript src=\"libs/{$lib}-{$version}{$min}\"%3E%3C/script%3E'))");
-		$fallback = $options['fallback'] === true ? $this->Html->scriptBlock($this->jsLibFallback($options)) : '';
-		//$this->log($fallback, 'plate');
+		$jsLib['min'] = (!isset($jsLib['compressed']) || $jsLib['compressed'] === true) ? '.min' : '';
+		$name = $lib;
+		$lib = $this->Html->script($this->cdnLib($jsLib));
+		
+		if($jsLib['fallback']) {
+			$lib.= $this->Html->scriptBlock($this->jsLibFallback($name, $jsLib), array('safe' => false));
+		}
 
-	    return $cdn.$fallback;
+		return $lib;
 	}
 
 	/**
@@ -232,8 +232,8 @@ class PlateHelper extends AppHelper {
 	public function pngFix($classes = array('img', '.png')) {
 		$classes = (is_array($classes)) ? implode(', ', $classes) : $classes;
 		$pngFix = $this->Html->script(array('libs/dd_belatedpng')) .
-			$this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
-	    return $this->conditionalComment($pngFix, -7);
+		$this->Html->scriptBlock("DD_belatedPNG.fix('$classes'); ", array('safe' => false));
+		return $this->conditionalComment($pngFix, -7);
 	}
 
 	/**
@@ -282,6 +282,17 @@ class PlateHelper extends AppHelper {
 				// straight number
 				$iee = 'IE';
 				$template = '<!--[if IE %2$s ]>%1$s<![endif]-->';
+			} elseif(strpos($ie, 'IEMobile') !== false) {
+				$ie = str_replace('IEMobile', '', $ie);
+				if($ie < 0) {
+					// lessthan equal to the reverse of the negtive number
+					$iee = abs($ie);
+					$template = '<!--[if lt IEMobile %2$d ]>%1$s<![endif]-->';
+				} else {
+					// straight number
+					$iee = $ie;
+					$template = '<!--[if IEMobile %2$s ]>%1$s<![endif]-->';
+				}
 			}
 		} else {
 		    // not ie a 
@@ -329,31 +340,6 @@ class PlateHelper extends AppHelper {
 	}
 	
 	/**
-	 * css
-	 * output the basic boilerplate stylesheets implied all media and by default a basic handheld might wrap in asset plugin support
-	 * @todo
-	 * 	- handle cdn
-	 * 	- option for handheld.css
-	 * 	- support various asset plugins - default to html->css
-	 * @param $style mixed string or array of css basenames witgout suffixes for implied all css
-	 * @param $handheld mixed string or array of css basenames witgout suffixes for implied all css, false to omit it
-	 */
-	
-	public function css($style = 'style', $options = array()) {
-		if(is_string($style) && $style == 'handheld' && !isset($options['media'])) {
-			$options['media'] = 'handheld';
-		}
-	    return $this->Html->css($style, null, $options);
-	}
-	
-	public function js($name, $scripts = array('plugins', 'scrips'), $options = array()) {
-		if(is_string($scripts) && $scripts == 'handheld') {
-			//$options['media'] = 'handheld';
-		}
-	    return $this->Html->script($scripts);
-	}
-	
-	/**
 	 * analytics
 	 * outputs google analytics code - only if on live domain and the GA id is set
 	 * @todo
@@ -398,27 +384,36 @@ class PlateHelper extends AppHelper {
 	 * @param $options mixed array of options to override cfg build settings
 	 * @author Sam Sherlock
 	 */
-	public function modernizr($options = false) {
-	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('BakingPlate.JsLib.modernizr')));
+	public function modernizr() {
+		return $this->jsLib('modernizr');
 	}
 
-	/**
-	 * Begin capturing a block of HTML content
-	 *
-	 * @author Chris Your
-	 */
-	public function capture(){
-		ob_start();
-	}
+	/** 
+     * Start a block of output to display in layout 
+     * 
+     * @param string $name Will be prepended to form {$name}_for_layout variable 
+     * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
+     */ 
+    function start($name, $forLayout = true) {
+        if(!is_null($this->__blockName)) 
+            trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
-	/**
-	 * Set the captured block of HTML content to a $variable
-	 *
-	 * @param string $variable Assigned name
-	 * @return void
-	 * @author Chris Your
-	 */
-	public function content_for($variable){
-		$this->_currentView->set($variable, ob_get_clean());
-	}
+        $this->__blockName = $name; 
+        ob_start(); 
+        return null; 
+    } 
+
+    /** 
+     * Ends a block of output to display in layout 
+     */ 
+    function stop() { 
+        if(is_null($this->__blockName)) 
+            trigger_error('PlateHelper::stop - No blocks currently running');
+        $buffer = @ob_get_contents(); 
+        @ob_end_clean(); 
+		$name = ($this->__forLayout) ? $this->__blockName.'_for_layout' : $this->__blockName;
+		$this->_view->set($name, $buffer); 
+        $this->__blockName = null;
+		return $buffer;
+    }
 }

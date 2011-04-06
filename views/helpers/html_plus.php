@@ -300,54 +300,15 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @link http://book.cakephp.org/view/1589/script
 	 */
 	function script($url, $options = array()) {
-		if (is_bool($options)) {
-			list($inline, $options) = array($options, array());
-			$options['inline'] = $inline;
+		if (strpos('//', $url) === false) {
+			$flag = true;
 		}
-		$options = array_merge(array('inline' => true, 'once' => true, 'defer' => false, 'async' => false), $options);
-		if (is_array($url)) {
-			$out = '';
-			foreach ($url as $i) {
-				$out .= "\n\t" . $this->script($i, $options);
-			}
-			if ($options['inline'])  {
-			    return $out . "\n";
-			}
-		    return null;
+		$return = parent::script($url, $options);
+		if($flag) {
+			//echo htmlspecialchars($return);
+			//substr($return, );
 		}
-		if ($options['once'] && isset($this->__includedScripts[$url])) {
-			return null;
-		}
-		if ($options['defer']) {
-			$options['defer'] = true;
-		}
-		if ($options['async']) {
-			$options['async'] = true;
-		}
-		$this->__includedScripts[$url] = true;
-
-		if (strpos($url, '://') === false) {
-			if (substr($url, 0, 2) !== '//' && $url[0] !== '/') {
-				$url = JS_URL . $url;
-			}
-			if (strpos($url, '?') === false && substr($url, -3) !== '.js') {
-				$url .= '.js';
-			}
-			$url = $this->assetTimestamp($this->webroot($url));
-
-			if (Configure::read('Asset.filter.js')) {
-				$url = str_replace(JS_URL, 'cjs/', $url);
-			}
-		}
-		$attributes = $this->_parseAttributes($options, array('inline', 'once'), ' ');
-		$out = sprintf($this->tags['javascriptlink'], $url, $attributes);
-
-		if ($options['inline']) {
-			return $out;
-		} else {
-			$view =& ClassRegistry::getObject('view');
-			$view->addScript($out);
-		}
+		return $return;
 	}
 
 	/**
