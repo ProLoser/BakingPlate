@@ -12,7 +12,16 @@
 
 class PlateHelper extends AppHelper {
 	var $helpers = array('Html', 'Form');
-	var $_currentView;
+	var $_view;
+	
+	/**
+	 * Used for naming a store block of output
+	 *
+	 * @var string
+	 */
+	var $__blockName = null;
+	var $__forLayout = true;
+	
  	var $modernizrBuild =  array(
 		    'cdn' => 'default',
 		    'lib' => 'modernizr',
@@ -78,7 +87,7 @@ class PlateHelper extends AppHelper {
 	
 	public function __construct ($settings = array()) {
 		// current view is used by analytics and capture ouput
-		$this->_currentView = &ClassRegistry::getObject('view');
+		$this->_view = &ClassRegistry::getObject('view');
 
 		// todo: set up configure defaults
 	}
@@ -243,31 +252,6 @@ class PlateHelper extends AppHelper {
 	}
 	
 	/**
-	 * css
-	 * output the basic boilerplate stylesheets implied all media and by default a basic handheld might wrap in asset plugin support
-	 * @todo
-	 * 	- handle cdn
-	 * 	- option for handheld.css
-	 * 	- support various asset plugins - default to html->css
-	 * @param $style mixed string or array of css basenames witgout suffixes for implied all css
-	 * @param $handheld mixed string or array of css basenames witgout suffixes for implied all css, false to omit it
-	 */
-	
-	public function css($style = 'style', $options = array()) {
-		if(is_string($style) && $style == 'handheld' && !isset($options['media'])) {
-			$options['media'] = 'handheld';
-		}
-	    return $this->Html->css($style, null, $options);
-	}
-	
-	public function js($name, $scripts = array('plugins', 'scrips'), $options = array()) {
-		if(is_string($scripts) && $scripts == 'handheld') {
-			//$options['media'] = 'handheld';
-		}
-	    return $this->Html->script($scripts);
-	}
-	
-	/**
 	 * analytics
 	 * outputs google analytics code - only if on live domain and the GA id is set
 	 * @todo
@@ -275,13 +259,17 @@ class PlateHelper extends AppHelper {
 	 * 	- make the app elements override the plugins
 	 * @param $element string to override the default (elements should be moved into plugin)
 	 */
-	public function analytics($element = '') {
-		$GoogleAnalytics = Configure::read('Site.GoogleAnalytics');
-		if(!$GoogleAnalytics)	{
-		    return;
+	public function analytics($code = '') {
+		if (empty($code))
+			$code = Configure::read('Site.analytics');
+			
+		if (!empty($code) && !Configure::read('debug')) {	
+			if (substr($code, 0, 3) != 'UA-')
+				$code = 'UA-' . $code;
+		    	return $this->_view->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
 		}
 		$element = !empty($element) ? $element : 'extras/google_analytics';
-	    return $this->_currentView->element($element, array('google_analytics' => $GoogleAnalytics));
+		return $this->_currentView->element($element, array('google_analytics' => $GoogleAnalytics));
 	}
 	
 	/**
@@ -326,24 +314,32 @@ class PlateHelper extends AppHelper {
 	    return $this->jsLib(array_merge($this->modernizrBuild, Configure::read('PlatePlus.JsLib.modernizr')));
 	}
 
-	/**
-	 * Begin capturing a block of HTML content
-	 *
-	 * @author Chris Your
-	 */
-	public function capture(){
-		ob_start();
-	}
+	/** 
+     * Start a block of output to display in layout 
+     * 
+     * @param string $name Will be prepended to form {$name}_for_layout variable 
+     * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
+     */ 
+    function start($name, $forLayout = true) {
+        if(!is_null($this->__blockName)) 
+            trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
-	/**
-	 * Set the captured block of HTML content to a $variable
-	 *
-	 * @param string $variable Assigned name
-	 * @return void
-	 * @author Chris Your
-	 */
-	public function content_for($variable){
-		$this->_currentView->set($variable, ob_get_clean());
-	}
-    
+        $this->__blockName = $name; 
+        ob_start(); 
+        return null; 
+    } 
+
+    /** 
+     * Ends a block of output to display in layout 
+     */ 
+    function stop() { 
+        if(is_null($this->__blockName)) 
+            trigger_error('PlateHelper::stop - No blocks currently running');
+        $buffer = @ob_get_contents(); 
+        @ob_end_clean(); 
+		$name = ($this->__forLayout) ? $this->__blockName.'_for_layout' : $this->__blockName;
+		$this->_view->set($name, $buffer); 
+        $this->__blockName = null;
+		return $buffer;
+    }
 }
