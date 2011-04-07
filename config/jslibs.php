@@ -8,19 +8,13 @@
 
 $config['BakingPlate']['YahooProfiler'] = array(
 		'lib' => 'yahooprofiler',
-		'theme' => false,
-		'name' => 'YahooProfiler',
 		'version' => '2.8.1',
-		'compressed' => true,
-		'fallback' => false
+		'min' => '',
 );
 $config['BakingPlate']['JsLib']['modernizr'] = array(
 		'lib' => 'modernizr',
-		'theme' => false,
-		'name' => 'modernizr',
-		'version' => '1.7',
-		'compressed' => true,
-		'fallback' => false
+		'path' => 'libs/',
+		'version' => '1.7'
 );
 
 $config['BakingPlate']['JsLib']['firebug-lite'] = array(
@@ -29,11 +23,8 @@ $config['BakingPlate']['JsLib']['firebug-lite'] = array(
 
 $config['BakingPlate']['JsLib']['css3-mediaqueries'] = array(
 		'lib' => 'css3-mediaqueries',
-		'theme' => false,
-		'name' => 'css3-mediaqueries',
+		'path' => 'libs/',
 		'version' => false,
-		'min' => 'min',
-		'fallback' => false
 );
 /**
  * 
@@ -44,9 +35,15 @@ $config['BakingPlate']['JsLib']['css3-mediaqueries'] = array(
 $config['BakingPlate']['JsLib']['jQuery'] = array(
 		'cdn' => '//ajax.googleapis.com/ajax/libs/:lib/:version/:lib:min.js',
 		'lib' => 'jquery',
-		'theme' => false,
-		'name' => 'jQuery',
 		'version' => '1.5.1',
-		'min' => 'min',
 		'fallback' => true
 );
+//$config['BakingPlate']['JsLib']['SWFObject'] = array(
+//		'cdn' => '//ajax.googleapis.com/ajax/libs/:lib/:version/:lib:min.js',
+//		'lib' => 'swfobject',
+//		'name' => 'SWFObject',
+//		'version' => '2.2',
+//		'min' => '',
+//		'uncompressed' => '_src',
+//		'fallback' => true
+//);
