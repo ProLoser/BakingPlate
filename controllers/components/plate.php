@@ -63,6 +63,10 @@ class PlateComponent extends Object {
 	 * @access public
 	 */
 	function beforeRender(&$controller) {
+		// An annoying fix for asset_compress
+		if (empty($this->controller))
+			$this->controller = $controller;
+			
 		$this->_habtmValidation();
 		$this->_populateView();
 	}
