@@ -25,23 +25,24 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 * A Html5 Boilerplate Theme (adhering to all the best practices that apply to cakeapps).
 * User Login/Registration/Management System (ACL One day also) using CakeDC Ucers &amp; ProLoser Welcome plugins.
 * Planned intergration with ProLoser's Cart Plugin.
-* Planned Mobile Detection &amp; Theme Switching (that will support view caching) using subdomains.
 
 ## Instructions
 
 Please read the [GitHub Wiki](https://github.com/sams/BakingPlate/wiki/) for installation instructions. Thanks.
  
 
-# Plate Plus Plugin - 0.1a
+# Plate Plus
 
-Currently this plugin contains helpers that can be used to apply 
-a range of sweet features to projects baked with BakingPlate.
+A Componant and set of helpers that enable more within a bakingplate app
 
 ## The Plate Helper
 
 **That rug really tied the room together, man!**
 
-`var $helpers = array('PlatePlus.Plate')`;
+`var $helpers = array('BakingPlate.Plate')`;
+
+this will output a doctype, html tag & charset
+`echo $this->Plate->start();`
 
 Its a helper that adds a number of features to apps and leaves 
 your layouts clean & basic. The helper that unifies apps baked with [BakingPlate](http://github.com)
@@ -88,9 +89,6 @@ for more information see the test cases for the helper in question
 `var $helpers = array('Analogue.Analogue' => array('PlatePlus.HtmlPlus' => 'Html', 'PlatePlus.FormPlus' => 'Form'))`;
 
 ### Html Plus
-
-this will output a doctype, html tag & charset
-`echo $this->Html->start();`
 
 this will output  a section (falling back to div with 'section' class for non (x)html5 output)
 `echo $this->Html->section($section, $headers);`

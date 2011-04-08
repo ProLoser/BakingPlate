@@ -19,7 +19,7 @@ class PlateComponent extends Object {
 	 * @var array
 	 * @access public
 	 */
-	var $components = array();
+	var $components = array('RequestHandler');
 	
 	/**
 	 * Stores instance of the related controller
@@ -41,6 +41,7 @@ class PlateComponent extends Object {
 		if (!isset($this->__settings[$controller->name])) {
 			$this->__settings[$controller->name] = $settings;
 		}
+		$this->_checkSSL();
 	}
 
 	/**
@@ -91,6 +92,29 @@ class PlateComponent extends Object {
 	function beforeRedirect(&$controller, $url, $status = null, $exit = true) {
 	}
 	
+	/**
+	 * Redirect check for SSL
+	 * Works in conjunction with var $secureActions in the controller
+	 *
+	 */
+	function _checkSSL() {
+		if (!isset($this->controller->secureActions)) {
+			return;
+		} elseif (
+			!$this->RequestHandler->isSSL() && $this->controller->secureActions === true 
+			|| !$this->RequestHandler->isSSL() && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
+			|| !$this->RequestHandler->isSSL() && $this->controller->secureActions === $this->controller->action
+		) {
+			$this->controller->redirect('https://' . env('SERVER_NAME') . $this->controller->here);
+		} elseif (
+			$this->RequestHandler->isSSL() && !$this->controller->secureActions 
+			|| $this->RequestHandler->isSSL() && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
+			|| $this->RequestHandler->isSSL() && $this->controller->secureActions !== $this->controller->action
+		) {
+			$this->controller->redirect('http://' . env('SERVER_NAME') . $this->controller->here);
+		}
+	}
+	
 	
 	/**
 	 * Generates validation error messages for HABTM fields
@@ -123,7 +147,7 @@ class PlateComponent extends Object {
 		if ($this->controller->params['url']['url'] != '/') {
 			$this->controller->attributesForLayout[] = array(
 				'id' => false,
-				'class' => $this->params['controller'] . ' ' . $this->action,
+				'class' => $this->controller->params['controller'] . ' ' . $this->controller->action,
 			);
 		}
 	}

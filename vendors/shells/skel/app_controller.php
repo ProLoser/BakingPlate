@@ -35,16 +35,9 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Session',
 		'BakingPlate.Plate',
-		//'Batch.Batch',
 		'Analogue.Analogue' => array(
-			array(
-				'helper' => 'BakingPlate.HtmlPlus',
-				'rename' => 'Html'
-			),
-			array(
-				'helper' => 'BakingPlate.FormPlus',
-				'rename' => 'Form'
-			)
+			array('helper' => 'BakingPlate.HtmlPlus', 'rename' => 'Html'),
+			array('helper' => 'BakingPlate.FormPlus', 'rename' => 'Form'),
 		),
 		'Time',
 		'AssetCompress.AssetCompress',
@@ -53,11 +46,9 @@ class AppController extends Controller {
 	var $components = array(
 		'BakingPlate.Plate',
 		'Session',
-		'Cookie',
-		//'Scaffolding',
+		'Batch.Batch',
 		'RequestHandler',
 		'Navigation.Menus',
-		'Webservice.Webservice',
 		/* Auth Configuration *[delete me]/
 		'Auth' => array(
 			'fields' => array(
@@ -80,6 +71,13 @@ class AppController extends Controller {
 	var $descriptionForLayout = '';
 	var $keywordsForLayout = '';
 	var $navsForLayout = false;
+	
+	/**
+	 * Specifies if an action should be under SSL
+	 *
+	 * @var mixed set to true for all controller actions, set to an array of action names for specific ones
+	 */
+	var $secureActions = false;
 	
 	/**
 	 * $_GET keyword to force debug mode. Set to false or delete to disable.

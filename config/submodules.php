@@ -27,16 +27,16 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	//'batch'                         => 'git://github.com/ProLoser/CakePHP-Batch.git',	
 	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
-	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
+	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/mongoDB-Datasource.git',
 	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
 );
 
 $config['BakingPlate']['markstory'] = array(
@@ -49,15 +49,20 @@ $config['BakingPlate']['markstory'] = array(
 $config['BakingPlate']['davidpersson'] = array(
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'media'				=> 'git://github.com/davidpersson/media.git',
-);
-
-$config['BakingPlate']['1marc'] = array(
-	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+	'queue'				=> 'git://github.com/davidpersson/queue.git',
 );
 
 $config['BakingPlate']['milesj'] = array(
-	'forum'				=> 'git://github.com/milesj/cakephp-forum.git',
-	'uploader'			=> 'git://github.com/milesj/cakephp-uploader.git',
+	'forum'				=> 'git://github.com/milesj/cake-forum.git',
+	'uploader'			=> 'git://github.com/milesj/cake-uploader.git',
+	'decoda'			=> 'git://github.com/milesj/cake-decoda.git',
+	'we_game'			=> 'git://github.com/milesj/cake-we_game.git',
+	'spam_blocker'		=> 'git://github.com/milesj/cake-spam_blocker.git',
+	'ajax_handler'		=> 'git://github.com/milesj/cake-ajax_handler.git',
+	'data_kit'			=> 'git://github.com/milesj/cake-data_kit.git',
+	'auto_login'		=> 'git://github.com/milesj/cake-auto_login.git',
+	'cache_kill'		=> 'git://github.com/milesj/cake-cache_kill.git',
+	'feeds'				=> 'git://github.com/milesj/cake-feeds.git',
 );
 
 $config['BakingPlate']['mariano'] = array(
@@ -78,7 +83,6 @@ $config['BakingPlate']['proloser'] = array(
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 );
 
-// navigation, static_cache, manifesto
 $config['BakingPlate']['sams'] = array(
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
@@ -164,4 +168,5 @@ $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
 	'phpunit'			=> '',
+	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
 );
