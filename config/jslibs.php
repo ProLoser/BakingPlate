@@ -36,6 +36,7 @@ $config['BakingPlate']['JsLib']['jQuery'] = array(
 		'cdn' => '//ajax.googleapis.com/ajax/libs/:lib/:version/:lib:min.js',
 		'lib' => 'jquery',
 		'version' => '1.5.1',
+		'path' => 'libs/',
 		'fallback' => true
 );
 //$config['BakingPlate']['JsLib']['SWFObject'] = array(

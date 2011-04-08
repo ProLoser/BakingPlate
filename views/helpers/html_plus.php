@@ -93,46 +93,8 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'javascriptblock' => '<script%s>%s</script>',
 	    'javascriptstart' => '<script%s>',
 	    'javascriptlink' => '<script src="%s"%s></script>',
-	    'javascriptend' => '</script>',
-		// @depeciated
-	    'header' => '<header%s>%s</header>',
-	    'footer' => '<footer%s>%s</footer>',
-	    'article' => '<article%s>%s</article>',
-	    'articlestart' => '<article%s>',
-	    'articleend' => '</article>',
-	    'section' => '<section%s>%s</section>',
-	    'nav' => '<nav%s>%s</nav>',
-	    'time' => '<time%s>%s</time>',
-	    'output' => '<ouput%s>%s</ouput>',
-	    'details' => '<details%s>%s</details>',
-	    'menu' => '<menu%s>%s</menu>',
-	    'command' => '<command%s>%s</command>',
-	    'canvas' => '<canvas%s>%s</canvas>'
+	    'javascriptend' => '</script>'
 	);
-
-	/**
-	 * Breadcrumbs.
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	var $_crumbs = array();
-
-	/**
-	 * Names of script files that have been included once
-	 *
-	 * @var array
-	 * @access private
-	 */
-	var $__includedScripts = array();
-
-	/**
-	 * Options for the currently opened script block buffer if any.
-	 *
-	 * @var array
-	 * @access protected
-	 */
-	var $_scriptBlockOptions = array();
 
 	/**
 	 * Document type definitions
@@ -144,40 +106,8 @@ class HtmlPlusHelper extends HtmlHelper {
 		'html5' => '<!doctype html>'
 	);
 
-	var $__presentational_classes = array();
-
-
-	/*
-	 * function getType
-	 * @param $format mixed long, short or array default is short
-	 * @deprecated
-	 */
-	function getType() {
-		//self::;
-	}
-	
-	
-
 	/**
 	 * Returns a doctype string.
-	 *
-	 * Possible doctypes:
-	 *
-	 *  - html5:  HTML5.
-	 *  - html4-strict:  HTML4 Strict.
-	 *  - html4-trans:  HTML4 Transitional.
-	 *  - html4-frame:  HTML4 Frameset.
-	 *  - xhtml-strict: XHTML1 Strict.
-	 *  - xhtml-trans: XHTML1 Transitional.
-	 *  - xhtml-frame: XHTML1 Frameset.
-	 *  - xhtml11: XHTML1.1.
-	 *
-	 * @todo
-	 * 	- make html4 or xhtml the default
-	 * @param string $type Doctype to use.
-	 * @return string Doctype string
-	 * @access public
-	 * @link http://book.cakephp.org/view/1439/docType
 	 */
 	function docType($type = 'html5') {
 		if (isset($this->__docTypes[$type])) {
@@ -260,26 +190,11 @@ class HtmlPlusHelper extends HtmlHelper {
 		}
 	}
 
-	/**
-	 * Creates a link element for CSS stylesheets.
-	 *
-	 * ### Options
-	 *
-	 * - `inline` If set to false, the generated tag appears in the head tag of the layout. Defaults to true
-	 *
-	 * @param mixed $path The name of a CSS style sheet or an array containing names of
-	 *   CSS stylesheets. If `$path` is prefixed with '/', the path will be relative to the webroot
-	 *   of your application. Otherwise, the path will be relative to your CSS path, usually webroot/css.
-	 * @param string $rel Rel attribute. Defaults to "stylesheet". If equal to 'import' the stylesheet will be imported.
-	 * @param array $options Array of HTML attributes.
-	 * @return string CSS <link /> or <style /> tag, depending on the type of link.
-	 * @access public
-	 * @link http://book.cakephp.org/view/1437/css
-	 */
-
 
 	/**
 	 * Returns one or many `<script>` tags depending on the number of scripts given.
+	 *
+	 * If the filename is prefixed with "//", it will be returned early as its a special http(s) indepenent url.
 	 *
 	 * If the filename is prefixed with "/", the path will be relative to the base path of your
 	 * application.  Otherwise, the path will be relative to your JavaScript path, usually webroot/js.
@@ -300,71 +215,10 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @link http://book.cakephp.org/view/1589/script
 	 */
 	function script($url, $options = array()) {
-		if (strpos('//', $url) === false) {
-			$flag = true;
+		if (strpos((string) $url, '//') === true) {
+			return $this->tag('javascriptlink', null, array('src' => $url));
 		}
-		$return = parent::script($url, $options);
-		if($flag) {
-			//echo htmlspecialchars($return);
-			//substr($return, );
-		}
-		return $return;
-	}
-
-	/**
-	 * start creates an initial block of html with auto or param based options
-	 * https://developer.mozilla.org/En/Offline_resources_in_Firefox
-	 *
-	 * @param $options mixed an optional array of options for use within the start block
-	 * @example start(array('multihtml' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
-	*/
-	function start($options = null) {
-		$htmltag = $docType = '';
-		$htmlAttribs = $manifest = $lang = array();
-		
-		$options['docType'] = (!isset($options['docType']) || $options['docType'] === false) ? $this->__type : $options['docType'];
-		
-		$options['docType'] = ($options['docType'] == 'html4' || $options['docType'] == 'xhtml') ? $options['docType'] . '-trans' : $options['docType'];
-		$lang['lang'] = true;
-
-		// manifest_for_layout
-		if(isset($options['manifest']) &&  ($options['manifest'] !== '' ||  $options['manifest'] !== false)) {
-			$manifestBase = Configure::read('Manifest.basePath') ? Configure::read('Manifest.basePath') . '/' : '/';
-			$manifest['manifest'] = $manifestBase . $options['manifest'] . '.manifest';
-		}
-		
-		if(isset($options['lang']) && $options['lang'] !== false) {
-			$lang['lang'] = (($options['lang'] === true) && Configure::read('Config.language')) ? strtolower(Configure::read('Config.language')) : $options['lang'];
-		} else {
-			$lang['lang'] = false;
-		}
-
-		if(isset($options['docType']) && $options['docType'] !== false) {
-			$docType = $this->docType($options['docType']);
-		}
-		
-		$htmlAttribs  = array_merge($manifest, $lang);
-		if(!empty($options['iecc'])) {
-			$ietag= '';
-			$ies = array(6 => 'lt IE 7',7 => 'IE 7', 8 => 'IE 8');
-			foreach($ies as $ieVersion => $condComm) {
-				$htmltag.= "\n";
-				$ietag = $this->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js ie'.$ieVersion)));
-				$htmltag.= $this->ietag($ietag, $condComm);
-			}
-			$htmltag.= "\n";
-			$condComm = '(gte IE 9)|!(IE)';
-			$ietag = $this->tag('html', null, array_merge($htmlAttribs, array('class' => 'no-js')));
-			$htmltag.= $this->ietag($ietag, $condComm);
-		} else {
-			$htmltag = "\n" . $this->tag('html', null, $htmlAttribs);
-		}
-
-		if($docType == '') {
-			$docType = $this->docType();
-		}
-
-		return $docType . $htmltag . "\n<head>\n\t" . $this->charset() . "\n";
+		return parent::script($url, $options);
 	}
 
 	/**
@@ -374,31 +228,16 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @param $iecond string an ie condition
 	 */
 	function ietag($content, $iecond = 'IE') {
+		// standard prepend and append
 		$pre = '<!--[if '.$iecond.' ]> ';
 		$post = ' <![endif]-->';
-		//debug($iecond);
-		//debug(strpos($iecond, '!(IE)'));
-		//debug(strpos($iecond, '!(IE)') !== false ? 'yay' : 'nay');
+
+		// if the iecondition is targeting non ie browsers prepend and append get adjusted
 		if(strpos($iecond, '!(IE)') !== false) {
 			$pre = trim($pre);
 			$pre .= '<!--> ';
 			$post = ' <!--' . trim($post);
 		}
-	    return $pre . $content . $post;
+		return $pre . $content . $post;
 	}
-
-	/*
-	 * function addPresentationalClass
-	 * @todo
-	 * 	- the array of presenational class names get removed before markup is output
-	 * @param $name string a presentational classname
-	 */
-	function addPresentationalClass($name) {
-	    $this->__presentational_classes[$name];
-	}
-
-//	function _parseAttributes($options, $exclude = null, $insertBefore = ' ', $insertAfter = null) {
-//            parent::_parseAttributes($options, $exclude, $insertBefore, $insertAfter);
-//            return $out ? $insertBefore . $out . $insertAfter : '';
-//        }
 }

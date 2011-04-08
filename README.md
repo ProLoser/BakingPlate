@@ -23,62 +23,18 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 * Option to Use Dynamic Pages.
 * Site Search using CakeDC Search Plugin.
 * A Html5 Boilerplate Theme (adhering to all the best practices that apply to cakeapps).
-* User Login/Registration/Management System (ACL One day also) using CakeDC Ucers &amp; ProLoser Welcome plugins.
+* User Login/Registration/Management System (ACL One day also) using CakeDC Users &amp; ProLoser Welcome plugins.
 * Planned intergration with ProLoser's Cart Plugin.
+* Planned Mobile Detection &amp; Theme Switching (that will support view caching) using subdomains (moving to a revised version of plateplus).
 
 ## Instructions
 
-1. Clone into your root plugins directory into `/plugins/baking_plate`
-2. Open up your terminal and run `cake plate` - you should see a screeb of options
-    a. Browse the available plugins and vendors (making note of corresponding names or numbers of modules to install)
-    b. use `-group` to show repos by Author
-    c. Show a list of available groups `cake plate browse groups`
-3. Run `cake plate bake <project_path>` in your terminal
-    a. the default  group is a set of core plugins; to set a different group use `-group cakedc` 
-4. Change to the newly baked project
-    a. Run `cake plate all` to add all plugins
-    b. Run `cake plate add <#|mod_name>` or `git submodule add git-uri (plugins|vendors)/submodule_camel_name` (if you have trouble with the first option)
-    c. install a CSV list of numbers to add
-5. Run `cake schema create -plugin PluginName` or use the `cake migration -plugin PluginName`
-6. review code in newly created app removing `[delete me]` strings to enable functionality
-7. *some* configuration settings exist in `boostrap.php`
-
-Voila! you have a baked your app and initialized it as a git repo
-
-Please if you have ideas fork it, commit, push it, send pull request
-
-enjoy
-
-## todo:
-
-
-1. Dynamic Pages (if derived app does not need just remove) (this will become a process option)
-2. More dirs in tmp
-3. Libs - initial PageRoute exists
-4. i18n/l10n stuff
-5. Html5 Boilerplate Theme Finish
-6. Default Non Themed views should use Best Practices
-7. More work on Admin Theme
-8. Settings
-    1. Decide upon a Setting/Config setup (using Nick Bakers now may change)
-    2. Decide upon Config Key convention Using Site.theme, Site.author now (or should Config.language be the way)
-9. More Server Cfg Options (Apache2.2, Nginx, .htaccess)
-10. Add information to Readme
-    1. Updating a derived project; using git to ease this burden
-    2. Remove stuff from derived project delete from your active branch
-    3. Selecting a wysiwyg editor for use within the app.
-    4. Customising the skel
-11. More see comments
-
-
-
-
-
+Please read the [GitHub Wiki](https://github.com/sams/BakingPlate/wiki/) for installation instructions. Thanks.
  
 
-# Plate Plus
+# Plate Helper & Comp
 
-A Componant and set of helpers that enable more within a bakingplate app
+The Plate Comp and Helper help keep controllers & views clean respectively.
 
 ## The Plate Helper
 
@@ -86,15 +42,8 @@ A Componant and set of helpers that enable more within a bakingplate app
 
 `var $helpers = array('BakingPlate.Plate')`;
 
-this will output a doctype, html tag & charset
-`echo $this->Plate->start();`
-
 Its a helper that adds a number of features to apps and leaves 
-your layouts clean & basic. The helper that unifies apps baked with [BakingPlate](http://github.com)
-
-It *will*  wrap in support for other cake plugins (Media, Asset Compress).
-It currently wraps in support for the HtmlPlus Helper - which is optional 
-and if used will output html5 markup (or html 4.5, xhtml5 with minor switches)
+your layouts clean & basic.
 
 ## Html5 Boilerplate standards
 
@@ -109,7 +58,7 @@ the additional plugins are required to achieve this goal.
 * Google Anlaytics script block
 
 eg to output a scritpt source using  jquery from google hosted api (with a local fallback)
-`$this->Plate->jsLib()`
+`$this->Plate->jsLib('jQuery')`
 
 * change version
 * control minification
@@ -125,46 +74,10 @@ which can be used to create vars for use in *layouts* from elements (or outputte
 from within the *view*.  Also it can be used to construct markup to be passed to method 
 calls.
 
-
-for more information see the test cases for the helper in question
-
-
 ## Using the Plus Helpers
 
-`var $helpers = array('Analogue.Analogue' => array('PlatePlus.HtmlPlus' => 'Html', 'PlatePlus.FormPlus' => 'Form'))`;
+`var $helpers = array('Analogue.Analogue' => array('BakingPlate.HtmlPlus' => 'Html', 'BakingPlate.FormPlus' => 'Form'));`
 
-### Html Plus
+you can use your own bespoke versions of the plate helpers by using the Analogue Helper to rename your modified versions
+to the expected names.
 
-this will output  a section (falling back to div with 'section' class for non (x)html5 output)
-`echo $this->Html->section($section, $headers);`
-
-@todo video, audio, source, mark, time, sectionize
-
-### Form Plus
-
-not there yet
-
-## Todo
-
-* i18n stuff
-* Plate create method for showing basic vars in nice format when admin (make it update via ajax)
-* Plate resolve inconsistencies with JS Paths to modernizr
-* Plate resolve inconsistencies with JS Paths in fallback libs
-* Plate resolve inconsistencies with syntax of html4.5 vs html5 fallback lib
-* HtmlPlus Microformats
-* HtmlPlus Media Plugin support
-* HtmlPlus Swf Engine support (swf management & swfobject app intergration)
-* HtmlPlus Asset Compress (possible other asset plugins to)
-* Html5
-    * HtmlPlus Video, Audio & Source
-      video for all ideas
-    * HtmlPlus Time
-    * fallback content improvements
-    * fallback scripts
-* FormPlus Helper
-* Plugin elements (this helper set has been converted to a plugin - you may have to copy the plugins elements to app elements)
-    * make the presence of elements in app override those within this helper
-* Plate has only helpers - comp, behaviours maybe later
-* Add php flushing to improve performance before body and end of page (might affect what StaticCache saves to webroot/cache/)
-
-### Made for BakingPlate (but can be used with cake apps in general).

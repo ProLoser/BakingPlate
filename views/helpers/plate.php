@@ -11,8 +11,16 @@
 
 class PlateHelper extends AppHelper {
 	var $helpers = array('Html', 'Form');
-	var $_currentView;
-	private $_jsLibArr;
+	var $_jsLibArr;
+	var $_view;
+	
+	/**
+	 * Used for naming a store block of output
+	 *
+	 * @var string
+	 */
+	var $__blockName = null;
+	var $__forLayout = true;
 	
 	/**
 	 * jsLibFallback
@@ -34,7 +42,7 @@ class PlateHelper extends AppHelper {
 	
 	public function __construct ($settings = array()) {
 		// current view is used by analytics and capture ouput
-		$this->_currentView = &ClassRegistry::getObject('view');
+		$this->_view = &ClassRegistry::getObject('view');
 
 		if(defined('JSLIBFALLBACK')) {
 			$this->_jsLibFallback = JSLIBFALLBACK;
@@ -51,11 +59,11 @@ class PlateHelper extends AppHelper {
 	}
 
 	/**
-	 * start creates an initial block of html with auto or param based options
+	 * open will create an initial block of html with auto or param based options
 	 * @param $options mixed an optional array of options for use within the start block
-	 * @example start(array('multihtml' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
+	 * @example start(array('iecc' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
 	*/
-	public function start($options = null) {
+	public function open($options = null) {
 		# NOTE: for manifesto
 		# todo https://developer.mozilla.org/En/Offline_resources_in_Firefox
 		
@@ -64,12 +72,12 @@ class PlateHelper extends AppHelper {
 		$lang['lang'] = true;
 
 		// manifest_for_layout
-		if(isset($options['manifest']) &&  ($options['manifest'] !== '' ||  $options['manifest'] !== false)) {
+		if(!empty($options['manifest'])) {
 			$manifestBase = Configure::read('Manifest.basePath') ? Configure::read('Manifest.basePath') . '/' : '/';
 			$manifest['manifest'] = $manifestBase . $options['manifest'] . '.manifest';
 		}
 		
-		if(isset($options['lang']) && $options['lang'] !== false) {
+		if(!empty($options['lang'])) {
 			$lang['lang'] = (($options['lang'] === true) && Configure::read('Config.language')) ? strtolower(Configure::read('Config.language')) : $options['lang'];
 		} else {
 			$lang['lang'] = false;
@@ -102,10 +110,7 @@ class PlateHelper extends AppHelper {
 			$htmltag.= $this->ietag($ietag, $condComm);
 		} else {
 			$htmltag = "\n" . $this->Html->tag('html', null, $htmlAttribs);
-
 		}
-
-		//if($this->theme) {}
 
 		if($docType == '') {
 			$docType = $this->Html->docType();
@@ -122,9 +127,10 @@ class PlateHelper extends AppHelper {
 		// set the name as some jslibs will be mixedcase js objects - but url will be lowercase
 		// the name option maybe set to test the lib to determin if fallback should be loaded
 		$options['name'] = (isset($options['name']) && $options['name'] !== $key) ? $options['name'] : $key;
-		if(!array_key_exists('path', $options)) {
+		if(!empty($options['path'])) {
 			$options['path'] = (!$options['theme']) ? $this->webroot . 'js/libs' : $this->webroot('/') . 'js/libs';
 		}
+		// todo use sprintf?
 		foreach($options as $key => $value) {
 			$fallback = str_replace(':'.$key, $value, $fallback);
 		}
@@ -137,10 +143,11 @@ class PlateHelper extends AppHelper {
 	 * @param options array of options eg host = google, lib = jquery, version = null, compressed = true
 	 */
 	function cdnLib($options) {
-		//$cdn = '';
-		$cdn = (isset($options) && $options['cdn']) ? $options['cdn'] : ':lib-:version:min';
+		// some jsLibs will be sourced from cdns
+		$cdn = (!empty($options['cdn'])) ? $options['cdn'] : ':lib-:version:min';
 		foreach($options as $key => $value) {
-			//$value = ($key == 'theme' && $options['cdn'] == 'local')  ? "$value/": "$value";
+			// when jsLib uses local cdn and theme place an extra / 
+			$value = ($key == 'theme' && $options['cdn'] == 'local')  ? "$value/": "$value";
 			$cdn = str_replace(':'.$key, $value, $cdn);
 		} 
 	    return $cdn;
@@ -159,16 +166,16 @@ class PlateHelper extends AppHelper {
 		$jsLib = array();
 		$jsLibsCfg = Configure::read('BakingPlate.JsLib');
 
-		if(is_string($lib) && array_key_exists($lib, $jsLibsCfg)) {
+		if(is_string($lib) && !empty($jsLibsCfg[$lib])) {
 			$jsLib = $jsLibsCfg[$lib];
 		} elseif(is_array($lib)) {
-			//  && in_array($lib, $jsLibsCfg)
+			//  todo handle array of libs eg for jquery ui and yahoo profiler
 			return;
 		}
 
 		$jsLib = array_merge($this->_jsLibDefaults, $jsLib); // var to concat build to return including fallback if set etc
 		
-		if(array_key_exists('url', $jsLib)) return $this->Html->script('url');
+		if(!empty($jsLib['url'])) return $this->Html->script('url');
 
 		$jsLib['min'] = (!isset($jsLib['compressed']) || $jsLib['compressed'] === true) ? '.min' : '';
 		$name = $lib;
@@ -271,7 +278,8 @@ class PlateHelper extends AppHelper {
 	}
 
 	/**
-	 * function ietag
+	 * ietag
+	 * wrap content in a ie conditional comment - treat non ie targets as special case
 	 * @param $content string markup to be wrapped in ie condition
 	 * @param $iecond string an ie condition
 	 */
@@ -296,31 +304,6 @@ class PlateHelper extends AppHelper {
 	}
 	
 	/**
-	 * css
-	 * output the basic boilerplate stylesheets implied all media and by default a basic handheld might wrap in asset plugin support
-	 * @todo
-	 * 	- handle cdn
-	 * 	- option for handheld.css
-	 * 	- support various asset plugins - default to html->css
-	 * @param $style mixed string or array of css basenames witgout suffixes for implied all css
-	 * @param $handheld mixed string or array of css basenames witgout suffixes for implied all css, false to omit it
-	 */
-	
-	public function css($style = 'style', $options = array()) {
-		if(is_string($style) && $style == 'handheld' && !isset($options['media'])) {
-			$options['media'] = 'handheld';
-		}
-	    return $this->Html->css($style, null, $options);
-	}
-	
-	public function js($name, $scripts = array('plugins', 'scrips'), $options = array()) {
-		if(is_string($scripts) && $scripts == 'handheld') {
-			//$options['media'] = 'handheld';
-		}
-	    return $this->Html->script($scripts);
-	}
-	
-	/**
 	 * analytics
 	 * outputs google analytics code - only if on live domain and the GA id is set
 	 * @todo
@@ -331,11 +314,14 @@ class PlateHelper extends AppHelper {
 	public function analytics($code = '') {
 		if (empty($code))
 			$code = Configure::read('Site.analytics');
+			
 		if (!empty($code) && !Configure::read('debug')) {	
 			if (substr($code, 0, 3) != 'UA-')
 				$code = 'UA-' . $code;
-	    	return $this->_currentView->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
+		    	return $this->_view->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
 		}
+		#$element = !empty($element) ? $element : 'extras/google_analytics';
+		#return $this->_currentView->element($element, array('google_analytics' => $GoogleAnalytics));
 	}
 	
 	/**
@@ -369,48 +355,7 @@ class PlateHelper extends AppHelper {
 		return $this->jsLib('modernizr');
 	}
 
-	/**
-	 * Start a block of output to display in layout
-	 *
-	 * @param  string $name Will be prepended to form {$name}_for_layout variable
-	 * @author  rtconner, nemodreamer
-	 */
-	function blockStart($name) {
-	
-		if(empty($name))
-			trigger_error('LayoutHelper::blockStart - name is a required parameter');
-			
-		if(!is_null($this->__blockName))
-			trigger_error('LayoutHelper::blockStart - Blocks cannot overlap');
-	
-		$this->__blockName = $name;
-		ob_start();
-		return null;
-	}
-	
-	/**
-	 * Ends a block of output to display in layout
-	 * 
-	 * @modified sends buffer to wrapper
-	 * @author  rtconner, nemodreamer
-	 */
-	function blockEnd() {
-	  $this->forLayout($this->__blockName, @ob_get_clean());
-		 $this->__blockName = null;
-	}
-	 
-	/**
-	 * Wrapper to save to current view's viewVars array
-	 *
-	 * @param string $name Will be prepended to form {$name}_for_layout variable
-	 * @param string $data Content of variable
-	 * @return void
-	 * @author Philip Blyth
-	 */
-	function forLayout($name, $data='') {
-			$this->_currentView->set($name.'_for_layout', $data);
-	}
-	
+		
 	/**
 	 * function firebugLite
 	 *
@@ -422,7 +367,7 @@ class PlateHelper extends AppHelper {
 	}
 	
 	public function mediaQueriesJS() {
-		$mediaQueries = $this->Html->script(array('libs/css3-mediaqueries.min'));
+		$mediaQueries = $this->jsLib('css3-mediaqueries');
 		return $this->conditionalComment($mediaQueries, "IEMobile 7");
 	}
 	
@@ -431,5 +376,35 @@ class PlateHelper extends AppHelper {
 	 * todo
 	*/
 	public function siteIcons($icon) {
+	}
+
+
+	/** 
+	 * Start a block of output to display in layout 
+	 * 
+	 * @param string $name Will be prepended to form {$name}_for_layout variable 
+	 * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
+	 */ 
+	function start($name, $forLayout = true) {
+		if(!is_null($this->__blockName)) 
+			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
+
+		$this->__blockName = $name; 
+		ob_start(); 
+		return null; 
+	}
+
+	/** 
+	 * Ends a block of output to display in layout 
+	 */ 
+	function stop() { 
+		if(is_null($this->__blockName)) 
+			trigger_error('PlateHelper::stop - No blocks currently running');
+		$buffer = @ob_get_contents(); 
+		@ob_end_clean(); 
+		$name = ($this->__forLayout) ? $this->__blockName.'_for_layout' : $this->__blockName;
+		$this->_view->set($name, $buffer); 
+		$this->__blockName = null;
+		return $buffer;
 	}
 }
