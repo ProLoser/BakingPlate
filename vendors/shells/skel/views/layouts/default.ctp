@@ -15,6 +15,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
 ?><!doctype html>
 <?php echo $this->Plate->html(array('ie' => true)); ?> 
 <head>
@@ -40,14 +41,28 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
+<<<<<<< HEAD
 	<?php #delete-me#echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?> 
-<?php 
+
+
+<?php
+
+echo $this->Html->css('cake.generic'); 
+
+/*
+  Dev switch for css/js file: move comment to switch between asset method
+*/
+
+
 echo $this->Html->css(array(
 #move-me#$this->AssetCompress->css(array(
 	'style',
 )); ?>
-	<?php #delete-me#echo $this->AssetCompress->includeCss(); ?> 
-<?php 
+
+	<?php echo $this->AssetCompress->includeCss(); ?> 
+	<?php echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?>
+<?php
+
 echo $this->Html->script(array(
 #move-me#$this->AssetCompress->script(array(
 	'plugins',
@@ -67,9 +82,14 @@ echo $this->Html->script(array(
 
 			<?php echo $this->Session->flash('auth'); ?>
 
-			<?php if (!empty($sidebar_for_layout)) echo $sidebar_for_layout; ?>
-
-			<?php echo $content_for_layout; ?>
+			<?php
+				if(empty($sidebar_for_layout)):
+					echo $content_for_layout;
+				else:
+					echo $html->div('sidebar', $sidebar_for_layout);
+					echo $html->div('main', $content_for_layout);	
+				endif;
+			?>
 
 		</div>
 		<footer>
