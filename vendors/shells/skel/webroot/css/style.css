@@ -151,12 +151,21 @@ button {  width: auto; overflow: visible; }
 
 
  /* Primary Styles
-    Author:
+    Author: 
  */
 
+.main { float: left; min-width: 72.5%; width: auto; padding: .4em }
+.sidebar { float: left; width: 24.5%; background: #bada55}
 
+.main, .sidebar { padding-top: .6em }
 
+.sidebar ul, .sidebar p {
+  margin: 0;
+  padding: .2em;
+  
+}
 
+.sidebar+.main {}
 
 
 

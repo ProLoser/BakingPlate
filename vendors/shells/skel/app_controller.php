@@ -85,7 +85,7 @@ class AppController extends Controller {
 	var $debugOverride = 'debug';
 
 	function beforeFilter() {
-		$this->_setupAuth();
+		#delete-me#$this->_setupAuth();
 		$this->_setLanguage();
 		$this->_setMaintenance();
 	}
