@@ -30,19 +30,20 @@ echo $this->Plate->start(array('iecc' => true));
 <?php
 
 echo $this->Html->css('cake.generic'); 
+
 /*
   Dev switch for css/js file: move comment to switch between asset method
 */
-echo $this->Html->css(array(
-//$this->AssetCompress->css(array(
+//echo $this->Html->css(array(
+$this->AssetCompress->css(array(
 	'style',
 )); ?>
 	<?php echo $this->AssetCompress->includeCss(); ?> 
 	<?php echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?>
 <?php
 
-echo $this->Html->script(array(
-//$this->AssetCompress->script(array(
+$this->AssetCompress->script(array(
+//echo $this->Html->script(array(
 	'plugins',
 	'script',
 )); ?> 
