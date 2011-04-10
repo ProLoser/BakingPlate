@@ -28,11 +28,13 @@ echo $this->Html->start(array('iecc' => true));
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
 <?php $this->AssetCompress->css(array(
+//echo $this->Html->css(array(
 	'style',
 )); ?>
 	<?php echo $this->AssetCompress->includeCss(); ?> 
 	<?php echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?>
 <?php $this->AssetCompress->script(array(
+//echo $this->Html->script(array(
 	'plugins',
 	'script',
 )); ?> 
