@@ -7,12 +7,12 @@
 // so for now I have two but want to find a better way 
 
 $config['BakingPlate']['YahooProfiler'] = array(
-		'lib' => 'yahooprofiler',
+		'lib' => 'libs/yahooprofiler',
 		'version' => '2.8.1',
 		'min' => '',
 );
 $config['BakingPlate']['JsLib']['modernizr'] = array(
-		'lib' => 'modernizr',
+		'lib' => 'libs/modernizr',
 		'path' => 'libs/',
 		'version' => '1.7'
 );
@@ -22,7 +22,7 @@ $config['BakingPlate']['JsLib']['firebug-lite'] = array(
 );
 
 $config['BakingPlate']['JsLib']['css3-mediaqueries'] = array(
-		'lib' => 'css3-mediaqueries',
+		'lib' => 'libs/css3-mediaqueries',
 		'path' => 'libs/',
 		'version' => false,
 );
