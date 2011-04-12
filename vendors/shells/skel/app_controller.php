@@ -46,7 +46,9 @@ class AppController extends Controller {
 	var $components = array(
 		'BakingPlate.Plate',
 		'Session',
-		'Batch.Batch',
+		'Batch.Batch' => array(
+			'actions' => array('index', 'admin_index'),
+		),
 		'RequestHandler',
 		'Navigation.Menus',
 		/* Auth Configuration *[delete me]/
