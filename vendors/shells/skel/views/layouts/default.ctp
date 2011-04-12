@@ -15,9 +15,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-?>
-<!doctype html>
-<?php echo $this->Plate->html(array('ie' => true)); ?> 
+echo $this->Plate->html(array('ie' => true)); ?> 
 <head>
 	<?php echo $this->Html->charset(); ?> 
 	<title>
@@ -28,7 +26,8 @@
 		TODO Check the htaccess to see if this tag is unnecessary
 	-->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	
+
+	<!-- in some cases we have empty description meta - keywords are of debatable worth-->
 	<meta name="description" content="<?php if (!empty($description_for_layout)) echo $description_for_layout; ?>">
 	<meta name="keywords" content="<?php if (!empty($keywords_for_layout)) echo $keywords_for_layout; ?>">
 	<meta name="author" content="Cakephp with Baking Plate">
@@ -59,7 +58,7 @@ echo $this->Html->script(array(
 		<header>
 			<?php echo $this->element('layout/header'); ?>
 		</header>
-		<div id="main">
+		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
 

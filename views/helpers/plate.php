@@ -38,13 +38,13 @@ class PlateHelper extends AppHelper {
  * Creates an opening html tag with optional classes, conditional comments, manifet and language
  *
  * @param array $options
- * @example echo $this->HtmlPlus->html(array('iecc' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
+ * @example echo $this->Plate->html(array('ie' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
  * @link https://developer.mozilla.org/En/Offline_resources_in_Firefox
  */
 	public function html($options = array()) {
 		$options = array_merge(array(
 			'lang' => Configure::read('Config.language'),
-			'manifest' => null, // TODO what is 'manifest_for_layout'? Configure::read('Manifest.basePath')
+			'manifest' => null,
 			'ie' => true,
 			'js' => true,
 			'class' => '',
