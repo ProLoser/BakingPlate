@@ -35,11 +35,6 @@ foreach ($associations as $type => $data) {
 </ul>
 <div class="<?php echo $pluralVar;?> index">
 	<div class="header">
-		<div class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
-			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-		</div>
 		<p>
 		<?php echo "<?php
 		echo \$this->Paginator->counter(array(
@@ -47,6 +42,11 @@ foreach ($associations as $type => $data) {
 		));
 		?>";?>
 		</p>
+		<div class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+		</div>
 	</div>
 	<?php echo "<?php echo $this->Batch->create('{$alias}')?>"?>
 	<table cellpadding="0" cellspacing="0">
