@@ -23,32 +23,27 @@ Some Benefits of Using BakingPlate (some features may vary depending on release 
 * Option to Use Dynamic Pages.
 * Site Search using CakeDC Search Plugin.
 * A Html5 Boilerplate Theme (adhering to all the best practices that apply to cakeapps).
-* User Login/Registration/Management System (ACL One day also) using CakeDC Ucers &amp; ProLoser Welcome plugins.
+* User Login/Registration/Management System (ACL One day also) using CakeDC Users &amp; ProLoser Welcome plugins.
 * Planned intergration with ProLoser's Cart Plugin.
-* Planned Mobile Detection &amp; Theme Switching (that will support view caching) using subdomains.
+* Planned Mobile Detection &amp; Theme Switching (that will support view caching) using subdomains (moving to a revised version of plateplus).
 
 ## Instructions
 
 Please read the [GitHub Wiki](https://github.com/sams/BakingPlate/wiki/) for installation instructions. Thanks.
  
 
-# Plate Plus Plugin - 0.1a
+# Plate Helper & Comp
 
-Currently this plugin contains helpers that can be used to apply 
-a range of sweet features to projects baked with BakingPlate.
+The Plate Comp and Helper help keep controllers & views clean respectively.
 
 ## The Plate Helper
 
 **That rug really tied the room together, man!**
 
-`var $helpers = array('PlatePlus.Plate')`;
+`var $helpers = array('BakingPlate.Plate')`;
 
 Its a helper that adds a number of features to apps and leaves 
-your layouts clean & basic. The helper that unifies apps baked with [BakingPlate](http://github.com)
-
-It *will*  wrap in support for other cake plugins (Media, Asset Compress).
-It currently wraps in support for the HtmlPlus Helper - which is optional 
-and if used will output html5 markup (or html 4.5, xhtml5 with minor switches)
+your layouts clean & basic.
 
 ## Html5 Boilerplate standards
 
@@ -63,7 +58,7 @@ the additional plugins are required to achieve this goal.
 * Google Anlaytics script block
 
 eg to output a scritpt source using  jquery from google hosted api (with a local fallback)
-`$this->Plate->jsLib()`
+`$this->Plate->jsLib('jQuery')`
 
 * change version
 * control minification
@@ -79,13 +74,9 @@ which can be used to create vars for use in *layouts* from elements (or outputte
 from within the *view*.  Also it can be used to construct markup to be passed to method 
 calls.
 
-
-for more information see the test cases for the helper in question
-
-
 ## Using the Plus Helpers
 
-`var $helpers = array('Analogue.Analogue' => array('PlatePlus.HtmlPlus' => 'Html', 'PlatePlus.FormPlus' => 'Form'))`;
+`var $helpers = array('Analogue.Analogue' => array('PlatePlus.HtmlPlus' => 'Html', 'PlatePlus.FormPlus' => 'Form'));`
 
 ### Html Plus
 
@@ -101,5 +92,3 @@ this will output  a section (falling back to div with 'section' class for non (x
 
 not there yet
 
-
-### Made for BakingPlate (but can be used with cake apps in general).

@@ -15,7 +15,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo $this->Html->start(array('iecc' => true));
+echo $this->Plate->start(array('iecc' => true));
 ?>
 	<title>
 		<?php echo $title_for_layout; ?> 
@@ -52,7 +52,14 @@ echo $this->Html->start(array('iecc' => true));
 
 			<?php echo $this->Session->flash('auth'); ?>
 
-			<?php echo $content_for_layout; ?>
+			<?php
+				if(empty($sidebar_for_layout)):
+					echo $content_for_layout;
+				else:
+					echo $html->div('sidebar', $sidebar_for_layout);
+					echo $html->div('main', $content_for_layout);	
+				endif;
+			?>
 
 		</div>
 		<footer>

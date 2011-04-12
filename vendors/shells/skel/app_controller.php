@@ -87,7 +87,7 @@ class AppController extends Controller {
 	var $debugOverride = 'debug';
 
 	function beforeFilter() {
-		$this->_setupAuth();
+		#delete-me#$this->_setupAuth();
 		$this->_setLanguage();
 		$this->_setMaintenance();
 	}
@@ -123,7 +123,7 @@ class AppController extends Controller {
 	/**
 	 * function _setMaintenance
 	 */
-    function _setMaintenance() {
+	function _setMaintenance() {
 		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
 		$mainMode = Configure::read('WebmasterTools.Maintenance');
 		//debug($user);die();

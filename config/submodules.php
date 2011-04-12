@@ -78,6 +78,7 @@ $config['BakingPlate']['proloser'] = array(
 	'cacheable'			=> 'git://github.com/ProLoser/CakePHP-Cacheable.git',
 	'supervalidateable'	=> 'git://github.com/ProLoser/cakephp-supervalidatable-behavior.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
+	'github'				=> 'git://github.com/ProLoser/CakePHP-Github.git',
 	'wizard'			=> 'git://github.com/ProLoser/wizard.git',	
 	'csv'				=> 'git://github.com/ProLoser/CakePHP-CSV.git',
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
@@ -92,10 +93,24 @@ $config['BakingPlate']['sams'] = array(
 
 $config['BakingPlate']['mcurry'] = array(
 	'ab_test'			=> 'git://github.com/mcurry/ab_test.git',
-	'interactive'		=> 'git://github.com/mcurry/interactive.git',
-	'update'			=> 'git://github.com/mcurry/update.git',
+	'asset'			=> 'git://github.com/mcurry/asset.git',
 	'builder'			=> 'git://github.com/mcurry/builder.git',
+	'chat'		=> 'git://github.com/mcurry/chat.git',
+	'click'		=> 'git://github.com/mcurry/click.git',
+	'discogs'		=> 'git://github.com/mcurry/cakephp_datasource_discogs.git',
+	'find'		=> 'git://github.com/mcurry/find.git',
+	'js'		=> 'git://github.com/mcurry/js.git',
+	'js_validate'		=> 'git://github.com/mcurry/js_validate.git',
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
+	'html_cache'		=> 'git://github.com/mcurry/html_cache.git',
+	'interactive'		=> 'git://github.com/mcurry/interactive.git',
+	'pagination_recall'		=> 'git://github.com/mcurry/pagination_recall.git',
+	'progress_bar'		=> 'git://github.com/mcurry/progress_bar.git',
+	'seo'		=> 'git://github.com/mcurry/seo.git',
+	//'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
+	'sql_log'		=> 'git://github.com/mcurry/sql_log.git',
+	'tests'		=> 'git://github.com/mcurry/cakephp_tests.git',
+	'url_cache'		=> 'git://github.com/mcurry/url_cache.git',
 );
 
 $config['BakingPlate']['petteyg'] = array(
@@ -129,16 +144,23 @@ $config['BakingPlate']['webtechnick'] = array(
 );
 
 $config['BakingPlate']['cakedc'] = array(
+	'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
+	'bitly'	                => 'git://github.com/CakeDC/bitly.git',
+	'categories'			=> 'git://github.com/CakeDC/categories.git',
 	'comments'			=> 'git://github.com/CakeDC/comments.git',
+	'favourites'				=> 'git://github.com/CakeDC/favourites.git',
+	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
+	'markup_parsers'	=> 'git://github.com/CakeDC/markup_parsers.git',
+	'migrations'		=> 'git://github.com/CakeDC/migrations.git',
+	'problems'			=> 'git://github.com/CakeDC/problems.git',
+	'ratings'			=> 'git://github.com/CakeDC/ratings.git',
+	'recaptcha'			=> 'git://github.com/CakeDC/recaptcha.git',
+	'search'			=> 'git://github.com/CakeDC/search.git',
+	'tags'				=> 'git://github.com/CakeDC/tags.git',
+	'templates'				=> 'git://github.com/CakeDC/templates.git',
+	'tiny_mce'				=> 'git://github.com/CakeDC/TinyMCE.git',
 	'users'				=> 'git://github.com/CakeDC/users.git',
 	'utils'				=> 'git://github.com/CakeDC/utils.git',
-	'search'			=> 'git://github.com/CakeDC/search.git',
-	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
-	'recaptcha'			=> 'git://github.com/CakeDC/recaptcha.git',
-	'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
-	'migrations'		=> 'git://github.com/CakeDC/migrations.git',
-	'tags'				=> 'git://github.com/CakeDC/tags.git',
-	'markup_parsers'	=> 'git://github.com/CakeDC/markup_parsers.git',
 );
 
 $config['BakingPlate']['mi'] = array(
@@ -167,6 +189,8 @@ $config['BakingPlate']['mi'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
-	'phpunit'			=> '',
-	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
+	'phpunit'		=> '',
+	'cssmin'			=> 'git://gist.github.com/911988.git',
+	'jsmin'			=> 'git://github.com/rgrove/jsmin-php.git',
+	'phpthumb'		=> 'git://github.com/masterexploder/PHPThumb.git',
 );
