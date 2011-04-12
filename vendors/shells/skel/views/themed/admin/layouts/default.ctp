@@ -3,7 +3,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('ISV Online:'); ?>
+		<?php __('Admin'); ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -19,8 +19,8 @@
 		));
 		echo "<!--[if IE]>{$this->Html->css('ie')}{$this->Html->script('excanvas')}<![endif]-->";
 		echo $this->Html->script(array(
-			'jquery/jquery-1.4.4.min',
-			'jquery/ui/jquery-ui-1.8.4.custom.min',
+			'jquery',
+			'jquery-ui',
 			'jquery.img.preload',
 			'hint',
 			'visualize/jquery.visualize',

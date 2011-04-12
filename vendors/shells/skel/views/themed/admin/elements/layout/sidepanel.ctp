@@ -1,7 +1,7 @@
-<a href="javascript:;" id="show_menu">&raquo;</a>
+<a href="#" id="show_menu">&raquo;</a>
 <div id="left_menu">
 	<ul id="main_menu">
-		<li id="hide_menu"><a href="javascript:;">&laquo;</a></li>
+		<li id="hide_menu"><a href="#">&laquo;</a></li>
 		<li>
 			<?php echo $this->Html->link($this->Html->image('icon_pages.png', array('alt'=>'Pages')) . ' Pages', $this->Html->url('/admin/pages/'), array('escape' => false)); ?>
 			<ul>
@@ -19,7 +19,7 @@
 			</ul>	
 		</li>
 		<li>
-			<a href=""><?php echo $this->Html->image('icon_posts.png', array('alt'=>'Posts')); ?>Catalog Data</a>
+			<a href="#"><?php echo $this->Html->image('icon_posts.png', array('alt'=>'Posts')); ?>Catalog Data</a>
 			<ul>
 				<li><?php echo $this->Html->link('Addons', array('controller' => 'addons', 'action' => 'index'))?></li>
 				<li><?php echo $this->Html->link('Departure Dates', array('controller' => 'departure_dates', 'action' => 'index'))?></li>
@@ -31,7 +31,7 @@
 				<li><?php echo $this->Html->link('Tours', array('controller' => 'tours', 'action' => 'index'))?></li>
 			</ul>	
 		</li>
-		<li><a href=""><?php echo $this->Html->image('icon_home.png', array('alt'=>'Home')); ?>System Data</a>
+		<li><a href="#"><?php echo $this->Html->image('icon_home.png', array('alt'=>'Home')); ?>System Data</a>
 			<ul>
 				<li><?php echo $this->Html->link('Gallery Categories', array('controller' => 'gallery_categories', 'action' => 'index'))?></li>
 				<li><?php echo $this->Html->link('Note Categories', array('controller' => 'note_categories', 'action' => 'index'))?></li>
@@ -43,7 +43,5 @@
 				<li><?php echo $this->Html->link('Schools', array('controller' => 'schools', 'action' => 'index'))?></li>
 			</ul>
 		</li>
-		<li><?php echo $this->Html->link('Bugs', array('controller' => 'bugs', 'action' => 'index'))?></li>
-	</ul>
-	
+	</ul>	
 </div>
