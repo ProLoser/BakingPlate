@@ -211,7 +211,7 @@ legend {
 	font-size: 16px;
 	font-weight: bold;
 }
-input[type=text], input[type=password], select
+input[type=text], input[type=password], input[type=email], input[type=color], input[type=range], .input input, select
 {
 	background: #ffffff url("../../img/bg_ip.png") repeat-x;
 	padding: 5px;
@@ -240,18 +240,18 @@ textarea
 	border: 1px solid #c0c0c0;
 }
 
-input[type=text]:hover, input[type=password]:hover, textarea:hover
+input[type=text]:hover, input[type=password]:hover, textarea:hover, .input input:hover
 {
 	background-color: #fff5d3;
 	border: 1px solid #999999;
 }
 
-input[type=text]:focus, input[type=password]:focus, textarea:focus
+input[type=text]:focus, input[type=password]:focus, textarea:focus, .input input:focus
 {
 	background-color: #fff5d3;
 }
 
-input[type=text].blur, input[type=password].blur, textarea.blur
+input[type=text].blur, input[type=password].blur, textarea.blur, .input input.blur
 {
 	color: #999;
  	font-weight: normal;
