@@ -35,53 +35,6 @@ App::import('Helper', 'Form');
 class FormPlusHelper extends FormHelper {
 
 /**
- * Introspects model information and extracts information related
- * to validation, field length and field type. Appends information into
- * $this->fieldset.
- *
- * @return Model Returns a model instance
- * @access protected
- */
-	function &_introspectModel($model) {
-		$object = null;
-		if (is_string($model) && strpos($model, '.') !== false) {
-			$path = explode('.', $model);
-			$model = end($path);
-		}
-
-		if (ClassRegistry::isKeySet($model)) {
-			$object =& ClassRegistry::getObject($model);
-		}
-
-		if (!empty($object)) {
-			$fields = $object->schema();
-			foreach ($fields as $key => $value) {
-				unset($fields[$key]);
-				$fields[$key] = $value;
-			}
-
-			if (!empty($object->hasAndBelongsToMany)) {
-				foreach ($object->hasAndBelongsToMany as $alias => $assocData) {
-					$fields[$alias] = array('type' => 'multiple');
-				}
-			}
-			$validates = array();
-			if (!empty($object->validate)) {
-				foreach ($object->validate as $validateField => $validateProperties) {
-					if ($this->_isRequiredField($validateProperties)) {
-						$validates[] = $validateField;
-					}
-				}
-			}
-			$defaults = array('fields' => array(), 'key' => 'id', 'validates' => array());
-			$key = $object->primaryKey;
-			$this->fieldset[$model] = array_merge($defaults, compact('fields', 'key', 'validates'));
-		}
-
-		return $object;
-	}
-
-/**
  * Generates a form input element complete with label and wrapper div
  *
  * ### Options
@@ -125,16 +78,14 @@ class FormPlusHelper extends FormHelper {
 		if (!isset($this->fieldset[$modelKey])) {
 			$this->_introspectModel($modelKey);
 		}
-                
-                if(in_array($fieldKey, array('color', 'email', 'number', 'range', 'url'))) {
-			$options['type'] = $fieldKey;
-                }
 
 		if (!isset($options['type'])) {
 			$magicType = true;
 			$options['type'] = 'text';
 			if (isset($options['options'])) {
 				$options['type'] = 'select';
+			} elseif (in_array($fieldKey, array('color', 'email', 'number', 'range', 'url'))) {
+				$options['type'] = $fieldKey;
 			} elseif (in_array($fieldKey, array('psword', 'passwd', 'password'))) {
 				$options['type'] = 'password';
 			} elseif (isset($this->fieldset[$modelKey]['fields'][$fieldKey])) {
@@ -145,12 +96,9 @@ class FormPlusHelper extends FormHelper {
 
 			if (isset($type)) {
 				$map = array(
-					'string'  => 'text',     'datetime'  => 'datetime',
-					'boolean' => 'checkbox', 'timestamp' => 'datetime',
-					'text'    => 'textarea', 'time'      => 'time',
-					'date'    => 'date',     'float'     => 'text',
-                                        'string' => 'url', 'string' => 'email', 'float' => 'number',
-                                        'string' => 'color'
+					'string'    => 'text',     'datetime' => 'datetime', 'boolean' => 'checkbox', 
+					'timestamp' => 'datetime', 'text'     => 'textarea', 'time'    => 'time',
+					'date'      => 'date',     'float'    => 'text',	 'integer' => 'number',
 				);
 
 				if (isset($this->map[$type])) {
@@ -173,7 +121,7 @@ class FormPlusHelper extends FormHelper {
 				}
 			}
 		}
-		$types = array('checkbox', 'radio', 'select', 'color', 'email', 'number', 'range', 'url');
+		$types = array('checkbox', 'radio', 'select');
 
 		if (
 			(!isset($options['options']) && in_array($options['type'], $types)) ||
@@ -286,18 +234,6 @@ class FormPlusHelper extends FormHelper {
 			case 'radio':
 				$input = $this->radio($fieldName, $radioOptions, $options);
 			break;
-			case 'text':
-			case 'password':
-			case 'file':
-			case 'color':
-			case 'email':
-			case 'number':
-			case 'text':
-				$input = $this->{$type}($fieldName, $options);
-			break;
-			case 'url':
-				$input = $this->_url($fieldName, $options);
-			break;
 			case 'select':
 				$options += array('options' => array());
 				$list = $options['options'];
@@ -314,9 +250,15 @@ class FormPlusHelper extends FormHelper {
 				$input = $this->dateTime($fieldName, $dateFormat, $timeFormat, $selected, $options);
 			break;
 			case 'textarea':
-			default:
 				$input = $this->textarea($fieldName, $options + array('cols' => '30', 'rows' => '6'));
 			break;
+			case 'password':
+			case 'file':
+				$input = $this->{$type}($fieldName, $options);
+			break;
+			default:
+				$options['type'] = $type;
+				$input = $this->text($fieldName, $options);
 		}
 
 		if ($type != 'hidden' && $error !== false) {
@@ -334,122 +276,11 @@ class FormPlusHelper extends FormHelper {
 			$output .= $out[$element];
 			unset($out[$element]);
 		}
-
 		if (!empty($divOptions['tag'])) {
 			$tag = $divOptions['tag'];
 			unset($divOptions['tag']);
 			$output = $this->Html->tag($tag, $output, $divOptions);
 		}
 		return $output;
-	}
-
-/**
- * Creates a text input widget.
- *
- * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
- * @param array $options Array of HTML attributes.
- * @return string A generated HTML text input element
- * @access public
- * @link http://book.cakephp.org/view/1432/text
- */
-	function text($fieldName, $options = array()) {
-		$type = isset($options['type']) ? $options['type'] : 'text';
-		unset($options['type']);
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => $type), $options
-		));
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-/**
- * function email
- * @param $arg
- */
-	function email($fieldName, $options = array()) {    
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => 'email'), $options
-		));
-		$options['class'] = 'email';
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-	/**
-	 * function url
-	 * @param $address
-	 */
-	function _url($fieldName, $options = array()) {
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => 'url'), $options
-		));
-		$options['class'] = 'url';
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-/**
- * function number
- * @param $address
- */
-		function number($fieldName, $options = array()) {
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => 'number'), $options
-		));
-		$options['class'] = 'number';
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-/**
- * function color
- * @param $address
- */
-	function color($fieldName, $options = array()) {
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => 'color'), $options
-		));
-		$options['class'] = 'color';
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-/**
- * function range
- * @param $address
- */
-	function range($fieldName, $options = array()) {
-		$options = $this->_initInputField($fieldName, array_merge(
-			array('type' => 'range'), $options
-		));
-		$options['class'] = 'range';
-		return sprintf(
-			$this->Html->tags['input'],
-			$options['name'],
-			$this->_parseAttributes($options, array('name'), null, ' ')
-		);
-	}
-
-/*
- * function date this will come into play within datetime, date and time
- * @param $address
- */
-	function _date($fieldName, $options = array()) {
-		
 	}
 }
