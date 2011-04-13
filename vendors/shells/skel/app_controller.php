@@ -100,6 +100,7 @@ class AppController extends Controller {
 	 */
 	function beforeRender() {
 		$this->_setTheme();
+		//$this->_setErrorLayout();
 	}
 	
 	/**
@@ -213,6 +214,13 @@ class AppController extends Controller {
 			$url['locale'] = $this->params['locale'];
 		}
 		parent::redirect($url, $status, $exit);
+	}
+	
+	// http://nuts-and-bolts-of-cakephp.com/2009/04/30/give-all-of-your-error-messages-a-different-layout/
+	function _setErrorLayout() {
+		if($this->name == 'CakeError' && $this->layout !== 'maintenance') {
+			$this->layout = 'error';
+		}
 	}
 
 }
