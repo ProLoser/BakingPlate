@@ -16,6 +16,7 @@
  * @since         CakePHP(tm) v 1.2.0.5234
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+$plugins = App::objects('plugin');
 ?>
 <h2><?php echo "<?php __('{$pluralHumanName}');?>";?></h2>
 <ul class="actions">
@@ -48,7 +49,7 @@ foreach ($associations as $type => $data) {
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 	</div>
-	<?php echo "<?php echo $this->Batch->create('{$alias}')?>"?>
+	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$modelClass}')?>"?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 	<?php  foreach ($fields as $field):?>
@@ -57,14 +58,17 @@ foreach ($associations as $type => $data) {
 		<th class="actions"><?php echo "<?php __('Actions');?>";?></th>
 	</tr>
 	<?php
-	$filterFields = "'" . implode("',\n\t\t'", $fields) . "'";
-	$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
-	$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
-	echo "<?php 
-	echo \$this->Batch->filter(array(
-		{$filterFields}
-	));
-	
+	echo "<?php";
+	if (in_array('Batch', $plugins)) {
+		$filterFields = "'" . implode("',\n\t\t\t'", $fields) . "'";
+		$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
+		$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
+		echo "
+		echo \$this->Batch->filter(array(
+			{$filterFields}
+		));";
+	}
+	echo "
 	\$i = 0;
 	foreach (\${$pluralVar} as \${$singularVar}):
 		\$class = null;
@@ -93,19 +97,23 @@ foreach ($associations as $type => $data) {
 		echo "\t\t\t<?php echo \$this->Html->link(__('View', true), array('action' => 'view', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'view')); ?>\n";
 	 	echo "\t\t\t<?php echo \$this->Html->link(__('Edit', true), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'edit')); ?>\n";
 	 	echo "\t\t\t<?php echo \$this->Html->link(__('Delete', true), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n";
+		if (in_array('Batch', $plugins))
+		 	echo "\t\t\t<?php echo \$this->Batch->checkbox(\${$singularVar}['{$modelClass}']['{$primaryKey}']); ?>\n";
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
 	
-	echo "<?php endforeach;
-	echo \$this->Batch->batch(array(
-		{$filterFields}
-	));?>";
-	?>
+	echo "\t<?php endforeach";
+	if (in_array('Batch', $plugins))
+		echo "\n\t\techo \$this->Batch->batch(array(
+			{$filterFields}
+		));";
+	echo "?>";
+	?> 
 	</table>
-	<?php echo "\t<?php echo $this->Batch->end()?>"?>
+	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?> 
 	<div class="paging">
 		<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-		| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
+		| <?php echo "<?php echo \$this->Paginator->numbers();?>"?> |
 		<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 	</div>
 </div>
