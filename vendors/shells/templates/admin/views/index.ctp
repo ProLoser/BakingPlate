@@ -102,7 +102,7 @@ foreach ($associations as $type => $data) {
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
 	
-	echo "\t<?php endforeach";
+	echo "\t<?php endforeach;";
 	if (in_array('Batch', $plugins))
 		echo "\n\t\techo \$this->Batch->batch(array(
 			{$filterFields}
