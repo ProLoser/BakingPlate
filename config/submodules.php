@@ -110,6 +110,7 @@ $config['BakingPlate']['mcurry'] = array(
 	//'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
 	'sql_log'		=> 'git://github.com/mcurry/sql_log.git',
 	'tests'		=> 'git://github.com/mcurry/cakephp_tests.git',
+	'update'             => 'git://github.com/mcurry/update.git',
 	'url_cache'		=> 'git://github.com/mcurry/url_cache.git',
 );
 
@@ -138,7 +139,7 @@ $config['BakingPlate']['webtechnick'] = array(
 	'webtecknick'		=> 'git://github.com/webtechnick/CakePHP-Webtechnick-Plugin.git',
 	'paypal_ipn'		=> 'git://github.com/webtechnick/CakePHP-Paypal-IPN-Plugin.git',
 	'popup'				=> 'git://github.com/webtechnick/CakePHP-Popup-Plugin.git',
-	'configurations'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
+	'configuration'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
 	'gigya'				=> 'git://github.com/webtechnick/CakePHP-Gigya-Plugin.git',
 	'rake'				=> 'git://github.com/webtechnick/CakePHP-Rake-Plugin.git'
 );
