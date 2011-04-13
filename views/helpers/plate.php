@@ -91,10 +91,16 @@ class PlateHelper extends AppHelper {
 	public function lib($name, $options = array()) {
 		$options = array_merge(array(
 			'compressed' => true,
+			'fallback' => null, // path/to/fallback/lib.js
 		), Configure::read('BakingPlate.Libs.' . strtolower($name)), $options);
-		$url = ($options['compressed']) ? $options['cdn'] : $options['cdnu'];
+		$url = (!$options['compressed'] && !empty($options['cdnu'])) ? $options['cdnu'] : $options['cdn'];
 		$url = str_replace(':version', $options['version'], $url);
-		return $this->HtmlPlus->script($url);
+		$content = $this->HtmlPlus->script($url);
+		if (!empty($options['fallback_check']) && !empty($options['fallback'])) {
+			$fallback = $options['fallback_check'] . " || document.write('" . $this->HtmlPlus->script($options['fallback']) . "')";
+			$content .= "\n" . $this->HtmlPlus->scriptBlock($fallback, array('safe' => false));
+		}
+		return $content;
 	}
 
 /**
