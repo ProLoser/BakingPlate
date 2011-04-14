@@ -66,18 +66,10 @@ Configure::write('Languages.all', $languages);
 
 
 /**
- * BakingPlate: Settings 
+ * BakingPlate: Settings - see cakephp theme docs; remove marker once you have made your theme
  */
-//Configure::write('Site.Themes.Default', 'h5bp');
-//Configure::write('Site.Themes.Mobile', 'h5bp');
 
-Configure::write('Site.Name', 'Sam Sherlock');
-Configure::write('Site.Title', 'samsherlock.com');
-Configure::write('Site.subTitle', 'In the spirit of conradiction');
-//Configure::write('Site.Domains.Default', 'samsherlock.ss33');
-//Configure::write('Site.Domains.Mobile', 'm.samsherlock.ss33');
-//Configure::write('Site.Domains.Cdn', 'static.samsherlock.ss33');
-Configure::read('Site.Author', 'Sam Sherlock');
+#delete-me#Configure::write('Site.Themes.Default', 'h5bp');
 
 
 /**
@@ -87,12 +79,15 @@ Configure::read('Site.Author', 'Sam Sherlock');
 /**
  * Contact plugin settings 
  */
-Configure::write('App.UserClass', 'AppUser');
-Configure::write('Contact.email', 'hello@example.com');
+#delete-me#Configure::write('Contact.email', 'hello@example.com');
 
 /**
- *  Webmaster Tools
+ *  Webmaster Tools - app controller has the 
+ *  ability to switch the site into maintenance mode 
+ *  and will still allow admin to login
  */
-//require APP . 'plugins/webmaster_tools/config/core.php';
+/**[delete-me]/
+require APP . 'plugins/webmaster_tools/config/core.php';
 Configure::write('WebmasterTools.Maintenance.active', false);
 Configure::write('WebmasterTools.Maintenance.message', 'Closed for Maintenance');
+/**/
