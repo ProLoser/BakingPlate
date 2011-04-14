@@ -23,7 +23,8 @@ $config['BakingPlate']['Libs']['prototype'] = array(
 );
 $config['BakingPlate']['Libs']['swfobject'] = array(
 	'cdn' => '//ajax.googleapis.com/ajax/libs/swfobject/:version/swfobject.js',
-	'cdnu' => '',
+	'cdnu' => '//ajax.googleapis.com/ajax/libs/swfobject/:version/swfobject_src.js',
+	'fallback_check' => 'window.swfobject',
 	'version' => '2.2',
 );
 $config['BakingPlate']['Libs']['firebug'] = array(
