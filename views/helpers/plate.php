@@ -79,16 +79,8 @@ class PlateHelper extends AppHelper {
 
 		return $content;
 	}
-	
+
 /**
- * Returns a script tag to a cdn hosted js library
- *
- * @param string $name 
- * @param string $options 
- * @return void
- * @author Dean Sofer
- */
-	public function lib($name, $options = array()) {/**
  * Returns a script tag to a cdn hosted js library
  *
  * @param string $name 
@@ -128,12 +120,13 @@ class PlateHelper extends AppHelper {
  *
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
- * @param mixed $condition [true, false, '<7', '>8', 9]
- * @todo IEMobile
+ * @param mixed $condition [true, false, '<7', '>8']
+ * @todo if gt IE 8 make it include the non iefix too - this works for me
+ * @todo reconsider the code here - it meanders 131-142
  */
 	function iecc($content, $condition) {
 		if ($condition === false) {
-			$condition = '!IE';
+			$condition = ' gt IE 8';
 		} else {
 			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
@@ -149,12 +142,11 @@ class PlateHelper extends AppHelper {
 			$condition = $cond . ' IE ' . $condition;
 		}
 		
-		// standard prepend and append
 		$pre = '<!--[if' . $condition . ']>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if (strpos($condition, '!IE') !== false) {
+		if (strpos($condition, 'gt IE 8') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
@@ -196,7 +188,8 @@ class PlateHelper extends AppHelper {
 	}
 
 /** 
- * Ends a block of output to display in layout 
+ * Ends a block of output to display in layout
+ * @todo should this always return and set
  */ 
 	function stop() { 
 		if(is_null($this->__blockName)) 
