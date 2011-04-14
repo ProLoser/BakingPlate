@@ -3,11 +3,23 @@
 <?php
 
 $this->Plate->start('sidebar');
-?><ul>
+?>
+<h3>What to do now</h3>
+<div>
+	<p>Your app is baked - various features can be enabled by reviewing the code generated and  (re)moving markers</p>
+	<p>Just as Html5 Boilerplate is delete-key friendly so is BakingPlate - lines/blocks your not using can be removed</p>
+</div>
+
+<h4>Markers</h4>
+<dl>
+	<dt>A single line markers</dt>
+	<dd><code>#delete-me#</code></dd>
+	<dd><code>#move-me#</code></dd>
+	<dt>A multi line marker</dt>
+	<dd><code>[delete-me]</code></dd>
 	
-	<li><p>some sidebar content</p></li>
-	
-</ul><?php
+</dl>
+</div><?php
 $this->Plate->stop();
 
 
