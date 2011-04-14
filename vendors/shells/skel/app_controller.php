@@ -40,8 +40,8 @@ class AppController extends Controller {
 			array('helper' => 'BakingPlate.FormPlus', 'rename' => 'Form'),
 		),
 		'Time',
-		'AssetCompress.AssetCompress',
-		'Navigation.Navigation'
+		#delete-me#'AssetCompress.AssetCompress',
+		#delete-me#'Navigation.Navigation'
 	);
 	var $components = array(
 		'BakingPlate.Plate',
@@ -50,7 +50,7 @@ class AppController extends Controller {
 			'actions' => array('index', 'admin_index'),
 		),
 		'RequestHandler',
-		'Navigation.Menus',
+		#delete-me#'Navigation.Menus',
 		/* Auth Configuration *[delete me]/
 		'Auth' => array(
 			'fields' => array(
@@ -86,6 +86,13 @@ class AppController extends Controller {
 	 */
 	var $debugOverride = 'debug';
 
+	
+	/**
+	 * Setup auth, language maintenance
+	 *
+	 * @return void
+	 * @author Dean
+	 */
 	function beforeFilter() {
 		#delete-me#$this->_setupAuth();
 		$this->_setLanguage();
@@ -93,14 +100,14 @@ class AppController extends Controller {
 	}
 	
 	/**
-	 * Changes the layout of the page if the prefix changes
+	 * Changes the layout of the page if the prefix changes - switch to basic layout for errors
 	 *
 	 * @return void
 	 * @author Dean
 	 */
 	function beforeRender() {
 		$this->_setTheme();
-		//$this->_setErrorLayout();
+		$this->_setErrorLayout();
 	}
 	
 	/**
@@ -122,15 +129,14 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * function _setMaintenance
+	 * set site into Maintenance mode but not for loggeed user - allow users to login
 	 */
-	function _setMaintenance() {
+	protected function _setMaintenance() {
 		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
 		$mainMode = Configure::read('WebmasterTools.Maintenance');
-		//debug($user);die();
 		if(!isset($user['AppUser']) && $this->action !== 'login') {
 			if($mainMode['active']) {
-				$this->loadComponent(array('WebmasterTools.Maintenance'));
+				$this->Plate->loadComponent(array('WebmasterTools.Maintenance'));
 				$this->Maintenance->activate($mainMode['message']);
 			}
 		}
@@ -145,7 +151,7 @@ class AppController extends Controller {
 	 * @return void
 	 * @author Sam
 	 */
-	function _setTheme($theme = null) {
+	protected function _setTheme($theme = null) {
 		if ($this->Plate->prefix('admin')) {
 			$this->theme = 'admin';
 		} else {
@@ -216,8 +222,12 @@ class AppController extends Controller {
 		parent::redirect($url, $status, $exit);
 	}
 	
-	// http://nuts-and-bolts-of-cakephp.com/2009/04/30/give-all-of-your-error-messages-a-different-layout/
-	function _setErrorLayout() {
+	/**
+	 * if cakeError is set and not maintenance layout set layout to error
+	 * http://nuts-and-bolts-of-cakephp.com/2009/04/30/give-all-of-your-error-messages-a-different-layout/
+	 *
+	 */
+	protected function _setErrorLayout() {
 		if($this->name == 'CakeError' && $this->layout !== 'maintenance') {
 			$this->layout = 'error';
 		}
