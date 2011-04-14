@@ -60,7 +60,7 @@ class PlateHelper extends AppHelper {
 			unset($options['ie']);
 			$backup = $options;
 			$content = '';
-			
+			// output a sequence of html tags to target ie versions and lastly all non ie browsers (including ie9 since it is mostly good)
 			$options['class'] .= ' ie6';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
@@ -70,7 +70,7 @@ class PlateHelper extends AppHelper {
 			$options['class'] .= ' ie8';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8') . "\n"; 
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), false) . "\n";  
 		} else {
 			$options = array_filter($options);
 			$options['class'] = trim($options['class']);
@@ -88,6 +88,14 @@ class PlateHelper extends AppHelper {
  * @return void
  * @author Dean Sofer
  */
+	public function lib($name, $options = array()) {/**
+ * Returns a script tag to a cdn hosted js library
+ *
+ * @param string $name 
+ * @param string $options 
+ * @return void
+ * @author Dean Sofer
+ */
 	public function lib($name, $options = array()) {
 		$options = array_merge(array(
 			'compressed' => true,
@@ -97,7 +105,8 @@ class PlateHelper extends AppHelper {
 		$url = str_replace(':version', $options['version'], $url);
 		$content = $this->HtmlPlus->script($url);
 		if (!empty($options['fallback_check']) && !empty($options['fallback'])) {
-			$fallback = $options['fallback_check'] . " || document.write('" . $this->HtmlPlus->script($options['fallback']) . "')";
+			$fallback = str_replace('</', '\x3C/', $this->HtmlPlus->script($options['fallback']));
+			$fallback = $options['fallback_check'] . " || document.write('" . $fallback . "')";
 			$content .= "\n" . $this->HtmlPlus->scriptBlock($fallback, array('safe' => false));
 		}
 		return $content;
@@ -120,6 +129,7 @@ class PlateHelper extends AppHelper {
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
  * @param mixed $condition [true, false, '<7', '>8', 9]
+ * @todo IEMobile
  */
 	function iecc($content, $condition) {
 		if ($condition === false) {
@@ -136,8 +146,8 @@ class PlateHelper extends AppHelper {
 			if ($pos !== false && $pos !== 0) {
 				$cond .= 'e';
 			}
-			$condition = $cond . ' IE' . $condition;
-		}		
+			$condition = $cond . ' IE ' . $condition;
+		}
 		
 		// standard prepend and append
 		$pre = '<!--[if' . $condition . ']>';
