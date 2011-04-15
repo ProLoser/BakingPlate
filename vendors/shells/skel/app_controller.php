@@ -40,7 +40,7 @@ class AppController extends Controller {
 			array('helper' => 'BakingPlate.FormPlus', 'rename' => 'Form'),
 		),
 		'Time',
-		#delete-me#'AssetCompress.AssetCompress',
+		'AssetCompress.AssetCompress',
 		#delete-me#'Navigation.Navigation'
 	);
 	var $components = array(
@@ -107,7 +107,7 @@ class AppController extends Controller {
 	 */
 	function beforeRender() {
 		$this->_setTheme();
-		$this->_setErrorLayout();
+		$this->Plate->_setErrorLayout();
 	}
 	
 	/**
@@ -223,6 +223,7 @@ class AppController extends Controller {
 	}
 	
 	/**
+	 * moved to Plate Comp
 	 * if cakeError is set and not maintenance layout set layout to error
 	 * http://nuts-and-bolts-of-cakephp.com/2009/04/30/give-all-of-your-error-messages-a-different-layout/
 	 *

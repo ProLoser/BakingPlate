@@ -216,5 +216,16 @@ class PlateComponent extends Object {
 			$this->controller->set(Inflector::underscore($varName), $this->controller->{$varName});
 		}
 	}
+
+	/**
+	 * if cakeError is set and not maintenance layout set layout to error
+	 * http://nuts-and-bolts-of-cakephp.com/2009/04/30/give-all-of-your-error-messages-a-different-layout/
+	 *
+	 */
+	protected function _setErrorLayout() {
+		if($this->controller->name == 'CakeError' && $this->controller->layout !== 'maintenance') {
+			$this->controller->layout = 'error';
+		}
+	}
 }
 ?>
