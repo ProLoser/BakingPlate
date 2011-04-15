@@ -126,7 +126,7 @@ class PlateHelper extends AppHelper {
  */
 	function iecc($content, $condition) {
 		if ($condition === false) {
-			$condition = ' gt IE 8';
+			$condition = ' !IE';
 		} else {
 			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
