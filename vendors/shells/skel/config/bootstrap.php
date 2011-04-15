@@ -69,7 +69,7 @@ Configure::write('Languages.all', $languages);
  * BakingPlate: Settings - see cakephp theme docs; remove marker once you have made your theme
  */
 
-#delete-me#Configure::write('Site.Themes.Default', 'h5bp');
+#delete-me#Configure::write('Site.Themes.Default', '<ThemeName>');
 
 
 /**
@@ -79,7 +79,7 @@ Configure::write('Languages.all', $languages);
 /**
  * Contact plugin settings 
  */
-#delete-me#Configure::write('Contact.email', 'hello@example.com');
+#delete-me#Configure::write('Contact.email', '<YourEmail>');
 
 /**
  *  Webmaster Tools - app controller has the 
@@ -89,5 +89,5 @@ Configure::write('Languages.all', $languages);
 /**[delete-me]/
 require APP . 'plugins/webmaster_tools/config/core.php';
 Configure::write('WebmasterTools.Maintenance.active', false);
-Configure::write('WebmasterTools.Maintenance.message', 'Closed for Maintenance');
+Configure::write('WebmasterTools.Maintenance.message', '<YourMaintenanceMsg>');
 /**/
