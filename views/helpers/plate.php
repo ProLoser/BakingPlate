@@ -70,6 +70,9 @@ class PlateHelper extends AppHelper {
 			$options['class'] .= ' ie8';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
+			$options['class'] .= ' ie9';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8') . "\n";  
+			$options = $backup;
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), false) . "\n";  
 		} else {
 			$options = array_filter($options);
@@ -126,7 +129,7 @@ class PlateHelper extends AppHelper {
  */
 	function iecc($content, $condition) {
 		if ($condition === false) {
-			$condition = ' !IE';
+			$condition = '!IE';
 		} else {
 			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
@@ -142,11 +145,11 @@ class PlateHelper extends AppHelper {
 			$condition = $cond . ' IE ' . $condition;
 		}
 		
-		$pre = '<!--[if' . $condition . ']>';
+		$pre = '<!--[if ' . $condition . ' ]>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if (strpos($condition, 'gt IE 8') !== false) {
+		if (strpos($condition, '!IE') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
