@@ -38,6 +38,7 @@ class AppController extends Controller {
 		'Analogue.Analogue' => array(
 			array('helper' => 'BakingPlate.HtmlPlus', 'rename' => 'Html'),
 			array('helper' => 'BakingPlate.FormPlus', 'rename' => 'Form'),
+			array('helper' => 'BakingPlate.PaginatorPlus', 'rename' => 'Paginator'),
 		),
 		'Time',
 		#delete-me#'AssetCompress.AssetCompress',
@@ -63,8 +64,8 @@ class AppController extends Controller {
 			//'authorize' => 'actions', // TODO Install ACL component?
 		),/**/
 	);
-
-	var $view = 'Theme';
+	
+	var $view = 'BakingPlate.ThemedAutoHelper';
 	
 	var $attributesForLayout = array(
 		'id' => 'home',
@@ -85,30 +86,11 @@ class AppController extends Controller {
 	 * $_GET keyword to force debug mode. Set to false or delete to disable.
 	 */
 	var $debugOverride = 'debug';
-
 	
 	/**
-	 * Setup auth, language maintenance
-	 *
-	 * @return void
-	 * @author Dean
+	 * Used to set a max for the pagination limit
 	 */
-	function beforeFilter() {
-		#delete-me#$this->_setupAuth();
-		$this->_setLanguage();
-		$this->_setMaintenance();
-	}
-	
-	/**
-	 * Changes the layout of the page if the prefix changes - switch to basic layout for errors
-	 *
-	 * @return void
-	 * @author Dean
-	 */
-	function beforeRender() {
-		$this->_setTheme();
-		$this->_setErrorLayout();
-	}
+    var $paginationMaxLimit = false; // set to 25 or some number
 	
 	/**
 	 * This allows the enabling of debug mode even if debug is set to off. 
@@ -126,6 +108,22 @@ class AppController extends Controller {
 			App::import('Vendor', 'DebugKit.FireCake');
 		}
 		parent::__construct();
+	}
+	
+	function beforeFilter() {
+		#delete-me#$this->_setupAuth();
+		$this->_setLanguage();
+		$this->_setMaintenance();
+	}
+	
+	/**
+	 * Changes the layout of the page if the prefix changes
+	 *
+	 * @return void
+	 * @author Dean
+	 */
+	function beforeRender() {
+		$this->_setTheme();
 	}
 
 	/**
