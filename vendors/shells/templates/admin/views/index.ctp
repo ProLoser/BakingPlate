@@ -62,7 +62,7 @@ foreach ($associations as $type => $data) {
 	if (in_array('Batch', $plugins)) {
 		$filterFields = "'" . implode("',\n\t\t\t'", $fields) . "'";
 		$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
-		$filterFields = str_replace(array("'created'", "'modified'"), 'null', $filterFields);
+		$filterFields = str_replace(array("'id'", "'created'", "'modified'"), 'null', $filterFields);
 		echo "
 		echo \$this->Batch->filter(array(
 			{$filterFields}
