@@ -71,9 +71,7 @@ class PlateHelper extends AppHelper {
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
 			$options['class'] .= ' ie9';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8') . "\n";  
-			$options = $backup;
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), false) . "\n";  
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
 		} else {
 			$options = array_filter($options);
 			$options['class'] = trim($options['class']);
@@ -124,10 +122,9 @@ class PlateHelper extends AppHelper {
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
  * @param mixed $condition [true, false, '<7', '>8']
- * @todo if gt IE 8 make it include the non iefix too - this works for me
- * @todo reconsider the code here - it meanders 131-142
+ * @param boolean $escape set to true to escape the cc for non-ie browsers
  */
-	function iecc($content, $condition) {
+	function iecc($content, $condition, $escape = false) {
 		if ($condition === false) {
 			$condition = '!IE';
 		} else {
@@ -149,7 +146,7 @@ class PlateHelper extends AppHelper {
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if (strpos($condition, '!IE') !== false) {
+		if ($escape || strpos($condition, '!IE') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}

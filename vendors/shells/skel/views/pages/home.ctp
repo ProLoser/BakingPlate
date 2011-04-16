@@ -1,28 +1,6 @@
 <h2>Sweet, "Baking Plate" got Baked by CakePHP!</h2>
 
 <?php
-
-$this->Plate->start('sidebar');
-?>
-<h3>What to do now</h3>
-<div>
-	<p>Your app is baked - various features can be enabled by reviewing the code generated and  (re)moving markers</p>
-	<p>Just as Html5 Boilerplate is delete-key friendly so is BakingPlate - lines/blocks your not using can be removed</p>
-</div>
-
-<h4>Markers</h4>
-<dl>
-	<dt>A single line markers</dt>
-	<dd><code>#delete-me#</code></dd>
-	<dd><code>#move-me#</code></dd>
-	<dt>A multi line marker</dt>
-	<dd><code>[delete-me]</code></dd>
-	
-</dl>
-</div><?php
-$this->Plate->stop();
-
-
 if (Configure::read() > 0):
 	Debugger::checkSecurityKeys();
 endif;
@@ -102,3 +80,18 @@ if (!empty($filePresent)):
 		APP . 'views' . DS . 'pages' . DS . 'home.ctp.<br />',  APP . 'views' . DS . 'layouts' . DS . 'default.ctp.<br />', APP . 'webroot' . DS . 'css');
 ?>
 </p>
+
+<h3>What to do now</h3>
+<p>Now that you're app has been generated, here are a few areas you should checkout to see some 'best practices' examples.</p>
+<ul>
+	<li>app_controller.php</li>
+	<li>app_model.php</li>
+	<li>app_error.php</li>
+	<li>bootstrap.php</li>
+	<li>views/layouts/default.ctp</li>
+	<li>views/elements</li>
+	<li>webroot/css</li>
+	<li>webroot/js</li>
+	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
+</ul>
+<p>Baking Plate is delete-key friendly. Just search the project for #!# to see different options you can enable.</p>

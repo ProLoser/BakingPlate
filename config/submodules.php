@@ -29,6 +29,7 @@ $config['BakingPlate']['core'] = array(
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
+	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
@@ -92,25 +93,24 @@ $config['BakingPlate']['sams'] = array(
 
 $config['BakingPlate']['mcurry'] = array(
 	'ab_test'			=> 'git://github.com/mcurry/ab_test.git',
-	'asset'			=> 'git://github.com/mcurry/asset.git',
+	'asset'				=> 'git://github.com/mcurry/asset.git',
 	'builder'			=> 'git://github.com/mcurry/builder.git',
-	'chat'		=> 'git://github.com/mcurry/chat.git',
-	'click'		=> 'git://github.com/mcurry/click.git',
-	'discogs'		=> 'git://github.com/mcurry/cakephp_datasource_discogs.git',
-	'find'		=> 'git://github.com/mcurry/find.git',
-	'js'		=> 'git://github.com/mcurry/js.git',
+	'chat'				=> 'git://github.com/mcurry/chat.git',
+	'click'				=> 'git://github.com/mcurry/click.git',
+	'discogs'			=> 'git://github.com/mcurry/cakephp_datasource_discogs.git',
+	'find'				=> 'git://github.com/mcurry/find.git',
+	'js'				=> 'git://github.com/mcurry/js.git',
 	'js_validate'		=> 'git://github.com/mcurry/js_validate.git',
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
 	'html_cache'		=> 'git://github.com/mcurry/html_cache.git',
 	'interactive'		=> 'git://github.com/mcurry/interactive.git',
-	'pagination_recall'		=> 'git://github.com/mcurry/pagination_recall.git',
+	'pagination_recall'	=> 'git://github.com/mcurry/pagination_recall.git',
 	'progress_bar'		=> 'git://github.com/mcurry/progress_bar.git',
-	'seo'		=> 'git://github.com/mcurry/seo.git',
-	//'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
-	'sql_log'		=> 'git://github.com/mcurry/sql_log.git',
-	'tests'		=> 'git://github.com/mcurry/cakephp_tests.git',
-	'update'             => 'git://github.com/mcurry/update.git',
-	'url_cache'		=> 'git://github.com/mcurry/url_cache.git',
+	'seo'				=> 'git://github.com/mcurry/seo.git',
+	'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
+	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
+	'tests'				=> 'git://github.com/mcurry/cakephp_tests.git',
+	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
 );
 
 $config['BakingPlate']['petteyg'] = array(
@@ -129,6 +129,8 @@ $config['BakingPlate']['josegonzalez'] = array(
 	'upload_pack' 		=> 'git://github.com/josegonzalez/uploadpack.git',
 	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
 	'wysiwyg'			=> 'git://github.com/josegonzalez/cakephp-wysiwyg-helper.git',
+	'sanction'			=> 'git://github.com/josegonzalez/sanction.git',
+	'oh_the_repositories' => 'git://github.com/josegonzalez/oh_the_repositories.git',
 );
 
 $config['BakingPlate']['webtechnick'] = array(
@@ -145,10 +147,10 @@ $config['BakingPlate']['webtechnick'] = array(
 
 $config['BakingPlate']['cakedc'] = array(
 	'asset_compress'	=> 'git://github.com/CakeDC/asset_compress.git',
-	'bitly'	                => 'git://github.com/CakeDC/bitly.git',
-	'categories'			=> 'git://github.com/CakeDC/categories.git',
+	'bitly'				=> 'git://github.com/CakeDC/bitly.git',
+	'categories'		=> 'git://github.com/CakeDC/categories.git',
 	'comments'			=> 'git://github.com/CakeDC/comments.git',
-	'favourites'				=> 'git://github.com/CakeDC/favourites.git',
+	'favourites'		=> 'git://github.com/CakeDC/favourites.git',
 	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
 	'markup_parsers'	=> 'git://github.com/CakeDC/markup_parsers.git',
 	'migrations'		=> 'git://github.com/CakeDC/migrations.git',
@@ -157,8 +159,8 @@ $config['BakingPlate']['cakedc'] = array(
 	'recaptcha'			=> 'git://github.com/CakeDC/recaptcha.git',
 	'search'			=> 'git://github.com/CakeDC/search.git',
 	'tags'				=> 'git://github.com/CakeDC/tags.git',
-	'templates'				=> 'git://github.com/CakeDC/templates.git',
-	'tiny_mce'				=> 'git://github.com/CakeDC/TinyMCE.git',
+	'templates'			=> 'git://github.com/CakeDC/templates.git',
+	'tiny_mce'			=> 'git://github.com/CakeDC/TinyMCE.git',
 	'users'				=> 'git://github.com/CakeDC/users.git',
 	'utils'				=> 'git://github.com/CakeDC/utils.git',
 );
@@ -189,8 +191,8 @@ $config['BakingPlate']['mi'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
-	'phpunit'		=> '',
+	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
-	'jsmin'			=> 'git://github.com/rgrove/jsmin-php.git',
-	'phpthumb'		=> 'git://github.com/masterexploder/PHPThumb.git',
+	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
+	'phpthumb'			=> 'git://github.com/masterexploder/PHPThumb.git',
 );

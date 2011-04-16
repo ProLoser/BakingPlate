@@ -66,28 +66,20 @@ Configure::write('Languages.all', $languages);
 
 
 /**
- * BakingPlate: Settings - see cakephp theme docs; remove marker once you have made your theme
- */
-
-#delete-me#Configure::write('Site.Themes.Default', '<ThemeName>');
-
-
-/**
  * Plugin Configurations
  */
 
 /**
  * Contact plugin settings 
  */
-#delete-me#Configure::write('Contact.email', '<YourEmail>');
+#!# Configure::write('Contact.email', '<YourEmail>');
 
 /**
  *  Webmaster Tools - app controller has the 
  *  ability to switch the site into maintenance mode 
  *  and will still allow admin to login
- */
-/**[delete-me]/
+ *#!#/
 require APP . 'plugins/webmaster_tools/config/core.php';
 Configure::write('WebmasterTools.Maintenance.active', false);
 Configure::write('WebmasterTools.Maintenance.message', '<YourMaintenanceMsg>');
-/**/
+/*^*/
