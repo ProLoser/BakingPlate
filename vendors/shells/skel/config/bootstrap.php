@@ -66,33 +66,20 @@ Configure::write('Languages.all', $languages);
 
 
 /**
- * BakingPlate: Settings 
- */
-//Configure::write('Site.Themes.Default', 'h5bp');
-//Configure::write('Site.Themes.Mobile', 'h5bp');
-
-Configure::write('Site.Name', 'Sam Sherlock');
-Configure::write('Site.Title', 'samsherlock.com');
-Configure::write('Site.subTitle', 'In the spirit of conradiction');
-//Configure::write('Site.Domains.Default', 'samsherlock.ss33');
-//Configure::write('Site.Domains.Mobile', 'm.samsherlock.ss33');
-//Configure::write('Site.Domains.Cdn', 'static.samsherlock.ss33');
-Configure::read('Site.Author', 'Sam Sherlock');
-
-
-/**
  * Plugin Configurations
  */
 
 /**
  * Contact plugin settings 
  */
-Configure::write('App.UserClass', 'AppUser');
-Configure::write('Contact.email', 'hello@example.com');
+#!# Configure::write('Contact.email', '<YourEmail>');
 
 /**
- *  Webmaster Tools
- */
-//require APP . 'plugins/webmaster_tools/config/core.php';
+ *  Webmaster Tools - app controller has the 
+ *  ability to switch the site into maintenance mode 
+ *  and will still allow admin to login
+ *#!#/
+require APP . 'plugins/webmaster_tools/config/core.php';
 Configure::write('WebmasterTools.Maintenance.active', false);
-Configure::write('WebmasterTools.Maintenance.message', 'Closed for Maintenance');
+Configure::write('WebmasterTools.Maintenance.message', '<YourMaintenanceMsg>');
+/*^*/

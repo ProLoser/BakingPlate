@@ -27,7 +27,6 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
@@ -54,16 +53,16 @@ $config['BakingPlate']['davidpersson'] = array(
 );
 
 $config['BakingPlate']['milesj'] = array(
-	'forum'				=> 'git://github.com/milesj/cake-forum.git',
-	'uploader'			=> 'git://github.com/milesj/cake-uploader.git',
-	'decoda'			=> 'git://github.com/milesj/cake-decoda.git',
-	'we_game'			=> 'git://github.com/milesj/cake-we_game.git',
-	'spam_blocker'		=> 'git://github.com/milesj/cake-spam_blocker.git',
 	'ajax_handler'		=> 'git://github.com/milesj/cake-ajax_handler.git',
-	'data_kit'			=> 'git://github.com/milesj/cake-data_kit.git',
 	'auto_login'		=> 'git://github.com/milesj/cake-auto_login.git',
 	'cache_kill'		=> 'git://github.com/milesj/cake-cache_kill.git',
+	'data_kit'			=> 'git://github.com/milesj/cake-data_kit.git',
+	'decoda'			=> 'git://github.com/milesj/cake-decoda.git',
 	'feeds'				=> 'git://github.com/milesj/cake-feeds.git',
+	'forum'				=> 'git://github.com/milesj/cake-forum.git',
+	'spam_blocker'		=> 'git://github.com/milesj/cake-spam_blocker.git',
+	'uploader'			=> 'git://github.com/milesj/cake-uploader.git',
+	'we_game'			=> 'git://github.com/milesj/cake-we_game.git',
 );
 
 $config['BakingPlate']['mariano'] = array(
@@ -86,10 +85,10 @@ $config['BakingPlate']['proloser'] = array(
 );
 
 $config['BakingPlate']['sams'] = array(
+	'contact'			=> 'git://github.com/sams/contact.git',
+	'manifesto'			=> 'git://github.com/sams/manifesto.git',
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
-	'manifesto'			=> 'git://github.com/sams/manifesto.git',
-	'contact'			=> 'git://github.com/sams/contact.git',
 );
 
 $config['BakingPlate']['mcurry'] = array(
@@ -120,13 +119,13 @@ $config['BakingPlate']['petteyg'] = array(
 
 $config['BakingPlate']['josegonzalez'] = array(
 	'log'				=> 'git://github.com/josegonzalez/log.git',
-	'settings'			=> 'git://github.com/josegonzalez/settings.git',
 	'purifiable'		=> 'git://github.com/josegonzalez/purifiable.git',
 	'retranslate'		=> 'git://github.com/josegonzalez/retranslatable-behavior.git',
-	'trackable'			=> 'git://github.com/josegonzalez/trackable-behavior.git',
-	'sitemap'			=> 'git://github.com/josegonzalez/sitemap-helper.git',
-	'trimmable'			=> 'git://github.com/josegonzalez/trimmable-behavior.git',
 	'gzip'				=> 'git://github.com/josegonzalez/gzip-component.git',
+	'sitemap'			=> 'git://github.com/josegonzalez/sitemap-helper.git',
+	'settings'			=> 'git://github.com/josegonzalez/settings.git',
+	'trackable'			=> 'git://github.com/josegonzalez/trackable-behavior.git',
+	'trimmable'			=> 'git://github.com/josegonzalez/trimmable-behavior.git',
 	'upload_pack' 		=> 'git://github.com/josegonzalez/uploadpack.git',
 	'webservice'		=> 'git://github.com/josegonzalez/webservice_plugin.git',
 	'wysiwyg'			=> 'git://github.com/josegonzalez/cakephp-wysiwyg-helper.git',
@@ -137,13 +136,13 @@ $config['BakingPlate']['josegonzalez'] = array(
 $config['BakingPlate']['webtechnick'] = array(
 	'fileupload'		=> 'git://github.com/webtechnick/CakePHP-FileUpload-Plugin.git',
 	'facebook'			=> 'git://github.com/webtechnick/CakePHP-Facebook-Plugin.git',
-	'seo'				=> 'git://github.com/webtechnick/CakePHP-Seo-Plugin.git',
 	'webtecknick'		=> 'git://github.com/webtechnick/CakePHP-Webtechnick-Plugin.git',
 	'paypal_ipn'		=> 'git://github.com/webtechnick/CakePHP-Paypal-IPN-Plugin.git',
 	'popup'				=> 'git://github.com/webtechnick/CakePHP-Popup-Plugin.git',
-	'configurations'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
+	'configuration'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
 	'gigya'				=> 'git://github.com/webtechnick/CakePHP-Gigya-Plugin.git',
-	'rake'				=> 'git://github.com/webtechnick/CakePHP-Rake-Plugin.git'
+	'rake'				=> 'git://github.com/webtechnick/CakePHP-Rake-Plugin.git',
+	'seo'				=> 'git://github.com/webtechnick/CakePHP-Seo-Plugin.git',
 );
 
 $config['BakingPlate']['cakedc'] = array(

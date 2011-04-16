@@ -35,7 +35,7 @@ class PlateComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	function initialize(&$controller, $settings = array()) {
+	public function initialize(&$controller, $settings = array()) {
 		$this->controller = $controller;
 		if (!isset($this->__settings[$controller->name])) {
 			$this->__settings[$controller->name] = $settings;
@@ -51,7 +51,7 @@ class PlateComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	function startup(&$controller) {
+	public function startup(&$controller) {
 		$this->_paginationLimit();
 	}
 
@@ -63,7 +63,7 @@ class PlateComponent extends Object {
  * @return void
  * @access public
  */
-	function beforeRender(&$controller) {
+	public function beforeRender(&$controller) {
 		// An annoying fix for asset_compress
 		if (empty($this->controller))
 			$this->controller = $controller;
@@ -79,7 +79,7 @@ class PlateComponent extends Object {
  * @return void
  * @access public
  */
-	function shutdown(&$controller) {
+	public function shutdown(&$controller) {
 	}
 
 /**
@@ -176,7 +176,7 @@ class PlateComponent extends Object {
  *
  * @param mixed $helpers (single string or multiple array)
  */
-	function loadComponent($components = array()) {
+	public function loadComponent($components = array()) {
 		foreach ((array)$components as $component => $config) {
 			if (is_int($component)) {
 				$component = $config;
@@ -209,7 +209,7 @@ class PlateComponent extends Object {
  * @return boolean
  * @access protected
  **/
-	function prefix($prefix = null) {
+	public function prefix($prefix = null) {
 		if (isset($this->controller->params['prefix'])) {
 			if ($prefix) {
 				return $this->controller->params['prefix'] == $prefix;
@@ -228,7 +228,7 @@ class PlateComponent extends Object {
  * @return void
  * @author Dean Sofer
  */
-	function setToView($varName = null) {
+	public function setToView($varName = null) {
 		if (!empty($varName) && property_exists($this->controller, $varName)) {
 			$this->controller->set(Inflector::underscore($varName), $this->controller->{$varName});
 		}

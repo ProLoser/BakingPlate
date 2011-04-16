@@ -38,13 +38,13 @@ class PlateHelper extends AppHelper {
  * Creates an opening html tag with optional classes, conditional comments, manifet and language
  *
  * @param array $options
- * @example echo $this->HtmlPlus->html(array('iecc' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
+ * @example echo $this->Plate->html(array('ie' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
  * @link https://developer.mozilla.org/En/Offline_resources_in_Firefox
  */
 	public function html($options = array()) {
 		$options = array_merge(array(
 			'lang' => Configure::read('Config.language'),
-			'manifest' => null, // TODO what is 'manifest_for_layout'? Configure::read('Manifest.basePath')
+			'manifest' => null,
 			'ie' => true,
 			'js' => true,
 			'class' => '',
@@ -60,7 +60,7 @@ class PlateHelper extends AppHelper {
 			unset($options['ie']);
 			$backup = $options;
 			$content = '';
-			
+			// output a sequence of html tags to target ie versions and lastly all non ie browsers (including ie9 since it is mostly good)
 			$options['class'] .= ' ie6';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
@@ -70,7 +70,8 @@ class PlateHelper extends AppHelper {
 			$options['class'] .= ' ie8';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8') . "\n"; 
+			$options['class'] .= ' ie9';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
 		} else {
 			$options = array_filter($options);
 			$options['class'] = trim($options['class']);
@@ -79,7 +80,7 @@ class PlateHelper extends AppHelper {
 
 		return $content;
 	}
-	
+
 /**
  * Returns a script tag to a cdn hosted js library
  *
@@ -97,7 +98,8 @@ class PlateHelper extends AppHelper {
 		$url = str_replace(':version', $options['version'], $url);
 		$content = $this->HtmlPlus->script($url);
 		if (!empty($options['fallback_check']) && !empty($options['fallback'])) {
-			$fallback = $options['fallback_check'] . " || document.write('" . $this->HtmlPlus->script($options['fallback']) . "')";
+			$fallback = str_replace('</', '\x3C/', $this->HtmlPlus->script($options['fallback']));
+			$fallback = $options['fallback_check'] . " || document.write('" . $fallback . "')";
 			$content .= "\n" . $this->HtmlPlus->scriptBlock($fallback, array('safe' => false));
 		}
 		return $content;
@@ -119,9 +121,10 @@ class PlateHelper extends AppHelper {
  *
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
- * @param mixed $condition [true, false, '<7', '>8', 9]
+ * @param mixed $condition [true, false, '<7', '>8']
+ * @param boolean $escape set to true to escape the cc for non-ie browsers
  */
-	function iecc($content, $condition) {
+	function iecc($content, $condition, $escape = false) {
 		if ($condition === false) {
 			$condition = '!IE';
 		} else {
@@ -136,15 +139,14 @@ class PlateHelper extends AppHelper {
 			if ($pos !== false && $pos !== 0) {
 				$cond .= 'e';
 			}
-			$condition = $cond . ' IE' . $condition;
-		}		
+			$condition = $cond . ' IE ' . $condition;
+		}
 		
-		// standard prepend and append
-		$pre = '<!--[if' . $condition . ']>';
+		$pre = '<!--[if ' . $condition . ' ]>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if (strpos($condition, '!IE') !== false) {
+		if ($escape || strpos($condition, '!IE') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
@@ -186,7 +188,8 @@ class PlateHelper extends AppHelper {
 	}
 
 /** 
- * Ends a block of output to display in layout 
+ * Ends a block of output to display in layout
+ * @todo should this always return and set
  */ 
 	function stop() { 
 		if(is_null($this->__blockName)) 
