@@ -96,100 +96,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'javascriptend' => '</script>'
 	);
 
-	/**
-	 * Document type definitions
-	 *
-	 * @var array
-	 * @access private
-	 */
-	var $__docTypes = array(
-		'html5' => '<!doctype html>'
-	);
-
-	/**
-	 * Returns a doctype string.
-	 */
-	function docType($type = 'html5') {
-		if (isset($this->__docTypes[$type])) {
-			$this->__type = $type;
-		    return $this->__docTypes[$type];
-		}
-	    return null;
-	}
-
-	/**
-	 * Creates a link to an external resource and handles basic meta tags
-	 *
-	 * ### Options
-	 *
-	 * - `inline` Whether or not the link element should be output inline, or in scripts_for_layout.
-	 *
-	 * @param string $type The title of the external resource
-	 * @param mixed $url The address of the external resource or string for content attribute
-	 * @param array $options Other attributes for the generated tag. If the type attribute is html,
-	 *    rss, atom, or icon, the mime-type is returned.
-	 * @return string A completed `<link />` element.
-	 * @access public
-	 * @link http://book.cakephp.org/view/1438/meta
-	 */
-	function meta($type, $url = null, $options = array()) {
-		$inline = isset($options['inline']) ? $options['inline'] : true;
-		unset($options['inline']);
-
-		if (!is_array($type)) {
-			$types = array(
-				'rss'	=> array('type' => 'application/rss+xml', 'rel' => 'alternate', 'title' => $type, 'link' => $url),
-				'atom'	=> array('type' => 'application/atom+xml', 'title' => $type, 'link' => $url),
-				'icon'	=> array('type' => 'image/x-icon', 'rel' => 'icon', 'link' => $url),
-				'keywords' => array('name' => 'keywords', 'content' => $url),
-				'description' => array('name' => 'description', 'content' => $url),
-				'author' => array('name' => 'author', 'content' => str_replace('http://', '', $url)),
-			);
-
-			if ($type === 'icon' && $url === null) {
-				$types['icon']['link'] = $this->webroot('favicon.ico');
-			}
-
-			if (isset($types[$type])) {
-				$type = $types[$type];
-			} elseif (!isset($options['type']) && $url !== null) {
-				if (is_array($url) && isset($url['ext'])) {
-					$type = $types[$url['ext']];
-				} else {
-					$type = $types['rss'];
-				}
-			} elseif (isset($options['type']) && isset($types[$options['type']])) {
-				$type = $types[$options['type']];
-				unset($options['type']);
-			} else {
-				$type = array();
-			}
-		} elseif ($url !== null) {
-			$inline = $url;
-		}
-		$options = array_merge($type, $options);
-		$out = null;
-
-		if (isset($options['link'])) {
-			if (isset($options['rel']) && $options['rel'] === 'icon') {
-				$out = sprintf($this->tags['metalink'], $options['link'], $this->_parseAttributes($options, array('link'), ' ', ' '));
-				$options['rel'] = 'shortcut icon';
-			} else {
-				$options['link'] = $this->url($options['link'], true);
-			}
-			$out .= sprintf($this->tags['metalink'], $options['link'], $this->_parseAttributes($options, array('link'), ' ', ' '));
-		} else {
-			$out = sprintf($this->tags['meta'], $this->_parseAttributes($options, array('type'), ' ', ' '));
-		}
-
-		if ($inline) {
-			return $out;
-		} else {
-			$view =& ClassRegistry::getObject('view');
-			$view->addScript($out);
-		}
-	}
-
 
 	/**
 	 * Returns one or many `<script>` tags depending on the number of scripts given.
@@ -219,25 +125,5 @@ class HtmlPlusHelper extends HtmlHelper {
 			return $this->tag('javascriptlink', null, array('src' => $url));
 		}
 		return parent::script($url, $options);
-	}
-
-	/**
-	 * ietag
-	 * @deprecated moved to proper home plate helper
-	 * @param $content string markup to be wrapped in ie condition
-	 * @param $iecond string an ie condition
-	 */
-	function ietag($content, $iecond = 'IE') {
-		// standard prepend and append
-		$pre = '<!--[if '.$iecond.' ]> ';
-		$post = ' <![endif]-->';
-
-		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if(strpos($iecond, '!(IE)') !== false) {
-			$pre = trim($pre);
-			$pre .= '<!--> ';
-			$post = ' <!--' . trim($post);
-		}
-		return $pre . $content . $post;
 	}
 }

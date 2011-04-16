@@ -28,22 +28,24 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home
 /*
  * Want localization instead?
  *
+ */
+
+/**[delete-me]/
 App::import('Lib', 'LocalizedRouter');
 LocalizedRouter::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 LocalizedRouter::localize();
- */
+ /**/
 
 /**
  * Asset Compress
  */
+/**[delete-me]/
 Router::connect('/cache_css/*', array('plugin' => 'asset_compress', 'controller' => 'css_files', 'action' => 'get'));
 Router::connect('/cache_js/*', array('plugin' => 'asset_compress', 'controller' => 'js_files', 'action' => 'get'));
+/**/
 
-//App::import('Lib', 'routes/PageRoute');
-//Router::connect('/:slug', array('controller' => 'pages', 'action' => 'view'), array('routeClass' => 'PageRoute'));
-//Router::connect('/', array('controller' => 'pages', 'action' => 'view'));
 
 /**
- * Webmaster Tools
+ * Webmaster Tools - add extra routes if using David Perssons webmaster tools
  */
-//require APP . 'plugins/webmaster_tools/config/routes.php';
+#delete-me#require APP . 'plugins/webmaster_tools/config/routes.php';

@@ -17,32 +17,14 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php __('CakePHP: the rapid development php framework:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
-	<style type="text/css">
-		.admin, .regularuser {}
-		.admin  { border:1px solid red }
-		.regularuser { border:1px solid blue }
-		.admin p { color: #030303;}
-		.regularuser p { color: #ededed; }
-		.regUsr, .gstUsr { display: block; width: 250px; position: absolute; right: .3em;top:.2em; }
-		
-		#header h1,
-		#header .nav {float: left}
-		#header .nav {clear: left; margin-bottom:.4em}
-		#header .nav li {float: left; display: inline}
-		#header .nav a {display: block}
-		#header a:link,
-		#header a:active,
-		#header a:visited  { color: white}
-		#header a:hover  { color: blue}
-	</style>
 	<?php
 		echo $this->Html->meta('icon');
 
@@ -55,14 +37,6 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
-			<div class="nav">
-				<ul>
-					<li><a href="/auth">home</a></li>
-					<li><a href="/auth/about">about</a></li>
-					<li><a href="/auth/posts">posts</a></li>
-					<li><a href="/auth/contact">contact</a></li>
-				</ul>
-			</div>
 		</div>
 		<div id="content">
 
