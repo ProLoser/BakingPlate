@@ -20,19 +20,8 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::import('Helper', 'Helper', false);
-
-/**
- * This is a placeholder class.
- * Create the same file in app/app_helper.php
- *
- * Add your application-wide methods in the class below, your helpers
- * will inherit them.
- *
- * @package       cake
- * @subpackage    cake.cake
- */
-class AppHelper extends Helper {
+App::import('Vendor', 'UrlCache.url_cache_app_helper');
+class AppHelper extends UrlCacheAppHelper {
 	
 	/**
 	 * Specifies whether the url prefix should be left alone in array urls when unspecified

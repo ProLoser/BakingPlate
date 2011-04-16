@@ -74,16 +74,6 @@ class PlateShell extends Shell {
 			$this->DbConfig->execute();
 		}
 	}
-	
-	/*
-	 * function gitit
-	 *
-	 * @param $arg
-	 */
-	function gitit() {
-		$this->out(passthru('git init'));
-		$this->all();
-	}
 
 	/**
 	 * Add a specific submodule/plugin
