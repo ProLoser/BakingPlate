@@ -130,10 +130,10 @@ class PlateHelper extends AppHelper {
 		} else {
 			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
-				$cond = ' lt';
+				$cond = 'lt';
 				$condition = trim($condition, '<');
 			} elseif (($pos = strpos($condition, '>')) !== false) {
-				$cond = ' gt';
+				$cond = 'gt';
 				$condition = trim($condition, '>');
 			}
 			if ($pos !== false && $pos !== 0) {
