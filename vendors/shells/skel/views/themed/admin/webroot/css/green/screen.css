@@ -132,14 +132,6 @@ a:active
 	display: none;
 }
 
-table 
-{
-	text-align: left;
-	margin: auto;
-	padding: auto;
-	width: 100%;
-}
-
 img
 {
 	border: 0;
@@ -857,6 +849,14 @@ div.header h2, div.header p
 	border-top: 1px solid #bdbdbd;
 }
 
+table 
+{
+	text-align: left;
+	margin: auto;
+	padding: auto;
+	width: 100%;
+}
+
 table caption
 {
 	display: none;
@@ -864,7 +864,17 @@ table caption
 
 table tr
 {
-	background: #ffffff;
+	background: #f9f9f9;
+}
+
+table tr.altrow
+{
+	background-color: #fff;
+}
+
+table tr:hover
+{
+	background-color: #ffc;
 }
 
 td, th
