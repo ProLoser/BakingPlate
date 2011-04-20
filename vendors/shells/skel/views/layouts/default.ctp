@@ -41,7 +41,7 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
-<<<<<<< HEAD
+
 	<?php #delete-me#echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?> 
 
 
@@ -55,7 +55,7 @@ echo $this->Html->css('cake.generic');
 
 
 echo $this->Html->css(array(
-#move-me#$this->AssetCompress->css(array(
+#!# $this->AssetCompress->css(array(
 	'style',
 )); ?>
 
@@ -64,7 +64,7 @@ echo $this->Html->css(array(
 <?php
 
 echo $this->Html->script(array(
-#move-me#$this->AssetCompress->script(array(
+#!# $this->AssetCompress->script(array(
 	'plugins',
 	'script',
 )); ?> 
@@ -76,7 +76,7 @@ echo $this->Html->script(array(
 		<header>
 			<?php echo $this->element('layout/header'); ?>
 		</header>
-		<div id="content">
+		<div id="main">
 
 			<?php echo $this->Session->flash(); ?>
 
@@ -98,7 +98,7 @@ echo $this->Html->script(array(
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	#delete-me#echo $this->AssetCompress->includeJs();
+	#!# echo $this->AssetCompress->includeJs();
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
 	if (Configure::read('debug')) echo $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));

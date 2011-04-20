@@ -27,7 +27,6 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	'navigation'		=> 'git://github.com/sams/cakephp-navigation.git',
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
@@ -86,10 +85,10 @@ $config['BakingPlate']['proloser'] = array(
 );
 
 $config['BakingPlate']['sams'] = array(
+	'contact'                       => 'git://github.com/sams/contact.git',
+        'manifesto'                     => 'git://github.com/sams/manifesto.git',
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
-	'manifesto'			=> 'git://github.com/sams/manifesto.git',
-	'contact'			=> 'git://github.com/sams/contact.git',
 );
 
 $config['BakingPlate']['mcurry'] = array(

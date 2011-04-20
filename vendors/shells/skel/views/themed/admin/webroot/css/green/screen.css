@@ -132,14 +132,6 @@ a:active
 	display: none;
 }
 
-table 
-{
-	text-align: left;
-	margin: auto;
-	padding: auto;
-	width: 100%;
-}
-
 img
 {
 	border: 0;
@@ -182,8 +174,13 @@ label
 }
 .radio label, .checkbox label {
 	display: inline;
+	margin-left: 5px;
 }
-
+.required label:after {
+	color: #e32;
+	content: '*';
+	display:inline;
+}
 .quote
 {
 	width: 80%;
@@ -711,18 +708,18 @@ a#show_menu:hover
 	Header tabs
 */
 
-.related .header ul, .view .header ul {
+.header ul {
 	float: right;
 	list-style: none;
 	margin: 7px 10px 0 0;
 }
 
-.related .header li, .view .header li {
+.header li {
 	padding: 0;
 	margin: 0;
 	float: left;
 }
-.related .header li a, .view .header li a {
+.header li a {
 	background: #cccccc url("../../img/bg_switch.png") repeat-x;
 	font-weight: bold;
 	margin: 0;
@@ -736,7 +733,7 @@ a#show_menu:hover
  	color: #333333;
 	font-size: 80%;
 }
-.related .header li:first-child a, .view .header li:first-child a {
+.header li:first-child a {
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-topleft: 5px;
@@ -744,7 +741,7 @@ a#show_menu:hover
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-.related .header li:last-child a, .view .header li:last-child a {
+.header li:last-child a {
 	-webkit-border-top-right-radius: 5px;
 	-webkit-border-bottom-right-radius: 5px;
 	-moz-border-radius-topright: 5px;
@@ -752,12 +749,12 @@ a#show_menu:hover
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-.related .header li a:hover, .view .header li a:hover {
+.header li a:hover {
 	border: 1px solid #666666;
 	background: #999999 url("../../img/bt_gh.png") repeat-x;
 }
 
-.related .header li a:active, .view .header li a:active {
+.header li a:active {
 	color: #cccccc;
 	border: 1px solid #999999;
 	background: #999999 url("../../img/bt_ga.png") repeat-x;
@@ -852,6 +849,14 @@ div.header h2, div.header p
 	border-top: 1px solid #bdbdbd;
 }
 
+table 
+{
+	text-align: left;
+	margin: auto;
+	padding: auto;
+	width: 100%;
+}
+
 table caption
 {
 	display: none;
@@ -859,7 +864,17 @@ table caption
 
 table tr
 {
-	background: #ffffff;
+	background: #f9f9f9;
+}
+
+table tr.altrow
+{
+	background-color: #fff;
+}
+
+table tr:hover
+{
+	background-color: #ffc;
 }
 
 td, th
