@@ -10,10 +10,7 @@ if (!defined('FULL_BASE_URL')) {
 
 if (!defined('TEST_APP')) {
 	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS . 'test_app' . DS);
-	//die(TEST_APP);
 }
-
-////die(TEST_APP);
 
 if (!defined('JS')) {
 	define('JS', TEST_APP . 'webroot' . DS . 'js' . DS);
@@ -27,7 +24,6 @@ if (!defined('THEME')) {
 	define('THEME', TEST_APP . 'webroot' . DS . 'theme' . DS);
 }
 
-//die(TEST_APP);
 
 /**
  * TheHtmlTestController class
@@ -147,18 +143,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		App::import('Core', 'Folder');
 		unset($this->Html);
 	}
-
-/**
- * testDocType method
- *
- * @access public
- * @return void
- */
-	//function testDocType() {
-	//	$result = $this->Html->docType();
-	//	$expected = '<!doctype html>';
-	//	$this->assertEqual($result, trim($expected), 'default doctype');
-	//}
 
 /**
  * testLink method
@@ -579,7 +563,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		    'script' => array('src' => '//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'),
 		);
 		$result = $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-		echo '<pre>' . htmlspecialchars($result) . '</pre>';
 		$this->assertTags($result, $expected, true, 'script network uri');
 	}
 
@@ -759,10 +742,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testCharsetTag() {
-		Configure::write('App.encoding', null);
-		/**
-		 * html5
-		*/
 		Configure::write('App.encoding', 'utf-8');
 		$result = $this->Html->charset();
 		$expected = array('meta' => array('charset' => 'utf-8'));

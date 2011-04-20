@@ -129,15 +129,11 @@ class PlateHelperTestCase extends CakeTestCase {
 		Configure::write('Config.language', $this->_appEncoding);
 		$expected = '<!--[if lt IE 7]> <html lang="en-gb" class="no-js ie6"> <![endif]--><!--[if IE 7]> <html lang="en-gb" class="no-js ie7"> <![endif]--><!--[if IE 8]> <html lang="en-gb" class="no-js ie8"> <![endif]--><!--[if gt IE 8]><!--> <html lang="en-gb" class="no-js"> <!--<![endif]-->';
 		$result = str_replace(array("\n", "\r"), '', $result);
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertEqual($result, $expected, 'no settings passed');
 		
 		$result = $this->Plate->html(array('ie' => true, 'manifest' => '/app.cache', 'lang' => 'en-Cockney', 'class' => 'joy'));
 		$result = str_replace(array("\n", "\r"), '', $result);
 		$expected = '<!--[if lt IE 7]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie6"> <![endif]--><!--[if IE 7]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie7"> <![endif]--><!--[if IE 8]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie8"> <![endif]--><!--[if gt IE 8]><!--> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js"> <!--<![endif]-->';
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertEqual($result, $expected, 'settings passed');
 	}
 
@@ -156,7 +152,6 @@ class PlateHelperTestCase extends CakeTestCase {
 		);
 		
 		$result = $this->Plate->lib('jquery', array('fallback' => false));
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, $expected, false, 'JS Lib Test Using jquery default 2.2 from google its minified');
 		
 		$settings = array(
@@ -170,16 +165,12 @@ class PlateHelperTestCase extends CakeTestCase {
 		$expected = '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>' . "\n" . 
 		    '<script>window.jQuery || document.write(\'<script src="/js/libs/jquery-1.3.2.min.js">\x3C/script>\')</script>';
 		$result = $this->Plate->lib('jquery', $settings);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		$this->assertEqual($result, $expected, 'JS Lib Test Using jquery default 1.3.2 from google its minified');
+		$this->assertEqual($result, $expected, 'JS Lib Test Using jquery default 1.3.2 from google its minified with fallback');
 
 		$expected = '<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>' . "\n" . 
 		    '<script>window.swfobject || document.write(\'<script src="/js/libs/swfobject.js">\x3C/script>\')</script>';
 		$result = $this->Plate->lib('swfobject', array('fallback' => 'libs/swfobject'));
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		$this->assertTags($result, $expected, false, 'JS Lib Test Using SwfOject 2.2 from google minified html5');
+		$this->assertEqual($result, $expected, 'JS Lib Test Using SwfOject 2.2 with fallback');
 	}
 
 	function testAnalytics() {
@@ -214,17 +205,17 @@ GA2;
 		Configure::write('debug', 0);
 		$result = $this->Plate->analytics();
 		Configure::write('debug', $this->_debug);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		$this->assertTags($result, $expected, false, 'Html5 Google Analytics output test');
+		$result = str_replace(array("\n", "\r", "\t"), '', $result);
+		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
+		$this->assertEqual($result, $expected, 'Google Analytics no arg');
 		
 		$expected = $GA2;
 		Configure::write('debug', 0);
 		$result = $this->Plate->analytics('2707-123');
 		Configure::write('debug', $this->_debug);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		$this->assertTags($result, $expected, false, 'Html5 Google Analytics output test with different element');
+		$result = str_replace(array("\n", "\r", "\t"), '', $result);
+		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
+		$this->assertEqual($result, $expected, 'Google Anlaytics Passing id');
 	}
 	function testStartStop() {
 	    $aside_for_layout = '';
@@ -250,8 +241,7 @@ AS1;
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
 		$this->assertEqual($result, $expected, 'Capture Output');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<hr><pre>".htmlspecialchars($expected)."</pre>";
+
 		$aside_for_layout = '';
 		
 		$AS2 = <<<AS2
@@ -275,8 +265,8 @@ AS2;
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
 		$this->assertEqual($result, $expected, 'Capture Output');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		echo "<hr><pre>".htmlspecialchars($expected)."</pre>";
+
+
 	}
 }
 
