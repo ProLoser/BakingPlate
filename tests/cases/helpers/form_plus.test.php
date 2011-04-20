@@ -19,7 +19,7 @@
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 App::import('Core', array('ClassRegistry', 'Controller', 'View', 'Model', 'Security'));
-App::import('Helper', array('HtmlPlus', 'FormPlus'));
+App::import('Helper', array('BakingPlate.HtmlPlus', 'BakingPlate.FormPlus'));
 
 /**
  * ContactTestController class
