@@ -149,7 +149,7 @@ class PlateHelper extends AppHelper {
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if ($escape) {
+		if ($escape || strpos($condition, '!IE') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
