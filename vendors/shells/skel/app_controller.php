@@ -115,30 +115,6 @@ class AppController extends Controller {
 		#$this->_setMaintenance();
 	}
 	
-	/**
-	 * Changes the layout of the page if the prefix changes
-	 *
-	 * @return void
-	 * @author Dean
-	 */
-	function beforeRender() {
-		$this->_setTheme();
-	}
-
-	/**
-	 * function _setMaintenance
-	 */
-	function _setMaintenance() {
-		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
-		$mainMode = Configure::read('WebmasterTools.Maintenance');
-		if(!isset($user['AppUser']) && $this->action !== 'login') {
-			if($mainMode['active']) {
-				$this->Plate->loadComponent(array('WebmasterTools.Maintenance'));
-				$this->Maintenance->activate($mainMode['message']);
-			}
-		}
-	}
-	
 	
 /**
  * Changes the layout of the page if the prefix changes - switch to basic layout for errors
@@ -199,7 +175,8 @@ class AppController extends Controller {
  * Place your theme-switching logic in here
  */
 	protected function _setTheme() {
-		if ($this->Plate->prefix('admin')) {
+		// check if plate isset small fix for asset compress
+		if (isset($this->Plate) && $this->Plate->prefix('admin')) {
 			$this->theme = 'admin';
 		} elseif (Configure::read('Config.language')) {
 			$this->theme = Configure::read('Config.language');
