@@ -192,6 +192,7 @@ $config['BakingPlate']['mi'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
+	'swift_mailer'			=> 'git://github.com/swiftmailer/swiftmailer.git', 
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
