@@ -872,11 +872,6 @@ table tr.altrow
 	background-color: #fff;
 }
 
-table tr:hover
-{
-	background-color: #ffc;
-}
-
 td, th
 {
 	border-bottom: 1px solid #cccccc;
