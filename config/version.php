@@ -1,2 +1,2 @@
 <?php
-return $config['BakingPlate.version'] = 'pre-prerelease';
+return $config['BakingPlate.version'] = 'prerelease';
