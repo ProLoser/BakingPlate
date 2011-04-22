@@ -13,6 +13,7 @@
 
 
 	<?php  /*  search box element could be placed here  */  ?>
+	<?php  /*  sitemap link here  */ ?>
 
 	<script>
 	var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2),
