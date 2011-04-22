@@ -91,6 +91,7 @@ class PlateShell extends Shell {
 			}
 			$submodule = $this->in('Specify a submodule_name or #');
 		} else {
+			$this->_prepGroup();
 			$submodule = (strpos($this->args[0], ',') !== false) ? explode(',', $this->args[0]) : $this->args[0];
 		}
 		if (is_array($submodule)) {
@@ -186,7 +187,7 @@ class PlateShell extends Shell {
 		if (isset($this->params['g']))
 			$this->params['group'] = $this->params['g'];
 
-		if (isset($this->params['group']) && $this->params['group'] === '#')
+		if (!isset($this->params['group']) || $this->params['group'] === '#')
 			$this->params['group'] = 'all';		
 
 		if (isset($this->params['group']) && is_numeric($this->params['group'])) {

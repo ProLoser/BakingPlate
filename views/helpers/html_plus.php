@@ -121,8 +121,8 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @link http://book.cakephp.org/view/1589/script
 	 */
 	function script($url, $options = array()) {
-		if (strpos((string) $url, '//') === true) {
-			return $this->tag('javascriptlink', null, array('src' => $url));
+		if (strpos((string) $url, '//') !== false) {
+			return sprintf($this->tags['javascriptlink'], $url, null);
 		}
 		return parent::script($url, $options);
 	}

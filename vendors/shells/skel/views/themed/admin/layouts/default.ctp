@@ -16,6 +16,7 @@
 			'../js/jwysiwyg/jquery.wysiwyg',
 			'../js/fancybox/jquery.fancybox-1.3.0',
 			'tipsy',
+			'/batch/js/batch',
 		));
 		echo "<!--[if IE]>{$this->Html->css('ie')}{$this->Html->script('excanvas')}<![endif]-->";
 		echo $this->Html->script(array(
@@ -28,6 +29,7 @@
 			'fancybox/jquery.fancybox-1.3.0',
 			'jquery.tipsy',
 			'custom_green',
+			'/batch/js/batch',
 		));
 		echo $scripts_for_layout;
 	?>

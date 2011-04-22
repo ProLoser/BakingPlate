@@ -2,10 +2,9 @@
   // title
   $this->set('title_for_layout', 'Down for a while');
 ?>
-<section>
+<article>
   <header>
-	<h1>being rebuilt</h1>
-	<h2>for reals</h2>
+	<h1>maintenance in progress</h1>
   </header>
-  <p>close for now move along nothing to see here.</p>
-</section>
+  <?php echo $message; ?>
+</article>

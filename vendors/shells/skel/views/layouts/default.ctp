@@ -46,7 +46,7 @@ echo $this->Html->css(array(
 #!# $this->AssetCompress->css(array(
 	'style',
 )); ?>
-	<?php #!# echo $this->AssetCompress->includeCss(); ?> 
+	<?php echo $this->AssetCompress->includeCss(); ?> 
 <?php 
 echo $this->Html->script(array(
 #!# $this->AssetCompress->script(array(
@@ -76,7 +76,7 @@ echo $this->Html->script(array(
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	#!# echo $this->AssetCompress->includeJs();
+	echo $this->AssetCompress->includeJs();
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
 	if (Configure::read('debug')) echo $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));

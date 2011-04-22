@@ -21,6 +21,16 @@
  */
 $plugins = App::objects('plugin');
 $fields = array_keys($validate);
+
+foreach ($validate as $field => $validation) {
+	if (in_array('UploadPack', $plugins) && strpos($field, '_file_name') !== false)
+		$behaviors['UploadPack.Upload'] = "\t\t'$field' => array(),\n";
+	if (in_array('Mi', $plugins) && strpos($field, '_serialized') !== false) 
+		$behaviors[] = 'Mi.Serialized';
+}
+if (in_array('lft', $fields) && in_array('rght', $fields))
+	$behaviors[] = 'Tree';
+
 echo "<?php\n"; ?>
 class <?php echo $name ?> extends <?php echo $plugin; ?>AppModel {
 	var $name = '<?php echo $name; ?>';
@@ -45,7 +55,7 @@ if (!empty($validate)):
 		foreach ($validations as $key => $validator):
 			echo "\t\t\t'$key' => array(\n";
 			echo "\t\t\t\t'rule' => array('$validator'),\n";
-			echo "\t\t\t\t'message' => 'Please enter a valid $field',\n";
+			echo "\t\t\t\t'message' => 'Please enter a valid " . strtolower(Inflector::humanize($field)) . "',\n";
 			echo "\t\t\t\t//'allowEmpty' => true,\n";
 			echo "\t\t\t\t//'required' => true,\n";
 			echo "\t\t\t\t//'last' => true, // Stop validation after this rule\n";
@@ -132,20 +142,16 @@ if (!empty($associations['hasAndBelongsToMany'])):
 	echo "\n\t);\n\n";
 endif;
 
-echo "\n\tvar $actsAs = array(\n";
-
-foreach ($validate as $field => $validation) {
-	if (in_array('UploadPack', $plugins) && strpos($field, '_file_name') !== false) {
-		echo "\t\t'UploadPack.Upload' => array(
-			'$field' => array(),
-		),\n";
+if (!empty($behaviors)) {
+	echo "\n\tvar \$actsAs = array(\n";
+	foreach ($behaviors as $behavior => $config) {
+		if (is_numeric($behavior)) {
+			echo "\t\t'$config',\n";
+		} else {
+			echo "\t\t'$behavior' => array(\n$config\t\t),\n";
+		}
 	}
-	if (in_array('Mi', $plugins) && strpos($field, '_serialized') !== false) 
-		echo "\t\t'Mi.Serialized',\n";
-}
-if (in_array('lft', $fields) && in_array('rght', $fields))
-	echo "\t\t'Tree',\n";
-	
-echo "\n\t);\n";
+	echo "\t);\n";
+}	
 ?>
 }

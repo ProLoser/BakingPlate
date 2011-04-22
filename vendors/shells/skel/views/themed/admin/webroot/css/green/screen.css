@@ -132,14 +132,6 @@ a:active
 	display: none;
 }
 
-table 
-{
-	text-align: left;
-	margin: auto;
-	padding: auto;
-	width: 100%;
-}
-
 img
 {
 	border: 0;
@@ -184,7 +176,11 @@ label
 	display: inline;
 	margin-left: 5px;
 }
-
+.required label:after {
+	color: #e32;
+	content: '*';
+	display:inline;
+}
 .quote
 {
 	width: 80%;
@@ -853,6 +849,14 @@ div.header h2, div.header p
 	border-top: 1px solid #bdbdbd;
 }
 
+table 
+{
+	text-align: left;
+	margin: auto;
+	padding: auto;
+	width: 100%;
+}
+
 table caption
 {
 	display: none;
@@ -860,7 +864,12 @@ table caption
 
 table tr
 {
-	background: #ffffff;
+	background: #f9f9f9;
+}
+
+table tr.altrow
+{
+	background-color: #fff;
 }
 
 td, th
