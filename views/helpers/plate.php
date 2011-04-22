@@ -125,7 +125,7 @@ class PlateHelper extends AppHelper {
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
  * @param mixed $condition [true, false, '<7', '>8']
- * @param boolean $escape set to true to escape comment for non ie browsers
+ * @param boolean $escape set to true to escape the cc for non-ie browsers
  */
 	function iecc($content, $condition, $escape = false) {
 		if ($condition === false) {
