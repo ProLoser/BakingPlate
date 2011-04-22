@@ -677,6 +677,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 			$this->cDataEnd,
 			'/script',
 		);
+		echo "<pre>". htmlspecialchars($result), "</pre>";
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false));
