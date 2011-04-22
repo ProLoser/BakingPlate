@@ -11,7 +11,13 @@ class AppError extends ErrorHandler {
 		}/*^*/
 		return parent::_outputMessage($template);
 	}
-	
-	// TODO: add main method as the above is not enough
+/*
+ * set maintenance with layout
+ *#!#/
+	function maintenance($params)    {
+	    $this->controller->layout = "maintenance"; //if u want to change layout
+	    $this->controller->set($params); //set variables
+	    $this->_outputMessage("Maintenance"); //output error element
+	}/*^*/
 	
 }
