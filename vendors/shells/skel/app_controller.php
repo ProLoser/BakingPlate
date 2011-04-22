@@ -134,10 +134,9 @@ class AppController extends Controller {
 		$this->Auth->allow('index', 'view', 'display');
 		
 		$user = $this->Auth->user();
-		$this->set('isAdmin', ($user['AppUser']['role'] == 'admin' && $user['AppUser']['is_admin']));
 		
 		if ($this->Plate->prefix('admin')) {
-			if ($user['AppUser']['role'] == 'admin') {
+			if ($user['User']['username'] == 'admin') {
 				$this->Auth->allow('*');
 			} else {
 				$this->Session->setFlash(__('Sorry, but you need to be Admin to access this location.', true));
@@ -163,7 +162,7 @@ class AppController extends Controller {
 	protected function _setMaintenance() {
 		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
 		$mainMode = Configure::read('WebmasterTools.Maintenance');
-		if(!isset($user['AppUser']) && $this->action !== 'login') {
+		if(!isset($user['User']) && $this->action !== 'login') {
 			if($mainMode['active']) {
 				$this->Plate->loadComponent(array('WebmasterTools.Maintenance'));
 				$this->Maintenance->activate($mainMode['message']);
