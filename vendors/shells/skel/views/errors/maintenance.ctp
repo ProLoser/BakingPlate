@@ -1,10 +1,7 @@
 <?php
-  // title
-  $this->set('title_for_layout', 'Down for a while');
+  $this->set('title_for_layout', __('Down for a while', true));
 ?>
 <article>
-  <header>
-	<h1>maintenance in progress</h1>
-  </header>
+  <h1><?php __('Maintenance in progress'); ?></h1>
   <?php echo $message; ?>
 </article>
