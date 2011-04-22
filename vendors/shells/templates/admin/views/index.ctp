@@ -17,6 +17,10 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 $plugins = App::objects('plugin');
+function clean($field) {
+	return !in_array($field, array('lft', 'rght'));
+}
+$fields = array_filter($fields, 'clean');
 ?>
 <h2><?php echo "<?php __('{$pluralHumanName}');?>";?></h2>
 <ul class="actions">
@@ -62,7 +66,7 @@ foreach ($associations as $type => $data) {
 	if (in_array('Batch', $plugins)) {
 		$filterFields = "'" . implode("',\n\t\t\t'", $fields) . "'";
 		$filterFields = str_replace("_id'", "_id' => array('empty' => '-- None --')", $filterFields);
-		$filterFields = str_replace(array("'id'", "'created'", "'modified'"), 'null', $filterFields);
+		$filterFields = str_replace(array("'id'", "'created'", "'modified'", "'lft'", "'rght'"), 'null', $filterFields);
 		echo "
 		echo \$this->Batch->filter(array(
 			{$filterFields}

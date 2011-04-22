@@ -19,7 +19,7 @@
  * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
  */
 App::import('Core', array('ClassRegistry', 'Controller', 'View', 'Model', 'Security'));
-App::import('Helper', array('HtmlPlus', 'FormPlus'));
+App::import('Helper', array('BakingPlate.HtmlPlus', 'BakingPlate.FormPlus'));
 
 /**
  * ContactTestController class
@@ -746,8 +746,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 			)),
 			'/div'
 		);
-                debug(htmlentities($result), $expected);
-		$this->assertTags($result, $expected,true);
+               $this->assertTags($result, $expected,true);
 
 		$result = $this->Form->create('Contact', array('url' => '/contacts/add', 'id' => 'MyForm'));
 		$expected['form']['id'] = 'MyForm';
@@ -1457,8 +1456,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 			'/div',
 			'/div'
 		);
-                echo htmlentities($result);
-                debug($expected);
+                
 		$this->assertTags($result, $expected);
 
 		$this->Form->validationErrors['UserForm'] = array(
@@ -1563,9 +1561,6 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testInput() {
-            /**
-             * html4
-            */
 		$result = $this->Form->input('ValidateUser.balance');
 		$expected = array(
 			'div' => array('class'),
@@ -1846,15 +1841,6 @@ class FormPlusHelperTestCase extends CakeTestCase {
 			'/div'
 		);
 		$this->assertTags($result, $expected);
-                
-                /**
-                 * xhtml
-                */
-                
-                /**
-                 * html5
-                */
-                
 	}
 
 /**
