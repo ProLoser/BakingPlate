@@ -24,7 +24,7 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
+?>
 <style>
 body { text-align: center;}
 h1 { font-size: 50px; }
