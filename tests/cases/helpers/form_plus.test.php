@@ -1561,6 +1561,19 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testInput() {
+		$result = $this->Form->input('Model.field', array(
+			'div' => 'customised'));
+		$expected = array(
+			'div' => array('class' => 'customised'),
+			'label' => array('for' => 'ModelField'),
+			'Field',
+			'/label',
+			'input' => array('type' => 'text', 'name' => 'data[Model][field]', 'id' => 'ModelField'),
+			'/div'
+		);
+		echo "<pre>", htmlspecialchars($result), "</pre>";
+		$this->assertTags($result, $expected, true, 'test class');
+		
 		$result = $this->Form->input('ValidateUser.balance');
 		$expected = array(
 			'div' => array('class'),

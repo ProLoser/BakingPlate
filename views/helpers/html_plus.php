@@ -90,6 +90,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'ol' => '<ol%s>%s</ol>',
 	    'li' => '<li%s>%s</li>',
 	    'error' => '<div%s>%s</div>',
+	    'time' => '<time%s>%s</time>',
 	    'javascriptblock' => '<script%s>%s</script>',
 	    'javascriptstart' => '<script%s>',
 	    'javascriptlink' => '<script src="%s"%s></script>',
@@ -125,5 +126,70 @@ class HtmlPlusHelper extends HtmlHelper {
 			return sprintf($this->tags['javascriptlink'], $url, null);
 		}
 		return parent::script($url, $options);
+	}
+	
+	function scriptBlock($script, $options = array()) {
+		$options += array('safe' => false);
+		unset($options['type']);
+		return parent::scriptBlock($script, $options);
+	}
+	
+	function tag($name, $text = null, $options = array()) {
+		if (is_array($options) && isset($options['escape']) && $options['escape']) {
+			$text = h($text);
+			unset($options['escape']);
+		}
+		if (!is_array($options)) {
+			$options = array('class' => $options);
+		}
+		$typeBlackList = 'javascript,style,css,link';
+		if(!empty($options['class'])) $options['class'] = trim($options['class']);
+		//if(((strpos($typeBlackList, $name) !== false) && !empty($options['type']))) unset($options['type']);
+		
+		if ($text === null) {
+			$tag = 'tagstart';
+		} else {
+			$tag = 'tag';
+		}
+		return sprintf($this->tags[$tag], $name, $this->_parseAttributes($options, null, ' ', ''), $text, $name);
+	}
+	
+	/**
+	 * The time element represents either a time on a 24 hour clock,
+	 * or a precise date in the proleptic Gregorian calendar,
+	 * optionally with a time and a time-zone offset.
+	 */
+	function time($time, $options = array()) {
+		$display = null;
+		$displayFormat = 'D, d M Y H:i:s';
+		$attribFormat = 'Y-M-d H:i:s';
+		$timestamp = $time;
+		
+		$default = array('strftime' => false, 'strtotime' => false, 'escape' => true, 'pubdate' => null, 'strtotime' => false, 'display' => false, 'format' => false);
+		$options = array_merge($default, $options);
+		
+		
+		if($options['format']) {
+			$displayFormat = $options['format'];
+			$attribFormat = $options['format'];
+		}
+		
+		if($options['display']) {
+			$displayFormat = $options['display'];
+		}
+
+		App::import('helper', 'Time');
+		$t = &new TimeHelper;
+		$display = (strpos($displayFormat, 'nice') !== false || strpos($displayFormat, 'timeAgoInWords') !== false) ? $t->$displayFormat($timestamp) : $t->format($displayFormat, $timestamp);
+		$options['datetime']  = !$options['format'] ? $timestamp : $t->format($attribFormat, $timestamp);
+		
+		
+		if(isset($options['pubdate']) && $options['pubdate'] !== false) {
+			$options['pubdate'] = 'pubdate';
+		}
+		
+		unset($options['display'], $options['strtotime'], $options['attrib'], $options['escape'], $options['format']);
+		
+		return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
 	}
 }

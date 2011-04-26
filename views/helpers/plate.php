@@ -60,7 +60,6 @@ class PlateHelper extends AppHelper {
 			$ie = $options['ie'];
 			unset($options['ie']);
 			// remove uneeded spaces (if no class was set in options)
-			$options['class'] = trim($options['class']);
 			$backup = $options;
 			$content = '';
 			// output a sequence of html tags to target ie versions and lastly all non ie browsers (including ie9 since it is mostly good)
@@ -68,15 +67,15 @@ class PlateHelper extends AppHelper {
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
 			$options['class'] .= ' ie7';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 7) . "\n"; 
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '7') . "\n"; 
 			$options = $backup;
 			$options['class'] .= ' ie8';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '8') . "\n"; 
 			$options = $backup;
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
 		} else {
 			$options = array_filter($options);
-			$options['class'] = trim($options['class']);
+			$options['class'] = $options['class'];
 			$content = $this->HtmlPlus->tag('html', null, $options);
 		}
 
@@ -123,32 +122,41 @@ class PlateHelper extends AppHelper {
  *
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
- * @param mixed $condition [true, false, '<7', '>8']
+ * @param mixed $condition [true, false, '<7', '>8', '=>9', '9'] - the default is true
  * @param boolean $escape set to true to escape the cc for non-ie browsers
+ * @example $this->Plate->iecc('just ie') $this->Plate->iecc('just ie', '=>8')
  */
-	function iecc($content, $condition, $escape = false) {
-		if ($condition === false) {
-			$condition = ' !IE';
+	function iecc($content, $condition = 'IE', $escape = false) {
+		$cond = '';
+		if(is_bool($condition)) {
+			$condition = $condition ? 'IE' : '!IE';
+		} elseif($condition == 'ie' || $condition == '!ie') {
+			$condition = strtoupper($condition);
+		}
+
+		if (strpos($condition, 'IE') !== false) {
+			if(strpos($condition, '!IE') !== false) { $escape = true; }
+			
+			$cond = ' ' . $condition;
 		} else {
-			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
-				$cond = 'lt';
+				$cond = ' lt';
 				$condition = trim($condition, '<');
 			} elseif (($pos = strpos($condition, '>')) !== false) {
-				$cond = 'gt';
+				$cond = ' gt';
 				$condition = trim($condition, '>');
 			}
 			if ($pos !== false && $pos !== 0) {
 				$cond .= 'e';
 			}
-			$condition = $cond . ' IE ' . $condition;
+			$cond = $cond . ' IE ' . $condition;
 		}
-		
-		$pre = '<!--[if' . $condition . ']>';
+	   
+		$pre = '<!--[if' . $cond . ']>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if ($escape || strpos($condition, '!IE') !== false) {
+		if ($escape) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
