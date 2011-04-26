@@ -158,37 +158,38 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * The time element represents either a time on a 24 hour clock,
 	 * or a precise date in the proleptic Gregorian calendar,
 	 * optionally with a time and a time-zone offset.
+	 * 
+	 * @param $content string
+	 * @param $options array
+	 * 	'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
+	 *	'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
 	 */
-	function time($time, $options = array()) {
-		$display = null;
-		$displayFormat = 'D, d M Y H:i:s';
-		$attribFormat = 'Y-M-d H:i:s';
-		$timestamp = $time;
+	function time($content, $options = array()) {
+		$options = array_merge(array(
+			'datetime' => 'Y-M-dTH:i+00:00',
+			'escape' => true,
+			'pubdate' => false,
+			'format' => null,
+		), $options);
 		
-		$default = array('strftime' => false, 'strtotime' => false, 'escape' => true, 'pubdate' => null, 'strtotime' => false, 'display' => false, 'format' => false);
-		$options = array_merge($default, $options);
-		
-		
-		if($options['format']) {
-			$displayFormat = $options['format'];
-			$attribFormat = $options['format'];
+		if ($options['format'] !== null) {
+			App::import('helper', 'Time');
+			$t = &new TimeHelper;
+		}
+		if ($options['format']) {
+			$time = $content;
+			if (method_exists($t, $options['format'])) {
+				$content = $t->$options['format']($content);
+			} else {
+				$content = $t->format($content, $options['format']);
+			}
+			$options['datetime'] = $t->format(strtotime($time), $options['datetime']);
+		} elseif ($options['format'] === false && $options['datetime']) {
+			$options['datetime'] = $t->format(strtotime($content), $options['datetime']);
 		}
 		
-		if($options['display']) {
-			$displayFormat = $options['display'];
-		}
-
-		App::import('helper', 'Time');
-		$t = &new TimeHelper;
-		$display = (strpos($displayFormat, 'nice') !== false || strpos($displayFormat, 'timeAgoInWords') !== false) ? $t->$displayFormat($timestamp) : $t->format($displayFormat, $timestamp);
-		$options['datetime']  = !$options['format'] ? $timestamp : $t->format($attribFormat, $timestamp);
-		
-		
-		if(isset($options['pubdate']) && $options['pubdate'] !== false) {
+		if ($options['pubdate'])
 			$options['pubdate'] = 'pubdate';
-		}
-		
-		unset($options['display'], $options['strtotime'], $options['attrib'], $options['escape'], $options['format']);
 		
 		return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
 	}
