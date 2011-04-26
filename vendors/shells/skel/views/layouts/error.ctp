@@ -22,37 +22,26 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('CakePHP: the rapid development php framework:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('cake.generic');
-
-		echo $scripts_for_layout;
-	?>
+?>
+	<style>
+	body { text-align: center;}
+	h1 { font-size: 50px; }
+	body { font: 20px Constantia, 'Hoefler Text',  "Adobe Caslon Pro", Baskerville, Georgia, Times, serif; color: #999; text-shadow: 2px 2px 2px rgba(200, 200, 200, 0.5); }
+	::-moz-selection{ background:#FF5E99; color:#fff; }
+	::selection { background:#FF5E99; color:#fff; }
+	details, article{ display:block; }
+	a { color: rgb(36, 109, 56); text-decoration:none; }
+	a:hover { color: rgb(96, 73, 141) ; text-shadow: 2px 2px 2px rgba(36, 109, 56, 0.5); }
+	span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+	</style>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+	<?php echo $this->Session->flash(); ?>
 
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $content_for_layout; ?>
-
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt'=> __('CakePHP: the rapid development php framework', true), 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
-	</div>
+	<?php echo $content_for_layout; ?>
 </body>
 </html>

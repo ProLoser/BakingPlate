@@ -1,33 +1,15 @@
 <?php
-/* HtmlPlus Test cases generated on: 2011-01-11 02:01:20 : 1294713320 ~ altered test of core test for html helper */
-/**
- * HtmlPlusHelperTest file
- *
- * @author	  Sam Sherlock <hell@samsherlock.com>
- * @package       plate_plus
- * @subpackage    plate_plus.tests.cases.libs.view.helpers
- * @since         v 0.0.1a
- * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
- *
- * based on helper test by Cake Software Foundation
- * PHP versions 4 and 5
- *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2006-2010, Cake Software Foundation, Inc.
- *
- *  Licensed under The Open Group Test Suite License
- *  Redistributions of files must retain the above copyright notice.
- */
 App::import('Core', array('Helper', 'AppHelper', 'ClassRegistry', 'Controller', 'Model', 'Folder'));
-App::import('Helper', array('PlatePlus.HtmlPlus', 'PlatePlus.FormPlus'));
+App::import('Helper', array('BakingPlate.HtmlPlus', 'BakingPlate.FormPlus'));
 
 if (!defined('FULL_BASE_URL')) {
 	define('FULL_BASE_URL', 'http://cakephp.org');
 }
 
+
+
 if (!defined('TEST_APP')) {
-	define('TEST_APP', APP . 'tests' . DS . 'test_app' . DS);
-	//die(TEST_APP);
+	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS . 'test_app' . DS);
 }
 
 if (!defined('JS')) {
@@ -42,7 +24,6 @@ if (!defined('THEME')) {
 	define('THEME', TEST_APP . 'webroot' . DS . 'theme' . DS);
 }
 
-//die(TEST_APP);
 
 /**
  * TheHtmlTestController class
@@ -161,86 +142,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		ClassRegistry::flush();
 		App::import('Core', 'Folder');
 		unset($this->Html);
-	}
-
-/**
- * testDocType method
- *
- * @access public
- * @return void
- */
-	function testDocType() {
-		$result = $this->Html->docType();
-		$expected = '<!doctype html>';
-		$this->assertEqual($result, trim($expected), 'default doctype');
-
-		$result = $this->Html->docType('html4-strict');
-		$expected = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-		$this->assertEqual($result, $expected);
-
-		$result = $this->Html->docType('html5');
-		$expected = '<!doctype html>';
-		$this->assertEqual($result, $expected, 'html5 doctype');
-		$this->assertNull($this->Html->docType('non-existing-doctype'));
-	}
-/**
- * testStart method
-*/
-	function testStart() {
-		$resultEn = $expectedEn = '';
-		$settings = array();
-		$result = $this->Html->start($settings);
-		$expected = '<!doctype html><html><head><meta charset="utf-8">';
-		$result = str_replace(array("\n", "\r"), '', $result);
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertEqual($result, $expected, 'no settings passed');
-/**
- * html5
-*/
-		
-		$settings = array();
-		$settings['docType'] = 'html5';
-		$settings['lang'] = false;
-		$result = $this->Html->start($settings);
-		$result = str_replace(array("\n", "\r"), '', $result);
-		$expected = '<!doctype html><html><head><meta charset="utf-8">';
-		$this->assertEqual($result, $expected, 'html5 lang false');
-		
-		$settings = array();
-		$settings['docType'] = 'html5';
-		$settings['manifest'] = 'example';
-		$settings['lang'] = 'en-gb';
-		$result = $this->Html->start($settings);
-		$result = str_replace(array("\n", "\r"), '', $result);
-		$expected = '<!doctype html><html manifest="/manifests/example.manifest" lang="en-gb"><head><meta charset="utf-8">';
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertEqual($result, $expected, 'html5 with extras');
-		
-		$settings = array();
-		$settings['docType'] = 'html5';
-		$settings['multihtml'] = true;
-		$settings['lang'] = 'en-gb';
-		$result = $this->Html->start($settings);
-		$result = str_replace(array("\n", "\r"), '', $result);
-		$expected = '<!doctype html><!--[if lt IE 7 ]> <html lang="en-gb" class="no-js ie6"> <![endif]--><!--[if IE 7 ]> <html lang="en-gb" class="no-js ie7"> <![endif]--><!--[if IE 8 ]> <html lang="en-gb" class="no-js ie8"> <![endif]--><!--[if (gte IE 9)|!(IE) ]><!--> <html lang="en-gb" class="no-js"> <!--<![endif]--><head><meta charset="utf-8">';
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertEqual($result, $expected, 'html5 boilerplate and a false manifest');
-
-/**
- * html4
-*/
-		
-		$settings = array();
-		$settings['docType'] = 'html4-strict';
-		$result = $this->Html->start($settings);
-		$result = str_replace(array("\n", "\r"), '', $result);
-		$expected = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta charset="utf-8">';
-		echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertEqual($result, $expected, 'html4 strict');
 	}
 
 /**
@@ -405,8 +306,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	function testImageWithTimestampping() {
 		Configure::write('Asset.timestamp', 'force');
 
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
 		$this->Html->webroot = '/';
 		$result = $this->Html->image('cake.icon.png');
 		$this->assertTags($result, array('img' => array('src' => 'preg:/\/img\/cake\.icon\.png\?\d+/', 'alt' => '')));
@@ -435,16 +334,16 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @link https://trac.cakephp.org/ticket/6490
  */
 	function testImageTagWithTheme() {
-		if ($this->skipIf(!is_writable(TEST_APP .  'webroot' . DS . 'theme'), 'Cannot write to webroot/theme')) {
+		if ($this->skipIf(!is_writable(WWW_ROOT . 'theme'), 'Cannot write to webroot/theme')) {
 			return;
 		}
 		App::import('Core', 'File');
 
-		$testfile = TEST_APP . 'webroot' . DS . 'theme' . DS . 'test_theme' . DS . 'img' . DS . '__cake_test_image.gif';
+		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'img' . DS . '__cake_test_image.gif';
 		$file =& new File($testfile, true);
 
 		App::build(array(
-			'views' => array(TEST_APP . 'views'. DS)
+			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
 		));
 		Configure::write('Asset.timestamp', true);
 		Configure::write('debug', 1);
@@ -452,18 +351,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$this->Html->webroot = '/';
 		$this->Html->theme = 'test_theme';
 		$result = $this->Html->image('__cake_test_image.gif');
-		
-		/**
-		 * todo: Item #3 / regex #1 failed: Attribute "src" matches "\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+", Attribute "alt" == ""
-		*/
-		
-		$this->Html->log(array(
-			'img' => array(
-				'src' => 'preg:/\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+/',
-				'alt' => ''
-		)), 'html_plus');
-		$this->Html->log($result, 'html_plus');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, array(
 			'img' => array(
 				'src' => 'preg:/\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+/',
@@ -473,23 +360,12 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$webroot = $this->Html->webroot;
 		$this->Html->webroot = '/testing/';
 		$result = $this->Html->image('__cake_test_image.gif');
-		
-		/**
-		 * todo: Item #3 / regex #1 failed: Attribute "src" matches "\/testing\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+", Attribute "alt" == ""
-		*/
 
 		$this->assertTags($result, array(
 			'img' => array(
 				'src' => 'preg:/\/testing\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+/',
 				'alt' => ''
 		)));
-		$this->Html->log(array(
-			'img' => array(
-				'src' => 'preg:/\/testing\/theme\/test_theme\/img\/__cake_test_image\.gif\?\d+/',
-				'alt' => ''
-		)), 'html_plus');
-		$this->Html->log($result, 'html_plus');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->Html->webroot = $webroot;
 
 		$dir =& new Folder(WWW_ROOT . 'theme' . DS . 'test_theme');
@@ -512,11 +388,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		));
 		$webRoot = Configure::read('App.www_root');
 		Configure::write('App.www_root', TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'webroot' . DS);
-/**
- * html5
-*/
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
+
 		$webroot = $this->Html->webroot;
 		$this->Html->theme = 'test_theme';
 		$result = $this->Html->css('webroot_test');
@@ -532,29 +404,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 			'link' => array('rel' => 'stylesheet', 'href' => 'preg:/.*theme\/test_theme\/css\/theme_webroot\.css/')
 		);
 		$this->assertTags($result, $expected, 'html5 theme 2');
-/**
- * html4
-*/
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$webroot = $this->Html->webroot;
-		$this->Html->theme = 'test_theme';
-		$result = $this->Html->css('webroot_test');
-		$expected = array(
-			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'preg:/.*theme\/test_theme\/css\/webroot_test\.css/')
-		);
-		$resultEn = htmlentities($result);
-		$this->assertTags($result, $expected, 'html4 theme 1');
-
-		$webroot = $this->Html->webroot;
-		$this->Html->theme = 'test_theme';
-		$result = $this->Html->css('theme_webroot');
-		$expected = array(
-			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'preg:/.*theme\/test_theme\/css\/theme_webroot\.css/')
-		);
-		$this->assertTags($result, $expected, 'html4 theme 2');
-
-		Configure::write('App.www_root', $webRoot);
 	}
 
 /**
@@ -583,11 +432,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	function testCssLink() {
 		Configure::write('Asset.timestamp', false);
 		Configure::write('Asset.filter.css', false);
-/**
- * html5
-*/
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
+
 		$result = $this->Html->css('screen');
 		$expected = array(
 			'link' => array('rel' => 'stylesheet', 'href' => 'preg:/.*css\/screen\.css/')
@@ -640,63 +485,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$view->expectAt(1, 'addScript', array(new NoPatternExpectation('/inline=""/')));
 		$result = $this->Html->css('more_css_in_head', null, array('inline' => false));
 		$this->assertNull($result);
-/**
- * html4
-*/
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$result = $this->Html->css('screen');
-		$expected = array(
-			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'preg:/.*css\/screen\.css/')
-		);
-		$this->assertTags($result, $expected, 'html4 screen css');
-
-		$result = $this->Html->css('screen');
-		$expected = array(
-			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => 'preg:/.*css\/screen\.css/')
-		);
-		$this->assertTags($result, $expected, 'html4 css');
-
-		$result = $this->Html->css('screen.css');
-		$this->assertTags($result, $expected, 'hmtl4 withsuffix added');
-
-		$result = $this->Html->css('my.css.library');
-		$expected['link']['href'] = 'preg:/.*css\/my\.css\.library\.css/';
-		$this->assertTags($result, $expected, 'html4 css lib');
-
-		$result = $this->Html->css('screen.css?1234');
-		$expected['link']['href'] = 'preg:/.*css\/screen\.css\?1234/';
-		$this->assertTags($result, $expected, 'html4 with cache bust url');
-
-		$result = $this->Html->css('http://whatever.com/screen.css?1234');
-		$expected['link']['href'] = 'preg:/http:\/\/.*\/screen\.css\?1234/';
-		$this->assertTags($result, $expected, 'html4 full http url');
-
-		Configure::write('Asset.filter.css', 'css.php');
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/.*ccss\/cake\.generic\.css/';
-		$this->assertTags($result, $expected, 'html4 asset filter');
-
-		Configure::write('Asset.filter.css', false);
-
-		$result = explode("\n", trim($this->Html->css(array('cake.generic', 'vendor.generic'))));
-		$expected['link']['href'] = 'preg:/.*css\/cake\.generic\.css/';
-		$this->assertTags($result[0], $expected, 'html4 arrayed[0] css');
-		$expected['link']['href'] = 'preg:/.*css\/vendor\.generic\.css/';
-		$this->assertTags($result[1], $expected, 'html4 arrayed[1] css');
-		$this->assertEqual(count($result), 2);
-
-		ClassRegistry::removeObject('view');
-		$view =& new HtmlHelperMockView();
-		ClassRegistry::addObject('view', $view);
-		$view->expectAt(0, 'addScript', array(new PatternExpectation('/css_in_head.css/')));
-		$result = $this->Html->css('css_in_head', null, array('inline' => false));
-		$this->assertNull($result);
-
-		$view =& ClassRegistry::getObject('view');
-		$view->expectAt(1, 'addScript', array(new NoPatternExpectation('/inline=""/')));
-		$result = $this->Html->css('more_css_in_head', null, array('inline' => false));
-		$this->assertNull($result);
 	}
 
 /**
@@ -707,11 +495,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	function testCssTimestamping() {
 		Configure::write('debug', 2);
 		Configure::write('Asset.timestamp', true);
-/**
- * html5
-*/
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
+		
 		$expected = array(
 			'link' => array('rel' => 'stylesheet', 'href' => '')
 		);
@@ -745,53 +529,9 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$expected['link']['href'] = 'preg:/\/testing\/longer\/css\/cake\.generic\.css\?[0-9]+/';
 		$this->assertTags($result, $expected, 'html5 time staming 5');
 		$this->Html->webroot = $webroot;
-	/**
-	 * html4
-	*/
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-
-		$expected = array(
-			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => '')
-		);
-
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/.*css\/cake\.generic\.css\?[0-9]+/';
-		$this->assertTags($result, $expected, true, 'html4 time stamping 1');
-
-		Configure::write('debug', 1);
-		
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/.*css\/cake\.generic\.css\?[0-9]+/';
-		$this->assertTags($result, $expected, true, 'html4 time stamping 2');
-		
-		Configure::write('Asset.timestamp', 'force');
-
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/.*css\/cake\.generic\.css\?[0-9]+/';
-		$this->assertTags($result, $expected, true, 'html4 time stamping 3');
-
-		$webroot = $this->Html->webroot;
-		$this->Html->webroot = '/testing/';
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/\/testing\/css\/cake\.generic\.css\?[0-9]+/';
-		$this->assertTags($result, $expected, true, 'html4 time stamping 4');
-		$this->Html->webroot = $webroot;
-
-		$webroot = $this->Html->webroot;
-		$this->Html->webroot = '/testing/longer/';
-		$result = $this->Html->css('cake.generic');
-		$expected['link']['href'] = 'preg:/\/testing\/longer\/css\/cake\.generic\.css\?[0-9]+/';
-		$this->assertTags($result, $expected, true, 'html4 time stamping 5');
-		$this->Html->webroot = $webroot;
 	}
-
-/**
- * test timestamp enforcement for script tags.
- *
- * @return void
- */
-	function testScriptTimestampingXhtml() {
+	
+	function testScriptTimestamping() {
 		$skip = $this->skipIf(!is_writable(JS), 'webroot/js is not Writable, timestamp testing has been skipped');
 		if ($skip) {
 			return;
@@ -801,9 +541,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		touch(WWW_ROOT . 'js' . DS. '__cake_js_test.js');
 		$timestamp = substr(strtotime('now'), 0, 8);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
 
 		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
 		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
@@ -814,72 +551,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 		unlink(WWW_ROOT . 'js' . DS. '__cake_js_test.js');
 		Configure::write('Asset.timestamp', false);
-	}
-	
-	function testScriptTimestampingHtml5() {
-		$skip = $this->skipIf(!is_writable(JS), 'webroot/js is not Writable, timestamp testing has been skipped');
-		if ($skip) {
-			return;
-		}
-		Configure::write('debug', 2);
-		Configure::write('Asset.timestamp', true);
-
-		touch(WWW_ROOT . 'js' . DS. '__cake_js_test.js');
-		$timestamp = substr(strtotime('now'), 0, 8);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-
-		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
-
-		Configure::write('debug', 0);
-		Configure::write('Asset.timestamp', 'force');
-		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
-		unlink(WWW_ROOT . 'js' . DS. '__cake_js_test.js');
-		Configure::write('Asset.timestamp', false);
-	}
-	/*
-	 * function testScriptWithDefer
-	 * @param 
-	 */
-	
-	function testScriptWithDeferAsync() {
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$result = $this->Html->script('foo', array('defer' => true));
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/foo.js', 'defer' => "true")
-		);
-		htmlspecialchars($result);	//echo htmlspecialchars($expected);
-		//echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected, false, 'script does have defer');
-		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		$result = $this->Html->script('foo', array('async' => true));
-		$expected = array(
-			'script' => array('src' => 'js/foo.js', 'async' => 'true')
-		);
-		//echo "<pre>".htmlspecialchars($expected)."</pre>";
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected, true, 'script does have async');
-		
-		$result = $this->Html->script('foo', array('inline' => true, 'defer' => true));
-		$expected = array(
-			'script' => array('src' => 'js/foo.js', 'defer' => 'true')
-		);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected, true, 'script does not have defer');
-		
-		$result = $this->Html->script('foo', array('defer' => 'true', 'async' => 'true'));
-		$expected = array(
-			'script' => array('src' => 'js/foo.js', 'defer' => 'true', 'async' => 'true')
-		);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected, true, 'script async and defer');
 	}
 
 /**
@@ -892,8 +563,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		    'script' => array('src' => '//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'),
 		);
 		$result = $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-		echo '<pre>' . htmlspecialchars($result) . '</pre>';
-		$this->assertTags($result, $expected, true, 'script async and defer');
+		$this->assertTags($result, $expected, true, 'script network uri');
 	}
 
 /**
@@ -903,17 +573,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testScript() {
-		$skip = $this->skipIf(!is_writable(TEST_APP . 'webroot' . DS . 'js' . DS), 'webroot/js is not Writable, timestamp testing has been skipped ' . JS);
-		if ($skip) {
-			return;
-		}
 		Configure::write('Asset.timestamp', false);
-		
-		/**
-		 * html5
-		*/
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
 		$result = $this->Html->script('foo');
 		$expected = array(
 			'script' => array('src' => 'js/foo.js')
@@ -921,12 +581,12 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->script(array('foobar', 'bar'));
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$expected = array(
 			array('script' => array('src' => 'js/foobar.js')),
-			array('script' => array('src' => 'js/bar.js'))
+			'/script',
+			array('script' => array('src' => 'js/bar.js')),
+			'/script',
 		);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->script('jquery-1.3');
@@ -966,102 +626,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$expected = array(
 			'script' => array('src' => 'js/jquery-1.3.2.js', 'defer' => 'defer', 'encoding' => 'utf-8')
 		);
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected);
-
-		$view =& ClassRegistry::getObject('view');
-		$view =& new HtmlHelperMockView();
-		$view->expectAt(0, 'addScript', array(new PatternExpectation('/script_in_head.js/')));
-		$result = $this->Html->script('script_in_head', array('inline' => false));
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertNull($result);
-		
-		/**
-		 * html4
-		*/
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$result = $this->Html->script('foo');
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/foo.js')
-		);
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag at 
-		*/
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertTags($result, $expected, true, 'html4 javascript');
-
-		$result = $this->Html->script(array('foobar', 'bar'));
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$expected = array(
-			array('script' => array('type' => 'text/javascript', 'src' => 'js/foobar.js')),
-			array('script' => array('type' => 'text/javascript', 'src' => 'js/bar.js')),
-		);
-/**
- * todo: Item #1 / regex #0 failed: Open script tag at
-*/
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-
-		$this->assertTags($result, $expected, true, 'html4 javascript 2');
-
-		$result = $this->Html->script('jquery-1.3');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/jquery-1.3.js')
-		);
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag 
-		*/
-		$this->assertTags($result, $expected, 'html4 jquery');
-
-		$result = $this->Html->script('test.json');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/test.json.js')
-		);
-		
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag at
-		*/
-		$this->assertTags($result, $expected, 'html4 test json');
-
-		$result = $this->Html->script('/plugin/js/jquery-1.3.2.js?someparam=foo');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => '/plugin/js/jquery-1.3.2.js?someparam=foo')
-		);
-		
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag 
-		*/
-		$this->assertTags($result, $expected, 'html4 abs path with cache bust');
-
-		$result = $this->Html->script('test.json.js?foo=bar');
-		echo "<pre>".htmlspecialchars($result)."</pre>";
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/test.json.js?foo=bar')
-		);
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag
-		*/
-		$this->assertTags($result, $expected);
-
-		$result = $this->Html->script('foo');
-		$this->assertNull($result, 'Script returned upon duplicate inclusion %s');
-
-		$result = $this->Html->script(array('foo', 'bar', 'baz'));
-		$this->assertNoPattern('/foo.js/', $result);
-
-		$result = $this->Html->script('foo', array('inline' => true, 'once' => false));
-		$this->assertNotNull($result);
-
-		$result = $this->Html->script('jquery-1.3.2', array('defer' => true, 'encoding' => 'utf-8'));
-		$expected = array(
-			'script' => array('type' => 'text/javascript', 'src' => 'js/jquery-1.3.2.js', 'defer' => 'defer', 'encoding' => 'utf-8')
-		);
-		/**
-		 * todo: Item #1 / regex #0 failed: Open script tag 
-		*/
 		$this->assertTags($result, $expected);
 
 		$view =& ClassRegistry::getObject('view');
@@ -1077,19 +641,16 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testScriptInTheme() {
-		if ($this->skipIf(!is_writable(TEST_APP . 'webroot' . DS . 'theme'), 'Cannot write to webroot/theme')) {
+		if ($this->skipIf(!is_writable(WWW_ROOT . 'theme'), 'Cannot write to webroot/theme')) {
 			return;
 		}
 		App::import('Core', 'File');
-		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
 
-		$testfile = TEST_APP . 'webroot' . DS . 'theme' . DS . 'test_theme' . DS . 'js' . DS . '__test_js.js';
+		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'js' . DS . '__test_js.js';
 		$file =& new File($testfile, true);
 
 		App::build(array(
-			'views' => array(TEST_APP . 'views'. DS)
+			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
 		));
 
 		$this->Html->webroot = '/';
@@ -1098,9 +659,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$expected = array(
 			'script' => array('src' => '/theme/test_theme/js/__test_js.js', 'type' => 'text/javascript')
 		);
-		/**
-		 * todo: Item #1 / regex #0 failed: Text equals "script"
-		*/
 		$this->assertTags($result, $expected);
 		App::build();
 	}
@@ -1113,17 +671,18 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	function testScriptBlock() {
 		$result = $this->Html->scriptBlock('window.foo = 2;');
 		$expected = array(
-			'script' => array('type' => 'text/javascript'),
+			'script',
 			$this->cDataStart,
 			'window.foo = 2;',
 			$this->cDataEnd,
 			'/script',
 		);
+		echo "<pre>". htmlspecialchars($result), "</pre>";
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false));
 		$expected = array(
-			'script' => array('type' => 'text/javascript'),
+			'script',
 			'window.foo = 2;',
 			'/script',
 		);
@@ -1131,7 +690,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => true));
 		$expected = array(
-			'script' => array('type' => 'text/javascript'),
+			'script',
 			$this->cDataStart,
 			'window.foo = 2;',
 			$this->cDataEnd,
@@ -1148,7 +707,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false, 'encoding' => 'utf-8'));
 		$expected = array(
-			'script' => array('type' => 'text/javascript', 'encoding' => 'utf-8'),
+			'script' => array('encoding' => 'utf-8'),
 			'window.foo = 2;',
 			'/script',
 		);
@@ -1162,51 +721,19 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  */
 	function testScriptStartAndScriptEnd() {
 		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		
 		$result = $this->Html->scriptStart(array('safe' => true));
 		$this->assertNull($result);
 		echo 'this is some javascript';
 
 		$result = $this->Html->scriptEnd();
 		$expected = array(
-			'script' => array('type' => 'text/javascript'),
+			'script',
 			$this->cDataStart,
 			'this is some javascript',
 			$this->cDataEnd,
 			'/script'
 		);
 		$this->assertTags($result, $expected);
-
-
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$result = $this->Html->scriptStart(array('safe' => false));
-		$this->assertNull($result);
-		echo 'this is some javascript';
-
-		$result = $this->Html->scriptEnd();
-		$expected = array(
-			'script' => array('type' => 'text/javascript'),
-			'this is some javascript',
-			'/script'
-		);
-		$this->assertTags($result, $expected);
-
-		ClassRegistry::removeObject('view');
-		$View =& new HtmlHelperMockView();
-
-		$View->expectOnce('addScript');
-		ClassRegistry::addObject('view', $View);
-
-		$result = $this->Html->scriptStart(array('safe' => false, 'inline' => false));
-		$this->assertNull($result);
-		echo 'this is some javascript';
-
-		$result = $this->Html->scriptEnd();
-		$this->assertNull($result);
 	}
 
 /**
@@ -1216,12 +743,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testCharsetTag() {
-		Configure::write('App.encoding', null);
-		/**
-		 * html5
-		*/
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
 		Configure::write('App.encoding', 'utf-8');
 		$result = $this->Html->charset();
 		$expected = array('meta' => array('charset' => 'utf-8'));
@@ -1235,26 +756,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		$result = $this->Html->charset('utf-7');
 		$expected = array('meta' => array('charset' => 'utf-7'));
-		$this->assertTags($result, $expected, false, 'html5 charset utf7');
-		
-		/**
-		 * html4
-		*/
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		
-		Configure::write('App.encoding', 'UTF-8');
-		$result = $this->Html->charset();
-		$expected = array('meta' => array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8'));
-		$this->assertTags($result, $expected, false, 'html4 charset utf8');
-
-		Configure::write('App.encoding', 'ISO-8859-1');
-		$result = $this->Html->charset();
-		$expected = array('meta' => array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=iso-8859-1'));
-		$this->assertTags($result, $expected, false, 'html4 no args pass App.encoding applied auto');
-
-		$result = $this->Html->charset('UTF-7');
-		$expected = array('meta' => array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=UTF-7'));
 		$this->assertTags($result, $expected, false, 'html5 charset utf7');
 	}
 
@@ -1647,7 +1148,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$result = $this->Html->meta('description', 'this is the meta description');
 		$this->assertTags($result, array('meta' => array('name' => 'description', 'content' => 'this is the meta description')));
 		
-		$result = $this->Html->meta('author', 'hello@samsherlock.com');
+		$result = $this->Html->meta(array('name' => 'author', 'content' => 'hello@samsherlock.com'));
 		$this->assertTags($result, array('meta' => array('name' => 'author', 'content' => 'hello@samsherlock.com')), true, 'author meta');
 
 		$result = $this->Html->meta(array('name' => 'ROBOTS', 'content' => 'ALL'));
@@ -1797,463 +1298,5 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		$result = $this->Html->para('class-name', '<text>', array('escape' => true));
 		$this->assertTags($result, array('p' => array('class' => 'class-name'), '&lt;text&gt;', '/p'));
-	}
-	
-	/**
-	 * function testSetTypes
-	 * @param 
-	 */
-	
-	function testSetTypes() {
-		$html5Array = array(
-		'html' => '<html%s>',
-		'htmlend' => '</html>',
-		'meta' => '<meta%s>',
-		'metalink' => '<link href="%s"%s>',
-		'link' => '<a href="%s"%s>%s</a>',
-		'mailto' => '<a href="mailto:%s" %s>%s</a>',
-		'form' => '<form %s>',
-		'formend' => '</form>',
-		'input' => '<input name="%s" %s>',
-		'textarea' => '<textarea name="%s" %s>%s</textarea>',
-		'hidden' => '<input type="hidden" name="%s" %s>',
-		'checkbox' => '<input type="checkbox" name="%s" %s>',
-		'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s >',
-		'radio' => '<input type="radio" name="%s" id="%s" %s >%s',
-		'selectstart' => '<select name="%s"%s>',
-		'selectmultiplestart' => '<select name="%s[]"%s>',
-		'selectempty' => '<option value=""%s>&nbsp;</option>',
-		'selectoption' => '<option value="%s"%s>%s</option>',
-		'selectend' => '</select>',
-		'optiongroup' => '<optgroup label="%s"%s>',
-		'optiongroupend' => '</optgroup>',
-		'checkboxmultiplestart' => '',
-		'checkboxmultipleend' => '',
-		'password' => '<input type="password" name="%s" %s>',
-		'file' => '<input type="file" name="%s" %s>',
-		'file_no_model' => '<input type="file" name="%s" %s>',
-		'submit' => '<input %s>',
-		'submitimage' => '<input type="image" src="%s" %s>',
-		'button' => '<button type="%s"%s>%s</button>',
-		'image' => '<img src="%s" %s>',
-		'tableheader' => '<th%s>%s</th>',
-		'tableheaderrow' => '<tr%s>%s</tr>',
-		'tablecell' => '<td%s>%s</td>',
-		'tablerow' => '<tr%s>%s</tr>',
-		'block' => '<div%s>%s</div>',
-		'blockstart' => '<div%s>',
-		'blockend' => '</div>',
-		'tag' => '<%s%s>%s</%s>',
-		'tagstart' => '<%s%s>',
-		'tagend' => '</%s>',
-		'para' => '<p%s>%s</p>',
-		'parastart' => '<p%s>',
-		'label' => '<label for="%s"%s>%s</label>',
-		'fieldset' => '<fieldset%s>%s</fieldset>',
-		'fieldsetstart' => '<fieldset><legend>%s</legend>',
-		'fieldsetend' => '</fieldset>',
-		'legend' => '<legend>%s</legend>',
-		'css' => '<link rel="%s" href="%s"%s>',
-		'style' => '<style %s>%s</style>',
-		'charset' => '<meta charset="%s">',
-		'ul' => '<ul%s>%s</ul>',
-		'ol' => '<ol%s>%s</ol>',
-		'li' => '<li%s>%s</li>',
-		'error' => '<div%s>%s</div>',
-		'javascriptblock' => '<script%s>%s</script>',
-		'javascriptstart' => '<script%s>',
-		'javascriptlink' => '<script src="%s"%s></script>',
-		'javascriptend' => '</script>',
-		'header' => '<header%s>%s</header>',
-		'footer' => '<footer%s>%s</footer>',
-		'article' => '<article%s>%s</article>',
-		'articlestart' => '<article%s>',
-		'articleend' => '</article>',
-		'section' => '<section%s>%s</section>',
-		'nav' => '<nav%s>%s</nav>',
-		'time' => '<time%s>%s</time>',
-		'output' => '<ouput%s>%s</ouput>',
-		'details' => '<details%s>%s</details>',
-		'menu' => '<menu%s>%s</menu>',
-		'command' => '<command%s>%s</command>'
-	);
-	$xhtmlArray = array(
-		'meta' => '<meta%s/>',
-		'metalink' => '<link href="%s"%s/>',
-		'link' => '<a href="%s"%s>%s</a>',
-		'mailto' => '<a href="mailto:%s" %s>%s</a>',
-		'form' => '<form %s>',
-		'formend' => '</form>',
-		'input' => '<input name="%s" %s/>',
-		'textarea' => '<textarea name="%s" %s>%s</textarea>',
-		'hidden' => '<input type="hidden" name="%s" %s/>',
-		'checkbox' => '<input type="checkbox" name="%s" %s/>',
-		'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s />',
-		'radio' => '<input type="radio" name="%s" id="%s" %s />%s',
-		'selectstart' => '<select name="%s"%s>',
-		'selectmultiplestart' => '<select name="%s[]"%s>',
-		'selectempty' => '<option value=""%s>&nbsp;</option>',
-		'selectoption' => '<option value="%s"%s>%s</option>',
-		'selectend' => '</select>',
-		'optiongroup' => '<optgroup label="%s"%s>',
-		'optiongroupend' => '</optgroup>',
-		'checkboxmultiplestart' => '',
-		'checkboxmultipleend' => '',
-		'password' => '<input type="password" name="%s" %s/>',
-		'file' => '<input type="file" name="%s" %s/>',
-		'file_no_model' => '<input type="file" name="%s" %s/>',
-		'submit' => '<input %s/>',
-		'submitimage' => '<input type="image" src="%s" %s/>',
-		'button' => '<button type="%s"%s>%s</button>',
-		'image' => '<img src="%s" %s/>',
-		'tableheader' => '<th%s>%s</th>',
-		'tableheaderrow' => '<tr%s>%s</tr>',
-		'tablecell' => '<td%s>%s</td>',
-		'tablerow' => '<tr%s>%s</tr>',
-		'block' => '<div%s>%s</div>',
-		'blockstart' => '<div%s>',
-		'blockend' => '</div>',
-		'tag' => '<%s%s>%s</%s>',
-		'tagstart' => '<%s%s>',
-		'tagend' => '</%s>',
-		'para' => '<p%s>%s</p>',
-		'parastart' => '<p%s>',
-		'label' => '<label for="%s"%s>%s</label>',
-		'fieldset' => '<fieldset%s>%s</fieldset>',
-		'fieldsetstart' => '<fieldset><legend>%s</legend>',
-		'fieldsetend' => '</fieldset>',
-		'legend' => '<legend>%s</legend>',
-		'css' => '<link rel="%s" type="text/css" href="%s" %s/>',
-		'style' => '<style type="text/css"%s>%s</style>',
-		'charset' => '<meta http-equiv="Content-Type" content="text/html; charset=%s" />',
-		'ul' => '<ul%s>%s</ul>',
-		'ol' => '<ol%s>%s</ol>',
-		'li' => '<li%s>%s</li>',
-		'error' => '<div%s>%s</div>',
-		'javascriptblock' => '<script type="text/javascript"%s>%s</script>',
-		'javascriptstart' => '<script type="text/javascript">',
-		'javascriptlink' => '<script type="text/javascript" src="%s"%s></script>',
-		'javascriptend' => '</script>'
-	);
-	$html4Array = array(
-		'meta' => '<meta%s>',
-		'metalink' => '<link href="%s"%s>',
-		'link' => '<a href="%s"%s>%s</a>',
-		'mailto' => '<a href="mailto:%s" %s>%s</a>',
-		'form' => '<form %s>',
-		'formend' => '</form>',
-		'input' => '<input name="%s"%s>',
-		'textarea' => '<textarea name="%s"%s>%s</textarea>',
-		'hidden' => '<input type="hidden" name="%s"%s>',
-		'checkbox' => '<input type="checkbox" name="%s"%s>',
-		'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s>',
-		'radio' => '<input type="radio" name="%s" id="%s"%s>%s',
-		'selectstart' => '<select name="%s"%s>',
-		'selectmultiplestart' => '<select name="%s[]"%s>',
-		'selectempty' => '<option value=""%s>&nbsp;</option>',
-		'selectoption' => '<option value="%s"%s>%s</option>',
-		'selectend' => '</select>',
-		'optiongroup' => '<optgroup label="%s"%s>',
-		'optiongroupend' => '</optgroup>',
-		'checkboxmultiplestart' => '',
-		'checkboxmultipleend' => '',
-		'password' => '<input type="password" name="%s"%s>',
-		'file' => '<input type="file" name="%s" %s>',
-		'file_no_model' => '<input type="file" name="%s"%s>',
-		'submit' => '<input %s>',
-		'submitimage' => '<input type="image" src="%s"%s>',
-		'button' => '<button type="%s"%s>%s</button>',
-		'image' => '<img src="%s"%s>',
-		'tableheader' => '<th%s>%s</th>',
-		'tableheaderrow' => '<tr%s>%s</tr>',
-		'tablecell' => '<td%s>%s</td>',
-		'tablerow' => '<tr%s>%s</tr>',
-		'block' => '<div%s>%s</div>',
-		'blockstart' => '<div%s>',
-		'blockend' => '</div>',
-		'tag' => '<%s%s>%s</%s>',
-		'tagstart' => '<%s%s>',
-		'tagend' => '</%s>',
-		'para' => '<p%s>%s</p>',
-		'parastart' => '<p%s>',
-		'label' => '<label for="%s"%s>%s</label>',
-		'fieldset' => '<fieldset%s>%s</fieldset>',
-		'fieldsetstart' => '<fieldset><legend>%s</legend>',
-		'fieldsetend' => '</fieldset>',
-		'legend' => '<legend>%s</legend>',
-		'css' => '<link rel="%s" type="text/css" href="%s"%s>',
-		'style' => '<style type="text/css"%s>%s</style>',
-		'charset' => '<meta http-equiv="Content-Type" content="text/html; charset=%s">',
-		'ul' => '<ul%s>%s</ul>',
-		'ol' => '<ol%s>%s</ol>',
-		'li' => '<li%s>%s</li>',
-		'error' => '<div%s>%s</div>',
-		'javascriptblock' => '<script type="text/javascript"%s>%s</script>',
-		'javascriptstart' => '<script type="text/javascript">',
-		'javascriptlink' => '<script type="text/javascript" src="%s"%s></script>',
-		'javascriptend' => '</script>'
-	);
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		$result = $this->Html->tags;
-		foreach($result as $rtag) { echo "<pre>".htmlspecialchars($rtag)."</pre>"; }
-		foreach($html5Array as $h5tag) { echo "<pre>".htmlspecialchars($h5tag)."</pre>";}
-		$this->assertEqual($result, $html5Array, 'html5 tags array');
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$result = $this->Html->tags;
-		foreach($result as $rtag) { echo "<pre>".htmlspecialchars($rtag)."</pre>"; }
-		foreach($html4Array as $h4tag) { echo "<pre>".htmlspecialchars($h4tag)."</pre>";}
-		$this->assertEqual($result, $html4Array, 'html4 tags array');
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-		$result = $this->Html->tags;
-		//debug(array($result, $xhtmlArray));
-		$this->assertEqual($result, $xhtmlArray, 'xhtml tags array');
-	}
-	
-	/**
-	 * function testCanvas
-	 * @param 
-	 */
-	
-	function testCanvas() {
-		$result = $this->Html->canvas('class-name');
-		$this->assertTags($result, array('canvas' => array('class' => 'class-name')));
-		
-		$result = $this->Html->canvas('class-name', array('id' => 'myCanvas'));
-		$this->assertTags($result, array('canvas' => array('class' => 'class-name', 'id' => 'myCanvas')));
-	}
-	
-	/**
-	 * function testVideo
-	 * @param 
-	 */
-	
-	function testVideo() {
-	}
-	
-	/**
-	 * function testAudio
-	 * @param 
-	 */
-	
-	function testAudio() {
-	}
-	
-	/**
-	 * function testArticle
-	 * @param 
-	 */
-	
-	function testArticle() {
-		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		$result = $this->Html->article('content');
-		
-		$expected = '<article>content</article>';
-		$this->assertEqual($result, $expected, 'article html5 output');
-		$result = $this->Html->article('content', array('id' => 'coolArticles', 'class' => array('line', 'news')));
-		$expected = '<article id="coolArticles" class="line news">content</article>';
-		$this->assertEqual($result, $expected);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolArticles" class="article line news">content</div>';
-		$result = $this->Html->article('content', array('id' => 'coolArticles', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'article xhtml output');
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolArticles" class="article line news">content</div>';
-		$result = $this->Html->article('content', array('id' => 'coolArticles', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'article html4 output');
-	}
-	
-	/**
-	 * function testArticle
-	 * @param 
-	 */
-	
-	function testSection() {
-		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		$result = $this->Html->section('content', 'my heading');
-		
-		$expected = '<section>content</section>';
-		$this->assertEqual($result, $expected, 'section html5 output');
-		$result = $this->Html->section('content', array('id' => 'coolsections', 'class' => array('line', 'news')));
-		$expected = '<section id="coolsections" class="line news">content</section>';
-		$this->assertEqual($result, $expected);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolsections" class="section line news">content</div>';
-		$result = $this->Html->section('content', array('id' => 'coolsections', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'section xhtml output');
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolsections" class="section line news">content</div>';
-		$result = $this->Html->section('content', array('id' => 'coolsections', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'section html4 output');
-	}
-	
-	
-	/**
-	 * function testNav
-	 * @param 
-	 */
-	
-	function testNav() {
-		
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		$result = $this->Html->nav('content');
-		
-		$expected = '<nav>content</nav>';
-		$this->assertEqual($result, $expected, 'nav html5 output');
-		$result = $this->Html->nav('content', array('id' => 'coolnavs', 'class' => array('line', 'news')));
-		$expected = '<nav id="coolnavs" class="line news">content</nav>';
-		$this->assertEqual($result, $expected);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolnavs" class="nav line news">content</div>';
-		$result = $this->Html->nav('content', array('id' => 'coolnavs', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'nav xhtml output');
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$expected = '<div id="coolnavs" class="nav line news">content</div>';
-		$result = $this->Html->nav('content', array('id' => 'coolnavs', 'class' => array('line', 'news')));
-		$this->assertEqual($result, $expected, 'nav html4 output');
-	}
-	
-	
-	/**
-	 * function testNav
-	 * @param 
-	 */
-	
-	function testTime() {
-		$this->Html->__type = 'html5';
-		$this->Html->_setTypes();
-		
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'));
-		$expected = '<time>Fri, Dec 29th 1978, 08:21</time>';
-		//echo htmlspecialchars($result);
-		//echo htmlspecialchars($expected);
-		$this->assertEqual($result, $expected, 'time html5 output');
-		
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('pubdate' => true));
-		$expected = '<time pubdate="Dec 29th 1978, 08:21">Fri, Dec 29th 1978, 08:21</time>';
-		//echo htmlspecialchars($result);
-		$this->assertEqual($result, $expected);
-		
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('pubdate' => true));
-		$expected = '<time title="Published: Fri, Dec 29th 1978, 08:21">Dec 29th 1978, 08:21</time>';
-		//echo htmlspecialchars($result);
-		$this->assertEqual($result, $expected);
-		
-		$this->Html->__type = 'xhtml';
-		$this->Html->_setTypes();
-		
-		$expected = '<span class="time" title="Published: Fri, Dec 29th 1978, 08:21">Dec 29th 1978, 08:21:19</span>';
-		$result = $this->Html->time('1978-12-29 08:21:19', array('pubdate' => true));
-		echo '<pre>'.htmlspecialchars($result).'</pre>';
-		$this->assertEqual($result, $expected, 'time xhtml output');
-		
-		$expected = '<span class="time" title="Published: 29th Dec 1978, 8:21am">1978-12-29 08:21:19</span>';
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('pubdate' => true));
-		echo '<pre>'.htmlspecialchars($result).'</pre>';
-		$this->assertEqual($result, $expected, 'time xhtml output');
-		
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('datetime' => true));
-		$expected = '<span class="time" time="Date &amp; Time: 1978-12-29 08:21:19">29th December 1978, 8:21am</time>';
-		echo '<pre>'.htmlspecialchars($result).'</pre>';
-		$this->assertEqual($result, $expected);
-		$expected = '<span class="time" title="Published: 1978-12-29 08:21:19">29th December 1978, 8:21am</span>';
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('class' => array('myClass'), 'title' => array('Published','Y-M-D h:m:S')));
-		echo '<pre>'.htmlspecialchars($result).'</pre>';
-		$this->assertEqual($result, $expected, 'time xhtml output');
-		
-		$this->Html->__type = 'html4';
-		$this->Html->_setTypes();
-		$expected = '<span class="time myClass" title="Published: 1978-12-29 08:21:19">29th December 1978, 8:21am</span>';
-		$result = $this->Html->time(strtotime('1978-12-29 08:21:19'), array('class' => array('myClass'), 'title' => array('Published','Y-M-D h:m:S')));
-		echo '<pre>'.htmlspecialchars($result).'</pre>';
-		$this->assertEqual($result, $expected, 'time html4 output');
-	}
-	
-	
-    
-    /*
-     * function testGetType
-     */
-    
-    function testGetType() {
-	$this->Html->start(array('docType' => 'html5'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType() == 'html5', 'html5 getType');
-	$this->Html->start(array('docType' => 'html4'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType() == 'html4', 'html4 getType');
-	$this->Html->start(array('docType' => 'xhtml-trans'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType() == 'xhtml', 'xhtml trans getType');
-	
-	$this->Html->start(array('docType' => 'html5'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType('short') == 'html5', 'html5 getType');
-	$this->Html->start(array('docType' => 'html4'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType('short') == 'html4', 'html4 getType');
-	$this->Html->start(array('docType' => 'xhtml-trans'));
-	echo $this->Html->getType();
-	$this->assertTrue($this->Html->getType('short') == 'xhtml', 'xhtml trans getType');
-	
-	$this->Html->start(array('docType' => 'html5'));
-	echo $this->Html->getType();
-	$result = $this->Html->getType('array');
-	$this->assertEqual($result, array('html5'), 'html5 getType');
-
-	$this->Html->start(array('docType' => 'html4'));
-	echo $this->Html->getType();
-	$result = $this->Html->getType('array');
-	$this->assertEqual($result, array('html4', 'trans'), 'html4 getType');
-
-	$this->Html->start(array('docType' => 'xhtml-trans'));
-	echo $this->Html->getType();
-	$result = $this->Html->getType('array');
-	$this->assertEqual($result, array('xhtml', 'trans'), 'xhtml trans getType');
-    }
-	/**
-	 * function testNav
-	 * @param 
-	 */
-	
-	function testIetag() {
-		$expected = '<!--[if IE ]> <html class="no-js ie" lang="en"> <![endif]-->';
-		$result = $this->Html->ietag('<html class="no-js ie" lang="en">');
-		$this->assertEqual($result, $expected, 'all ie condition tag');
-
-		$expected = '<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->';
-		$result = $this->Html->ietag('<html class="no-js ie6" lang="en">', 'lt IE 7');
-		$this->assertEqual($result, $expected, 'ie condition tag');
-
-		$expected = '<!--[if (gte IE 9)|!(IE) ]><!--> <html class="no-js" lang="en"> <!--<![endif]-->';
-		$result = $this->Html->ietag('<html class="no-js" lang="en">', '(gte IE 9)|!(IE)');
-		$this->assertEqual($result, $expected, 'ie9 & non ie condition tag');
-
-		$expected = '<!--[if !(IE) ]><!--> <html class="no-js yay" lang="en"> <!--<![endif]-->';
-		$result = $this->Html->ietag('<html class="no-js yay" lang="en">', '!(IE)');
-		//echo "<pre>".htmlspecialchars($expected)."</pre>";
-		//echo "<pre>".htmlspecialchars($result)."</pre>";
-		$this->assertEqual($result, $expected, 'non ie condition tag');
 	}
 }

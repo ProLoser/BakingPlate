@@ -33,7 +33,7 @@ $config['BakingPlate']['core'] = array(
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
-	'mongodb'			=> 'git://github.com/ichikaway/mongoDB-Datasource.git',
+	'mongodb'			=> 'git://github.com/ichikaway/cakephp-mongodb.git',
 	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
 	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
@@ -50,6 +50,21 @@ $config['BakingPlate']['davidpersson'] = array(
 	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'media'				=> 'git://github.com/davidpersson/media.git',
 	'queue'				=> 'git://github.com/davidpersson/queue.git',
+);
+
+$config['BakingPlate']['jmcneese'] = array(
+	'bitmasked'		=> 'git://github.com/jmcneese/bitmasked.git',
+	'cacheable'		=> 'git://github.com/jmcneese/cacheable.git',
+	'metadata'		=> 'git://github.com/jmcneese/metadata.git',
+	'permissionable'	=> 'git://github.com/jmcneese/permissionable.git'	
+);
+
+$config['BakingPlate']['joebeeson'] = array(
+	'campfire'		=> 'git://github.com/joebeeson/campfire.git',
+	'embellish'		=> 'git://github.com/joebeeson/embellish.git',
+	'mailer'		=> 'git://github.com/joebeeson/mailer.git',
+	'referee'		=> 'git://github.com/joebeeson/referee.git',
+	'sassy'			=> 'git://github.com/joebeeson/sassy.git'
 );
 
 $config['BakingPlate']['milesj'] = array(
@@ -85,8 +100,8 @@ $config['BakingPlate']['proloser'] = array(
 );
 
 $config['BakingPlate']['sams'] = array(
-	'contact'			=> 'git://github.com/sams/contact.git',
-	'manifesto'			=> 'git://github.com/sams/manifesto.git',
+	'contact'                       => 'git://github.com/sams/contact.git',
+	'manifesto'                     => 'git://github.com/sams/manifesto.git',
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
 );
@@ -110,6 +125,7 @@ $config['BakingPlate']['mcurry'] = array(
 	'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
 	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
 	'tests'				=> 'git://github.com/mcurry/cakephp_tests.git',
+	'update'            => 'git://github.com/mcurry/update.git',
 	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
 );
 
@@ -191,6 +207,7 @@ $config['BakingPlate']['mi'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
+	'swift_mailer'			=> 'git://github.com/swiftmailer/swiftmailer.git', 
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
