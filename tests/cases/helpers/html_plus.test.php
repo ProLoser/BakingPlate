@@ -1320,35 +1320,37 @@ EXPECTEDHEREDOC;
 		echo "<pre>"; debug($expected); echo "</pre>";
 		$this->assertTags($result, $expected);
 
-		$result = $this->Html->time('1978-12-29 20:20:22', array('display' => 'H:i:s', 'pubdate' => true, 'format' => 'H:i:s'));
+		// 'display' => 'H:i:s', 
+		$result = $this->Html->time('1978-12-29 20:20:22', array('pubdate' => true, 'format' => 'H:i:s'));
 		$expected = array('time' => array('pubdate' => 'pubdate', 'datetime' => '20:20:22'), '20:20:22', '/time');
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>"; debug($expected); echo "</pre>";
 		$this->assertTags($result, $expected);
 
-		$result = $this->Html->time('1978-12-29 20:20:22', array('class' => 'birthday', 'display' => 'D jS \o\f M &#039;y h:ia', 'pubdate', 'format' => 'H:i:s'));
+		// 'display' => 'D jS \o\f M &#039;y h:ia', 
+		$result = $this->Html->time('1978-12-29 20:20:22', array('class' => 'birthday', 'pubdate', 'format' => 'H:i:s'));
 		$expected = array('time' => array('class' => 'birthday', 'datetime' => '20:20:22'), 'Fri 29th of Dec &#039;78 08:20pm', '/time');
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>"; debug($expected); echo "</pre>";
 		$this->assertTags($result, $expected);
 		
-		// <time datetime="2009-10-22" pubdate>October 22, 2009</time>
-		$result = $this->Html->time('2009-10-22', array('display' => 'nice', 'format' => 'Y-m-d'));
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time>, 'display' => 'nice', 
+		$result = $this->Html->time('2009-10-22', array('format' => 'Y-m-d'));
 		$expected = array('time' => array('datetime' => '2009-10-22'), 'Thu, Oct 22nd 2009, 00:00', '/time');
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>"; debug($expected); echo "</pre>";
 		$this->assertTags($result, $expected);
 		
-		// <time datetime="2009-10-22" pubdate>October 22, 2009</time>
-		$result = $this->Html->time('2009-10-22', array('display' => 'F j, Y', 'format' => 'Y-m-d'));
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time> 'display' => 'F j, Y', 
+		$result = $this->Html->time('2009-10-22', array('format' => 'Y-m-d'));
 		$expected = array('time' => array('datetime' => '2009-10-22'), 'October 22, 2009', '/time');
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>"; debug($expected); echo "</pre>";
 		$this->assertTags($result, $expected);
 		
 		// <time datetime="2009-10-22" pubdate>October 22, 2009</time> - time($content, $options = array())
-		
-		$result = $this->Html->time('2009-10-22 21:04:55', array('display' => 'g:i:sa F j, Y', 'format' => 'Y-m-d H:i:s', 'strtotime' => true));
+		// g:i:sa F j, Y
+		$result = $this->Html->time('2009-10-22 21:04:55', array('format' => 'Y-m-d H:i:s'));
 		$expected = array('time' => array('datetime' => '2009-10-22 21:04:55'), '9:04:55pm October 22, 2009', '/time');
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>"; debug($expected); echo "</pre>";
