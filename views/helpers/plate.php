@@ -203,4 +203,45 @@ class PlateHelper extends AppHelper {
 		$this->__blockName = null;
 		return $buffer;
 	}
+	
+/**
+ * A tree list generator because all the other crap out there sucks
+ *
+ * @param string $data 
+ * @param string $options 
+ * @return void
+ * @author Dean Sofer
+ */
+	function tree($data, $options = array(), $callbackOptions = array()) {
+		if (empty($data))
+			return;
+			
+		$options = array_merge(array(
+			'displayField' => 'name',
+			'group' => 'ul',
+			'attributes' => array(),
+			'item' => 'li',
+			'callback' => null, // Set to false to disable autolinking. Set to a methodname as declared in AppHelper
+		), $options);
+			
+		$result = '';
+		$model = key($data[key($data)]);
+		$i = 0;
+		foreach ($data as $row) {
+			if ($options['callback'] && method_exists($this, $options['callback'])) {
+				$content = $this->$options['callback']($row, $callbackOptions);
+			} elseif ($options['callback'] === null) {
+				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));				
+			} else {
+				$content = $row[$model][$options['displayField']];
+			}
+			if (!empty($row['children'])) {
+				$content .= $this->tree($row['children']);
+			}
+			$i++;
+			$altrow = ($i % 2 == 0) ? array('class' => 'altrow') : array();
+			$result .= "\n\t" . $this->HtmlPlus->tag($options['item'], $content, $altrow);
+		}
+		return $this->HtmlPlus->tag($options['group'], $result . "\n", $options['attributes']);
+	}
 }

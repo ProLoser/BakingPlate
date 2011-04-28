@@ -126,4 +126,44 @@ class HtmlPlusHelper extends HtmlHelper {
 		}
 		return parent::script($url, $options);
 	}
+	
+	/**
+	 * The time element represents either a time on a 24 hour clock,
+	 * or a precise date in the proleptic Gregorian calendar,
+	 * optionally with a time and a time-zone offset.
+	 *
+	 * @param $content string
+	 * @param $options array
+	 *      'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
+	 *      'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 */
+	function time($content, $options = array()) {
+	        $options = array_merge(array(
+	                'datetime' => 'Y-M-dTH:i+00:00',
+	                'escape' => true,
+	                'pubdate' => false,
+	                'format' => false,
+	        ), $options);
+
+	        if ($options['format'] !== null) {
+	                App::import('helper', 'Time');
+	                $t = &new TimeHelper;
+	        }
+	        if ($options['format']) {
+	                $time = $content;
+	                if (method_exists($t, $options['format'])) {
+	                        $content = $t->$options['format']($content);
+	                } else {
+	                        $content = $t->format($content, $options['format']);
+	                }
+	                $options['datetime'] = $t->format(strtotime($time), $options['datetime']);
+	        } elseif ($options['format'] === false && $options['datetime']) {
+	                $options['datetime'] = $t->format(strtotime($content), $options['datetime']);
+	        }
+
+	        if ($options['pubdate'])
+	                $options['pubdate'] = 'pubdate';
+
+	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
+	}
 }
