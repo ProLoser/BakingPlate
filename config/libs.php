@@ -35,9 +35,9 @@ $config['BakingPlate']['Libs']['jquery'] = array(
 	// (optional) snippet of js to check if the lib is active
 	'fallback_check' => 'window.jQuery',
 );
-$config['BakingPlate']['Libs']['jquery-ui'] = array(
-	'cdn' => '//ajax.googleapis.com/ajax/libs/chrome-frame/:version/jquery-ui.min.js',
-	'cdnu' => '//ajax.googleapis.com/ajax/libs/chrome-frame/:version/jquery-ui.js',
+$config['BakingPlate']['Libs']['jqueryui'] = array(
+	'cdn' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.min.js',
+	'cdnu' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.js',
 	'version' => '1.8.11',
 	'fallback_check' => null,
 );
