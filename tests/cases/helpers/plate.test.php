@@ -139,7 +139,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$this->assertEqual($result, $expected, 'settings passed');
 
 		$result = $this->Plate->html(array('ie' => false));
-		$expected = '<html lang="UTF-8" class="no-js">';
+		$expected = '<html class="no-js">';
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
