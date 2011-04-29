@@ -11,10 +11,9 @@ class AppError extends ErrorHandler {
 	}
 	
 /*
- * set maintenance with layout
+ * set maintenance with layout - set different layout within view if desired
  *#!#/
 	function maintenance($params)    {
-	    #!#$this->controller->layout = "maintenance"; //if u want to change layout
 	    $this->controller->set($params); //set variables
 	    $this->_outputMessage("Maintenance"); //output error element
 	}/*^*/
