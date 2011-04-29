@@ -19,14 +19,14 @@
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-	?>
+?>
 	<style>
 	body { text-align: center;}
 	h1 { font-size: 50px; }
