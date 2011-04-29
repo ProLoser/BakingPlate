@@ -126,7 +126,7 @@ $config['BakingPlate']['mcurry'] = array(
 	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
 	'tests'				=> 'git://github.com/mcurry/cakephp_tests.git',
 	'update'            => 'git://github.com/mcurry/update.git',
-	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
+	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git', // MCurry's fork seems to be broken
 );
 
 $config['BakingPlate']['petteyg'] = array(

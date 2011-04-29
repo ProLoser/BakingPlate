@@ -128,69 +128,43 @@ class HtmlPlusHelper extends HtmlHelper {
 		return parent::script($url, $options);
 	}
 	
-	function scriptBlock($script, $options = array()) {
-		$options += array('safe' => false);
-		unset($options['type']);
-		return parent::scriptBlock($script, $options);
-	}
-	
-	function tag($name, $text = null, $options = array()) {
-		if (is_array($options) && isset($options['escape']) && $options['escape']) {
-			$text = h($text);
-			unset($options['escape']);
-		}
-		if (!is_array($options)) {
-			$options = array('class' => $options);
-		}
-		$typeBlackList = 'javascript,style,css,link';
-		if(!empty($options['class'])) $options['class'] = trim($options['class']);
-		//if(((strpos($typeBlackList, $name) !== false) && !empty($options['type']))) unset($options['type']);
-		
-		if ($text === null) {
-			$tag = 'tagstart';
-		} else {
-			$tag = 'tag';
-		}
-		return sprintf($this->tags[$tag], $name, $this->_parseAttributes($options, null, ' ', ''), $text, $name);
-	}
-	
 	/**
 	 * The time element represents either a time on a 24 hour clock,
 	 * or a precise date in the proleptic Gregorian calendar,
 	 * optionally with a time and a time-zone offset.
-	 * 
+	 *
 	 * @param $content string
 	 * @param $options array
-	 * 	'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
-	 *	'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 *      'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
+	 *      'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
 	 */
 	function time($content, $options = array()) {
-		$options = array_merge(array(
-			'datetime' => 'Y-M-dTH:i+00:00',
-			'escape' => true,
-			'pubdate' => false,
-			'format' => null,
-		), $options);
-		
-		if ($options['format'] !== null) {
-			App::import('helper', 'Time');
-			$t = &new TimeHelper;
-		}
-		if ($options['format']) {
-			$time = $content;
-			if (method_exists($t, $options['format'])) {
-				$content = $t->$options['format']($content);
-			} else {
-				$content = $t->format($content, $options['format']);
-			}
-			$options['datetime'] = $t->format(strtotime($time), $options['datetime']);
-		} elseif ($options['format'] === false && $options['datetime']) {
-			$options['datetime'] = $t->format(strtotime($content), $options['datetime']);
-		}
-		
-		if ($options['pubdate'])
-			$options['pubdate'] = 'pubdate';
-		
-		return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $content);
+	        $options = array_merge(array(
+	                'datetime' => 'Y-M-dTH:i+00:00',
+	                'escape' => true,
+	                'pubdate' => false,
+	                'format' => false,
+	        ), $options);
+
+	        if ($options['format'] !== null) {
+	                App::import('helper', 'Time');
+	                $t = &new TimeHelper;
+	        }
+	        if ($options['format']) {
+	                $time = $content;
+	                if (method_exists($t, $options['format'])) {
+	                        $content = $t->$options['format']($content);
+	                } else {
+	                        $content = $t->format($content, $options['format']);
+	                }
+	                $options['datetime'] = $t->format(strtotime($time), $options['datetime']);
+	        } elseif ($options['format'] === false && $options['datetime']) {
+	                $options['datetime'] = $t->format(strtotime($content), $options['datetime']);
+	        }
+
+	        if ($options['pubdate'])
+	                $options['pubdate'] = 'pubdate';
+
+	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
 	}
 }
