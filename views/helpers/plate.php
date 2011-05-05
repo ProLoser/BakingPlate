@@ -244,7 +244,7 @@ class PlateHelper extends AppHelper {
 				$content = $row[$model][$options['displayField']];
 			}
 			if (!empty($row['children'])) {
-				$content .= $this->tree($row['children']);
+				$content .= $this->tree($row['children'], $options, $callbackOptions);
 			}
 			$i++;
 			$altrow = ($i % 2 == 0) ? array('class' => 'altrow') : array();
