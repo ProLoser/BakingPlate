@@ -98,18 +98,20 @@ FileETag None
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
-  #for security
+  # for security
   ##RewriteCond %{REQUEST_METHOD} ^(TRACK|TRACE)
   ##RewriteRule .* - [F]
   
   RewriteEngine on
+  # Some Servers eg 1&1 and Godaddy need RewriteBase 
+  ##RewriteBase /
   RewriteRule    ^$    webroot/    [L]
   RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
 
 # without -MultiViews, Apache will give a 404 for a rewrite if a folder of the same name does not exist (e.g. “/blog/hello”)
 #   webmasterworld.com/apache/3808792.htm
-Options FollowSymLinks -MultiViews -Indexes
+Options +FollowSymLinks -MultiViews -Indexes
 
 # use utf-8 encoding for anything served text/plain or text/html
 AddDefaultCharset utf-8
