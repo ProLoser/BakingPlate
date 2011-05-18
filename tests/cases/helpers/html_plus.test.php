@@ -669,16 +669,20 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testScriptBlock() {
-		$result = $this->Html->scriptBlock('window.foo = 2;');
+		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false));
 		$expected = array(
 			'script',
-			$this->cDataStart,
 			'window.foo = 2;',
-			$this->cDataEnd,
 			'/script',
 		);
-		echo "<pre>". htmlspecialchars($result), "</pre>";
+		$expectedHeredoc = <<<EXPECTEDHEREDOC
+<script>window.foo = 2;</script>
+EXPECTEDHEREDOC;
+		echo "<pre style='color: green'>". htmlspecialchars($result), "</pre>";
 		$this->assertTags($result, $expected);
+		echo "<pre style='color: blue'>". htmlspecialchars($result), "</pre>";
+		echo "<pre style='color: red'>". htmlspecialchars($expectedHeredoc), "</pre>";
+		$this->assertEqual($result, $expectedHeredoc);
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false));
 		$expected = array(
@@ -686,6 +690,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 			'window.foo = 2;',
 			'/script',
 		);
+		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => true));
@@ -696,6 +701,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 			$this->cDataEnd,
 			'/script',
 		);
+		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, $expected);
 
 		$view =& ClassRegistry::getObject('view');
@@ -724,7 +730,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$result = $this->Html->scriptStart(array('safe' => true));
 		$this->assertNull($result);
 		echo 'this is some javascript';
-
+		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$result = $this->Html->scriptEnd();
 		$expected = array(
 			'script',
@@ -1298,5 +1304,56 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 
 		$result = $this->Html->para('class-name', '<text>', array('escape' => true));
 		$this->assertTags($result, array('p' => array('class' => 'class-name'), '&lt;text&gt;', '/p'));
+	}
+
+/**
+ * testTime method
+ *
+ * @access public
+ * @return void
+ */
+	function testTime() {
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time>
+		$result = $this->Html->time('1978-12-29 20:20:22');
+		$expected = array('time' => array('datetime' => '1978-12-29 20:20:22'), 'Fri, 29 Dec 1978 20:20:22', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
+
+		// 'display' => 'H:i:s', 
+		$result = $this->Html->time('1978-12-29 20:20:22', array('pubdate' => true, 'format' => 'H:i:s'));
+		$expected = array('time' => array('pubdate' => 'pubdate', 'datetime' => '20:20:22'), '20:20:22', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
+
+		// 'display' => 'D jS \o\f M &#039;y h:ia', 
+		$result = $this->Html->time('1978-12-29 20:20:22', array('class' => 'birthday', 'pubdate', 'format' => 'H:i:s'));
+		$expected = array('time' => array('class' => 'birthday', 'datetime' => '20:20:22'), 'Fri 29th of Dec &#039;78 08:20pm', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
+		
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time>, 'display' => 'nice', 
+		$result = $this->Html->time('2009-10-22', array('format' => 'Y-m-d'));
+		$expected = array('time' => array('datetime' => '2009-10-22'), 'Thu, Oct 22nd 2009, 00:00', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
+		
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time> 'display' => 'F j, Y', 
+		$result = $this->Html->time('2009-10-22', array('format' => 'Y-m-d'));
+		$expected = array('time' => array('datetime' => '2009-10-22'), 'October 22, 2009', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
+		
+		// <time datetime="2009-10-22" pubdate>October 22, 2009</time> - time($content, $options = array())
+		// g:i:sa F j, Y
+		$result = $this->Html->time('2009-10-22 21:04:55', array('format' => 'Y-m-d H:i:s'));
+		$expected = array('time' => array('datetime' => '2009-10-22 21:04:55'), '9:04:55pm October 22, 2009', '/time');
+		echo "<pre>". htmlspecialchars($result) . "</pre>";
+		echo "<pre>"; debug($expected); echo "</pre>";
+		$this->assertTags($result, $expected);
 	}
 }

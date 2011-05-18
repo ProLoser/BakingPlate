@@ -55,10 +55,3 @@ local.properties
 .settings/
 .loadpath
 .cproject
-
-# Komodo #
-*.komodoproject
-.komodotools
-
-# E Texteditor #
-.eprj
