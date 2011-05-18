@@ -50,10 +50,14 @@ class PlateHelper extends AppHelper {
 			'class' => '',
 		), $options);
 		
-		if(!empty($options['class'])) { $options['class'].= ' '; }
+		if(!empty($options['class'])) {
+			$options['class'].= ' ';
+		} else {
+			$options['class'] = '';
+		}
 		
 		if($options['js']) {
-			$options['class'] = 'no-js';
+			$options['class'].= 'no-js';
 		}
 		unset($options['js']);
 		
@@ -74,6 +78,7 @@ class PlateHelper extends AppHelper {
 			$options['class'] .= 'ie8';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '8') . "\n"; 
 			$options = $backup;
+			$options['class'] = trim($options['class']);
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
 		} else {
 			$options = array_filter($options);

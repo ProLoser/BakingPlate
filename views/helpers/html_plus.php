@@ -165,6 +165,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	        if ($options['pubdate'])
 	                $options['pubdate'] = 'pubdate';
 
-	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
+	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $content);
 	}
 }
