@@ -57,6 +57,9 @@
 		}
 	}
 	echo "\t?>\n";
-	echo "<?php echo \$this->Form->end(__('Submit', true));?>\n";
+	echo "\t<footer>\n";
+	echo "\t\t<?php echo \$this->Form->submit();?>\n";
+	echo "\t</footer>\n";
+	echo "<?php echo \$this->Form->end();?>\n";
 ?>
 </article>
