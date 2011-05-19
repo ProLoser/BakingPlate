@@ -37,7 +37,7 @@ foreach ($associations as $type => $data) {
 }
 ?>
 </ul>
-<div class="<?php echo $pluralVar;?> view">
+<article class="<?php echo $pluralVar;?> view">
 	<dl><?php echo "<?php \$i = 0; \$class = ' class=\"altrow\"';?>\n";?>
 <?php
 foreach ($fields as $field) {
@@ -59,17 +59,17 @@ foreach ($fields as $field) {
 }
 ?>
 	</dl>
-</div>
+</article>
 <?php
 if (!empty($associations['hasOne'])) :
 	foreach ($associations['hasOne'] as $alias => $details): ?>
-	<div class="related">
-		<div class="header">
+	<article class="related">
+		<header>
 			<h2><?php echo "<?php __('Related " . Inflector::humanize($details['controller']) . "');?>";?></h2>
 			<ul>
 				<li><?php echo "<?php echo \$this->Html->link(__('Edit " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'edit', \${$singularVar}['{$alias}']['{$details['primaryKey']}']), array('class' => 'edit')); ?></li>\n";?>
 			</ul>
-		</div>
+		</header>
 	<?php echo "<?php if (!empty(\${$singularVar}['{$alias}'])):?>\n";?>
 		<dl><?php echo "\t<?php \$i = 0; \$class = ' class=\"altrow\"';?>\n";?>
 	<?php
@@ -80,7 +80,7 @@ if (!empty($associations['hasOne'])) :
 	?>
 		</dl>
 	<?php echo "<?php endif; ?>\n";?>
-	</div>
+	</article>
 	<?php
 	endforeach;
 endif;
@@ -96,15 +96,16 @@ foreach ($relations as $alias => $details):
 	$otherSingularVar = Inflector::variable($alias);
 	$otherPluralHumanName = Inflector::humanize($details['controller']);
 	?>
-<div class="related">
-	<div class="header">
+<article class="related">
+	<header>
 		<h2><?php echo "<?php __('Related " . $otherPluralHumanName . "');?>";?></h2>
 		<ul>
 			<li><?php echo "<?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add'), array('class' => 'add'));?>";?> </li>
 		</ul>
-	</div>
+	</header>
 	<?php echo "<?php if (!empty(\${$singularVar}['{$alias}'])):?>\n";?>
 	<table cellpadding = "0" cellspacing = "0">
+	<thead>
 	<tr>
 <?php
 			foreach ($details['fields'] as $field) {
@@ -121,7 +122,7 @@ echo "\t<?php
 			if (\$i++ % 2 == 0) {
 				\$class = ' class=\"altrow\"';
 			}
-		?>\n";
+		?>\n</thead>\n";
 		echo "\t\t<tr<?php echo \$class;?>>\n";
 
 				foreach ($details['fields'] as $field) {
@@ -139,5 +140,5 @@ echo "\t<?php endforeach; ?>\n";
 ?>
 	</table>
 <?php echo "<?php endif; ?>\n\n";?>
-</div>
+</article>
 <?php endforeach;?>

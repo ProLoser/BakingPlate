@@ -22,37 +22,41 @@ function clean($field) {
 }
 $fields = array_filter($fields, 'clean');
 ?>
-<h2><?php echo "<?php __('{$pluralHumanName}');?>";?></h2>
-<ul class="actions">
-	<li><?php echo "<?php echo \$this->Html->link(__('New " . $singularHumanName . "', true), array('action' => 'add')); ?>";?></li>
-<?php
-$done = array();
-foreach ($associations as $type => $data) {
-	foreach ($data as $alias => $details) {
-		if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-			echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
-			echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
-			$done[] = $details['controller'];
+<header>
+	<hgroup>
+		<h1><?php echo "<?php __('{$pluralHumanName}');?>";?></h1>
+	</hgroup>
+	<ul class="actions">
+		<li><?php echo "<?php echo \$this->Html->link(__('New " . $singularHumanName . "', true), array('action' => 'add')); ?>";?></li>
+	<?php
+	$done = array();
+	foreach ($associations as $type => $data) {
+		foreach ($data as $alias => $details) {
+			if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
+				echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
+				echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
+				$done[] = $details['controller'];
+			}
 		}
 	}
-}
-?>
-</ul>
-<div class="<?php echo $pluralVar;?> index">
-	<div class="header">
-		<p>
+	?>
+	</ul>
+</header>
+<article class="<?php echo $pluralVar;?> index">
+	<header>
+		<h3>
 		<?php echo "<?php
 		echo \$this->Paginator->counter(array(
 		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
 		));
 		?>";?>
-		</p>
+		</h3>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
-	</div>
+	</header>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$modelClass}')?>"?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
@@ -115,9 +119,11 @@ foreach ($associations as $type => $data) {
 	?> 
 	</table>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?> 
-	<div class="paging">
-		<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-		| <?php echo "<?php echo \$this->Paginator->numbers();?>"?> |
-		<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-	</div>
-</div>
+	<footer>
+		<div class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			| <?php echo "<?php echo \$this->Paginator->numbers();?>"?> |
+			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+		</div>
+	</footer>
+</article>
