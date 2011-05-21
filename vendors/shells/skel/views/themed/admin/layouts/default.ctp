@@ -19,10 +19,8 @@
 		);
 		echo $this->Plate->lib('jquery');
 		echo $this->Html->script(array(
-			'hideshow',
-			'jquery.tablesorter.min',
 			'jquery.equalHeight',
-			'/batch/js/batch',
+			'/batch/js/jquery',
 			'script',
 		));
 		echo $scripts_for_layout;
