@@ -621,6 +621,10 @@ border-bottom: 1px dotted #cccccc;
 .form-error {
 	background-color: #fee;
 }
+
+input[disabled], textarea[disabled], select[disabled] {
+background: #f0f0f0;
+}
 input[type=submit] {
 background: #D0D1D4 url(../img/btn_submit.png) repeat-x;
 border: 1px solid #A8A9A8;
