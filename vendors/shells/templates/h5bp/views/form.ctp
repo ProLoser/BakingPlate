@@ -36,7 +36,7 @@
 	}
 ?>
 </ul>
-<div class="<?php echo $pluralVar;?> form">
+<article class="<?php echo $pluralVar;?> form">
 <?php 
 	echo "<?php echo \$this->Form->create('{$modelClass}');?>\n";
 	echo "\t<?php\n";
@@ -58,4 +58,4 @@
 	echo "\t?>\n";
 	echo "<?php echo \$this->Form->end(__('Submit', true));?>\n";
 ?>
-</div>
+</article>

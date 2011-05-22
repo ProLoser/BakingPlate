@@ -109,7 +109,7 @@ FileETag None
   RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
 
-# without -MultiViews, Apache will give a 404 for a rewrite if a folder of the same name does not exist (e.g. “/blog/hello”)
+# without -MultiViews, Apache will give a 404 for a rewrite if a folder of the same name does not exist (e.g. ï¿½/blog/helloï¿½)
 #   webmasterworld.com/apache/3808792.htm
 Options +FollowSymLinks -MultiViews -Indexes
 

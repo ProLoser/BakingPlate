@@ -34,8 +34,8 @@ foreach ($associations as $type => $data) {
 }
 ?>
 </ul>
-<div class="<?php echo $pluralVar;?> index">
-	<div class="header">
+<article class="<?php echo $pluralVar;?> index">
+	<header>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
@@ -48,7 +48,7 @@ foreach ($associations as $type => $data) {
 		));
 		?>";?>
 		</p>
-	</div>
+	</header>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$alias}')?>"?>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
@@ -99,7 +99,7 @@ foreach ($associations as $type => $data) {
 	
 	echo "<?php endforeach; ?>\n";
 	if (in_array('Batch', $plugins)) {
-		echo "<?php echo \$this->Batch->batch(array({$filterFields})); ?>";
+		echo "<tfoot><?php echo \$this->Batch->batch(array({$filterFields})); ?></tfoot>";
 	}
 	?>
 	</table>
@@ -107,9 +107,11 @@ foreach ($associations as $type => $data) {
 		echo "\t<?php echo \$this->Batch->end()?>";
 	} ?>
 	
-	<div class="paging">
-		<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-		| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
-		<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-	</div>
-</div>
+	<footer>
+		<div class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
+			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+		</div>
+	</footer>
+</article>
