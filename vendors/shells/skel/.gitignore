@@ -17,7 +17,6 @@ webroot/cache/*
 
 # OSX #
 .DS_Store?
-Icon?
 ._*
 .Spotlight-V100
 .Trashes
@@ -55,10 +54,3 @@ local.properties
 .settings/
 .loadpath
 .cproject
-
-# Komodo #
-*.komodoproject
-.komodotools
-
-# E Texteditor #
-.eprj

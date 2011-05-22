@@ -27,7 +27,6 @@ $config['BakingPlate']['core'] = array(
 	'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	'webmaster_tools'	=> 'git://github.com/davidpersson/webmaster_tools.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
 );
@@ -124,7 +123,7 @@ $config['BakingPlate']['mcurry'] = array(
 	'seo'				=> 'git://github.com/mcurry/seo.git',
 	'simplepie'			=> 'git://github.com/mcurry/simplepie.git',
 	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
-	'status'                        => 'git://github.com/mcurry/status.git',
+	'status'			=> 'git://github.com/mcurry/status.git',
 	'tests'				=> 'git://github.com/mcurry/cakephp_tests.git',
 	'update'            => 'git://github.com/mcurry/update.git',
 	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git', // MCurry's fork seems to be broken

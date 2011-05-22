@@ -50,29 +50,35 @@ class PlateHelper extends AppHelper {
 			'class' => '',
 		), $options);
 		
-		if ($options['js']) {
-			// incase of existing class add space
-			$options['class'] .= ' no-js';
+		if(!empty($options['class'])) {
+			$options['class'].= ' ';
+		} else {
+			$options['class'] = '';
+		}
+		
+		if($options['js']) {
+			$options['class'].= 'no-js';
 		}
 		unset($options['js']);
 		
 		if ($options['ie']) {
+			$options['class'].= ' ';
 			$ie = $options['ie'];
 			unset($options['ie']);
 			// remove uneeded spaces (if no class was set in options)
-			$options['class'] = trim($options['class']);
 			$backup = $options;
 			$content = '';
 			// output a sequence of html tags to target ie versions and lastly all non ie browsers (including ie9 since it is mostly good)
-			$options['class'] .= ' ie6';
+			$options['class'] .= 'ie6';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
-			$options['class'] .= ' ie7';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 7) . "\n"; 
+			$options['class'] .= 'ie7';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '7') . "\n"; 
 			$options = $backup;
-			$options['class'] .= ' ie8';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
+			$options['class'] .= 'ie8';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '8') . "\n"; 
 			$options = $backup;
+			$options['class'] = trim($options['class']);
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
 		} else {
 			$options = array_filter($options);
@@ -125,20 +131,22 @@ class PlateHelper extends AppHelper {
  * @param string $content markup to be wrapped in ie condition
  * @param mixed $condition [true, false, '<7', '>8', '=>9', '9'] - the default is true
  * @param boolean $escape set to true to escape the cc for non-ie browsers
+ * @example $this->Plate->iecc('just ie') $this->Plate->iecc('just ie', '=>8')
  */
 	function iecc($content, $condition = 'IE', $escape = false) {
 		$cond = '';
 		if(is_bool($condition)) {
-				$condition = $condition ? 'IE' : '!IE';
+			$condition = $condition ? 'IE' : '!IE';
 		} elseif($condition == 'ie' || $condition == '!ie') {
-				$condition = strtoupper($condition);
+			$condition = strtoupper($condition);
 		}
-	
+
 		if (strpos($condition, 'IE') !== false) {
-			if(strpos($condition, '!IE') !== false) { $escape = true; }
-			$condition = ' ' . $condition;
+			if(strpos($condition, '!IE') !== false) {
+				$escape = true;
+			}
+			$cond = ' ' . $condition;
 		} else {
-			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
 				$cond = ' lt';
 				$condition = trim($condition, '<');
@@ -149,14 +157,14 @@ class PlateHelper extends AppHelper {
 			if ($pos !== false && $pos !== 0) {
 				$cond .= 'e';
 			}
-			$condition = $cond . ' IE ' . $condition;
+			$cond = $cond . ' IE ' . $condition;
 		}
-		
-		$pre = '<!--[if' . $condition . ']>';
+	   
+		$pre = '<!--[if' . $cond . ']>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if ($escape || strpos($condition, '!IE') !== false) {
+		if ($escape) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
@@ -210,5 +218,56 @@ class PlateHelper extends AppHelper {
 		$this->_view->set($name, $buffer); 
 		$this->__blockName = null;
 		return $buffer;
+	}
+	
+/**
+ * A tree list generator because all the other crap out there sucks
+ *
+ * @param string $data 
+ * @param string $options 
+ * @return string of markup
+ * @author Dean Sofer
+ */
+	function tree($data, $options = array(), $callbackOptions = array(), $first = false) {
+		if (empty($data))
+			return;
+			
+		$options = array_merge(array(
+			'displayField' => 'name',
+			'group' => 'ul',
+			'attributes' => array(),
+			'item' => 'li',
+			'callback' => null, // Set to false to disable autolinking. Set to a methodname as declared in AppHelper
+		), $options);
+			
+		$result = '';
+		$model = key($data[key($data)]);
+		$i = 0;
+		foreach ($data as $row) {
+			if ($options['callback'] && method_exists($this, $options['callback'])) {
+				$content = $this->$options['callback']($row, $callbackOptions);
+			} elseif ($options['callback'] === null) {
+				if($model) {
+					$controller = Inflector::tableize($model);
+				} else {
+					$controller = strtolower(key($data));
+					$model = 0;
+				}
+				//echo json_encode($row[0]);
+				//echo json_encode($row[$model]);
+				//debug($model);  
+				//debug($controller);
+				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => $controller, 'action' => 'view', $row[$model]['id']));				
+			} else {
+				$content = $row[$model][$options['displayField']];
+			}
+			if (!empty($row['children'])) {
+				$content .= $this->tree($row['children'], $options, $callbackOptions);
+			}
+			$i++;
+			$altrow = ($i % 2 == 0) ? array('class' => 'altrow') : array();
+			$result .= "\n\t" . $this->HtmlPlus->tag($options['item'], $content, $altrow);
+		}
+		return $this->HtmlPlus->tag($options['group'], $result . "\n", $options['attributes']);
 	}
 }

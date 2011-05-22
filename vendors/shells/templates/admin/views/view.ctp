@@ -17,27 +17,31 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<h1><?php echo "<?php  __('{$singularHumanName}');?>";?></h1>
-<ul class="actions">
-<?php
-echo "\t\t<li><?php echo \$this->Html->link(__('Edit " . $singularHumanName ."', true), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
-echo "\t\t<li><?php echo \$this->Html->link(__('Delete " . $singularHumanName . "', true), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), null, sprintf(__('Are you sure you want to delete # %s?', true), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
-echo "\t\t<li><?php echo \$this->Html->link(__('List " . $pluralHumanName . "', true), array('action' => 'index')); ?> </li>\n";
-echo "\t\t<li><?php echo \$this->Html->link(__('New " . $singularHumanName . "', true), array('action' => 'add')); ?> </li>\n";
+<header>
+	<hgroup>
+		<h1><?php echo "<?php  __('{$singularHumanName}');?>";?></h1>
+	</hgroup>
+	<ul class="actions">
+	<?php
+	echo "\t\t<li><?php echo \$this->Html->link(__('Edit " . $singularHumanName ."', true), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
+	echo "\t\t<li><?php echo \$this->Html->link(__('Delete " . $singularHumanName . "', true), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), null, sprintf(__('Are you sure you want to delete # %s?', true), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
+	echo "\t\t<li><?php echo \$this->Html->link(__('List " . $pluralHumanName . "', true), array('action' => 'index')); ?> </li>\n";
+	echo "\t\t<li><?php echo \$this->Html->link(__('New " . $singularHumanName . "', true), array('action' => 'add')); ?> </li>\n";
 
-$done = array();
-foreach ($associations as $type => $data) {
-	foreach ($data as $alias => $details) {
-		if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-			echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
-			echo "\t\t<li><?php echo \$this->Html->link(__('New " .  Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add'), array('class' => 'add')); ?> </li>\n";
-			$done[] = $details['controller'];
+	$done = array();
+	foreach ($associations as $type => $data) {
+		foreach ($data as $alias => $details) {
+			if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
+				echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
+				echo "\t\t<li><?php echo \$this->Html->link(__('New " .  Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add'), array('class' => 'add')); ?> </li>\n";
+				$done[] = $details['controller'];
+			}
 		}
 	}
-}
-?>
-</ul>
-<div class="<?php echo $pluralVar;?> view">
+	?>
+	</ul>
+</header>
+<article class="<?php echo $pluralVar;?> view">
 	<dl><?php echo "<?php \$i = 0; \$class = ' class=\"altrow\"';?>\n";?>
 <?php
 foreach ($fields as $field) {
@@ -59,17 +63,17 @@ foreach ($fields as $field) {
 }
 ?>
 	</dl>
-</div>
+</article>
 <?php
 if (!empty($associations['hasOne'])) :
 	foreach ($associations['hasOne'] as $alias => $details): ?>
-	<div class="related">
-		<div class="header">
-			<h2><?php echo "<?php __('Related " . Inflector::humanize($details['controller']) . "');?>";?></h2>
+<article class="related">
+		<header>
+			<h3><?php echo "<?php __('Related " . Inflector::humanize($details['controller']) . "');?>";?></h3>
 			<ul>
 				<li><?php echo "<?php echo \$this->Html->link(__('Edit " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'edit', \${$singularVar}['{$alias}']['{$details['primaryKey']}']), array('class' => 'edit')); ?></li>\n";?>
 			</ul>
-		</div>
+		</header>
 	<?php echo "<?php if (!empty(\${$singularVar}['{$alias}'])):?>\n";?>
 		<dl><?php echo "\t<?php \$i = 0; \$class = ' class=\"altrow\"';?>\n";?>
 	<?php
@@ -80,7 +84,7 @@ if (!empty($associations['hasOne'])) :
 	?>
 		</dl>
 	<?php echo "<?php endif; ?>\n";?>
-	</div>
+</article>
 	<?php
 	endforeach;
 endif;
@@ -96,15 +100,15 @@ foreach ($relations as $alias => $details):
 	$otherSingularVar = Inflector::variable($alias);
 	$otherPluralHumanName = Inflector::humanize($details['controller']);
 	?>
-<div class="related">
-	<div class="header">
-		<h2><?php echo "<?php __('Related " . $otherPluralHumanName . "');?>";?></h2>
+<article class="related">
+	<header>
+		<h3><?php echo "<?php __('Related " . $otherPluralHumanName . "');?>";?></h3>
 		<ul>
 			<li><?php echo "<?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add'), array('class' => 'add'));?>";?> </li>
 		</ul>
-	</div>
+	</header>
 	<?php echo "<?php if (!empty(\${$singularVar}['{$alias}'])):?>\n";?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table cellpadding="0" cellspacing="0">
 	<tr>
 <?php
 			foreach ($details['fields'] as $field) {
@@ -139,5 +143,5 @@ echo "\t<?php endforeach; ?>\n";
 ?>
 	</table>
 <?php echo "<?php endif; ?>\n\n";?>
-</div>
+</article>
 <?php endforeach;?>
