@@ -580,13 +580,15 @@ article header li a, article footer li a, .paging a {
 article header li a:hover, article footer li a:hover, .paging a:hover {
 	color: #44474F;
 }
-.paging span.current, .paging span.prev, .paging span.next {
+.paging span.current, .paging span.prev, .paging span.next, .paging .divider {
 	padding: 0 10px;
 }
 .paging span.prev a, .paging span.next a {
 	margin: 0 -10px;
 	display: block;
 }
+article header .paging {margin-top: -3px}
+
 article header li.active a, article footer li.active a, .paging span.current  {
 	color: #44474F;
 }
@@ -602,12 +604,14 @@ article header li:first-child, article header li:first-child a, article footer l
 	-webkit-border-top-left-radius: 5px; -webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-topleft: 5px; -moz-border-radius-bottomleft: 5px;
 	border-top-left-radius: 5px; border-bottom-left-radius: 5px;
+	padding-left: 8px;
 }
 
 article header li:last-child, article header li:last-child a, article footer li:last-child, article footer li:last-child a, .paging span:last-child, .paging span:last-child a  {
 	-webkit-border-top-right-radius: 5px; -webkit-border-bottom-right-radius: 5px;
 	-moz-border-radius-topright: 5px; -moz-border-radius-bottomright: 5px;
 	border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+	padding-right: 8px;
 }
 
 /* Messages */
@@ -938,3 +942,59 @@ background: #E2F6C5 url(../img/icn_alert_success.png) no-repeat 10px 10px;
 border: 1px solid #79C20D;
 color: #32510F;
 }
+
+
+
+
+.ie6 .quick_search,
+.ie7 .quick_search,
+.ie8 .quick_search {
+text-align: center;
+padding: 14px 0 0px 0;
+}
+
+.ie6 .quick_search input[type=text],
+.ie7 .quick_search input[type=text],
+.ie8 .quick_search input[type=text] {
+text-align: left;
+height: 22px;
+width: 88%;
+color: #ccc;
+padding-left: 2%;
+padding-top: 5px;
+background: #fff url(../img/icn_search.png) no-repeat;
+background-position: 10px 6px;
+}
+
+.ie6 .toggleLink,
+.ie7 .toggleLink,
+.ie8 .toggleLink {
+display: inline;
+float: none;
+margin-left: 2%
+}
+
+.ie6 ul.tabs li.active, .ie6 ul.tabs li.active a:hover,
+.ie7 ul.tabs li.active, .ie7 ul.tabs li.active a:hover,
+.ie8 ul.tabs li.active, .ie8 ul.tabs li.active a:hover  {
+background: #ccc;
+}
+
+.ie6 input[type=submit].btn_post_message,
+.ie7 input[type=submit].btn_post_message,
+.ie8 input[type=submit].btn_post_message {
+background: url(../img/post_message.png) no-repeat;
+}
+
+.ie6 fieldset input[type=text],
+.ie7 fieldset input[type=text],
+.ie8 fieldset input[type=text],
+.ie6 fieldset select,
+.ie7 fieldset select,
+.ie8 fieldset select,
+.ie6 fieldset textarea,
+.ie7 fieldset textarea,
+.ie8 fieldset textarea {
+margin-left: -10px;
+}
+
