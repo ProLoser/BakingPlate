@@ -1,5 +1,9 @@
 $(document).ready(function(){
     $('body, #sidebar, #main').equalHeight();
+	
+	$('.message').click(function(){
+		$(this).fadeOut();
+	});
 
 
 	// choose text for the show/hide link - can contain HTML (e.g. an image)
