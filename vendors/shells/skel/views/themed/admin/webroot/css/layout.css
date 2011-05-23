@@ -580,16 +580,16 @@ article header li a, article footer li a, .paging a {
 article header li a:hover, article footer li a:hover, .paging a:hover {
 	color: #44474F;
 }
-.paging span.current, .paging span.prev, .paging span.next, .paging .divider {
+.paging .current, .paging .prev, .paging .next, .paging .disabled, .paging .divider {
 	padding: 0 10px;
 }
-.paging span.prev a, .paging span.next a {
+.paging .prev a, .paging .next a, .paging .disabled a {
 	margin: 0 -10px;
 	display: block;
 }
 article header .paging {margin-top: -3px}
 
-article header li.active a, article footer li.active a, .paging span.current  {
+article header li.active a, article footer li.active a, .paging .current  {
 	color: #44474F;
 }
 
@@ -625,6 +625,10 @@ border-bottom: 1px dotted #cccccc;
 .form-error {
 	background-color: #fee;
 }
+
+input[disabled], textarea[disabled], select[disabled] {
+background: #f0f0f0;
+}
 input[type=submit] {
 background: #D0D1D4 url(../img/btn_submit.png) repeat-x;
 border: 1px solid #A8A9A8;
@@ -648,7 +652,7 @@ text-shadow: 0 1px 0 #6CDCF9;
 color: #333333;
 }
 
-input[type=submit].alt_btn {
+header input[type=submit], footer input[type=submit] {
 background: #D0D1D4 url(../img/btn_submit_2.png) repeat-x;
 border: 1px solid#30B0C8;
 -webkit-box-shadow: 0 1px 0 #fff;
@@ -665,7 +669,7 @@ text-shadow: 0 1px 0 #6CDCF9;
 cursor: pointer;
 }
 
-input[type=submit].alt_btn:hover {
+header input[type=submit], footer input[type=submit]:hover {
 color: #001217;
 }
 
@@ -866,9 +870,8 @@ line-height: 150%;
 /* Alerts */
 .message {
 display: block;
-width: 95%;
+width: 71%;
 margin: 20px 3% 0 3%;
-margin-top: 20px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
@@ -878,12 +881,14 @@ color: #082B33;
 padding: 10px 0;
 text-indent: 40px;
 font-size: 14px;
+position: absolute;
+top: 62px;
+cursor: pointer;
 }
 h4.alert_info {
 display: block;
 width: 95%;
 margin: 20px 3% 0 3%;
-margin-top: 20px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
@@ -899,7 +904,6 @@ h4.alert_warning {
 display: block;
 width: 95%;
 margin: 20px 3% 0 3%;
-margin-top: 20px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
@@ -915,7 +919,6 @@ h4.alert_error {
 display: block;
 width: 95%;
 margin: 20px 3% 0 3%;
-margin-top: 20px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
@@ -931,7 +934,6 @@ h4.alert_success {
 display: block;
 width: 95%;
 margin: 20px 3% 0 3%;
-margin-top: 20px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
