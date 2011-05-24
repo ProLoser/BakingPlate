@@ -36,7 +36,7 @@
 	details, article{ display:block; }
 	a { color: rgb(36, 109, 56); text-decoration:none; }
 	a:hover { color: rgb(96, 73, 141) ; text-shadow: 2px 2px 2px rgba(36, 109, 56, 0.5); }
-	span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+	span[frown] { transform: rotate(90deg); -o-transform: rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg);display:inline-block; color: #bbb; }
 	</style>
 </head>
 <body>

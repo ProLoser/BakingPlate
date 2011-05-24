@@ -17,9 +17,16 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 $plugins = App::objects('plugin');
-function clean($field) {
+
+if(!function_exists('clean')) {
+  
+  function clean($field) {
 	return !in_array($field, array('lft', 'rght'));
 }
+
+  
+}
+
 $fields = array_filter($fields, 'clean');
 ?>
 <header>

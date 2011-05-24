@@ -90,6 +90,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'ol' => '<ol%s>%s</ol>',
 	    'li' => '<li%s>%s</li>',
 	    'error' => '<div%s>%s</div>',
+	    'time' => '<time%s>%s</time>',
 	    'javascriptblock' => '<script%s>%s</script>',
 	    'javascriptstart' => '<script%s>',
 	    'javascriptlink' => '<script src="%s"%s></script>',
@@ -164,6 +165,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	        if ($options['pubdate'])
 	                $options['pubdate'] = 'pubdate';
 
-	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $display);
+	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $content);
 	}
 }
