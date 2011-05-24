@@ -13,7 +13,7 @@
 
 
 	<?php  /*  search box element could be placed here  */  ?>
-	<?php  /*  sitemap link here  */ ?>
+	<p class="sitemap"><?php echo $this->Html->link('sitemap', array('plugin' => 'webmaster_tools', 'controller' => 'webmaster_tools', 'action' => 'sitemap')); ?></p>
 
 	<script>
 	var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2),
