@@ -48,7 +48,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'textarea' => '<textarea name="%s" %s>%s</textarea>',
 	    'hidden' => '<input type="hidden" name="%s" %s>',
 	    'checkbox' => '<input type="checkbox" name="%s" %s>',
-	    'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s >',
+	    'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s>',
 	    'radio' => '<input type="radio" name="%s" id="%s" %s >%s',
 	    'selectstart' => '<select name="%s"%s>',
 	    'selectmultiplestart' => '<select name="%s[]"%s>',
@@ -126,6 +126,18 @@ class HtmlPlusHelper extends HtmlHelper {
 			return sprintf($this->tags['javascriptlink'], $url, null);
 		}
 		return parent::script($url, $options);
+	}
+	
+	function css($path, $rel = null, $options = array()) {
+	  
+		$rel = is_null($rel) ? 'stylesheet' : $rel;
+		
+	  if($options > array()) {
+			return sprintf($this->tags['css'], $rel, $path, $this->_parseAttributes($options, array('inline'), ' ', ''));
+		
+	  }
+	  
+		return parent::css($path, $rel);
 	}
 	
 	/**
