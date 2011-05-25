@@ -11,15 +11,15 @@
  *
  * Google Hosted JS Libs
  *
- *  #jQuery
+ *  jQuery
  *  jQuery UI
  *  Chrome Frame
  *  Dojo
  *  Ext Core
  *  MooTools
- *  #Prototype
+ *  Prototype
  *  script.aculo.us
- *  #SWFObject
+ *  SWFObject
  *  Yahoo! User Interface Library (YUI)
  *  WebFont Loader
  *  
@@ -31,14 +31,14 @@ $config['BakingPlate']['Libs']['jquery'] = array(
 	// (optional) url to uncompressed version
 	'cdnu' => '//ajax.googleapis.com/ajax/libs/jquery/:version/jquery.js',
 	// default version to use
-	'version' => '1.5.2',
+	'version' => '1.6.1',
 	// (optional) snippet of js to check if the lib is active
 	'fallback_check' => 'window.jQuery',
 );
 $config['BakingPlate']['Libs']['jqueryui'] = array(
 	'cdn' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.min.js',
 	'cdnu' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.js',
-	'version' => '1.8.11',
+	'version' => '1.8.13',
 	'fallback_check' => null,
 );
 // Chrome Frame

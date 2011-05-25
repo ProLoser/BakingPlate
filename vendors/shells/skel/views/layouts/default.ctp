@@ -42,18 +42,25 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
 	<?php #!# echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?> 
 <?php 
-echo $this->Html->css(array(
-#!# $this->AssetCompress->css(array(
+$this->AssetCompress->css(array(
 	'style',
-)); ?>
-	<?php echo $this->AssetCompress->includeCss(); ?> 
-<?php 
-echo $this->Html->script(array(
-#!# $this->AssetCompress->script(array(
-	'plugins',
-	'script',
-)); ?> 
-	<?php echo $this->Html->script('libs/modernizr-1.7.min'); ?> 
+), 'style');
+echo $this->AssetCompress->includeCss('style');
+
+$this->AssetCompress->css(array(
+	'handheld',
+), 'handheld');
+echo $this->AssetCompress->includeCss('handheld');
+
+$this->AssetCompress->script(array(
+	'plugins'
+), 'plugins');
+$this->AssetCompress->script(array(
+	'script'
+), 'script');
+
+$this->AssetCompress->script('libs/modernizr-1.7.min', 'headscript');
+echo $this->AssetCompress->includeJs('headscript'); ?> 
 	<?php echo $scripts_for_layout; ?> 
 </head>
 <body>
@@ -76,10 +83,9 @@ echo $this->Html->script(array(
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	echo $this->AssetCompress->includeJs();
+	echo $this->AssetCompress->includeJs('plugins', 'script');
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
-	if (Configure::read('debug')) echo $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
 ?>
 </body>
 </html>

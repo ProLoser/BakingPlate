@@ -35,7 +35,7 @@ LocalizedRouter::localize();
 
 /*
  * Asset Compress
- *#!#/
+ *#!#*/
 Router::connect('/cache_css/*', array('plugin' => 'asset_compress', 'controller' => 'css_files', 'action' => 'get'));
 Router::connect('/cache_js/*', array('plugin' => 'asset_compress', 'controller' => 'js_files', 'action' => 'get'));
 /*^*/
@@ -44,4 +44,4 @@ Router::connect('/cache_js/*', array('plugin' => 'asset_compress', 'controller' 
 /**
  * Webmaster Tools - add extra routes if using David Perssons webmaster tools
  */
-#!# require APP . 'plugins/webmaster_tools/config/routes.php';
+require APP . 'plugins/webmaster_tools/config/routes.php';
