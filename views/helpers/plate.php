@@ -207,12 +207,21 @@ class PlateHelper extends AppHelper {
 /**
  * A tree list generator because all the other crap out there sucks
  *
- * @param string $data 
- * @param string $options 
- * @return void
+ * @param array $data - works with find(threaded), untested with generateTreeList()
+ * @param array $options 
+ *	displayField - name: field to use for the link texts
+ *	group - ul: tag to use for groups
+ *	item - li: tag to use for items
+ *	attributes - array(): attributes to pass to the group tag
+ *	callback - null: specifies how the content should be generated
+ *		null: use automatic link-generation
+ *		false: just use displayField text
+ *		string: method name as declared in AppHelper (usefull for any advanced customizations)
+ * @param boolean $top - if this is the top level of the data array
+ * @return string output
  * @author Dean Sofer
  */
-	function tree($data, $options = array(), $callbackOptions = array()) {
+	function tree($data, $options = array(), $callbackOptions = array(), $top = true) {
 		if (empty($data))
 			return;
 			
@@ -229,6 +238,7 @@ class PlateHelper extends AppHelper {
 		$i = 0;
 		foreach ($data as $row) {
 			if ($options['callback'] && method_exists($this, $options['callback'])) {
+				$callbackOptions['top'] = $top;
 				$content = $this->$options['callback']($row, $callbackOptions);
 			} elseif ($options['callback'] === null) {
 				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));				
@@ -236,7 +246,7 @@ class PlateHelper extends AppHelper {
 				$content = $row[$model][$options['displayField']];
 			}
 			if (!empty($row['children'])) {
-				$content .= $this->tree($row['children'], $options, $callbackOptions);
+				$content .= $this->tree($row['children'], $options, $callbackOptions, false);
 			}
 			$i++;
 			$altrow = ($i % 2 == 0) ? array('class' => 'altrow') : array();
