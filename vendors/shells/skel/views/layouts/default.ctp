@@ -23,11 +23,6 @@
 		<?php echo $title_for_layout; ?> 
 	</title>
 	
-	<!--
-		TODO Check the htaccess to see if this tag is unnecessary
-		most cake users create apps that use modwrite - setting this in
-		server config is the ideal
-	-->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 	<!-- in some cases we have empty description meta - keywords are of debatable worth-->
@@ -40,28 +35,22 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
-	<?php #!# echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?> 
+
 <?php 
-$this->AssetCompress->css(array(
-	'style',
-), 'style');
-echo $this->AssetCompress->includeCss('style');
+	$this->AssetCompress->css(array(
+		'style',
+		'handheld',
+	));
+	echo $this->AssetCompress->includeCss();
 
-$this->AssetCompress->css(array(
-	'handheld',
-), 'handheld');
-echo $this->AssetCompress->includeCss('handheld');
+	$this->AssetCompress->script(array(
+		'plugins',
+		'script',
+	));
 
-$this->AssetCompress->script(array(
-	'plugins'
-), 'plugins');
-$this->AssetCompress->script(array(
-	'script'
-), 'script');
-
-$this->AssetCompress->script('libs/modernizr-1.7.min', 'headscript');
-echo $this->AssetCompress->includeJs('headscript'); ?> 
-	<?php echo $scripts_for_layout; ?> 
+	$this->Html->script('libs/modernizr-1.7.min');
+	echo $scripts_for_layout; 
+?> 
 </head>
 <body>
 	<div id="container">
@@ -83,7 +72,7 @@ echo $this->AssetCompress->includeJs('headscript'); ?>
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	echo $this->AssetCompress->includeJs('plugins', 'script');
+	echo $this->AssetCompress->includeJs();
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
 ?>
