@@ -147,7 +147,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @author Dean Sofer
 	 */
 	function css($url, $options = array()) {
-		if (!$options['inline']) {
+		if (isset($options['inline']) && !$options['inline']) {
 			unset($options['inline']);
 			$content = parent::css($url, $options);
 			$this->_stylesForLayout[] = $content;
