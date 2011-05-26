@@ -99,6 +99,16 @@ class HtmlPlusHelper extends HtmlHelper {
 
 
 	/**
+	 * Supplements css() to populate $styles_for_layout
+	 *
+	 * @author Dean Sofer
+	 */
+	function beforeLayout() {
+		$this->set('styles_for_layout', implode("\n\t", $this->_stylesForLayout));
+		return parent::beforeLayout();
+	}
+
+	/**
 	 * Returns one or many `<script>` tags depending on the number of scripts given.
 	 *
 	 * If the filename is prefixed with "//", it will be returned early as its a special http(s) indepenent url.
@@ -128,16 +138,23 @@ class HtmlPlusHelper extends HtmlHelper {
 		return parent::script($url, $options);
 	}
 	
-	function css($path, $rel = null, $options = array()) {
-	  
-		$rel = is_null($rel) ? 'stylesheet' : $rel;
-		
-	  if($options > array()) {
-			return sprintf($this->tags['css'], $rel, $path, $this->_parseAttributes($options, array('inline'), ' ', ''));
-		
-	  }
-	  
-		return parent::css($path, $rel);
+	/**
+	 * Separates styles from scripts
+	 *
+	 * @param string $url 
+	 * @param string $options 
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	function css($url, $options = array()) {
+		if (!$options['inline']) {
+			unset($options['inline']);
+			$content = parent::css($url, $options);
+			$this->_stylesForLayout[] = $content;
+			return $content;
+		} else {
+			return parent::css($url, $options);
+		}
 	}
 	
 	/**

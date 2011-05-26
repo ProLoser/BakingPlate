@@ -73,7 +73,7 @@ class PlateHelper extends AppHelper {
 			$options['class'] .= ' ie8';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true);
 		} else {
 			$options = array_filter($options);
 			$options['class'] = trim($options['class']);

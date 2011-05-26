@@ -38,7 +38,7 @@ foreach ($associations as $type => $data) {
 	<header>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
+			| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 		<p>
@@ -110,7 +110,7 @@ foreach ($associations as $type => $data) {
 	<footer>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<div class="divider">|</div> <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> <div class="divider">|</div>
+			| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 	</footer>

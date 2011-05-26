@@ -15,8 +15,8 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-?><!doctype html>
-<?php echo $this->Plate->html(array('ie' => true)); ?> 
+?><!DOCTYPE HTML>
+<?php echo $this->Plate->html(); ?>
 <head>
 	<?php echo $this->Html->charset(); ?> 
 	<title>
@@ -49,7 +49,7 @@
 	));
 
 	$this->Html->script('libs/modernizr-1.7.min');
-	echo $scripts_for_layout; 
+	echo $styles_for_layout;
 ?> 
 </head>
 <body>
@@ -75,6 +75,7 @@
 	echo $this->AssetCompress->includeJs();
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
+	echo $scripts_for_layout;
 ?>
 </body>
 </html>

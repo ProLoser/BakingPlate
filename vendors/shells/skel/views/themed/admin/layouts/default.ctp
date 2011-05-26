@@ -1,5 +1,6 @@
-<!doctype html>
-<?php echo $this->Plate->html(array('ie' => true)); ?> 
+<!DOCTYPE HTML>
+<?php echo $this->Plate->iecc('<html class="ie">', '<9'); ?> 
+<?php echo $this->Plate->iecc('<html>', false); ?>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
@@ -13,7 +14,7 @@
 			'/batch/css/batch',
 		));
 		echo $this->Html->script('libs/modernizr-1.7.min');
-		echo $scripts_for_layout;
+		echo $styles_for_layout;
 	?>
 </head>
 <body>
@@ -37,6 +38,7 @@
 			'/batch/js/jquery',
 			'script',
 		));
+		echo $scripts_for_layout;
 	?>
 </body>
 </html>

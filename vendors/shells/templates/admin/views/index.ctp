@@ -129,7 +129,7 @@ $fields = array_filter($fields, 'clean');
 	<footer>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<div class="divider">|</div> <?php echo "<?php echo \$this->Paginator->numbers();?>"?> <div class="divider">|</div>
+			| <?php echo "<?php echo \$this->Paginator->numbers();?>"?> |
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 	</footer>

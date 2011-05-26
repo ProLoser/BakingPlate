@@ -947,17 +947,13 @@ color: #32510F;
 
 
 
-
-.ie6 .quick_search,
-.ie7 .quick_search,
-.ie8 .quick_search {
+/** IE Fixes for LT IE 9 **/
+.ie .quick_search {
 text-align: center;
 padding: 14px 0 0px 0;
 }
 
-.ie6 .quick_search input[type=text],
-.ie7 .quick_search input[type=text],
-.ie8 .quick_search input[type=text] {
+.ie .quick_search input[type=text] {
 text-align: left;
 height: 22px;
 width: 88%;
@@ -968,35 +964,20 @@ background: #fff url(../img/icn_search.png) no-repeat;
 background-position: 10px 6px;
 }
 
-.ie6 .toggleLink,
-.ie7 .toggleLink,
-.ie8 .toggleLink {
+.ie .toggleLink {
 display: inline;
 float: none;
 margin-left: 2%
 }
 
-.ie6 ul.tabs li.active, .ie6 ul.tabs li.active a:hover,
-.ie7 ul.tabs li.active, .ie7 ul.tabs li.active a:hover,
-.ie8 ul.tabs li.active, .ie8 ul.tabs li.active a:hover  {
+.ie ul.tabs li.active, .ie ul.tabs li.active a:hover  {
 background: #ccc;
 }
 
-.ie6 input[type=submit].btn_post_message,
-.ie7 input[type=submit].btn_post_message,
-.ie8 input[type=submit].btn_post_message {
+.ie input[type=submit].btn_post_message {
 background: url(../img/post_message.png) no-repeat;
 }
 
-.ie6 fieldset input[type=text],
-.ie7 fieldset input[type=text],
-.ie8 fieldset input[type=text],
-.ie6 fieldset select,
-.ie7 fieldset select,
-.ie8 fieldset select,
-.ie6 fieldset textarea,
-.ie7 fieldset textarea,
-.ie8 fieldset textarea {
+.ie fieldset input[type=text], .ie fieldset select, .ie fieldset textarea {
 margin-left: -10px;
 }
-
