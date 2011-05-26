@@ -580,7 +580,7 @@ article header li a, article footer li a, .paging a {
 article header li a:hover, article footer li a:hover, .paging a:hover {
 	color: #44474F;
 }
-.paging .current, .paging .prev, .paging .next, .paging .disabled, .paging .divider {
+.paging .current, .paging .prev, .paging .next, .paging .disabled {
 	padding: 0 10px;
 }
 .paging .prev a, .paging .next a, .paging .disabled a {
