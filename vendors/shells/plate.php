@@ -22,9 +22,8 @@ class PlateShell extends Shell {
 	function _welcome() {
 		Configure::load('BakingPlate.submodules');
 		$this->submodules = Configure::read('BakingPlate');
-		Configure::load('BakingPlate.version');
 		$this->Dispatch->clear();
-		$this->out("\nWelcome to BakingPlate v" . Configure::read('BakingPlate.version'));
+		$this->out("\nWelcome to BakingPlate");
 		$this->hr();
 		$this->_prepGroup();
 	}
