@@ -7,18 +7,15 @@ class PagesController extends AppController {
  * @var string
  * @access public
  */
-	public $name = 'Pages';
+	var $name = 'Pages';
 
 /**
- * Default helper
+ * This controller does not use a model
  *
  * @var array
  * @access public
  */
-	public $helpers = array('Html', 'Form');
-
-
-	public $uses = array();
+	var $uses = array();
 
 	/**
 	 * beforeFilter

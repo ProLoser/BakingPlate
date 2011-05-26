@@ -181,7 +181,8 @@ class PlateHelper extends AppHelper {
  * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
  */ 
 	function start($name, $forLayout = true) {
-		if(!is_null($this->__blockName)) 
+		$this->__forLayout = $forLayout;
+		if (!is_null($this->__blockName)) 
 			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
 		$this->__blockName = $name; 
