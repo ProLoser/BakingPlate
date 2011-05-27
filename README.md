@@ -1,10 +1,8 @@
-# Baking Plate version v0.1.0
+# CakePHP BakingPlate
 
-BakingPlate is a cake plugin that assists in generating/baking CakePHP projects
-(by which we mean apps that use a core install of cake - see Advanced Installion of Cake) 
+BakingPlate assists in creating enhanced CakePHP projects containing extra features and conventions normally employed by the CakePHP community. Once the app is baked, several tools within the plugin are re-used by the skeleton app and can easily be added or removed.
 
-It contains a ***skel****leton directory* from which the derived app is created.
-The **skel** comes pre-set with a great deal of *hotness baked in*.  The skel is tweaked for advanced setup.
+Checkout the [GitHub Wiki](https://github.com/ProLoser/BakingPlate/wiki) for more information including installation and usage.
 
 We're always looking for new contributors, so feel free to fork and push!
 

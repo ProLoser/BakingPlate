@@ -202,16 +202,6 @@ class PlateComponent extends Object {
 	}
 
 /**
- * startTest method
- *
- * @access public
- * @return void
- */
-	function startTest() {
-		$this->_init();
-	}
-
-/**
  * Checks to see what the current prefix in use is or if a specific prefix is active
  * default if none is given.
  *

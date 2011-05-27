@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html>
+<?php echo $this->Plate->iecc('<html class="ie">', '<9'); ?> 
+<?php echo $this->Plate->iecc('<html>', false); ?>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
@@ -12,18 +13,8 @@
 			'layout',
 			'/batch/css/batch',
 		));
-		echo $this->Plate->iecc(
-			$this->Html->css('ie') . 
-			$this->Html->script('http://html5shim.googlecode.com/svn/trunk/html5.js'),
-			'<9'
-		);
-		echo $this->Plate->lib('jquery');
-		echo $this->Html->script(array(
-			'jquery.equalHeight',
-			'/batch/js/jquery',
-			'script',
-		));
-		echo $scripts_for_layout;
+		echo $styles_for_layout;
+		echo $this->Html->script('libs/modernizr-1.7.min');
 	?>
 </head>
 <body>
@@ -39,5 +30,14 @@
 		
 		<div class="spacer"></div>
 	</section>
+<?php
+	echo $this->Plate->lib('jquery');
+	echo $this->Html->script(array(
+		'jquery.equalHeight',
+		'/batch/js/jquery',
+		'script',
+	));
+	echo $scripts_for_layout;
+?>
 </body>
 </html>

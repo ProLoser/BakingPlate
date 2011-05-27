@@ -28,6 +28,13 @@ App::import('Helper', 'Html');
  * @link http://book.cakephp.org/view/1434/HTML
  */
 class HtmlPlusHelper extends HtmlHelper {
+	
+	/**
+	 * Holds an instance of the view
+	 *
+	 * @var object
+	 */
+	var $_view;
 
 	/**
 	 * html tags used by this helper.
@@ -48,7 +55,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'textarea' => '<textarea name="%s" %s>%s</textarea>',
 	    'hidden' => '<input type="hidden" name="%s" %s>',
 	    'checkbox' => '<input type="checkbox" name="%s" %s>',
-	    'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s >',
+	    'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s>',
 	    'radio' => '<input type="radio" name="%s" id="%s" %s >%s',
 	    'selectstart' => '<select name="%s"%s>',
 	    'selectmultiplestart' => '<select name="%s[]"%s>',
@@ -96,7 +103,21 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'javascriptlink' => '<script src="%s"%s></script>',
 	    'javascriptend' => '</script>'
 	);
-
+	
+	
+	/**
+	 * contruct
+	 * 	- allow defaults to be overridden
+	 * @param $settings array
+	 */
+	public function __construct ($settings = array()) {
+		// current view is used by $styles_for_layout
+		$this->_view = &ClassRegistry::getObject('view');
+		// Used to append styles in $this->css()
+		$this->_view->viewVars['styles_for_layout'] = '';
+		
+		parent::__construct();
+	}
 
 	/**
 	 * Returns one or many `<script>` tags depending on the number of scripts given.
@@ -126,6 +147,24 @@ class HtmlPlusHelper extends HtmlHelper {
 			return sprintf($this->tags['javascriptlink'], $url, null);
 		}
 		return parent::script($url, $options);
+	}
+	
+	/**
+	 * Separates styles from scripts
+	 *
+	 * @param string $url 
+	 * @param string $options 
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	function css($url, $rel = null, $options = array()) {
+		if (isset($options['inline']) && !$options['inline']) {
+			unset($options['inline']);
+			$content = parent::css($url, $rel, $options) . "\n\t";
+			$this->_view->viewVars['styles_for_layout'] .= $content;
+		} else {
+			return parent::css($url, $rel, $options);
+		}
 	}
 	
 	/**

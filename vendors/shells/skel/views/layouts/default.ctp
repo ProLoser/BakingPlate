@@ -15,19 +15,14 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-?><!doctype html>
-<?php echo $this->Plate->html(array('ie' => true)); ?> 
+?><!DOCTYPE HTML>
+<?php echo $this->Plate->html(); ?>
 <head>
 	<?php echo $this->Html->charset(); ?> 
 	<title>
 		<?php echo $title_for_layout; ?> 
 	</title>
 	
-	<!--
-		TODO Check the htaccess to see if this tag is unnecessary
-		most cake users create apps that use modwrite - setting this in
-		server config is the ideal
-	-->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 	<!-- in some cases we have empty description meta - keywords are of debatable worth-->
@@ -40,21 +35,17 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
-	<?php #!# echo $this->Html->css(array('handheld'), null, array('media' => 'handheld')); ?> 
+
 <?php 
-echo $this->Html->css(array(
-#!# $this->AssetCompress->css(array(
-	'style',
-)); ?>
-	<?php echo $this->AssetCompress->includeCss(); ?> 
-<?php 
-echo $this->Html->script(array(
-#!# $this->AssetCompress->script(array(
-	'plugins',
-	'script',
-)); ?> 
-	<?php echo $this->Html->script('libs/modernizr-1.7.min'); ?> 
-	<?php echo $scripts_for_layout; ?> 
+	#!# echo $this->Html->css(array(
+	$this->AssetCompress->css(array(
+		'style',
+		'handheld',
+	));
+	echo $this->AssetCompress->includeCss();
+	echo $styles_for_layout;
+	echo $this->Html->script('libs/modernizr-1.7.min');
+?> 
 </head>
 <body>
 	<div id="container">
@@ -76,10 +67,15 @@ echo $this->Html->script(array(
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	echo $this->AssetCompress->includeJs();
+	#!# echo $this->Html->script(array(
+	$this->AssetCompress->script(array(
+		'plugins',
+		'script',
+	));
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
-	if (Configure::read('debug')) echo $this->Html->script(array('profiling/yahoo-profiling.min', 'profiling/config'));
+	echo $this->AssetCompress->includeJs();
+	echo $scripts_for_layout;
 ?>
 </body>
 </html>

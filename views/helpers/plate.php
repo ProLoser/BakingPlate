@@ -12,6 +12,12 @@
 class PlateHelper extends AppHelper {
 	
 	var $helpers = array('BakingPlate.HtmlPlus');
+	
+/**
+ * Holds an instance of the view
+ *
+ * @var object
+ */
 	var $_view;
 	
 /**
@@ -32,6 +38,8 @@ class PlateHelper extends AppHelper {
 		$this->_view = &ClassRegistry::getObject('view');
 
 		Configure::load('BakingPlate.libs');
+		
+		parent::__construct();
 	}
 
 /**
@@ -50,36 +58,30 @@ class PlateHelper extends AppHelper {
 			'class' => '',
 		), $options);
 		
-		if(!empty($options['class'])) {
-			$options['class'].= ' ';
-		} else {
-			$options['class'] = '';
-		}
-		
-		if($options['js']) {
-			$options['class'].= 'no-js';
+		if ($options['js']) {
+			// incase of existing class add space
+			$options['class'] .= ' no-js';
 		}
 		unset($options['js']);
 		
 		if ($options['ie']) {
-			$options['class'].= ' ';
 			$ie = $options['ie'];
 			unset($options['ie']);
 			// remove uneeded spaces (if no class was set in options)
+			$options['class'] = trim($options['class']);
 			$backup = $options;
 			$content = '';
 			// output a sequence of html tags to target ie versions and lastly all non ie browsers (including ie9 since it is mostly good)
-			$options['class'] .= 'ie6';
+			$options['class'] .= ' ie6';
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
-			$options['class'] .= 'ie7';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '7') . "\n"; 
+			$options['class'] .= ' ie7';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 7) . "\n"; 
 			$options = $backup;
-			$options['class'] .= 'ie8';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '8') . "\n"; 
+			$options['class'] .= ' ie8';
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
 			$options = $backup;
-			$options['class'] = trim($options['class']);
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true) . "\n";
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true);
 		} else {
 			$options = array_filter($options);
 			$options['class'] = trim($options['class']);
@@ -129,24 +131,14 @@ class PlateHelper extends AppHelper {
  *
  * wrap content in a ie conditional comment - treat non ie targets as special case
  * @param string $content markup to be wrapped in ie condition
- * @param mixed $condition [true, false, '<7', '>8', '=>9', '9'] - the default is true
+ * @param mixed $condition [true, false, '<7', '>8']
  * @param boolean $escape set to true to escape the cc for non-ie browsers
- * @example $this->Plate->iecc('just ie') $this->Plate->iecc('just ie', '=>8')
  */
-	function iecc($content, $condition = 'IE', $escape = false) {
-		$cond = '';
-		if(is_bool($condition)) {
-			$condition = $condition ? 'IE' : '!IE';
-		} elseif($condition == 'ie' || $condition == '!ie') {
-			$condition = strtoupper($condition);
-		}
-
-		if (strpos($condition, 'IE') !== false) {
-			if(strpos($condition, '!IE') !== false) {
-				$escape = true;
-			}
-			$cond = ' ' . $condition;
+	function iecc($content, $condition, $escape = false) {
+		if ($condition === false) {
+			$condition = ' !IE';
 		} else {
+			$cond = '';
 			if (($pos = strpos($condition, '<')) !== false) {
 				$cond = ' lt';
 				$condition = trim($condition, '<');
@@ -157,14 +149,14 @@ class PlateHelper extends AppHelper {
 			if ($pos !== false && $pos !== 0) {
 				$cond .= 'e';
 			}
-			$cond = $cond . ' IE ' . $condition;
+			$condition = $cond . ' IE ' . $condition;
 		}
-	   
-		$pre = '<!--[if' . $cond . ']>';
+		
+		$pre = '<!--[if' . $condition . ']>';
 		$post = '<![endif]-->';
 
 		// if the iecondition is targeting non ie browsers prepend and append get adjusted
-		if ($escape) {
+		if ($escape || strpos($condition, '!IE') !== false) {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
@@ -197,7 +189,8 @@ class PlateHelper extends AppHelper {
  * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
  */ 
 	function start($name, $forLayout = true) {
-		if(!is_null($this->__blockName)) 
+		$this->__forLayout = $forLayout;
+		if (!is_null($this->__blockName)) 
 			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
 		$this->__blockName = $name; 
@@ -223,12 +216,21 @@ class PlateHelper extends AppHelper {
 /**
  * A tree list generator because all the other crap out there sucks
  *
- * @param string $data 
- * @param string $options 
- * @return string of markup
+ * @param array $data - works with find(threaded), untested with generateTreeList()
+ * @param array $options 
+ *	displayField - name: field to use for the link texts
+ *	group - ul: tag to use for groups
+ *	item - li: tag to use for items
+ *	attributes - array(): attributes to pass to the group tag
+ *	callback - null: specifies how the content should be generated
+ *		null: use automatic link-generation
+ *		false: just use displayField text
+ *		string: method name as declared in AppHelper (usefull for any advanced customizations)
+ * @param boolean $top - if this is the top level of the data array
+ * @return string output
  * @author Dean Sofer
  */
-	function tree($data, $options = array(), $callbackOptions = array(), $first = false) {
+	function tree($data, $options = array(), $callbackOptions = array(), $top = true) {
 		if (empty($data))
 			return;
 			
@@ -245,24 +247,15 @@ class PlateHelper extends AppHelper {
 		$i = 0;
 		foreach ($data as $row) {
 			if ($options['callback'] && method_exists($this, $options['callback'])) {
+				$callbackOptions['top'] = $top;
 				$content = $this->$options['callback']($row, $callbackOptions);
 			} elseif ($options['callback'] === null) {
-				if($model) {
-					$controller = Inflector::tableize($model);
-				} else {
-					$controller = strtolower(key($data));
-					$model = 0;
-				}
-				//echo json_encode($row[0]);
-				//echo json_encode($row[$model]);
-				//debug($model);  
-				//debug($controller);
-				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => $controller, 'action' => 'view', $row[$model]['id']));				
+				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));				
 			} else {
 				$content = $row[$model][$options['displayField']];
 			}
 			if (!empty($row['children'])) {
-				$content .= $this->tree($row['children'], $options, $callbackOptions);
+				$content .= $this->tree($row['children'], $options, $callbackOptions, false);
 			}
 			$i++;
 			$altrow = ($i % 2 == 0) ? array('class' => 'altrow') : array();
