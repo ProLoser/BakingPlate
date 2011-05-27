@@ -30,11 +30,11 @@ App::import('Helper', 'Html');
 class HtmlPlusHelper extends HtmlHelper {
 	
 	/**
-	 * Used to store styles for layout
+	 * Holds an instance of the view
 	 *
-	 * @var string
+	 * @var object
 	 */
-	var $_stylesForLayout = array();
+	var $_view;
 
 	/**
 	 * html tags used by this helper.
@@ -103,20 +103,20 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'javascriptlink' => '<script src="%s"%s></script>',
 	    'javascriptend' => '</script>'
 	);
-
-
+	
+	
 	/**
-	 * Supplements css() to populate $styles_for_layout
-	 * 
-	 * @TODO Due to a limitation in cake, had to use beforeRender instead of beforeLayout
-	 * @link http://cakephp.lighthouseapp.com/projects/42648/tickets/624-helper-beforerender-and-beforelayout-usage
-	 * @author Dean Sofer
+	 * contruct
+	 * 	- allow defaults to be overridden
+	 * @param $settings array
 	 */
-	function beforeRender() {
-    	$view = ClassRegistry::getObject('view');
-		$styles = implode("\n\t", $this->_stylesForLayout);
-		$view->set('styles_for_layout', $styles);
-		return parent::beforeRender();
+	public function __construct ($settings = array()) {
+		// current view is used by $styles_for_layout
+		$this->_view = &ClassRegistry::getObject('view');
+		// Used to append styles in $this->css()
+		$this->_view->viewVars['styles_for_layout'] = '';
+		
+		parent::__construct();
 	}
 
 	/**
@@ -160,9 +160,8 @@ class HtmlPlusHelper extends HtmlHelper {
 	function css($url, $rel = null, $options = array()) {
 		if (isset($options['inline']) && !$options['inline']) {
 			unset($options['inline']);
-			$content = parent::css($url, $rel, $options);
-			$this->_stylesForLayout[] = $content;
-			return $content;
+			$content = parent::css($url, $rel, $options) . "\n\t";
+			$this->_view->viewVars['styles_for_layout'] .= $content;
 		} else {
 			return parent::css($url, $rel, $options);
 		}

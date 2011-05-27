@@ -12,6 +12,12 @@
 class PlateHelper extends AppHelper {
 	
 	var $helpers = array('BakingPlate.HtmlPlus');
+	
+/**
+ * Holds an instance of the view
+ *
+ * @var object
+ */
 	var $_view;
 	
 /**
@@ -32,6 +38,8 @@ class PlateHelper extends AppHelper {
 		$this->_view = &ClassRegistry::getObject('view');
 
 		Configure::load('BakingPlate.libs');
+		
+		parent::__construct();
 	}
 
 /**
