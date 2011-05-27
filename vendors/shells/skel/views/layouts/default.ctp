@@ -37,6 +37,7 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
 
 <?php 
+	#!# echo $this->Html->css(array(
 	$this->AssetCompress->css(array(
 		'style',
 		'handheld',
@@ -66,6 +67,7 @@
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
+	#!# echo $this->Html->script(array(
 	$this->AssetCompress->script(array(
 		'plugins',
 		'script',
