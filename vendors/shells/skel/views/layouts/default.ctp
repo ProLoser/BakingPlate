@@ -42,14 +42,8 @@
 		'handheld',
 	));
 	echo $this->AssetCompress->includeCss();
-
-	$this->AssetCompress->script(array(
-		'plugins',
-		'script',
-	));
-
-	$this->Html->script('libs/modernizr-1.7.min');
 	echo $styles_for_layout;
+	echo $this->Html->script('libs/modernizr-1.7.min');
 ?> 
 </head>
 <body>
@@ -72,9 +66,13 @@
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	echo $this->AssetCompress->includeJs();
+	$this->AssetCompress->script(array(
+		'plugins',
+		'script',
+	));
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
+	echo $this->AssetCompress->includeJs();
 	echo $scripts_for_layout;
 ?>
 </body>

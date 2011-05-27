@@ -13,8 +13,8 @@
 			'layout',
 			'/batch/css/batch',
 		));
-		echo $this->Html->script('libs/modernizr-1.7.min');
 		echo $styles_for_layout;
+		echo $this->Html->script('libs/modernizr-1.7.min');
 	?>
 </head>
 <body>
@@ -30,15 +30,14 @@
 		
 		<div class="spacer"></div>
 	</section>
-	<?php
-	  // scripts and later js buffer
-		echo $this->Plate->lib('jquery');
-		echo $this->Html->script(array(
-			'jquery.equalHeight',
-			'/batch/js/jquery',
-			'script',
-		));
-		echo $scripts_for_layout;
-	?>
+<?php
+	echo $this->Plate->lib('jquery');
+	echo $this->Html->script(array(
+		'jquery.equalHeight',
+		'/batch/js/jquery',
+		'script',
+	));
+	echo $scripts_for_layout;
+?>
 </body>
 </html>
