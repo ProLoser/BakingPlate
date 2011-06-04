@@ -758,6 +758,11 @@ margin: -5px 0 5px 0;
 text-transform: uppercase;
 }
 
+.required label:after {
+content: "*";
+color: red;
+}
+
 .input input[type=text], .input input[type=email], .input input[type=url] {
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
