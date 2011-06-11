@@ -185,11 +185,9 @@ class PlateHelper extends AppHelper {
 /** 
  * Start a block of output to display in layout 
  * 
- * @param string $name Will be prepended to form {$name}_for_layout variable 
- * @param boolean $forLayout (optional) Set to false to prevent appending '_for_layout' to variable name
+ * @param string $name Will be prepended to form {$name}_for_layout variable  or leave blank to just use the output
  */ 
-	function start($name, $forLayout = true) {
-		$this->__forLayout = $forLayout;
+	function start($name = null) {
 		if (!is_null($this->__blockName)) 
 			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
@@ -200,16 +198,18 @@ class PlateHelper extends AppHelper {
 
 /** 
  * Ends a block of output to display in layout
- * @todo should this always return and set
+ * 
+ * @return string $buffer
  */ 
 	function stop() { 
 		if(is_null($this->__blockName)) 
 			trigger_error('PlateHelper::stop - No blocks currently running');
 		$buffer = @ob_get_contents(); 
-		@ob_end_clean(); 
-		$name = ($this->__forLayout) ? $this->__blockName.'_for_layout' : $this->__blockName;
-		$this->_view->set($name, $buffer); 
-		$this->__blockName = null;
+		@ob_end_clean();
+		if (!is_null($this->__blockName)) {
+			$this->_view->set($this->__blockName.'_for_layout', $buffer);
+			$this->__blockName = null;
+		}		
 		return $buffer;
 	}
 	
