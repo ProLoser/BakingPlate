@@ -97,7 +97,7 @@ class PlateComponent extends Object {
  * Works in conjunction with var $secureActions in the controller
  *
  */
-	private function _checkSSL() {
+	protected function _checkSSL() {
 		if (!isset($this->controller->secureActions)) {
 			return;
 		} elseif (
@@ -122,7 +122,7 @@ class PlateComponent extends Object {
  * @return void
  * @author Dean
  */
-	private function _habtmValidation() {
+	protected function _habtmValidation() {
 		$model = $this->controller->modelClass;
 		if (isset($this->controller->{$model}) && isset($this->controller->{$model}->hasAndBelongsToMany)) {
 			foreach($this->controller->{$model}->hasAndBelongsToMany as $alias => $options) { 
@@ -141,7 +141,7 @@ class PlateComponent extends Object {
  * @return void
  * @author Jose Gonzalez (savant)
  */
-	private function _paginationLimit() {
+	protected function _paginationLimit() {
 	    if (isset($this->passedArgs['limit']) && isset($this->controller->paginationMaxLimit) && is_numeric($this->controller->paginationMaxLimit)) {
 	        $this->passedArgs['limit'] = min(
 	            $this->paginationMaxLimit,
@@ -156,7 +156,7 @@ class PlateComponent extends Object {
  * @return void
  * @author Dean Sofer
  */
-	private function _populateView() {
+	protected function _populateView() {
 		$this->setToView('attributesForLayout');
 		$this->setToView('descriptionForLayout');
 		$this->setToView('keywordsForLayout');
@@ -174,7 +174,7 @@ class PlateComponent extends Object {
  * aware of plugins and config array (if passed). Doesn't load 
  * dependent components.
  *
- * @param mixed $helpers (single string or multiple array)
+ * @param mixed $components (single string or multiple array)
  */
 	public function loadComponent($components = array()) {
 		foreach ((array)$components as $component => $config) {
@@ -233,5 +233,65 @@ class PlateComponent extends Object {
 			$this->controller->set(Inflector::underscore($varName), $this->controller->{$varName});
 		}
 	}
+	
+/**
+ * Convenience method to perform both a flash and a redirect in one call
+ *
+ * Works with Controller::redirect = array('action' => 'index') or whatever you choose as the default
+ *
+ * @param string $message Message to display on redirect
+ * @param mixed $url A string or array-based URL pointing to another location within the app,
+ *     or an absolute URL
+ * @return void
+ * @access protected
+ */
+    public function flash($message = null, $redirect = array()) {
+        $status = null;
+        $exit = true;
+        $element = 'flash/error';
+
+        if (is_array($redirect)) {
+            if (isset($redirect['status'])) $status = $redirect['status'];
+            if (isset($redirect['exit'])) $exit = $redirect['exit'];
+            if (isset($redirect['message'])) $message = $redirect['message'];
+            if (isset($redirect['element'])) $element = $redirect['element'];
+            if (isset($redirect['redirect'])) {
+                $redirect = $redirect['redirect'];
+            } else {
+                $redirect = array();
+            }
+        }
+
+        if ($message === null) {
+            $message = __('Access Error', true);
+        }
+        if (is_array($redirect)) {
+			if (!isset($this->controller->redirect)) {
+				$this->controller->redirect = array('action' => 'index');
+			}
+            $redirect = array_merge($this->controller->redirect, $redirect);
+        }
+        if ($message !== false) {
+			// TODO: add session component to plate helper?
+            $this->controller->Session->setFlash($message, $element);
+        }
+
+        $this->controller->redirect($redirect, $status, $exit);
+    }
+
+/**
+ * Redirect to some url if a given piece of information evaluates to false
+ *
+ * @param mixed $data Data to evaluate
+ * @param mixed $message Message to use when redirecting
+ * @return void
+ * @access protected
+ */
+	function redirectUnless($data = null, $message = null) {
+		if (empty($data)) {
+			$redirect = (isset($message['redirect'])) ? $message['redirect'] : array();
+			$this->flash($message, $redirect);
+		}
+	}
+	
 }
-?>
