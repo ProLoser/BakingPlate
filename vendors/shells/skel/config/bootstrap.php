@@ -126,7 +126,3 @@ TEXT;
 		if ($die) die;
 	}
 }
-
-CakeLog::config('database', array(
-	'engine' => 'DatabaseLogger.DatabaseLogger',
-));
