@@ -26,7 +26,6 @@ class PlateHelper extends AppHelper {
  * @var string
  */
 	var $__blockName = null;
-	var $__forLayout = true;
 	
 /**
  * contruct
@@ -187,7 +186,7 @@ class PlateHelper extends AppHelper {
  * 
  * @param string $name Will be prepended to form {$name}_for_layout variable  or leave blank to just use the output
  */ 
-	function start($name = null) {
+	function start($name = false) {
 		if (!is_null($this->__blockName)) 
 			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
 
@@ -206,10 +205,10 @@ class PlateHelper extends AppHelper {
 			trigger_error('PlateHelper::stop - No blocks currently running');
 		$buffer = @ob_get_contents(); 
 		@ob_end_clean();
-		if (!is_null($this->__blockName)) {
+		if ($this->__blockName) {
 			$this->_view->set($this->__blockName.'_for_layout', $buffer);
-			$this->__blockName = null;
-		}		
+		}	
+		$this->__blockName = null;
 		return $buffer;
 	}
 	
