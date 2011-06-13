@@ -406,7 +406,7 @@ background: #ffffff;
 width: 95%;
 }
 
-article header h1, article header h2, article header h3, article footer h1, article footer h2, article footer h3 {
+article header p, article header h1, article header h2, article header h3, article footer p, article footer h1, article footer h2, article footer h3 {
 display: inline-block;
 }
 
