@@ -39,7 +39,7 @@ $config['BakingPlate']['Libs']['jqueryui'] = array(
 	'cdn' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.min.js',
 	'cdnu' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.js',
 	'version' => '1.8',
-	'fallback_check' => null,
+	'fallback_check' => 'window.jQuery.ui',
 );
 // Chrome Frame
 $config['BakingPlate']['Libs']['chrome-frame'] = array(
