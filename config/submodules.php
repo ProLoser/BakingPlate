@@ -34,9 +34,25 @@ $config['BakingPlate']['core'] = array(
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/cakephp-mongodb.git',
-	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
 	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+);
+
+$config['BakingPlate']['neilcrookes'] = array(
+	'searchable'		=> 'git://github.com/neilcrookes/searchable.git',
+	'rest'				=> 'git://github.com/neilcrookes/CakePHP-ReST-DataSource-Plugin.git',
+	'twitter'			=> 'git://github.com/neilcrookes/CakePHP-Twitter-API-Plugin.git',
+	'habtm_counter_cache'=> 'git://github.com/neilcrookes/CakePHP-HABTM-Counter-Cache-Plugin.git',
+	'blog'				=> 'git://github.com/neilcrookes/CakePHP-Blog-Plugin.git',
+	'gdata'				=> 'git://github.com/neilcrookes/CakePHP-GData-Plugin.git',
+	'yahoo_geo_planet'	=> 'git://github.com/neilcrookes/CakePHP-Yahoo-Geo-Planet-Plugin.git',
+	'bitly'				=> 'git://github.com/neilcrookes/CakePHP-Bit.ly-Plugin.git',
+	'queue'				=> 'git://github.com/neilcrookes/cakephp_queue.git',
+	'export'			=> 'git://github.com/neilcrookes/export.git',
+	'filter'			=> 'git://github.com/neilcrookes/filter.git',
+	'sequence'			=> 'git://github.com/neilcrookes/sequence.git',
+	'tree_counter_cache'=> 'git://github.com/neilcrookes/tree_counter_cache.git',
+	
 );
 
 $config['BakingPlate']['markstory'] = array(
@@ -53,18 +69,18 @@ $config['BakingPlate']['davidpersson'] = array(
 );
 
 $config['BakingPlate']['jmcneese'] = array(
-	'bitmasked'		=> 'git://github.com/jmcneese/bitmasked.git',
-	'cacheable'		=> 'git://github.com/jmcneese/cacheable.git',
-	'metadata'		=> 'git://github.com/jmcneese/metadata.git',
+	'bitmasked'			=> 'git://github.com/jmcneese/bitmasked.git',
+	'cacheable'			=> 'git://github.com/jmcneese/cacheable.git',
+	'metadata'			=> 'git://github.com/jmcneese/metadata.git',
 	'permissionable'	=> 'git://github.com/jmcneese/permissionable.git'	
 );
 
 $config['BakingPlate']['joebeeson'] = array(
-	'campfire'		=> 'git://github.com/joebeeson/campfire.git',
-	'embellish'		=> 'git://github.com/joebeeson/embellish.git',
-	'mailer'		=> 'git://github.com/joebeeson/mailer.git',
-	'referee'		=> 'git://github.com/joebeeson/referee.git',
-	'sassy'			=> 'git://github.com/joebeeson/sassy.git'
+	'campfire'			=> 'git://github.com/joebeeson/campfire.git',
+	'embellish'			=> 'git://github.com/joebeeson/embellish.git',
+	'mailer'			=> 'git://github.com/joebeeson/mailer.git',
+	'referee'			=> 'git://github.com/joebeeson/referee.git',
+	'sassy'				=> 'git://github.com/joebeeson/sassy.git'
 );
 
 $config['BakingPlate']['milesj'] = array(
@@ -93,15 +109,15 @@ $config['BakingPlate']['proloser'] = array(
 	'cacheable'			=> 'git://github.com/ProLoser/CakePHP-Cacheable.git',
 	'supervalidateable'	=> 'git://github.com/ProLoser/cakephp-supervalidatable-behavior.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
-	'github'				=> 'git://github.com/ProLoser/CakePHP-Github.git',
+	'github'			=> 'git://github.com/ProLoser/CakePHP-Github.git',
 	'wizard'			=> 'git://github.com/ProLoser/wizard.git',	
 	'csv'				=> 'git://github.com/ProLoser/CakePHP-CSV.git',
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 );
 
 $config['BakingPlate']['sams'] = array(
-	'contact'                       => 'git://github.com/sams/contact.git',
-	'manifesto'                     => 'git://github.com/sams/manifesto.git',
+	'contact'			=> 'git://github.com/sams/contact.git',
+	'manifesto'			=> 'git://github.com/sams/manifesto.git',
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
 );
@@ -156,7 +172,7 @@ $config['BakingPlate']['webtechnick'] = array(
 	'webtecknick'		=> 'git://github.com/webtechnick/CakePHP-Webtechnick-Plugin.git',
 	'paypal_ipn'		=> 'git://github.com/webtechnick/CakePHP-Paypal-IPN-Plugin.git',
 	'popup'				=> 'git://github.com/webtechnick/CakePHP-Popup-Plugin.git',
-	'configuration'	=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
+	'configuration'		=> 'git://github.com/webtechnick/CakePHP-Configuration-Plugin.git',
 	'gigya'				=> 'git://github.com/webtechnick/CakePHP-Gigya-Plugin.git',
 	'rake'				=> 'git://github.com/webtechnick/CakePHP-Rake-Plugin.git',
 	'seo'				=> 'git://github.com/webtechnick/CakePHP-Seo-Plugin.git',
@@ -208,9 +224,10 @@ $config['BakingPlate']['mi'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
 	'simpletest'		=> '',
-	'swift_mailer'			=> 'git://github.com/swiftmailer/swiftmailer.git', 
+	'swift_mailer'		=> 'git://github.com/swiftmailer/swiftmailer.git', 
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
 	'phpthumb'			=> 'git://github.com/masterexploder/PHPThumb.git',
+	'http_socket_oauth'	=> 'git://github.com/neilcrookes/http_socket_oauth.git',
 );

@@ -212,7 +212,7 @@ class PlateComponent extends Object {
 	public function prefix($prefix = null) {
 		if (isset($this->controller->params['prefix'])) {
 			if ($prefix) {
-				return $this->controller->params['prefix'] == $prefix;
+				return ($this->controller->params['prefix'] == $prefix);
 			} else {
 				return $this->controller->params['prefix'];
 			}
