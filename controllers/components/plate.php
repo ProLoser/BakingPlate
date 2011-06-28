@@ -245,25 +245,19 @@ class PlateComponent extends Object {
  * @return void
  * @access protected
  */
-    public function flash($message = null, $redirect = array()) {
-        $status = null;
-        $exit = true;
-        $element = 'flash/error';
-
-        if (is_array($redirect)) {
-            if (isset($redirect['status'])) $status = $redirect['status'];
-            if (isset($redirect['exit'])) $exit = $redirect['exit'];
-            if (isset($redirect['message'])) $message = $redirect['message'];
-            if (isset($redirect['element'])) $element = $redirect['element'];
-            if (isset($redirect['redirect'])) {
-                $redirect = $redirect['redirect'];
-            } else {
-                $redirect = array();
-            }
-        }
+    public function flash($message = null, $redirect = array(), $options = array()) {
+		$options = array_merge(array(
+			'status'	=> null,
+			'exit'		=> true,
+			'element'	=> 'default',
+			'key'		=> 'flash',
+		), $options);
 
         if ($message === null) {
             $message = __('Access Error', true);
+        } elseif ($message !== false) {
+			// TODO: add session component to plate helper?
+            $this->controller->Session->setFlash($message, $options['element']);
         }
         if (is_array($redirect)) {
 			if (!isset($this->controller->redirect)) {
@@ -271,12 +265,8 @@ class PlateComponent extends Object {
 			}
             $redirect = array_merge($this->controller->redirect, $redirect);
         }
-        if ($message !== false) {
-			// TODO: add session component to plate helper?
-            $this->controller->Session->setFlash($message, $element);
-        }
 
-        $this->controller->redirect($redirect, $status, $exit);
+        $this->controller->redirect($redirect, $options['status'], $options['exit'], $options['key']);
     }
 
 /**
