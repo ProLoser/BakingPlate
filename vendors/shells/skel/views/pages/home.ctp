@@ -106,6 +106,12 @@ if (!empty($filePresent)):
 	<li>webroot/css</li>
 	<li>webroot/js</li>
 	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
+	<li>
+		<ul>
+			<li>`cake plate add jsmin -g vendors`</li>
+			<li>`cake plate add cssmin -g vendors`</li>
+		</ul>
+	</li>
 	<li>run `cake asset_compress build`</li>
 </ul>
 <p>Baking Plate is delete-key friendly. Just search the project for #!# to see different options you can enable.</p>
