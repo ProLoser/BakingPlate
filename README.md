@@ -5,3 +5,4 @@ BakingPlate assists in creating enhanced CakePHP projects containing extra featu
 Checkout the [GitHub Wiki](https://github.com/ProLoser/BakingPlate/wiki) for more information including installation and usage.
 
 We're always looking for new contributors, so feel free to fork and push!
+
