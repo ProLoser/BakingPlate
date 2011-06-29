@@ -79,13 +79,14 @@
 		'plugins',
 		'script',
 	));
+	
 	echo $this->AssetCompress->includeJs();
 	echo $scripts_for_layout;
 	echo $this->Js->writeBuffer();
-	
+
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
-	echo $this->Plate->cfcc();
+	#!# echo $this->Plate->cfcc();
 ?>
 </body>
 </html>
