@@ -13,12 +13,12 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright	  Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link		  http://cakephp.org CakePHP(tm) Project
+ * @package		  cake
+ * @subpackage	  cake.app
+ * @since		  CakePHP(tm) v 0.2.9
+ * @license		  MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
@@ -27,8 +27,8 @@
  * Add your application-wide methods in the class below, your models
  * will inherit them.
  *
- * @package       cake
- * @subpackage    cake.app
+ * @package		  cake
+ * @subpackage	  cake.app
  */
 App::import('Lib', 'LazyModel.LazyModel');
 class AppModel extends LazyModel {
@@ -48,8 +48,8 @@ class AppModel extends LazyModel {
  * @param string $ds 
  */
 	function __construct($id = false, $table = null, $ds = null) {
-	    parent::__construct($id, $table, $ds);
-	    $this->_findMethods['paginatecount'] = true;
+		parent::__construct($id, $table, $ds);
+		$this->_findMethods['paginatecount'] = true;
 		foreach ($this->virtualFields as $field => $value) {
 			$this->virtualFields[$field] = str_replace($this->name, $this->alias, $value);
 		}
@@ -83,16 +83,16 @@ class AppModel extends LazyModel {
  * @see Model::find()
  * @author Jose Gonzalez (savant)
  */
-    public function _findPaginatecount($state, $query, $results = array()) {
-        if ($state == 'before' && isset($query['operation'])) {
-            if (!empty($query['fields']) && is_array($query['fields'])) {
-                if (!preg_match('/^count/i', $query['fields'][0])) {
-                    unset($query['fields']);
-                }
-            }
-        }
-        return parent::_findCount($state, $query, $results);
-    }
+	public function _findPaginatecount($state, $query, $results = array()) {
+		if ($state == 'before' && isset($query['operation'])) {
+			if (!empty($query['fields']) && is_array($query['fields'])) {
+				if (!preg_match('/^count/i', $query['fields'][0])) {
+					unset($query['fields']);
+				}
+			}
+		}
+		return parent::_findCount($state, $query, $results);
+	}
 
 /**
  * Custom Model::paginateCount() method to support custom model find pagination
@@ -103,18 +103,18 @@ class AppModel extends LazyModel {
  * @return array
  * @author Jose Gonzalez (savant)
  */
-    public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
-        $parameters = compact('conditions');
+	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
+		$parameters = compact('conditions');
 
-        if ($recursive != $this->recursive) {
-            $parameters['recursive'] = $recursive;
-        }
+		if ($recursive != $this->recursive) {
+			$parameters['recursive'] = $recursive;
+		}
 
-        if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
-            $extra['operation'] = 'count';
-            return $this->find($extra['type'], array_merge($parameters, $extra));
-        } else {
-            return $this->find('count', array_merge($parameters, $extra));
-        }
-    }
+		if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
+			$extra['operation'] = 'count';
+			return $this->find($extra['type'], array_merge($parameters, $extra));
+		} else {
+			return $this->find('count', array_merge($parameters, $extra));
+		}
+	}
 }
