@@ -176,13 +176,13 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @param $options array
 	 *      'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
 	 *      'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 *		'pubdate' BOOLEAN: If the pubdate attribute should be set
 	 */
 	function time($content, $options = array()) {
 	        $options = array_merge(array(
-	                'datetime' => 'Y-M-dTH:i+00:00',
-	                'escape' => true,
+	                'datetime' => DATE_W3C,
 	                'pubdate' => false,
-	                'format' => false,
+					'format' => false,
 	        ), $options);
 
 	        if ($options['format'] !== null) {
@@ -194,16 +194,23 @@ class HtmlPlusHelper extends HtmlHelper {
 	                if (method_exists($t, $options['format'])) {
 	                        $content = $t->$options['format']($content);
 	                } else {
-	                        $content = $t->format($content, $options['format']);
+	                        $content = $t->format($options['format'], $content);
 	                }
-	                $options['datetime'] = $t->format(strtotime($time), $options['datetime']);
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($time));
 	        } elseif ($options['format'] === false && $options['datetime']) {
-	                $options['datetime'] = $t->format(strtotime($content), $options['datetime']);
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($content));
 	        }
 
-	        if ($options['pubdate'])
-	                $options['pubdate'] = 'pubdate';
+			if ($options['pubdate'])
+				$pubdate = true;
 
-	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $content);
+			unset($options['format']);
+			unset($options['pubdate']);
+			$attributes = $this->_parseAttributes($options, array(0), ' ', '');
+			
+	        if (isset($pubdate))
+	                $attributes .= ' pubdate';
+
+	        return sprintf($this->tags['time'],  $attributes, $content);
 	}
 }
