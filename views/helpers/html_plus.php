@@ -180,9 +180,9 @@ class HtmlPlusHelper extends HtmlHelper {
 	 */
 	function time($content, $options = array()) {
 	        $options = array_merge(array(
-	                'datetime' => 'Y-M-dTH:i+00:00',
+	                'datetime' => DATE_W3C,
 	                'pubdate' => false,
-	                'format' => false,
+					'format' => false,
 	        ), $options);
 
 	        if ($options['format'] !== null) {
