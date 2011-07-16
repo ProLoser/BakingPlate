@@ -262,4 +262,14 @@ class PlateHelper extends AppHelper {
 		}
 		return $this->HtmlPlus->tag($options['group'], $result . "\n", $options['attributes']);
 	}
+	
+	/**
+	 * function cfcc
+	 */
+	
+	public function cfcc() {
+		$cfcc = $this->lib('chrome-frame');
+		$cfcc.= $this->HtmlPlus->scriptBlock('window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})', array('safe' => false));
+		return $this->iecc($cfcc, '<7');
+	}
 }

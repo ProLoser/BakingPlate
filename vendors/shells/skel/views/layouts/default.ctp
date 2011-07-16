@@ -36,7 +36,14 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
 
-<?php 
+<?php
+	/**
+	 * the cake generic stylesheet
+	 * 
+	 *#!#*/
+	echo $this->Html->css('cake.generic');
+	/*^*/
+	
 	#!# echo $this->Html->css(array(
 	$this->AssetCompress->css(array(
 		'style',
@@ -72,10 +79,14 @@
 		'plugins',
 		'script',
 	));
-	echo $this->Plate->pngFix();
-	echo $this->Plate->analytics();
+	
 	echo $this->AssetCompress->includeJs();
 	echo $scripts_for_layout;
+	echo $this->Js->writeBuffer();
+
+	echo $this->Plate->pngFix();
+	echo $this->Plate->analytics();
+	#!# echo $this->Plate->cfcc();
 ?>
 </body>
 </html>
