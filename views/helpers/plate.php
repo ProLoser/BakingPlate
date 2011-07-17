@@ -263,13 +263,15 @@ class PlateHelper extends AppHelper {
 		return $this->HtmlPlus->tag($options['group'], $result . "\n", $options['attributes']);
 	}
 	
-	/**
-	 * function cfcc
-	 */
 	
-	public function cfcc() {
+	/**
+	 * Prompts IE6 users to install chrome frame if they don't have it. Remove to support IE6
+	 *
+	 * @return string
+	 */
+	public function chrome() {
 		$cfcc = $this->lib('chrome-frame');
-		$cfcc.= $this->HtmlPlus->scriptBlock('window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})', array('safe' => false));
+		$cfcc .= $this->HtmlPlus->scriptBlock('window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})', array('safe' => false));
 		return $this->iecc($cfcc, '<7');
 	}
 }

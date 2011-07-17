@@ -52,7 +52,7 @@
 
 /**
  * Translation and Localization
- */
+ *#!#/
 Configure::write('Languages.default', 'en');
 $languages = array(
 	'en',
@@ -63,7 +63,7 @@ $languages = array(
 	'ch',
 );
 Configure::write('Languages.all', $languages);
-
+/*^*/
 
 /**
  * Plugin Configurations

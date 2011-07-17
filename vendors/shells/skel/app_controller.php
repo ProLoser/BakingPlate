@@ -41,7 +41,7 @@ class AppController extends Controller {
 			array('helper' => 'BakingPlate.PaginatorPlus', 'rename' => 'Paginator'),
 		),
 		'Time',
-		'AssetCompress.AssetCompress',
+		#!# 'AssetCompress.AssetCompress',
 	);
 	var $components = array(
 		'BakingPlate.Plate',
