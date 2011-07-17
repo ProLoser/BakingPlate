@@ -25,6 +25,7 @@ class PlateShell extends Shell {
 		$this->Dispatch->clear();
 		$this->out("\nWelcome to BakingPlate");
 		$this->hr();
+		$this->_loadCustom();
 	}
 
 	/**
@@ -49,10 +50,13 @@ class PlateShell extends Shell {
 		if (!isset($this->params['group'])) {
 			$this->params['group'] = 'core';
 		}
-		$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+		if (!isset($this->params['skel'])) {
+			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+		}
 		$working = $this->params['working'];
-		$this->Project->execute();
-		
+		if (!$this->Project->execute()) {
+			return;
+		}
 		$this->nl();
 		$this->out('Making temp folders writeable...');
 		exec('chmod -R 777 ' . $this->params['app'] . '/tmp/*');
@@ -146,6 +150,33 @@ class PlateShell extends Shell {
 	}
 	
 	/**
+	 * Loads in a custom configuration file if passed
+	 *
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	protected function _loadCustom() {
+		if (isset($this->params['c'])) {
+			$this->params['custom'] = $this->params['c'];
+		}
+		if (isset($this->params['custom'])) {
+			$custom = $this->params['custom'];
+			$name = pluginSplit($custom);
+			if (!Configure::load($custom)) {
+				$this->out("ERROR: Failed to load custom configuration '{$custom}'\n");
+				return;
+			}
+			$data = Configure::read('BakingPlate');
+			if (isset($data['skel'])) {
+				$this->params['skel'] = $data['skel'];
+				unset($data['skel']);
+			}
+			$this->submodules = array_merge($this->submodules, $data);
+			$this->out("Custom configuration '{$custom}' loaded\n");
+		}
+	}
+	
+	/**
 	 * Adds a submodule via git
 	 *
 	 * @param string $path 
@@ -153,7 +184,7 @@ class PlateShell extends Shell {
 	 * @return void
 	 * @author Dean Sofer
 	 */
-	private function _addSubmodule($path) {
+	protected function _addSubmodule($path) {
 		$path = Inflector::underscore($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
