@@ -64,14 +64,16 @@ class AppController extends Controller {
 	);
 	
 	var $view = 'BakingPlate.ThemedAutoHelper';
-	
-	var $attributesForLayout = array(
-		'id' => 'home',
-		'class' => 'home'
+
+/**
+ * Convenient way to setup any var_for_layout from the controller. Simply add a key-value
+ *
+ * @var array
+ */
+	var $forLayout = array(
+		'description' => '',
+		'keywords' => '',
 	);
-	var $descriptionForLayout = '';
-	var $keywordsForLayout = '';
-	var $navsForLayout = false;
 	
 /**
  * Specifies if an action should be under SSL
@@ -111,8 +113,8 @@ class AppController extends Controller {
 	
 	function beforeFilter() {
 		#!# $this->_setAuth();
-		#$this->_setLanguage();
-		#$this->_setMaintenance();
+		#!# $this->_setLanguage();
+		#!# $this->_setMaintenance();
 	}
 	
 	
@@ -120,7 +122,7 @@ class AppController extends Controller {
  * Changes the layout of the page if the prefix changes - switch to basic layout for errors
  */
 	function beforeRender() {
-		$this->_setTheme();
+		#!# $this->_setTheme();
 	}
 	
 /**
