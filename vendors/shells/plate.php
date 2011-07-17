@@ -25,7 +25,6 @@ class PlateShell extends Shell {
 		$this->Dispatch->clear();
 		$this->out("\nWelcome to BakingPlate");
 		$this->hr();
-		$this->_prepGroup();
 	}
 
 	/**
@@ -132,7 +131,7 @@ class PlateShell extends Shell {
 	function all() {
 		if (isset($this->args[0])) {
 			$this->params['group'] = $this->args[0];
-		} else {		
+		} elseif (!isset($this->params['group'])) {		
 			$this->browse();
 			$this->params['group'] = $this->in('Specify a group name or #');
 			$this->_prepGroup();
