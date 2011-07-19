@@ -28,7 +28,7 @@
 	<!-- in some cases we have empty description meta - keywords are of debatable worth-->
 	<meta name="description" content="<?php if (!empty($description_for_layout)) echo $description_for_layout; ?>">
 	<meta name="keywords" content="<?php if (!empty($keywords_for_layout)) echo $keywords_for_layout; ?>">
-	<meta name="author" content="Cakephp with Baking Plate">
+	<meta name="author" content="CakePHP with Baking Plate">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -36,13 +36,13 @@
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'apple-touch-icon')); ?> 
 
-<?php 
-	#!# echo $this->Html->css(array(
-	$this->AssetCompress->css(array(
+<?php
+	echo $this->Html->css(array(
+	#!# $this->AssetCompress->css(array(
 		'style',
 		'handheld',
 	));
-	echo $this->AssetCompress->includeCss();
+	#!# echo $this->AssetCompress->includeCss();
 	echo $styles_for_layout;
 	echo $this->Html->script('libs/modernizr-1.7.min');
 ?> 
@@ -67,15 +67,18 @@
 	</div>
 <?php
 	echo $this->Plate->lib('jquery');
-	#!# echo $this->Html->script(array(
-	$this->AssetCompress->script(array(
+	echo $this->Html->script(array(
+	#!# $this->AssetCompress->script(array(
 		'plugins',
 		'script',
 	));
+	
+	#!# echo $this->AssetCompress->includeJs();
+	echo $scripts_for_layout;
+
 	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
-	echo $this->AssetCompress->includeJs();
-	echo $scripts_for_layout;
+	echo $this->Plate->chrome();
 ?>
 </body>
 </html>

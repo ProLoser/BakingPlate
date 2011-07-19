@@ -253,18 +253,6 @@ class PlateComponentTest extends CakeTestCase {
 		$this->assertEqual($result, 'members');
 	}
 	
-	function testSetToView() {
-		$this->Controller->isGreat = 'Yes';
-		$this->Controller->params['controller'] = 'pages';
-		$this->Controller->params = array('url' => array('url' => '/pages/about'));
-		$this->Controller->action = 'display';
-		$this->_init();
-		$this->Controller->Plate->setToView('isGreat');
-		$this->Controller->layout = false;
-		$this->Controller->render(false);
-		debug($this->Controller);
-	}
-	
 	function testSetTheme() {
 		$this->Controller->params['prefix'] = 'admin';
 		$this->Controller->params['controller'] = 'widgets';

@@ -5,6 +5,19 @@ if (Configure::read() > 0):
 	Debugger::checkSecurityKeys();
 endif;
 ?>
+
+
+<div id="url-rewriting-warning" style="background-color:#e32; color:#fff; padding:3px; margin: 20px 0">
+	<?php __('URL rewriting is not properly configured on your server. '); ?>
+	<ol style="padding-left:20px">
+		<li><a target="_blank" href="http://book.cakephp.org/view/917/Apache-and-mod_rewrite-and-htaccess" style="color:#fff;">
+			<?php __('Help me configure it')?></a></li>
+		<li><a target="_blank" href="http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables" style="color:#fff;">
+			<?php __('I don\'t / can\'t use URL rewriting')?></a></li>
+	</ol>
+</div>
+
+
 <p>
 <?php
 	if (is_writable(TMP)):
@@ -93,5 +106,12 @@ if (!empty($filePresent)):
 	<li>webroot/css</li>
 	<li>webroot/js</li>
 	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
+	<li>
+		<ul>
+			<li>`cake plate add jsmin -g vendors`</li>
+			<li>`cake plate add cssmin -g vendors`</li>
+		</ul>
+	</li>
+	<li>run `cake asset_compress build`</li>
 </ul>
 <p>Baking Plate is delete-key friendly. Just search the project for #!# to see different options you can enable.</p>

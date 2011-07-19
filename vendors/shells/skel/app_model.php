@@ -70,30 +70,6 @@ class AppModel extends LazyModel {
 		} 
 	}
 
-
-/**
- * Removes 'fields' key from count query on custom finds when it is an array,
- * as it will completely break the Model::_findCount() call
- *
- * @param string $state Either "before" or "after"
- * @param array $query
- * @param array $data
- * @return int The number of records found, or false
- * @access protected
- * @see Model::find()
- * @author Jose Gonzalez (savant)
- */
-	public function _findPaginatecount($state, $query, $results = array()) {
-		if ($state == 'before' && isset($query['operation'])) {
-			if (!empty($query['fields']) && is_array($query['fields'])) {
-				if (!preg_match('/^count/i', $query['fields'][0])) {
-					unset($query['fields']);
-				}
-			}
-		}
-		return parent::_findCount($state, $query, $results);
-	}
-
 /**
  * Custom Model::paginateCount() method to support custom model find pagination
  *
@@ -116,5 +92,30 @@ class AppModel extends LazyModel {
 		} else {
 			return $this->find('count', array_merge($parameters, $extra));
 		}
+	}
+
+/**
+ * Removes 'fields' key and 'contain' from count query on custom finds when it is an array,
+ * as it will completely break the Model::_findCount() call
+ *
+ * @param string $state Either "before" or "after"
+ * @param array $query
+ * @param array $data
+ * @return int The number of records found, or false
+ * @access protected
+ * @see Model::find()
+ */
+	protected function _findCount($state, $query, $results = array()) {
+		if ($state == 'before' && isset($query['operation'])) {
+			if (!empty($query['fields']) && is_array($query['fields'])) {
+				if (!preg_match('/^count/i', $query['fields'][0])) {
+					unset($query['fields']);
+				}
+			}
+			if (isset($query['contain'])) {
+				unset($query['contain']);
+			}
+		}
+		return parent::_findCount($state, $query, $results);
 	}
 }

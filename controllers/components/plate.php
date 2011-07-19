@@ -157,15 +157,10 @@ class PlateComponent extends Object {
  * @author Dean Sofer
  */
 	protected function _populateView() {
-		$this->setToView('attributesForLayout');
-		$this->setToView('descriptionForLayout');
-		$this->setToView('keywordsForLayout');
-		$this->setToView('menusForLayout');
-		if ($this->controller->params['url']['url'] != '/') {
-			$this->controller->attributesForLayout[] = array(
-				'id' => false,
-				'class' => $this->controller->params['controller'] . ' ' . $this->controller->action,
-			);
+		if (!isset($this->controller->forLayout))
+			return;
+		foreach ($this->controller->forLayout as $name => $value) {
+			$this->set($name . '_for_layout', $value);
 		}
 	}
 
@@ -218,19 +213,6 @@ class PlateComponent extends Object {
 			}
 		} else {
 			return false;
-		}
-	}
-	
-
-/**
- * Populates layout variables for use
- *
- * @return void
- * @author Dean Sofer
- */
-	public function setToView($varName = null) {
-		if (!empty($varName) && property_exists($this->controller, $varName)) {
-			$this->controller->set(Inflector::underscore($varName), $this->controller->{$varName});
 		}
 	}
 	
