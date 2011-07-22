@@ -1,6 +1,6 @@
 # CakePHP BakingPlate
 
-BakingPlate assists in creating enhanced CakePHP projects containing extra features and conventions normally employed by the CakePHP community and built on top of the Html5BoilerPlate. 
+BakingPlate assists in creating enhanced CakePHP projects containing extra features and conventions normally employed by the CakePHP community and built on top of the [Html5BoilerPlate](https://github.com/paulirish/html5-boilerplate). 
 
 Once the app is baked, several tools within the plugin are re-used by the skeleton app including HTML5 support and plugin installers and can easily be added or removed. In fact, you don't even need to use our skeleton to use the plugin!
 
