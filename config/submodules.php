@@ -29,7 +29,7 @@ $config['BakingPlate']['core'] = array(
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'webmaster_tools'	=> 'git://github.com/sams/webmaster_tools.git',
-	'url_cache'			=> 'git://github.com/mcurry/url_cache.git',
+	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git',
 	'less'	=> 'git://github.com/Phally/less.git',
 );
 // Submodules that don't fall under any other group
