@@ -341,13 +341,11 @@ class FormPlusHelper extends FormHelper {
  * @return array reformed version of $options
  */
 	function _addPlaceholder($fieldName, $options) {
-		if (isset($options['placeholder'])) {
-			if ($options['placeholder'] === true) {
-				if (!empty($options['label'])) {
-					$options['placeholder'] = $options['label'];
-				} else {
-					$options['placeholder'] = $this->_labelText($fieldName);
-				}
+		if (isset($options['placeholder']) && $options['placeholder'] === true) {
+			if (!empty($options['label'])) {
+				$options['placeholder'] = $options['label'];
+			} else {
+				$options['placeholder'] = $this->_labelText($fieldName);
 			}
 		}
 		return $options;
