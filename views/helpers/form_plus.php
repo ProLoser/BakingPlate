@@ -207,8 +207,6 @@ class FormPlusHelper extends FormHelper {
 			$timeFormat = $this->_extractOption('timeFormat', $options, 12);
 			unset($options['dateFormat'], $options['timeFormat']);
 		}
-		if ($options['type'] === 'email') {
-		}
 
 		$type = $options['type'];
 		$out = array_merge(
