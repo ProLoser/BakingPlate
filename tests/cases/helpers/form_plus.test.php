@@ -672,12 +672,12 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		parent::setUp();
 		Router::reload();
 
-		$this->Form =& new FormPlusHelper();
+		$this->Form = new FormPlusHelper();
 		$this->Form->_type = 'html4';
-		$this->Form->Html =& new HtmlPlusHelper();
+		$this->Form->Html = new HtmlPlusHelper();
 		$this->Form->Html->_type = 'html4';
-		$this->Controller =& new ContactTestController();
-		$this->View =& new View($this->Controller);
+		$this->Controller = new ContactTestController();
+		$this->View = new View($this->Controller);
 		$this->Form->params['action'] = 'add';
 
 		ClassRegistry::addObject('view', $view);
@@ -1307,8 +1307,8 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testFormValidationAssociated() {
-		$this->UserForm =& ClassRegistry::getObject('UserForm');
-		$this->UserForm->OpenidUrl =& ClassRegistry::getObject('OpenidUrl');
+		$this->UserForm = ClassRegistry::getObject('UserForm');
+		$this->UserForm->OpenidUrl = ClassRegistry::getObject('OpenidUrl');
 
 		$data = array(
 			'UserForm' => array('name' => 'user'),
@@ -1351,8 +1351,8 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testFormValidationAssociatedFirstLevel() {
-		$this->ValidateUser =& ClassRegistry::getObject('ValidateUser');
-		$this->ValidateUser->ValidateProfile =& ClassRegistry::getObject('ValidateProfile');
+		$this->ValidateUser = ClassRegistry::getObject('ValidateUser');
+		$this->ValidateUser->ValidateProfile = ClassRegistry::getObject('ValidateProfile');
 
 		$data = array(
 			'ValidateUser' => array('name' => 'mariano'),
@@ -1392,9 +1392,9 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testFormValidationAssociatedSecondLevel() {
-		$this->ValidateUser =& ClassRegistry::getObject('ValidateUser');
-		$this->ValidateUser->ValidateProfile =& ClassRegistry::getObject('ValidateProfile');
-		$this->ValidateUser->ValidateProfile->ValidateItem =& ClassRegistry::getObject('ValidateItem');
+		$this->ValidateUser = ClassRegistry::getObject('ValidateUser');
+		$this->ValidateUser->ValidateProfile = ClassRegistry::getObject('ValidateProfile');
+		$this->ValidateUser->ValidateProfile->ValidateItem = ClassRegistry::getObject('ValidateItem');
 
 		$data = array(
 			'ValidateUser' => array('name' => 'mariano'),
@@ -2099,7 +2099,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->data = array('Model' => array('user_id' => 'value'));
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('empty' => true));
 		$expected = array(
@@ -2122,7 +2122,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->data = array('Model' => array('user_id' => null));
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('empty' => 'Some Empty'));
 		$expected = array(
@@ -2146,7 +2146,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->data = array('Model' => array('user_id' => 'value'));
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('empty' => 'Some Empty'));
 		$expected = array(
@@ -2170,7 +2170,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->data = array('User' => array('User' => array('value')));
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('User.User', array('empty' => true));
 		$expected = array(
@@ -2223,7 +2223,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testInputOverridingMagicSelectType() {
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('type' => 'text'));
 		$expected = array(
@@ -2235,7 +2235,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		//Check that magic types still work for plural/singular vars
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['types'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.type');
 		$expected = array(
@@ -2256,7 +2256,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testInputMagicSelectChangeToRadio() {
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('type' => 'radio'));
 		$this->assertPattern('/input type="radio"/', $result);
@@ -3343,7 +3343,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function testHabtmSelectBox() {
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->viewVars['contactTags'] = array(
 			1 => 'blue',
 			2 => 'red',
@@ -5183,11 +5183,11 @@ class FormPlusHelperTestCase extends CakeTestCase {
  */
 	function testFileUploadOnOtherModel() {
 		ClassRegistry::removeObject('view');
-		$controller =& new Controller();
+		$controller = new Controller();
 		$controller->name = 'ValidateUsers';
 		$controller->uses = array('ValidateUser');
 		$controller->constructClasses();
-		$view =& new View($controller, true);
+		$view = new View($controller, true);
 
 		$this->Form->create('ValidateUser', array('type' => 'file'));
 		$result = $this->Form->file('ValidateProfile.city');

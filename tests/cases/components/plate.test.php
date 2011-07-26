@@ -130,7 +130,7 @@ class PlateComponentTestController extends Controller {
 class TestComponent extends Object {
 	var $__settings = array();
 	var $controller = null;
-	public function initialize(&$controller, $settings = array()) {
+	public function initialize($controller, $settings = array()) {
 		$this->controller = $controller;
 		if (!isset($this->__settings[$controller->name])) {
 			$this->__settings[$controller->name] = $settings;
@@ -189,7 +189,7 @@ class PlateComponentTest extends CakeTestCase {
 	function _init() {
 		$this->Controller = new PlateComponentTestController(array('components' => array('Auth', 'Plate', 'Plate')));
 		$this->Controller->constructClasses();
-		//$this->RequestHandler =& $this->Controller->RequestHandler;
+		//$this->RequestHandler = $this->Controller->RequestHandler;
 		//$this->RequestHandler->initialize($this->Controller);
 		$this->Controller->Plate->initialize($this->Controller);
 		$this->Controller->beforeFilter();
@@ -207,11 +207,11 @@ class PlateComponentTest extends CakeTestCase {
 		$this->Controller->Plate->initialize($this->Controller, $settings);
 	}
 	
-	function beforeRender(&$controller) {
+	function beforeRender($controller) {
 		$this->Plate->beforeRender($controller);
 	}
 	
-	function shutdown(&$controller) {
+	function shutdown($controller) {
 	}
 	
 	function testLoadComponent() {

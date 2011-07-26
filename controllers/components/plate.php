@@ -35,7 +35,7 @@ class PlateComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	public function initialize(&$controller, $settings = array()) {
+	public function initialize($controller, $settings = array()) {
 		$this->controller = $controller;
 		if (!isset($this->__settings[$controller->name])) {
 			$this->__settings[$controller->name] = $settings;
@@ -51,7 +51,7 @@ class PlateComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	public function startup(&$controller) {
+	public function startup($controller) {
 		$this->_paginationLimit();
 	}
 
@@ -63,7 +63,7 @@ class PlateComponent extends Object {
  * @return void
  * @access public
  */
-	public function beforeRender(&$controller) {
+	public function beforeRender($controller) {
 		// An annoying fix for asset_compress
 		if (empty($this->controller))
 			$this->controller = $controller;
@@ -79,7 +79,7 @@ class PlateComponent extends Object {
  * @return void
  * @access public
  */
-	public function shutdown(&$controller) {
+	public function shutdown($controller) {
 	}
 
 /**
@@ -89,7 +89,7 @@ class PlateComponent extends Object {
  * @param mixed  A string or array containing the redirect location
  * @access public
  */
-	public function beforeRedirect(&$controller, $url, $status = null, $exit = true) {
+	public function beforeRedirect($controller, $url, $status = null, $exit = true) {
 	}
 	
 /**

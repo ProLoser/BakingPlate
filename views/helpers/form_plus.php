@@ -127,7 +127,7 @@ class FormPlusHelper extends FormHelper {
 			(!isset($options['options']) && in_array($options['type'], $types)) ||
 			(isset($magicType) && $options['type'] == 'text')
 		) {
-			$view =& ClassRegistry::getObject('view');
+			$view = ClassRegistry::getObject('view');
 			$varName = Inflector::variable(
 				Inflector::pluralize(preg_replace('/_id$/', '', $fieldKey))
 			);

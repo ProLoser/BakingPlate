@@ -31,7 +31,7 @@ class ScaffoldingComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	function initialize(&$controller, $settings = array()) {
+	function initialize($controller, $settings = array()) {
 		if (!isset($this->__settings[$controller->name])) {
 			$settings = $this->__settings[$controller->name];
 		}
@@ -45,7 +45,7 @@ class ScaffoldingComponent extends Object {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	function startup(&$controller) {
+	function startup($controller) {
 	}
 
 /**
@@ -56,7 +56,7 @@ class ScaffoldingComponent extends Object {
  * @return void
  * @access public
  */
-	function beforeRender(&$controller) {
+	function beforeRender($controller) {
 	}
 
 /**
@@ -66,7 +66,7 @@ class ScaffoldingComponent extends Object {
  * @return void
  * @access public
  */
-	function shutdown(&$controller) {
+	function shutdown($controller) {
 	}
 
 /**
@@ -76,10 +76,10 @@ class ScaffoldingComponent extends Object {
  * @param mixed  A string or array containing the redirect location
  * @access public
  */
-	function beforeRedirect(&$controller, $url, $status = null, $exit = true) {
+	function beforeRedirect($controller, $url, $status = null, $exit = true) {
 	}
 	
-	public function add(&$controller, $params = array()) {
+	public function add($controller, $params = array()) {
 		$params = array_merge(array(
 			'redirect' => array('action' => 'index'),
 		), $params);
@@ -95,7 +95,7 @@ class ScaffoldingComponent extends Object {
 		$this->populateRelated($controller);
 	}
 	
-	public function edit(&$controller, $id = null, $params = array()) {
+	public function edit($controller, $id = null, $params = array()) {
 		$params = array_merge(array(
 			'redirect' => array('action' => 'index'),
 		), $params);
@@ -111,7 +111,7 @@ class ScaffoldingComponent extends Object {
 		}
 	}
 	
-	public function delete(&$controller, $id = null, $params = array()) {
+	public function delete($controller, $id = null, $params = array()) {
 		$params = array_merge(array(
 			'redirect' => array('action' => 'index'),
 		), $params);
@@ -133,7 +133,7 @@ class ScaffoldingComponent extends Object {
 		}
 	}
 	
-	public function view(&$controller, $id = null, $params = array()) {
+	public function view($controller, $id = null, $params = array()) {
 		$params = array_merge(array(
 			'redirect' => array('action' => 'index'),
 		), $params);

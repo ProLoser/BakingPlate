@@ -31,7 +31,7 @@ class PlateBehavior extends ModelBehavior {
  * @author Jose Diaz-Gonzalez
  * @link http://book.cakephp.org/view/1031/Saving-Your-Data
  **/
-    function update(&$model, $fields, $conditions = array()) {
+    function update($model, $fields, $conditions = array()) {
         $conditions = (array) $conditions;
         if (!$model->id) return false;
 
@@ -48,7 +48,7 @@ class PlateBehavior extends ModelBehavior {
  * @param array $extra
  * @return array
  */
-    function paginateCount(&$model, $conditions = array(), $recursive = 0, $extra = array()) {
+    function paginateCount($model, $conditions = array(), $recursive = 0, $extra = array()) {
         $parameters = compact('conditions');
 
         if ($recursive != $model->recursive) {
@@ -74,7 +74,7 @@ class PlateBehavior extends ModelBehavior {
  * @access protected
  * @see Model::find()
  */
-    function _findCount(&$model, $state, $query, $results = array()) {
+    function _findCount($model, $state, $query, $results = array()) {
         if ($state == 'before' && isset($query['operation'])) {
             if (!empty($query['fields']) && is_array($query['fields'])) {
                 if (!preg_match('/^count/i', $query['fields'][0])) {
@@ -94,9 +94,9 @@ class PlateBehavior extends ModelBehavior {
  * @access public
  * @author Jose Diaz-Gonzalez
  */
-    function disableAllBehaviors(&$model, $except = array(), $detach = false) {
+    function disableAllBehaviors($model, $except = array(), $detach = false) {
         $behaviors = array_diff($model->Behaviors->attached(), (array) $except);
-        foreach ($behaviors as &$behavior) {
+        foreach ($behaviors as $behavior) {
             if ($detach) {
                 $model->Behaviors->detach($behavior);
             } else {
@@ -112,9 +112,9 @@ class PlateBehavior extends ModelBehavior {
  * @access public
  * @author Jose Diaz-Gonzalez
  */
-    function enableAllBehaviors(&$model) {
+    function enableAllBehaviors($model) {
         $behaviors = $model->Behaviors->attached();
-        foreach ($behaviors as &$behavior) {
+        foreach ($behaviors as $behavior) {
             if (!$model->Behaviors->enabled($behavior)) {
                 $model->Behaviors->enable($behavior);
             }
