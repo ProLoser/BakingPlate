@@ -140,13 +140,13 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @return void
 	 */
 	function startTest() {
-		$this->Html =& new HtmlPlusHelper();
-		$view =& new View(new TheHtmlTestController());
+		$this->Html = new HtmlPlusHelper();
+		$view = new View(new TheHtmlTestController());
 		ClassRegistry::addObject('view', $view);
-		$appHelper =& new TheTestAppHelper();
+		$appHelper = new TheTestAppHelper();
 		ClassRegistry::addObject('app_helper', $appHelper);
-		$this->Plate =& new PlateHelper();
-		$this->Plate->HtmlPlus =& new HtmlPlusHelper();
+		$this->Plate = new PlateHelper();
+		$this->Plate->HtmlPlus = new HtmlPlusHelper();
 		$this->View = $view;
 		$this->_appEncoding = Configure::read('App.encoding');
 		$this->_lang = Configure::read('Config.language');
