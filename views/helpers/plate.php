@@ -267,7 +267,7 @@ class PlateHelper extends AppHelper {
 	 * function cfcc
 	 */
 	
-	public function cfcc() {
+	public function chrome() {
 		$cfcc = $this->lib('chrome-frame');
 		$cfcc.= $this->HtmlPlus->scriptBlock('window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})', array('safe' => false));
 		return $this->iecc($cfcc, '<7');
