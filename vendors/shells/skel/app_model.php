@@ -75,46 +75,27 @@ class AppModel extends LazyModel {
  * Removes 'fields' key from count query on custom finds when it is an array,
  * as it will completely break the Model::_findCount() call
  *
+ * It should be protected but that causes error
+ *
  * @param string $state Either "before" or "after"
  * @param array $query
  * @param array $data
  * @return int The number of records found, or false
- * @access protected
+ * @access public (protected)
  * @see Model::find()
  * @author Jose Gonzalez (savant)
  */
-    public function _findPaginatecount($state, $query, $results = array()) {
-        if ($state == 'before' && isset($query['operation'])) {
-            if (!empty($query['fields']) && is_array($query['fields'])) {
-                if (!preg_match('/^count/i', $query['fields'][0])) {
-                    unset($query['fields']);
-                }
-            }
-        }
-        return parent::_findCount($state, $query, $results);
-    }
-
-/**
- * Custom Model::paginateCount() method to support custom model find pagination
- *
- * @param array $conditions
- * @param int $recursive
- * @param array $extra
- * @return array
- * @author Jose Gonzalez (savant)
- */
-    public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
-        $parameters = compact('conditions');
-
-        if ($recursive != $this->recursive) {
-            $parameters['recursive'] = $recursive;
-        }
-
-        if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
-            $extra['operation'] = 'count';
-            return $this->find($extra['type'], array_merge($parameters, $extra));
-        } else {
-            return $this->find('count', array_merge($parameters, $extra));
-        }
-    }
+	public function _findCount($state, $query, $results = array()) {
+		if ($state == 'before' && isset($query['operation'])) {
+			if (!empty($query['fields']) && is_array($query['fields'])) {
+				if (!preg_match('/^count/i', $query['fields'][0])) {
+					unset($query['fields']);
+				}
+			}
+			if (isset($query['contain'])) {
+				unset($query['contain']);
+			}
+		}
+		return parent::_findCount($state, $query, $results);
+	}
 }

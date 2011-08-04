@@ -157,6 +157,7 @@ class PlateComponent extends Object {
  * @author Dean Sofer
  */
 	protected function _populateView() {
+<<<<<<< HEAD
 		$this->setToView('attributesForLayout');
 		$this->setToView('descriptionForLayout');
 		$this->setToView('keywordsForLayout');
@@ -166,6 +167,12 @@ class PlateComponent extends Object {
 				'id' => false,
 				'class' => $this->controller->params['controller'] . ' ' . $this->controller->action,
 			);
+=======
+		if (!isset($this->controller->forLayout))
+			return;
+		foreach ($this->controller->forLayout as $name => $value) {
+			$this->controller->set($name . '_for_layout', $value);
+>>>>>>> 3a44af2... AppModel::_findCount must be public (as in class Model); Plate setToView calls controller set in foreach
 		}
 	}
 
