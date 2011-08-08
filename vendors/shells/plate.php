@@ -65,7 +65,9 @@ class PlateShell extends Shell {
 			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads',
 		);
 		foreach ($tmp as $dir) {
-			chmod($this->params['app'] . DS . $dir, 777);
+			$this->out($this->params['app'] . DS . $dir);
+			$this->nl();
+			chmod($this->params['app'] . DS . $dir, 0777);
 		}
 
 		$this->nl();
