@@ -1,22 +1,19 @@
+<?php $this->Html->css('cake.generic', null, array('inline' => false))?>
 <h2>Sweet, "Baking Plate" got Baked by CakePHP!</h2>
-
 <?php
 if (Configure::read() > 0):
 	Debugger::checkSecurityKeys();
 endif;
 ?>
 
-
-<div id="url-rewriting-warning" style="background-color:#e32; color:#fff; padding:3px; margin: 20px 0">
-	<?php __('URL rewriting is not properly configured on your server. '); ?>
-	<ol style="padding-left:20px">
-		<li><a target="_blank" href="http://book.cakephp.org/view/917/Apache-and-mod_rewrite-and-htaccess" style="color:#fff;">
-			<?php __('Help me configure it')?></a></li>
-		<li><a target="_blank" href="http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables" style="color:#fff;">
-			<?php __('I don\'t / can\'t use URL rewriting')?></a></li>
+<div class="url-rewrite">
+	<p class="notice success" style="color: white"><?php __('URL rewriting is working properly.')?></p>
+	<p style="color:red"><?php __('URL rewriting isn\'t working properly.')?></p>
+	<ol>
+		<li><a target="_blank" href="http://book.cakephp.org/view/917/Apache-and-mod_rewrite-and-htaccess"><?php __('Help me configure it')?></a></li>
+		<li><a target="_blank" href="http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables"><?php __('I don\'t / can\'t use URL rewriting')?></a></li>
 	</ol>
 </div>
-
 
 <p>
 <?php
@@ -97,6 +94,7 @@ if (!empty($filePresent)):
 <h3>What to do now</h3>
 <p>Now that you're app has been generated, here are a few areas you should checkout to see some 'best practices' examples.</p>
 <ul>
+	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
 	<li>app_controller.php</li>
 	<li>app_model.php</li>
 	<li>app_error.php</li>
@@ -105,13 +103,12 @@ if (!empty($filePresent)):
 	<li>views/elements</li>
 	<li>webroot/css</li>
 	<li>webroot/js</li>
-	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
-	<li>
+	<li>Setup asset compression by running the following commands:
 		<ul>
-			<li>`cake plate add jsmin -g vendors`</li>
-			<li>`cake plate add cssmin -g vendors`</li>
+			<li><code>cake plate add jsmin</code></li>
+			<li><code>cake plate add cssmin</code></li>
+			<li><code>cake asset_compress build</code></li>
 		</ul>
 	</li>
-	<li>run `cake asset_compress build`</li>
 </ul>
 <p>Baking Plate is delete-key friendly. Just search the project for #!# to see different options you can enable.</p>
