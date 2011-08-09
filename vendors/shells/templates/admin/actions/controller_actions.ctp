@@ -47,7 +47,7 @@
 			$this->flash(__('Invalid <?php echo strtolower($singularHumanName); ?>', true), array('action' => 'index'));
 <?php endif; ?>
 		}
-		$this->recursive = 1;
+		$this-><?php echo $currentModelName; ?>->recursive = 1;
 		$this->set('<?php echo $singularName; ?>', $this-><?php echo $currentModelName; ?>->read(null, $id));
 	}
 
@@ -79,6 +79,10 @@
 			endif;
 		endforeach;
 	endforeach;
+	if (in_array('Tree', $modelObj->actsAs)) {
+		echo "\t\t\$parents = \$this->{$currentModelName}->generatetreelist(array(), null, null, '» ');\n";
+		$compact[] = "'parents'";
+	}
 	if (!empty($compact)):
 		echo "\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 	endif;
@@ -110,6 +114,7 @@
 			}
 		}
 		if (empty($this->data)) {
+			$this-><?php echo $currentModelName; ?>->recursive = 1;
 			$this->data = $this-><?php echo $currentModelName; ?>->read(null, $id);
 		}
 <?php
@@ -123,6 +128,10 @@
 				endif;
 			endforeach;
 		endforeach;
+		if (in_array('Tree', $modelObj->actsAs)) {
+			echo "\t\t\$parents = \$this->{$currentModelName}->generatetreelist(array('{$currentModelName}.id !=' => \$this->data['{$currentModelName}']['id']), null, null, '» ');\n";
+			$compact[] = "'parents'";
+		}
 		if (!empty($compact)):
 			echo "\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 		endif;

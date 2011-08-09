@@ -16,6 +16,15 @@
  * @since         CakePHP(tm) v 1.2.0.5234
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+$plugins = App::objects('plugin');
+
+if (!function_exists('clean')) {
+  	function clean($field) {
+		return !in_array($field, array('lft', 'rght'));
+	}
+}
+
+$fields = array_filter($fields, 'clean');
 ?>
 <header>
 	<hgroup>
@@ -43,12 +52,18 @@
 <article class="<?php echo $pluralVar;?> form">
 <?php 
 	echo "<?php echo \$this->Form->create('{$modelClass}');?>\n";
+	echo "\t<fieldset>\n";
 	echo "\t<?php\n";
 	foreach ($fields as $field) {
 		if (strpos($action, 'add') !== false && $field == $primaryKey) {
 			continue;
 		} elseif (!in_array($field, array('created', 'modified', 'updated', 'lft', 'rght'))) {
-			echo "\t\techo \$this->Form->input('{$field}');\n";
+			if (strpos($field, '_id') == strlen($field) - 3) {
+				$message = (empty($schema[$field]['null'])) ? '-- Select One --' : '-- None --';
+				echo "\t\techo \$this->Form->input('{$field}', array('empty' => __('$message', true)));\n";
+			} else {
+				echo "\t\techo \$this->Form->input('{$field}');\n";
+			}
 		}
 	}
 	if (!empty($associations['hasAndBelongsToMany'])) {
@@ -57,6 +72,7 @@
 		}
 	}
 	echo "\t?>\n";
+	echo "\t</fieldset>\n";
 	echo "\t<footer>\n";
 	echo "\t\t<?php echo \$this->Form->submit();?>\n";
 	echo "\t</footer>\n";

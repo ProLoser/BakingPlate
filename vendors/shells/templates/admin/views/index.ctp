@@ -18,13 +18,10 @@
  */
 $plugins = App::objects('plugin');
 
-if(!function_exists('clean')) {
-  
-  function clean($field) {
-	return !in_array($field, array('lft', 'rght'));
-}
-
-  
+if (!function_exists('clean')) {
+  	function clean($field) {
+		return !in_array($field, array('lft', 'rght'));
+	}
 }
 
 $fields = array_filter($fields, 'clean');
@@ -129,7 +126,7 @@ $fields = array_filter($fields, 'clean');
 	<footer>
 		<div class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			| <?php echo "<?php echo \$this->Paginator->numbers();?>"?> |
+			<?php echo "<?php echo \$this->Paginator->numbers();?>"?>
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 	</footer>

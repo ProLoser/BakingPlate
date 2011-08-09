@@ -16,6 +16,15 @@
  * @since         CakePHP(tm) v 1.2.0.5234
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+$plugins = App::objects('plugin');
+
+if (!function_exists('clean')) {
+  	function clean($field) {
+		return !in_array($field, array('lft', 'rght'));
+	}
+}
+
+$fields = array_filter($fields, 'clean');
 ?>
 <h2><?php printf("<?php __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></h2>
 <ul class="actions">
@@ -43,11 +52,13 @@
 	foreach ($fields as $field) {
 		if (strpos($action, 'add') !== false && $field == $primaryKey) {
 			continue;
-		} elseif (!in_array($field, array('created', 'modified', 'updated'))) {
-			if (strpos($field, '_file_name') !== false) {
-				$field = str_replace('_file_name', '', $field);
+		} elseif (!in_array($field, array('created', 'modified', 'updated', 'lft', 'rght'))) {
+			if (strpos($field, '_id') == strlen($field) - 3) {
+				$message = (empty($schema[$field]['null'])) ? '-- Select One --' : '-- None --';
+				echo "\t\techo \$this->Form->input('{$field}', array('empty' => __('$message', true)));\n";
+			} else {
+				echo "\t\techo \$this->Form->input('{$field}');\n";
 			}
-			echo "\t\techo \$this->Form->input('{$field}');\n";
 		}
 	}
 	if (!empty($associations['hasAndBelongsToMany'])) {
