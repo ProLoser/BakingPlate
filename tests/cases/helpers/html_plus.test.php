@@ -112,8 +112,8 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function startTest() {
-		$this->Html =& new HtmlPlusHelper();
-		$view =& new View(new TheHtmlTestController());
+		$this->Html = new HtmlPlusHelper();
+		$view = new View(new TheHtmlTestController());
 		ClassRegistry::addObject('view', $view);
 		$this->_appEncoding = Configure::read('App.encoding');
 		$this->_asset = Configure::read('Asset');
@@ -340,7 +340,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		App::import('Core', 'File');
 
 		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'img' . DS . '__cake_test_image.gif';
-		$file =& new File($testfile, true);
+		$file = new File($testfile, true);
 
 		App::build(array(
 			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
@@ -368,7 +368,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		)));
 		$this->Html->webroot = $webroot;
 
-		$dir =& new Folder(WWW_ROOT . 'theme' . DS . 'test_theme');
+		$dir = new Folder(WWW_ROOT . 'theme' . DS . 'test_theme');
 		$dir->delete();
 	}
 
@@ -475,13 +475,13 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$this->assertEqual(count($result), 2);
 
 		ClassRegistry::removeObject('view');
-		$view =& new HtmlHelperMockView();
+		$view = new HtmlHelperMockView();
 		ClassRegistry::addObject('view', $view);
 		$view->expectAt(0, 'addScript', array(new PatternExpectation('/css_in_head.css/')));
 		$result = $this->Html->css('css_in_head', null, array('inline' => false));
 		$this->assertNull($result);
 
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$view->expectAt(1, 'addScript', array(new NoPatternExpectation('/inline=""/')));
 		$result = $this->Html->css('more_css_in_head', null, array('inline' => false));
 		$this->assertNull($result);
@@ -628,8 +628,8 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$view =& ClassRegistry::getObject('view');
-		$view =& new HtmlHelperMockView();
+		$view = ClassRegistry::getObject('view');
+		$view = new HtmlHelperMockView();
 		$view->expectAt(0, 'addScript', array(new PatternExpectation('/script_in_head.js/')));
 		$result = $this->Html->script('script_in_head', array('inline' => false));
 		$this->assertNull($result);
@@ -647,7 +647,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		App::import('Core', 'File');
 
 		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'js' . DS . '__test_js.js';
-		$file =& new File($testfile, true);
+		$file = new File($testfile, true);
 
 		App::build(array(
 			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
@@ -704,8 +704,8 @@ EXPECTEDHEREDOC;
 		echo "<pre>".htmlspecialchars($result)."</pre>";
 		$this->assertTags($result, $expected);
 
-		$view =& ClassRegistry::getObject('view');
-		$view =& new HtmlHelperMockView();
+		$view = ClassRegistry::getObject('view');
+		$view = new HtmlHelperMockView();
 		$view->expectAt(0, 'addScript', array(new PatternExpectation('/window\.foo\s\=\s2;/')));
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('inline' => false));
@@ -1161,7 +1161,7 @@ EXPECTEDHEREDOC;
 		$this->assertTags($result, array('meta' => array('name' => 'ROBOTS', 'content' => 'ALL')));
 
 		$this->assertNull($this->Html->meta(array('name' => 'ROBOTS', 'content' => 'ALL'), null, array('inline' => false)));
-		$view =& ClassRegistry::getObject('view');
+		$view = ClassRegistry::getObject('view');
 		$result = $view->__scripts[0];
 		$this->assertTags($result, array('meta' => array('name' => 'ROBOTS', 'content' => 'ALL')));
 	}

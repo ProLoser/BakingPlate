@@ -23,12 +23,12 @@ class PaginatorPlusHelper extends PaginatorHelper {
  * @author Dean Sofer
  * @see paginator.php
  */
-	function prev($title = '« Previous', $options = array(), $disabledTitle = null, $disabledOptions = array()) {
+	function prev($title = '« prev', $options = array(), $disabledTitle = null, $disabledOptions = array()) {
 		$disabledOptions = array_merge($options, $disabledOptions);
 		return parent::prev($title, $options, $disabledTitle, $disabledOptions);
 	}
 	
-	function next($title = 'Next »', $options = array(), $disabledTitle = null, $disabledOptions = array()) {
+	function next($title = 'next »', $options = array(), $disabledTitle = null, $disabledOptions = array()) {
 		$disabledOptions = array_merge($options, $disabledOptions);
 		return parent::next($title, $options, $disabledTitle, $disabledOptions);
 	}

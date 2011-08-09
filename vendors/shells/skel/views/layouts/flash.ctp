@@ -20,19 +20,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php echo $this->Html->charset(); ?>
-<title><?php echo $page_title; ?></title>
+	<?php echo $this->Html->charset(); ?>
+	<title><?php echo $page_title; ?></title>
 
-<?php if (Configure::read() == 0) { ?>
-<meta http-equiv="Refresh" content="<?php echo $pause?>;url=<?php echo $url?>"/>
-<?php } ?>
-<style><!--
-P { text-align:center; font:bold 1.1em sans-serif }
-A { color:#444; text-decoration:none }
-A:HOVER { text-decoration: underline; color:#44E }
---></style>
+<?php if (Configure::read() == 0): ?>
+	<meta http-equiv="Refresh" content="<?php echo $pause?>;url=<?php echo $url?>"/>
+<?php endif; ?>
+	<style><!--
+	P { text-align:center; font:bold 1.1em sans-serif }
+	A { color:#444; text-decoration:none }
+	A:HOVER { text-decoration: underline; color:#44E }
+	--></style>
 </head>
 <body>
-<p><a href="<?php echo $url?>"><?php echo $message?></a></p>
+	<p><a href="<?php echo $url?>"><?php echo $message?></a></p>
 </body>
 </html>

@@ -13,12 +13,12 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright	  Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link		  http://cakephp.org CakePHP(tm) Project
+ * @package		  cake
+ * @subpackage	  cake.app
+ * @since		  CakePHP(tm) v 0.2.9
+ * @license		  MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
@@ -27,8 +27,8 @@
  * Add your application-wide methods in the class below, your models
  * will inherit them.
  *
- * @package       cake
- * @subpackage    cake.app
+ * @package		  cake
+ * @subpackage	  cake.app
  */
 App::import('Lib', 'LazyModel.LazyModel');
 class AppModel extends LazyModel {
@@ -41,6 +41,7 @@ class AppModel extends LazyModel {
 	);
 	
 /**
+ * Adds translation to all validation messages
  * Repairs a glitch in aliases used with virtual fields
  *
  * @param string $id 
@@ -48,8 +49,19 @@ class AppModel extends LazyModel {
  * @param string $ds 
  */
 	function __construct($id = false, $table = null, $ds = null) {
-	    parent::__construct($id, $table, $ds);
-	    $this->_findMethods['paginatecount'] = true;
+		foreach ($this->validate as $field => $rules) {
+			if (isset($this->validate[$field]['message'])) {
+				$this->validate[$field]['message'] = __($this->validate[$field]['message'], true);
+			} elseif (is_array($rules) && !isset($rules['rule'])) {
+				foreach ($rules as $slot => $rule) {
+					if (isset($rule['message'])) {
+						$this->validate[$field][$slot]['message'] = __($rule['message'], true);
+					}
+				}
+			}
+		}
+		parent::__construct($id, $table, $ds);
+		$this->_findMethods['paginatecount'] = true;
 		foreach ($this->virtualFields as $field => $value) {
 			$this->virtualFields[$field] = str_replace($this->name, $this->alias, $value);
 		}
@@ -70,22 +82,42 @@ class AppModel extends LazyModel {
 		} 
 	}
 
+/**
+ * Custom Model::paginateCount() method to support custom model find pagination
+ *
+ * @param array $conditions
+ * @param int $recursive
+ * @param array $extra
+ * @return array
+ * @author Jose Gonzalez (savant)
+ */
+	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
+		$parameters = compact('conditions');
+
+		if ($recursive != $this->recursive) {
+			$parameters['recursive'] = $recursive;
+		}
+
+		if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
+			$extra['operation'] = 'count';
+			return $this->find($extra['type'], array_merge($parameters, $extra));
+		} else {
+			return $this->find('count', array_merge($parameters, $extra));
+		}
+	}
 
 /**
- * Removes 'fields' key from count query on custom finds when it is an array,
+ * Removes 'fields' key and 'contain' from count query on custom finds when it is an array,
  * as it will completely break the Model::_findCount() call
- *
- * It should be protected but that causes error
  *
  * @param string $state Either "before" or "after"
  * @param array $query
  * @param array $data
  * @return int The number of records found, or false
- * @access public (protected)
+ * @access protected
  * @see Model::find()
- * @author Jose Gonzalez (savant)
  */
-	public function _findCount($state, $query, $results = array()) {
+	protected function _findCount($state, $query, $results = array()) {
 		if ($state == 'before' && isset($query['operation'])) {
 			if (!empty($query['fields']) && is_array($query['fields'])) {
 				if (!preg_match('/^count/i', $query['fields'][0])) {

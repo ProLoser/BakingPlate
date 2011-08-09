@@ -52,7 +52,7 @@
 
 /**
  * Translation and Localization
- */
+ *#!#/
 Configure::write('Languages.default', 'en');
 $languages = array(
 	'en',
@@ -63,25 +63,6 @@ $languages = array(
 	'ch',
 );
 Configure::write('Languages.all', $languages);
-
-
-/**
- * Plugin Configurations
- */
-
-/**
- * Contact plugin settings 
- */
-#!# Configure::write('Contact.email', '<YourEmail>');
-
-/**
- *  Webmaster Tools - app controller has the 
- *  ability to switch the site into maintenance mode 
- *  and will still allow admin to login
- *#!#/
-require APP . 'plugins/webmaster_tools/config/core.php';
-Configure::write('WebmasterTools.Maintenance.active', false);
-Configure::write('WebmasterTools.Maintenance.message', '<YourMaintenanceMsg>');
 /*^*/
 
 

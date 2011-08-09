@@ -798,6 +798,11 @@ height: 20px;
 color: #666666;
 }
 
+.date select {
+display: inline-block;
+width: auto;
+}
+
 .input textarea {
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;

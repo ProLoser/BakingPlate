@@ -29,7 +29,7 @@ $config['BakingPlate']['core'] = array(
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'webmaster_tools'	=> 'git://github.com/sams/webmaster_tools.git',
-	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git',
+	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git'
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
@@ -75,6 +75,14 @@ $config['BakingPlate']['markstory'] = array(
 	'acl_menu'			=> 'git://github.com/markstory/cakephp_menu_component.git',
 	'geshi'				=> 'git://github.com/markstory/cakephp_geshi.git',
 	'vcard'				=> 'git://github.com/markstory/cakephp_vcard.git',
+);
+
+$config['BakingPlate']['phally'] = array(
+	'less'	=> 'git://github.com/Phally/less.git',
+	'cached_acl'	=> 'git://github.com/Phally/cached_less.git',
+	'cache_engines'	=> 'git://github.com/Phally/cache_engines.git',
+	'route_enhancements'	=> 'git://github.com/Phally/route_enhancements.git',
+	'data_sort'	=> 'git://github.com/Phally/data_sort.git',
 );
 
 $config['BakingPlate']['davidpersson'] = array(
@@ -135,6 +143,7 @@ $config['BakingPlate']['sams'] = array(
 	'manifesto'			=> 'git://github.com/sams/manifesto.git',
 	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
 	'static_cache'		=> 'git://github.com/sams/static_cache.git',
+	'status'		=> 'git://github.com/sams/status.git',
 );
 
 $config['BakingPlate']['mcurry'] = array(
@@ -150,6 +159,7 @@ $config['BakingPlate']['mcurry'] = array(
 	'layout_switcher'	=> 'git://github.com/mcurry/layout_switcher.git',
 	'html_cache'		=> 'git://github.com/mcurry/html_cache.git',
 	'interactive'		=> 'git://github.com/mcurry/interactive.git',
+	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
 	'pagination_recall'	=> 'git://github.com/mcurry/pagination_recall.git',
 	'progress_bar'		=> 'git://github.com/mcurry/progress_bar.git',
 	'seo'				=> 'git://github.com/mcurry/seo.git',

@@ -168,6 +168,34 @@ class HtmlPlusHelper extends HtmlHelper {
 	}
 	
 	/**
+	 * Creates a link to an external resource and handles basic meta tags
+	 *
+	 * ### Options
+	 *
+	 * - `inline` Whether or not the link element should be output inline, or in scripts_for_layout.
+	 *
+	 * @param string $type The title of the external resource
+	 * @param mixed $url The address of the external resource or string for content attribute
+	 * @param array $options Other attributes for the generated tag. If the type attribute is html,
+	 *    rss, atom, or icon, the mime-type is returned.
+	 * @return string A completed `<link />` element.
+	 * @access public
+	 * @link http://book.cakephp.org/view/1438/meta
+	 */
+	function meta($type, $url = null, $options = array()) {
+		if (isset($options['inline']) && !$options['inline']) {
+			unset($options['inline']);
+			$uninline = true;
+		}
+		$content = parent::meta($type, $url, $options);
+		if (isset($uninline)) {
+			$this->_view->viewVars['styles_for_layout'] .= $content;
+		} else {
+			return $content;
+		}
+	}
+	
+	/**
 	 * The time element represents either a time on a 24 hour clock,
 	 * or a precise date in the proleptic Gregorian calendar,
 	 * optionally with a time and a time-zone offset.
@@ -176,13 +204,13 @@ class HtmlPlusHelper extends HtmlHelper {
 	 * @param $options array
 	 *      'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
 	 *      'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 *		'pubdate' BOOLEAN: If the pubdate attribute should be set
 	 */
 	function time($content, $options = array()) {
 	        $options = array_merge(array(
-	                'datetime' => 'Y-M-dTH:i+00:00',
-	                'escape' => true,
+	                'datetime' => DATE_W3C,
 	                'pubdate' => false,
-	                'format' => false,
+					'format' => false,
 	        ), $options);
 
 	        if ($options['format'] !== null) {
@@ -194,16 +222,23 @@ class HtmlPlusHelper extends HtmlHelper {
 	                if (method_exists($t, $options['format'])) {
 	                        $content = $t->$options['format']($content);
 	                } else {
-	                        $content = $t->format($content, $options['format']);
+	                        $content = $t->format($options['format'], $content);
 	                }
-	                $options['datetime'] = $t->format(strtotime($time), $options['datetime']);
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($time));
 	        } elseif ($options['format'] === false && $options['datetime']) {
-	                $options['datetime'] = $t->format(strtotime($content), $options['datetime']);
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($content));
 	        }
 
-	        if ($options['pubdate'])
-	                $options['pubdate'] = 'pubdate';
+			if ($options['pubdate'])
+				$pubdate = true;
 
-	        return sprintf($this->tags['time'],  $this->_parseAttributes($options, array(0), ' ', ''), $content);
+			unset($options['format']);
+			unset($options['pubdate']);
+			$attributes = $this->_parseAttributes($options, array(0), ' ', '');
+			
+	        if (isset($pubdate))
+	                $attributes .= ' pubdate';
+
+	        return sprintf($this->tags['time'],  $attributes, $content);
 	}
 }
