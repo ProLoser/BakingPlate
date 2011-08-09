@@ -59,10 +59,16 @@ class PlateShell extends Shell {
 		}
 		$this->nl();
 		$this->out('Making temp folders writeable...');
-		exec('chmod -R 777 ' . $this->params['app'] . '/tmp/*');
-		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_css');
-		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/cache_js');
-		exec('chmod -R 777 ' . $this->params['app'] . '/webroot/uploads');
+		$tmp = array(
+			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
+			'tmp'.DS.'logs', 'tmp'.DS.'sessions', 'tmp'.DS.'tests',
+			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads',
+		);
+		foreach ($tmp as $dir) {
+			$this->out($this->params['app'] . DS . $dir);
+			$this->nl();
+			chmod($this->params['app'] . DS . $dir, 0777);
+		}
 
 		$this->nl();
 		chdir($this->params['app']);
