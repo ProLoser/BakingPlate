@@ -160,7 +160,7 @@ class PlateComponent extends Object {
 		if (!isset($this->controller->forLayout))
 			return;
 		foreach ($this->controller->forLayout as $name => $value) {
-			$this->set($name . '_for_layout', $value);
+			$this->controller->set($name . '_for_layout', $value);
 		}
 	}
 
