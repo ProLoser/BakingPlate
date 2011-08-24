@@ -543,6 +543,11 @@ border: 1px solid #ccc;
 font-weight: bold;
 text-shadow: 0 1px 0 #fff;
 }
+.paging.limit {
+float: none;
+display: inline-block;
+margin: -6px 0 -6px 4px;
+}
 .paging span, article header li, article footer li {
 float: left;
 margin: 0;

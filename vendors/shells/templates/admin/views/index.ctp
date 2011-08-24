@@ -55,11 +55,11 @@ $fields = array_filter($fields, 'clean');
 		));
 		?>";?>
 		</h3>
-		<div class="paging">
+		<p class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<?php echo "<?php echo \$this->Paginator->numbers();?>\n"?>
+			<?php echo "<?php echo \$this->Paginator->numbers();?>"?>
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-		</div>
+		</p>
 	</header>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$modelClass}')?>"?>
 	<table cellpadding="0" cellspacing="0">
@@ -124,10 +124,14 @@ $fields = array_filter($fields, 'clean');
 	</table>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?> 
 	<footer>
-		<div class="paging">
+		<h3>Records:</h3>
+		<p class="paging limit">
+			<?php echo "<?php echo \$this->Paginator->limit(array(10,20,50,100));?>\n"?>
+		</p>
+		<p class="paging">
 			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 			<?php echo "<?php echo \$this->Paginator->numbers();?>"?>
 			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-		</div>
+		</p>
 	</footer>
 </article>
