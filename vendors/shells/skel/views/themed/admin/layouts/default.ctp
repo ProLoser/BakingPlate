@@ -31,7 +31,7 @@
 		<div class="spacer"></div>
 	</section>
 <?php
-	echo $this->Plate->lib('jquery');
+	echo $this->Plate->lib('jquery', array('fallback' => 'libs/jquery-1.5.0.min'));
 	echo $this->Html->script(array(
 		'jquery.equalHeight',
 		'/batch/js/jquery',

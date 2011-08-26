@@ -66,7 +66,7 @@
 		</footer>
 	</div>
 <?php
-	echo $this->Plate->lib('jquery');
+	echo $this->Plate->lib('jquery', array('compressed' => true));
 	echo $this->Html->script(array(
 	#!# $this->AssetCompress->script(array(
 		'plugins',
