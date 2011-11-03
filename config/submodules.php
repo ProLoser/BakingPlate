@@ -29,14 +29,29 @@ $config['BakingPlate']['core'] = array(
 	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
 	'webmaster_tools'	=> 'git://github.com/sams/webmaster_tools.git',
-	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git',
-	'less'	=> 'git://github.com/Phally/less.git',
+	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git'
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/cakephp-mongodb.git',
 	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
 	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+);
+
+// a special group for use with sams exp branch 
+$config['BakingPlate']['altiverse'] = array(
+	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'interactive'		=> 'git://github.com/mcurry/interactive.git',
+	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
+	'contact'                       => 'git://github.com/sams/contact.git',
+	'cake_social'		=> 'git://github.com/predominant/cake_social.git',
+);
+
+// acl plugins
+$config['BakingPlate']['acl'] = array(
+	'acl'                       => 'git://github.com/sams/alaxos_acl.git',
+	'acl_extras'            => 'git://github.com/markstory/acl_extras.git',
+	'acl_menu'              => 'git://github.com/sams/cakephp_menu_component.git',
 );
 
 $config['BakingPlate']['neilcrookes'] = array(
@@ -153,7 +168,11 @@ $config['BakingPlate']['mcurry'] = array(
 	'status'			=> 'git://github.com/mcurry/status.git',
 	'tests'				=> 'git://github.com/mcurry/cakephp_tests.git',
 	'update'            => 'git://github.com/mcurry/update.git',
-	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git', // MCurry's fork seems to be broken
+	'url_cache'			=> 'git://github.com/mcurry/url_cache.git', // MCurry's fork seems to be broken
+);
+
+$config['BakingPlate']['petteyg'] = array(
+	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git'
 );
 
 $config['BakingPlate']['petteyg'] = array(
@@ -163,6 +182,7 @@ $config['BakingPlate']['petteyg'] = array(
 $config['BakingPlate']['josegonzalez'] = array(
 	'log'				=> 'git://github.com/josegonzalez/log.git',
 	'purifiable'		=> 'git://github.com/josegonzalez/purifiable.git',
+	'page_route'		=> 'git://github.com/josegonzalez/page_route.git',
 	'retranslate'		=> 'git://github.com/josegonzalez/retranslatable-behavior.git',
 	'gzip'				=> 'git://github.com/josegonzalez/gzip-component.git',
 	'sitemap'			=> 'git://github.com/josegonzalez/sitemap-helper.git',
@@ -233,7 +253,8 @@ $config['BakingPlate']['mi'] = array(
 // Commonly Used Vendors
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
-	'simpletest'		=> '',
+	//'simpletest'		=> '',
+	'lessphp'			=> 'git://github.com/leafo/lessphp.git',
 	'swift_mailer'		=> 'git://github.com/swiftmailer/swiftmailer.git', 
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
