@@ -207,7 +207,7 @@ class PlateHelper extends AppHelper {
 		$buffer = @ob_get_contents(); 
 		@ob_end_clean();
 		if ($this->__blockName) {
-			$this->_view->set($this->__blockName.'_for_layout', $buffer);
+			$this->_View->set($this->__blockName.'_for_layout', $buffer);
 		}	
 		$this->__blockName = null;
 		return $buffer;
