@@ -77,7 +77,7 @@ class PlateShell extends Shell {
 		
 		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'config' . DS;
 		if (!config('database')) {
-			$this->out(__("\nYour database configuration was not found. Take a moment to create one.", true));
+			$this->out(__("\nYour database configuration was not found. Take a moment to create one."));
 			$this->args = null;
 			$this->DbConfig->execute();
 		}

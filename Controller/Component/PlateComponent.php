@@ -236,7 +236,7 @@ class PlateComponent extends Object {
 		), $options);
 
         if ($message === null) {
-            $message = __('Access Error', true);
+            $message = __('Access Error');
         } elseif ($message !== false) {
 			// TODO: add session component to plate helper?
             $this->controller->Session->setFlash($message, $options['element']);

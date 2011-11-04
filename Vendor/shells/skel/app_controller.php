@@ -131,8 +131,8 @@ class AppController extends Controller {
 	protected function _setAuth() {
 		if (isset($this->Acl))
 			$this->Acl->allow($aroAlias, $acoAlias);	
-		$this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
-		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again', true);
+		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
+		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
 		$this->Auth->allow('index', 'view', 'display');
 		
 		$user = $this->Auth->user();
@@ -141,7 +141,7 @@ class AppController extends Controller {
 			if ($user['User']['username'] == 'admin') {
 				$this->Auth->allow('*');
 			} else {
-				$this->Session->setFlash(__('Sorry, but you need to be Admin to access this location.', true));
+				$this->Session->setFlash(__('Sorry, but you need to be Admin to access this location.'));
 				$this->redirect($this->Auth->loginAction);
 			}
 		}

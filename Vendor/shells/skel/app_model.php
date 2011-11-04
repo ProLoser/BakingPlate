@@ -51,11 +51,11 @@ class AppModel extends LazyModel {
 	function __construct($id = false, $table = null, $ds = null) {
 		foreach ($this->validate as $field => $rules) {
 			if (isset($this->validate[$field]['message'])) {
-				$this->validate[$field]['message'] = __($this->validate[$field]['message'], true);
+				$this->validate[$field]['message'] = __($this->validate[$field]['message']);
 			} elseif (is_array($rules) && !isset($rules['rule'])) {
 				foreach ($rules as $slot => $rule) {
 					if (isset($rule['message'])) {
-						$this->validate[$field][$slot]['message'] = __($rule['message'], true);
+						$this->validate[$field][$slot]['message'] = __($rule['message']);
 					}
 				}
 			}

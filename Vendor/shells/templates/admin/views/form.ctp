@@ -29,20 +29,20 @@ $fields = array_filter($fields, 'clean');
 <article class="<?php echo $pluralVar;?> form">
 	<header class="page-header">
 		<hgroup>
-			<h1><?php printf("<?php __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></h1>
+			<h1><?php printf("<?php echo __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></h1>
 		</hgroup>
 		<ul class="actions">
 		<?php if (strpos($action, 'add') === false): ?>
-			<li><?php echo "<?php echo \$this->Html->link(__('Delete', true), array('action' => 'delete', \$this->Form->value('{$modelClass}.{$primaryKey}')), null, sprintf(__('Are you sure you want to delete # %s?', true), \$this->Form->value('{$modelClass}.{$primaryKey}'))); ?>";?></li>
+			<li><?php echo "<?php echo \$this->Html->link(__('Delete'), array('action' => 'delete', \$this->Form->value('{$modelClass}.{$primaryKey}')), null, sprintf(__('Are you sure you want to delete # %s?'), \$this->Form->value('{$modelClass}.{$primaryKey}'))); ?>";?></li>
 		<?php endif;?>
-			<li><?php echo "<?php echo \$this->Html->link(__('List " . $pluralHumanName . "', true), array('action' => 'index'));?>";?></li>
+			<li><?php echo "<?php echo \$this->Html->link(__('List " . $pluralHumanName . "'), array('action' => 'index'));?>";?></li>
 		<?php
 			$done = array();
 			foreach ($associations as $type => $data) {
 				foreach ($data as $alias => $details) {
 					if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-						echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
-						echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
+						echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "'), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
+						echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "'), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
 						$done[] = $details['controller'];
 					}
 				}
@@ -60,7 +60,7 @@ $fields = array_filter($fields, 'clean');
 		} elseif (!in_array($field, array('created', 'modified', 'updated', 'lft', 'rght'))) {
 			if (strpos($field, '_id') == strlen($field) - 3) {
 				$message = (empty($schema[$field]['null'])) ? '-- Select One --' : '-- None --';
-				echo "\t\techo \$this->Form->input('{$field}', array('empty' => __('$message', true)));\n";
+				echo "\t\techo \$this->Form->input('{$field}', array('empty' => __('$message')));\n";
 			} else {
 				echo "\t\techo \$this->Form->input('{$field}');\n";
 			}

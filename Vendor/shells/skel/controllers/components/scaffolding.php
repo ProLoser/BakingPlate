@@ -85,11 +85,11 @@ class ScaffoldingComponent extends Object {
 		), $params);
 		if (!empty($this->data)) {
 			if ($this->{$controller->modelClass}->save($this->data)) {
-				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' has been saved', true));
+				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' has been saved'));
 				if ($params['redirect']) 
 					$this->redirect($params['redirect']);
 			} else {
-				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' could not be saved. Please, try again.'));
 			}
 		}
 		$this->populateRelated($controller);
@@ -100,7 +100,7 @@ class ScaffoldingComponent extends Object {
 			'redirect' => array('action' => 'index'),
 		), $params);
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid ' . Inflector::humanize($controller->modelClass), true));
+			$this->Session->setFlash(__('Invalid ' . Inflector::humanize($controller->modelClass)));
 			if ($params['redirect']) 
 				$this->redirect($params['redirect']);
 		}
@@ -116,7 +116,7 @@ class ScaffoldingComponent extends Object {
 			'redirect' => array('action' => 'index'),
 		), $params);
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid ' . Inflector::humanize($controller->modelClass), true));
+			$this->Session->setFlash(__('Invalid ' . Inflector::humanize($controller->modelClass)));
 			if ($params['redirect']) 
 				$this->redirect($params['redirect']);
 		}
@@ -124,11 +124,11 @@ class ScaffoldingComponent extends Object {
 		
 		if (!empty($this->data)) {
 			if ($this->{$controller->modelClass}->save($this->data)) {
-				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' has been saved', true));
+				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' has been saved'));
 				if ($params['redirect']) 
 					$this->redirect($params['redirect']);
 			} else {
-				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The ' . Inflector::humanize($controller->modelClass) . ' could not be saved. Please, try again.'));
 			}
 		}
 	}

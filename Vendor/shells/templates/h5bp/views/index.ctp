@@ -26,16 +26,16 @@ if (!function_exists('clean')) {
 
 $fields = array_filter($fields, 'clean');
 ?>
-<h2><?php echo "<?php __('{$pluralHumanName}');?>";?></h2>
+<h2><?php echo "<?php echo __('{$pluralHumanName}');?>";?></h2>
 <ul class="actions">
-	<li><?php echo "<?php echo \$this->Html->link(__('New " . $singularHumanName . "', true), array('action' => 'add')); ?>";?></li>
+	<li><?php echo "<?php echo \$this->Html->link(__('New " . $singularHumanName . "'), array('action' => 'add')); ?>";?></li>
 <?php
 $done = array();
 foreach ($associations as $type => $data) {
 	foreach ($data as $alias => $details) {
 		if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-			echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "', true), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
-			echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "', true), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
+			echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "'), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
+			echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "'), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
 			$done[] = $details['controller'];
 		}
 	}
@@ -45,14 +45,14 @@ foreach ($associations as $type => $data) {
 <article class="<?php echo $pluralVar;?> index">
 	<header>
 		<div class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 			| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
-			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 		<p>
 		<?php echo "<?php
 		echo \$this->Paginator->counter(array(
-		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%')
 		));
 		?>";?>
 		</p>
@@ -63,7 +63,7 @@ foreach ($associations as $type => $data) {
 	<?php  foreach ($fields as $field):?>
 		<th><?php echo "<?php echo \$this->Paginator->sort('{$field}');?>";?></th>
 	<?php endforeach;?>
-		<th class="actions"><?php echo "<?php __('Actions');?>";?></th>
+		<th class="actions"><?php echo "<?php echo __('Actions');?>";?></th>
 	</tr>
 	<?php
 	echo "<?php\n";
@@ -99,9 +99,9 @@ foreach ($associations as $type => $data) {
 		}
 	
 		echo "\t\t<td class=\"actions\">\n";
-		echo "\t\t\t<?php echo \$this->Html->link(__('View', true), array('action' => 'view', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'view')); ?>\n";
-	 	echo "\t\t\t<?php echo \$this->Html->link(__('Edit', true), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'edit')); ?>\n";
-	 	echo "\t\t\t<?php echo \$this->Html->link(__('Delete', true), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n";
+		echo "\t\t\t<?php echo \$this->Html->link(__('View'), array('action' => 'view', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'view')); ?>\n";
+	 	echo "\t\t\t<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'edit')); ?>\n";
+	 	echo "\t\t\t<?php echo \$this->Html->link(__('Delete'), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?'), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n";
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
 	
@@ -117,9 +117,9 @@ foreach ($associations as $type => $data) {
 	
 	<footer>
 		<div class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous', true), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
 			| <?php echo "<?php echo \$this->Paginator->numbers();?>\n"?> |
-			<?php echo "<?php echo \$this->Paginator->next(__('next', true) . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
 		</div>
 	</footer>
 </article>

@@ -7,11 +7,11 @@ endif;
 ?>
 
 <div class="url-rewrite">
-	<p class="notice success" style="color: white"><?php __('URL rewriting is working properly.')?></p>
-	<p style="color:red"><?php __('URL rewriting isn\'t working properly.')?></p>
+	<p class="notice success" style="color: white"><?php echo __('URL rewriting is working properly.')?></p>
+	<p style="color:red"><?php echo __('URL rewriting isn\'t working properly.')?></p>
 	<ol>
-		<li><a target="_blank" href="http://book.cakephp.org/view/917/Apache-and-mod_rewrite-and-htaccess"><?php __('Help me configure it')?></a></li>
-		<li><a target="_blank" href="http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables"><?php __('I don\'t / can\'t use URL rewriting')?></a></li>
+		<li><a target="_blank" href="http://book.cakephp.org/view/917/Apache-and-mod_rewrite-and-htaccess"><?php echo __('Help me configure it')?></a></li>
+		<li><a target="_blank" href="http://book.cakephp.org/view/931/CakePHP-Core-Configuration-Variables"><?php echo __('I don\'t / can\'t use URL rewriting')?></a></li>
 	</ol>
 </div>
 
@@ -33,7 +33,7 @@ endif;
 	$settings = Cache::settings();
 	if (!empty($settings)):
 		echo '<span class="notice success">';
-				printf(__('The %s is being used for caching. To change the config edit APP/config/core.php ', true), '<em>'. $settings['engine'] . 'Engine</em>');
+				printf(__('The %s is being used for caching. To change the config edit APP/config/core.php '), '<em>'. $settings['engine'] . 'Engine</em>');
 		echo '</span>';
 	else:
 		echo '<span class="notice">';
@@ -81,7 +81,7 @@ if (!empty($filePresent)):
 ?>
 </p>
 <?php endif;?>
-<h3><?php __('Editing this Page') ?></h3>
+<h3><?php echo __('Editing this Page') ?></h3>
 <p>
 <?php
 	printf(__('To change the content of this page, edit: %s
