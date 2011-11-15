@@ -1,1 +1,0 @@
-<small>edit me in <code>APP/views/elements/layout/footer.ctp</code></small>
