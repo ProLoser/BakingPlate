@@ -53,9 +53,7 @@ ini_set('display_errors', 1);
  *
  * Leaving this constant undefined will result in it being defined in Cake/bootstrap.php
  */
-	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		define('CAKE_CORE_INCLUDE_PATH', ROOT);
-	}
+	//define('CAKE_CORE_INCLUDE_PATH', __CAKE_PATH__);
 
 /**
  * Editing below this line should not be necessary.
