@@ -1,2 +1,2 @@
 <?php
-return $config['BakingPlate.version'] = '1.0.1';
+return $config['BakingPlate.version'] = '2.0-alpha';

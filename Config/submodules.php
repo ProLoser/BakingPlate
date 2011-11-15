@@ -23,13 +23,9 @@
 // Required submodules
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
-	'lazy_model'		=> 'git://github.com/Phally/lazy_model.git',
-	'linkable'			=> 'git://github.com/Terr/linkable.git',
+	#'linkable'			=> 'git://github.com/Terr/linkable.git',
 	'asset_compress'	=> 'git://github.com/sams/asset_compress.git',
-	'analogue'			=> 'git://github.com/joebeeson/analogue.git',
-	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
-	'webmaster_tools'	=> 'git://github.com/sams/webmaster_tools.git',
-	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git'
+	#'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git'
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
