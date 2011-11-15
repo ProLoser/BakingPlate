@@ -9,7 +9,7 @@
  * @version $Id$
  * @copyright Art Engineered
  **/
-App::import('Helper', 'Paginator');
+App::uses('PaginatorHelper', 'View/Helper');
 class PaginatorPlusHelper extends PaginatorHelper {
 	
 /**

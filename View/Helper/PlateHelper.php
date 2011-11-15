@@ -8,7 +8,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1434/HTML
  */
-
+App::uses('AppHelper', 'View/Helper');
 class PlateHelper extends AppHelper {
 	
 	var $helpers = array('BakingPlate.HtmlPlus');
