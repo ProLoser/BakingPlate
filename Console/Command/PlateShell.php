@@ -259,7 +259,6 @@ class PlateShell extends AppShell {
 		$this->out("\nAdding {$this->params['group']} git submodules...\n");
 		
 		$submodules = $this->_getSubmodules();
-		debug($submodules);
 		foreach ($submodules as $path => $url) {
 			$this->_addSubmodule($path);
 		}
