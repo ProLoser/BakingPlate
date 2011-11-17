@@ -4,7 +4,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('Admin'); ?>:
+		<?php echo __('Admin'); ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php

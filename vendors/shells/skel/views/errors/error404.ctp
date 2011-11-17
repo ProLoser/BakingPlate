@@ -1,6 +1,6 @@
 <article>
 
-	<h1><?php __('File not Found');  ?> <span frown>:(</span></h1>
+	<h1><?php echo __('File not Found');  ?> <span frown>:(</span></h1>
 
 	<div>
 		<p><?php if (isset($message)) echo $message; ?></p>

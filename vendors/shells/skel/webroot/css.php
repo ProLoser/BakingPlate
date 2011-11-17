@@ -26,7 +26,7 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
  * Ensure required files are included
  */
 if (!class_exists('File')) {
-	require LIBS . 'file.php';
+	require CAKE . 'file.php';
 }
 
 /**
