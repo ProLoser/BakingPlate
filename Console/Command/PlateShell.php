@@ -1,4 +1,5 @@
 <?php
+App::uses('Folder', 'Utility');
 /**
 * BakingPlate Class
 */
@@ -12,6 +13,15 @@ class PlateShell extends AppShell {
 	 * @var array
 	 */
 	var $submodules = array();
+	public function startup() {
+		parent::startup();
+		Configure::write('debug', 2);
+		Configure::write('Cache.disable', 1);
+
+		//if (!isset($this->params['working'])) {
+		//	$this->params['working'] = APP;
+		//}
+	}
 
 	/**
 	 * Overridden method so the heading message stops getting spit out
@@ -48,35 +58,36 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	function bake() {
+		//debug($this->args);
 		if (!isset($this->params['group'])) {
 			$this->params['group'] = 'core';
 		}
 		if (!isset($this->params['skel'])) {
-			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel ' . implode(' ', $this->args);
 		}
-		$working = $this->params['working'];
-		if (!$this->Project->execute()) {
+		$working = (isset($this->params['working'])) ? $this->params['working'] : null;
+		$project = $this->Project->execute();
+		if (!$project) {
 			return;
 		}
+		$working = $project;
 		$this->nl();
 		$this->out('Making temp folders writeable...');
 		$tmp = array(
-			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
-			'tmp'.DS.'logs', 'tmp'.DS.'sessions', 'tmp'.DS.'tests',
-			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads',
+			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads', 'webroot'.DS.'cache',
 		);
 		foreach ($tmp as $dir) {
-			$this->out($this->params['app'] . DS . $dir);
+			$this->out(APP .  $dir);
 			$this->nl();
-			chmod($this->params['app'] . DS . $dir, 0777);
+			chmod($project .  $dir, 0777);
 		}
 
 		$this->nl();
-		chdir($this->params['app']);
+		chdir($project);
 		$this->out(passthru('git init'));
 		$this->all();
 		
-		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'Config' . DS;
+		$this->DbConfig->path = $project . DS . 'Config' . DS;
 		if (!config('database')) {
 			$this->out(__("\nYour database configuration was not found. Take a moment to create one."));
 			$this->args = null;
@@ -238,7 +249,7 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
-		$path = Inflector::underscore($path);
+		$path = Inflector::camelize($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);

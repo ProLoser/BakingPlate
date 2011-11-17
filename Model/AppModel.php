@@ -61,7 +61,7 @@ class AppModel extends LazyModel {
 			}
 		}
 		parent::__construct($id, $table, $ds);
-		$this->_findMethods['paginatecount'] = true;
+		$this->findMethods['paginatecount'] = true;
 		foreach ($this->virtualFields as $field => $value) {
 			$this->virtualFields[$field] = str_replace($this->name, $this->alias, $value);
 		}
@@ -98,7 +98,7 @@ class AppModel extends LazyModel {
 			$parameters['recursive'] = $recursive;
 		}
 
-		if (isset($extra['type']) && isset($this->_findMethods[$extra['type']])) {
+		if (isset($extra['type']) && isset($this->findMethods[$extra['type']])) {
 			$extra['operation'] = 'count';
 			return $this->find($extra['type'], array_merge($parameters, $extra));
 		} else {

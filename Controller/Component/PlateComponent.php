@@ -101,15 +101,15 @@ class PlateComponent extends Object {
 		if (!isset($this->controller->secureActions)) {
 			return;
 		} elseif (
-			!$this->RequestHandler->isSSL() && $this->controller->secureActions === true 
-			|| !$this->RequestHandler->isSSL() && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
-			|| !$this->RequestHandler->isSSL() && $this->controller->secureActions === $this->controller->action
+			!$this->request->is('ssl') && $this->controller->secureActions === true 
+			|| !$this->request->is('ssl') && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
+			|| !$this->request->is('ssl') && $this->controller->secureActions === $this->controller->action
 		) {
 			$this->controller->redirect('https://' . env('SERVER_NAME') . $this->controller->here);
 		} elseif (
-			$this->RequestHandler->isSSL() && !$this->controller->secureActions 
-			|| $this->RequestHandler->isSSL() && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
-			|| $this->RequestHandler->isSSL() && $this->controller->secureActions !== $this->controller->action
+			$this->request->is('ssl') && !$this->controller->secureActions 
+			|| $this->request->is('ssl') && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
+			|| $this->request->is('ssl') && $this->controller->secureActions !== $this->controller->action
 		) {
 			$this->controller->redirect('http://' . env('SERVER_NAME') . $this->controller->here);
 		}
