@@ -18,9 +18,64 @@ class PlateShell extends AppShell {
 		Configure::write('debug', 2);
 		Configure::write('Cache.disable', 1);
 
-		//if (!isset($this->params['working'])) {
-		//	$this->params['working'] = APP;
-		//}
+	}
+	
+	public function getOptionParser() {
+		$parser = parent::getOptionParser();
+		
+		// add options, descripts and arguments - build parsers for subcommands
+		$bakeParser = parent::getOptionParser();
+		$browseParser = parent::getOptionParser();
+		$addParser = parent::getOptionParser();
+		$searchParser = parent::getOptionParser();
+		
+		$bakeParser->addOption('working', array(
+			'short' => 'w',
+			'help' => __('Set working directory for project to be baked in.'),
+			'boolean' => false
+		))->addOption('skel', array(
+			'short' => 's',
+			'help' => __('Skel to bake from.'),
+			'boolean' => false
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group of submodules, or core will be used.'),
+			'boolean' => false,
+			'default' => 'core'
+		))->description(__('Plate Bake Help.'));
+		
+		$addParser->addArgument('submodule', array(
+			'help' => __('Submodule to be added.'),
+			'required' => true
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group of submodule, first listed will be used otherwise.'),
+			'boolean' => false,
+			'default' => 'all'
+		));
+		
+		$searchParser->addArgument('search', array(
+			'help' => __('Search for a Cake Package to be add.'),
+			'required' => true
+		));
+		
+		$parser->addSubcommand('bake', array(
+			'help' => 'Generates a new app using bakeplate.',
+			'parser' => $bakeParser
+		))->addSubcommand('browse', array(
+			'help' => 'List available submodules.',
+			'parser' => $browseParser
+		))->addSubcommand('add', array(
+			'help' => 'Add specific submodule.',
+			'parser' => $addParser
+		))->addSubcommand('search', array(
+			'help' => 'Search for a specific submodule.',
+			'parser' => $searchParser
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Group of submodules to browse either Plugins or Vendors.')
+		))->description(__('BakingPlate Plate Shell Help.'));
+		return $parser;
 	}
 
 	/**
@@ -58,7 +113,6 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	function bake() {
-		//debug($this->args);
 		if (!isset($this->params['group'])) {
 			$this->params['group'] = 'core';
 		}
@@ -173,7 +227,7 @@ class PlateShell extends AppShell {
 	 * Render a list of submodules
 	 */
 	function browse() {
-		if (!isset($this->params['group'])) {
+		if (!isset($this->args[0])) {
 			$this->out("\nAvailable Groups:\n");
 			$i = 0;
 			$this->out('#) All');
@@ -196,10 +250,8 @@ class PlateShell extends AppShell {
 	/**
 	 * Add all submodules
 	 */
-	function all() {
-		if (isset($this->args[0])) {
-			$this->params['group'] = $this->args[0];
-		} elseif (!isset($this->params['group'])) {		
+	function all() {		
+		if (!isset($this->params['group'])) {		
 			$this->browse();
 			$this->params['group'] = $this->in('Specify a group name or #');
 			$this->_prepGroup();
@@ -207,6 +259,7 @@ class PlateShell extends AppShell {
 		$this->out("\nAdding {$this->params['group']} git submodules...\n");
 		
 		$submodules = $this->_getSubmodules();
+		debug($submodules);
 		foreach ($submodules as $path => $url) {
 			$this->_addSubmodule($path);
 		}
@@ -249,7 +302,7 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
-		$path = Inflector::camelize($path);
+		$path = Inflector::underscore($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
@@ -263,7 +316,7 @@ class PlateShell extends AppShell {
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
-		$this->_install($url, $folder . DS . $path);
+		$this->_install($url, $folder . DS . Inflector::camelize($path));
 	}
 	
 	/**
@@ -274,9 +327,6 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _prepGroup() {
-		if (isset($this->params['g']))
-			$this->params['group'] = $this->params['g'];
-
 		if (!isset($this->params['group']) || $this->params['group'] === '#')
 			$this->params['group'] = 'all';		
 
@@ -300,7 +350,7 @@ class PlateShell extends AppShell {
 				$submodules = array_merge($submodules, $items);
 			}
 		} else {
-			$submodules = $this->submodules[$this->params['group']];
+			$submodules = $this->submodules[inflector::underscore($this->params['group'])];
 		}
 		return $submodules;
 	}
