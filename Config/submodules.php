@@ -24,7 +24,7 @@
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	#'linkable'			=> 'git://github.com/Terr/linkable.git',
-	'asset_compress'	=> 'git://github.com/sams/asset_compress.git',
+	'asset_compress'	=> 'git://github.com/markstory/asset_compress.git',
 	#'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git'
 );
 // Submodules that don't fall under any other group
@@ -34,20 +34,10 @@ $config['BakingPlate']['extra'] = array(
 	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
 );
 
-// a special group for use with sams exp branch 
-$config['BakingPlate']['altiverse'] = array(
-	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
-	'interactive'		=> 'git://github.com/mcurry/interactive.git',
-	'sql_log'			=> 'git://github.com/mcurry/sql_log.git',
-	'contact'                       => 'git://github.com/sams/contact.git',
-	'cake_social'		=> 'git://github.com/predominant/cake_social.git',
-);
-
 // acl plugins
 $config['BakingPlate']['acl'] = array(
 	'acl'                       => 'git://github.com/sams/alaxos_acl.git',
 	'acl_extras'            => 'git://github.com/markstory/acl_extras.git',
-	'acl_menu'              => 'git://github.com/sams/cakephp_menu_component.git',
 );
 
 $config['BakingPlate']['neilcrookes'] = array(
@@ -74,7 +64,6 @@ $config['BakingPlate']['markstory'] = array(
 );
 
 $config['BakingPlate']['phally'] = array(
-	'less'	=> 'git://github.com/Phally/less.git',
 	'cached_acl'	=> 'git://github.com/Phally/cached_less.git',
 	'cache_engines'	=> 'git://github.com/Phally/cache_engines.git',
 	'route_enhancements'	=> 'git://github.com/Phally/route_enhancements.git',
@@ -135,11 +124,10 @@ $config['BakingPlate']['proloser'] = array(
 );
 
 $config['BakingPlate']['sams'] = array(
+	'acl'			=> 'git://github.com/sams/alaxos_acl.git',
 	'contact'			=> 'git://github.com/sams/contact.git',
-	'manifesto'			=> 'git://github.com/sams/manifesto.git',
-	'navigation'		=> 'git://github.com/sams/cakephp_navigation.git',
-	'static_cache'		=> 'git://github.com/sams/static_cache.git',
-	'status'		=> 'git://github.com/sams/status.git',
+	'configuration'			=> 'git://github.com/sams/Configuration.git',
+	'webmaster_tools'			=> 'git://github.com/sams/webmaster_tools.git',
 );
 
 $config['BakingPlate']['mcurry'] = array(
