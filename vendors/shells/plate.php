@@ -37,6 +37,7 @@ class PlateShell extends Shell {
 		$this->out('browse				- List available submodules');
 		$this->out('add <submodule_name|#>		- Add a specific submodule');
 		$this->out('all <group|#>			- Add all available submodules');
+		$this->out('search <term>			- Search CakePackages.com');
 		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.");
 	}
 
@@ -108,6 +109,51 @@ class PlateShell extends Shell {
 			}
 		} else {
 			$this->_addSubmodule($submodule);
+		}
+	}
+	
+	/**
+	 * Search CakePackages.com for a package. Extra functionality to come later
+	 *
+	 */
+	function search() {
+		$install = false;
+
+		if (!isset($this->args[0])) {
+			$this->args[0] = $this->in("\nSearch Packages for:");
+			if (empty($this->args[0])) {
+				return;
+			}
+		}
+		App::import('Lib', 'HttpSocketOauth.HttpSocketOauth');
+		$Http = new HttpSocketOauth();
+
+		$response = $Http->request('http://cakepackages.com/1/search/' . urlencode($this->args[0]));
+
+		if ($Http->response['status']['code'] != 200) {
+			$this->out("\n<error>Search requires an active internet connection</error>");
+			return;
+		}
+		$data = json_decode($response['body'], true);
+		
+		$this->out("\n<info>Found ({$data['count']}) Search Results:</info>");
+		$i = 0;
+		$packages = array();
+		foreach ($data['results'] as $package) {
+			$i++;
+			$this->out("\n{$package['id']}) <warning>{$package['name']}</warning> by {$package['data']['Maintainer.name']}: <comment>{$package['summary']}</comment>");
+			$packages[$package['id']] = $package['data']['Package.repository_url'];
+		}
+		if ($data['count'] == 1) {
+			$install = $data['results'][0]['id'];
+		} elseif ($data['count'] > 1) {
+			$install = $this->in("\nWhich package ID# would you like to install?");
+		}
+		if ($install) {
+			$folder = $this->in("\nPlease enter the plugin folder name");
+			if (!empty($folder)) {
+				$this->_install($packages[trim($install)], 'Plugin' . DS . $folder);
+			}
 		}
 	}
 
@@ -205,10 +251,7 @@ class PlateShell extends Shell {
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
-		$this->out("\n===============================================================");
-		$this->out('Adding ' . Inflector::humanize($path));
-		$this->hr();
-		exec("git submodule add {$url} {$folder}/{$path}");
+		$this->_install($url, $folder . DS . $path);
 	}
 	
 	/**
@@ -248,5 +291,12 @@ class PlateShell extends Shell {
 			$submodules = $this->submodules[$this->params['group']];
 		}
 		return $submodules;
+	}
+	
+	protected function _install($url, $folder) {
+		$this->out("\n===============================================================");
+		$this->out("Adding {$url} to {$folder}");
+		$this->hr();
+		exec("git submodule add {$url} {$folder}");
 	}
 }
