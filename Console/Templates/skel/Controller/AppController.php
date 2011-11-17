@@ -34,9 +34,9 @@ class AppController extends Controller {
     
     public $helpers = array(
         'BakingPlate.Plate',
-        'BakingPlate.Html',
-        'Form' => array('className' => 'BakingPlate.FormPlus'),
-        'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
+        'BakingPlate.Html' => array('className' => 'Html'),
+        'BakingPlate.FormPlus' => array('className' => 'Form'),
+        'BakingPlate.PaginatorPlus' => array('className' => 'Paginator'),
         'Session',
         'AssetCompress.AssetCompress'
     );
@@ -51,10 +51,7 @@ class AppController extends Controller {
         )
     );
     
-    public $uses = array('Configuration.Configuration');
-
     public function beforeFilter() {
-		$this->Configuration->load('Site');
         $this->Auth->allow('index', 'view', 'display');
     }
     
