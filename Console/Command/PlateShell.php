@@ -76,7 +76,7 @@ class PlateShell extends AppShell {
 		$this->out(passthru('git init'));
 		$this->all();
 		
-		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'config' . DS;
+		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'Config' . DS;
 		if (!config('database')) {
 			$this->out(__("\nYour database configuration was not found. Take a moment to create one."));
 			$this->args = null;
@@ -251,7 +251,7 @@ class PlateShell extends AppShell {
 			$this->out('Submodule not found');
 			return false;
 		}
-		$folder = (isset($this->submodules['vendors'][$path])) ? 'vendors': 'plugins';
+		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
 		$this->_install($url, $folder . DS . $path);
 	}
 	
