@@ -46,31 +46,31 @@ class PlateShell extends AppShell {
 			'help' => __('Specify a group of submodules, or core will be used.'),
 			'boolean' => false,
 			'default' => 'core'
-		))->description(__('Plate Bake Help.'));
+		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));
 		
 		$addParser->addArgument('submodule', array(
 			'help' => __('Submodule to be added.'),
 			'required' => true
 		))->addOption('group', array(
 			'short' => 'g',
-			'help' => __('Specify a group of submodule, first listed will be used otherwise.'),
+			'help' => __('Specify a group containing the submodule, first listed will be used otherwise.'),
 			'boolean' => false,
 			'default' => 'all'
-		));
+		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));;
 		
-		$searchParser->addArgument('search', array(
+		$searchParser->addArgument('term', array(
 			'help' => __('Search for a Cake Package to be add.'),
 			'required' => true
-		));
+		))->description(__('Search <info>cakepackages.com</info> for Vendors or Plugins to add as submodules to Application'));
 		
-		$browseParser->addArgument('browse', array(
-			'help' => __('Browse submodules grouped by Plugin Author or Vendors.'),
+		$browseParser->addArgument('group', array(
+			'help' => __('name or number of group.'),
 			'required' => false
 		))->addOption('group', array(
 			'short' => 'g',
-			'help' => __('Specify a group of submodules, or core will be used.'),
+			'help' => __('Specify a group of submodules, or all groups will be displayed.'),
 			'boolean' => false
-		));
+		))->description(__('Browse listed submodules (or groups of submodules) via name or index number.'));
 		
 		$parser->addSubcommand('bake', array(
 			'help' => 'Generates a new app using bakeplate.',
@@ -229,8 +229,10 @@ class PlateShell extends AppShell {
 			$install = $this->in("\nWhich package ID# would you like to install?");
 		}
 		if ($install) {
+			// build optins for this extracting id and merging q for quit (in case you did not find what you were looking for quit should ask for another search)
 			$folder = $this->in("\nPlease enter the plugin folder name");
 			if (!empty($folder)) {
+				// it may be a vendor
 				$this->_install($packages[trim($install)], 'Plugin' . DS . $folder);
 			}
 		}
@@ -240,7 +242,11 @@ class PlateShell extends AppShell {
 	 * Render a list of submodules
 	 */
 	function browse() {
-		if (!isset($this->args[0])) {
+		if(isset($this->args[0])) {
+			$this->params['group'] = $this->args[0];	
+		}
+		if (!isset($this->params['group'])) {
+			//$this->_prepGroup();
 			$this->out("\nAvailable Groups:\n");
 			$i = 0;
 			$this->out('#) All');
@@ -249,7 +255,8 @@ class PlateShell extends AppShell {
 				$this->out($i . ') ' . Inflector::humanize($group));
 			}
 		} else {
-			$this->out("\nAvailable Submodules:\n");
+			$this->_prepGroup();
+			$this->out("\nAvailable Submodules: "  . Inflector::humanize($this->params['group']) . "\n");
 			$i = 0;
 			$submodules = $this->_getSubmodules();
 			foreach ($submodules as $path => $url) {
@@ -345,6 +352,7 @@ class PlateShell extends AppShell {
 		if (isset($this->params['group']) && is_numeric($this->params['group'])) {
 			$groups = array_keys($this->submodules);
 			$slot = $this->params['group'] - 1;
+			print $slot;
 			$this->params['group'] = $groups[$slot];
 		}
 	}
@@ -362,6 +370,7 @@ class PlateShell extends AppShell {
 				$submodules = array_merge($submodules, $items);
 			}
 		} else {
+			$this->_prepGroup();
 			$submodules = $this->submodules[inflector::underscore($this->params['group'])];
 		}
 		return $submodules;
