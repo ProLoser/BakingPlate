@@ -235,11 +235,11 @@ $config['BakingPlate']['mi'] = array(
 );
 
 $config['BakingPlate']['jrbasso'] = array(
-	'jrbasso' => 'git://github.com/jrbasso/json_plugin.git'
+	'json_plugin' => 'git://github.com/jrbasso/json_plugin.git'
 );
 
 $config['BakingPlate']['simkimsia'] = array(
-    'UtilityLib' => 'git://github.com/simkimsia/UtilityLib.git',
+    'utility_lib' => 'git://github.com/simkimsia/UtilityLib.git',
     'clear_cache' => 'git://github.com/simkimsia/ClearCache.git'
 );
 
