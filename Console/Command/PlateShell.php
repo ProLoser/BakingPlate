@@ -325,13 +325,16 @@ class PlateShell extends AppShell {
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
-			if (!isset($submodules[$items[$path-1]]))
+			
+			if (isset($submodules[$items[$path-1]])) {
 				$url = $submodules[$items[$path-1]];
+				$path = $items[$path-1];
+			}
 		} elseif (isset($submodules[$path])) {
 			$url = $submodules[$path];
 		} 
 		if (!isset($url)) {
-			$this->out('Submodule not found.');
+			$this->out('Submodule not found.' . $path);
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
@@ -352,7 +355,6 @@ class PlateShell extends AppShell {
 		if (isset($this->params['group']) && is_numeric($this->params['group'])) {
 			$groups = array_keys($this->submodules);
 			$slot = $this->params['group'] - 1;
-			print $slot;
 			$this->params['group'] = $groups[$slot];
 		}
 	}
