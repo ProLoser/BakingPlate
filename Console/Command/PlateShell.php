@@ -37,6 +37,10 @@ class PlateShell extends AppShell {
 			'short' => 's',
 			'help' => __('Skel to bake from.'),
 			'boolean' => false
+		))->addOption('config', array(
+                       'short' => 'c',
+                       'help' => __('Config file of submodules to bake into project.'),
+                       'boolean' => false
 		))->addOption('group', array(
 			'short' => 'g',
 			'help' => __('Specify a group of submodules, or core will be used.'),
@@ -57,6 +61,15 @@ class PlateShell extends AppShell {
 		$searchParser->addArgument('search', array(
 			'help' => __('Search for a Cake Package to be add.'),
 			'required' => true
+		));
+		
+		$browseParser->addArgument('browse', array(
+			'help' => __('Browse submodules grouped by Plugin Author or Vendors.'),
+			'required' => false
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group of submodules, or core will be used.'),
+			'boolean' => false
 		));
 		
 		$parser->addSubcommand('bake', array(
@@ -311,7 +324,7 @@ class PlateShell extends AppShell {
 			$url = $submodules[$path];
 		} 
 		if (!isset($url)) {
-			$this->out('Submodule not found');
+			$this->out('Submodule not found.');
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
