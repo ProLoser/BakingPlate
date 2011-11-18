@@ -30,7 +30,7 @@ $config['BakingPlate']['core'] = array(
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/cakephp-mongodb.git',
-	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'clear_cache' 		=> 'git://github.com/simkimsia/ClearCache.git',
 	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
 );
 
@@ -58,7 +58,6 @@ $config['BakingPlate']['neilcrookes'] = array(
 
 $config['BakingPlate']['markstory'] = array(
 	'acl_extras'		=> 'git://github.com/markstory/acl_extras.git',
-	'acl_menu'			=> 'git://github.com/markstory/cakephp_menu_component.git',
 	'geshi'				=> 'git://github.com/markstory/cakephp_geshi.git',
 	'vcard'				=> 'git://github.com/markstory/cakephp_vcard.git',
 );
@@ -155,7 +154,7 @@ $config['BakingPlate']['mcurry'] = array(
 	'url_cache'			=> 'git://github.com/mcurry/url_cache.git', // MCurry's fork seems to be broken
 );
 
-$config['BakingPlate']['petteyg'] = array(
+$config['BakingPlate']['lorenzo'] = array(
 	'url_cache'			=> 'git://github.com/lorenzo/url_cache.git'
 );
 
@@ -234,10 +233,18 @@ $config['BakingPlate']['mi'] = array(
 	
 );
 
+$config['BakingPlate']['jrbasso'] = array(
+	'jrbasso' => 'git://github.com/jrbasso/json_plugin.git'
+);
+
+$config['BakingPlate']['simkimsia'] = array(
+    'UtilityLib' => 'git://github.com/simkimsia/UtilityLib.git',
+    'clear_cache' => 'git://github.com/simkimsia/ClearCache.git'
+);
+
 // Commonly Used Vendors
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'		=> 'git://github.com/debuggable/php_arrays.git',
-	//'simpletest'		=> '',
 	'lessphp'			=> 'git://github.com/leafo/lessphp.git',
 	'swift_mailer'		=> 'git://github.com/swiftmailer/swiftmailer.git', 
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
