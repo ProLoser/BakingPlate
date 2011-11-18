@@ -126,6 +126,7 @@ $config['BakingPlate']['sams'] = array(
 	'acl'			=> 'git://github.com/sams/alaxos_acl.git',
 	'contact'			=> 'git://github.com/sams/contact.git',
 	'configuration'			=> 'git://github.com/sams/Configuration.git',
+	'page_route'			=> 'git://github.com/sams/PageRoute.git',
 	'webmaster_tools'			=> 'git://github.com/sams/webmaster_tools.git',
 );
 
