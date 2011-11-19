@@ -1,5 +1,4 @@
 <?php
-App::uses('Folder', 'Utility');
 /**
 * BakingPlate Class
 */
@@ -33,12 +32,12 @@ class PlateShell extends AppShell {
 	 * Shows a list of available commands
 	 */
 	function main() {
-		$this->out("\nAvailable Commands:\n");
-		$this->out('bake				- Generates a new app using bakeplate');
-		$this->out('browse				- List available submodules');
-		$this->out('add <submodule_name|#>		- Add a specific submodule');
-		$this->out('all <group|#>			- Add all available submodules');
-		$this->out('search <term>			- Search CakePackages.com');
+		$this->out("\n<info>Available Commands:</info>\n");
+		$this->out('bake				- <comment>Generates a new app using bakeplate</comment>');
+		$this->out('browse				- <comment>List available submodules</comment>');
+		$this->out('add <submodule_name|#>		- <comment>Add a specific submodule</comment>');
+		$this->out('all <group|#>			- <comment>Add all available submodules</comment>');
+		$this->out('search <term>			- <comment>Search CakePackages.com</comment>');
 		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.");
 	}
 
@@ -53,36 +52,36 @@ class PlateShell extends AppShell {
 			$this->params['group'] = 'core';
 		}
 		if (!isset($this->params['skel'])) {
-			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel ' . implode(' ', $this->args);
+			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel';
 		}
-		$working = $this->params['working'];
-		if (!$this->Project->execute()) {
+		$working = $this->Project->execute();
+		if (!$working) {
 			return;
 		}
-		$this->nl();
-		$this->out('Making temp folders writeable...');
+		$this->out("\n<info>Making temp folders writeable...</info>");
 		$tmp = array(
 			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
 			'tmp'.DS.'logs', 'tmp'.DS.'sessions', 'tmp'.DS.'tests',
 			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads',
 		);
 		foreach ($tmp as $dir) {
-			$this->out($this->params['app'] . DS . $dir);
-			$this->nl();
-			chmod($this->params['app'] . DS . $dir, 0777);
+			if (is_dir($working . DS . $dir)) {
+				$this->out($dir);
+				chmod($working . DS . $dir, 0777);
+			}
 		}
 
-		$this->nl();
-		chdir($this->params['app']);
-		$this->out(passthru('git init'));
-		$this->all();
-		
-		$this->DbConfig->path = $working . DS . $this->params['app'] . DS . 'Config' . DS;
 		if (!config('database')) {
-			$this->out(__("\nYour database configuration was not found. Take a moment to create one."));
-			$this->args = null;
+			$this->DbConfig->path = $working . 'Config' . DS;
+			$this->out(__d('cake_console', 'Your database configuration was not found. Take a moment to create one.'));
 			$this->DbConfig->execute();
 		}
+
+		chdir($working);
+		$this->out();
+		$this->out(passthru('git init'));
+		$this->args = null;
+		$this->all();
 	}
 
 	/**
@@ -164,7 +163,7 @@ class PlateShell extends AppShell {
 	 */
 	function browse() {
 		if (!isset($this->params['group'])) {
-			$this->out("\nAvailable Groups:\n");
+			$this->out("\n<info>Available Groups:</info>\n");
 			$i = 0;
 			$this->out('#) All');
 			foreach ($this->submodules as $group => $items) {
@@ -172,7 +171,7 @@ class PlateShell extends AppShell {
 				$this->out($i . ') ' . Inflector::humanize($group));
 			}
 		} else {
-			$this->out("\nAvailable Submodules:\n");
+			$this->out("\n<info>Available Submodules:</info>\n");
 			$i = 0;
 			$submodules = $this->_getSubmodules();
 			foreach ($submodules as $path => $url) {
@@ -194,13 +193,12 @@ class PlateShell extends AppShell {
 			$this->params['group'] = $this->in('Specify a group name or #');
 			$this->_prepGroup();
 		}
-		$this->out("\nAdding {$this->params['group']} git submodules...\n");
+		$this->out("\n<info>Adding {$this->params['group']} git submodules...</info>");
 		
 		$submodules = $this->_getSubmodules();
 		foreach ($submodules as $path => $url) {
 			$this->_addSubmodule($path);
 		}
-		$this->out("\n================ Finished Adding Submodules ===================");
 	}
 	
 	/**
@@ -217,7 +215,7 @@ class PlateShell extends AppShell {
 			$custom = $this->params['custom'];
 			$name = pluginSplit($custom);
 			if (!Configure::load($custom)) {
-				$this->out("ERROR: Failed to load custom configuration '{$custom}'\n");
+				$this->out("<error>Failed to load custom configuration '{$custom}'</error>\n");
 				return;
 			}
 			$data = Configure::read('BakingPlate');
@@ -226,7 +224,7 @@ class PlateShell extends AppShell {
 				unset($data['skel']);
 			}
 			$this->submodules = array_merge($this->submodules, $data);
-			$this->out("Custom configuration '{$custom}' loaded\n");
+			$this->out("<info>Custom configuration '{$custom}' loaded</info>\n");
 		}
 	}
 	
@@ -239,7 +237,6 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
-		$path = Inflector::camelize($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
@@ -249,11 +246,11 @@ class PlateShell extends AppShell {
 			$url = $submodules[$path];
 		} 
 		if (!isset($url)) {
-			$this->out('Submodule not found');
+			$this->out('<error>Submodule not found</error>');
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
-		$this->_install($url, $folder . DS . $path);
+		$this->_install($url, $folder . DS . Inflector::camelize($path));
 	}
 	
 	/**
@@ -296,9 +293,7 @@ class PlateShell extends AppShell {
 	}
 	
 	protected function _install($url, $folder) {
-		$this->out("\n===============================================================");
-		$this->out("Adding {$url} to {$folder}");
-		$this->hr();
+		$this->out("\n<info>Adding {$url} to {$folder}</info>");
 		exec("git submodule add {$url} {$folder}");
 	}
 }
