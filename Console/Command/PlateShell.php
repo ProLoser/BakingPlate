@@ -12,6 +12,84 @@ class PlateShell extends AppShell {
 	 * @var array
 	 */
 	var $submodules = array();
+	
+	public function getOptionParser() {
+		$parser = parent::getOptionParser();
+
+		// add options, descripts and arguments - build parsers for subcommands
+		$bakeParser = parent::getOptionParser();
+		$browseParser = parent::getOptionParser();
+		$addParser = parent::getOptionParser();
+		$allParser = parent::getOptionParser();
+		$searchParser = parent::getOptionParser();
+
+		$bakeParser->addOption('working', array(
+			'short' => 'w',
+			'help' => __('Set working directory for project to be baked in.'),
+			'boolean' => false
+		))->addOption('skel', array(
+			'short' => 's',
+			'help' => __('Skel to bake from.'),
+			'boolean' => false
+		))->addOption('config', array(
+                       'short' => 'c',
+                       'help' => __('Config file of submodules to bake into project.'),
+                       'boolean' => false
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group of submodules, or core will be used.'),
+			'boolean' => false,
+			'default' => 'core'
+		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));
+
+		$addParser->addArgument('submodule', array(
+			'help' => __('Submodule to be added.'),
+			'required' => true
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group containing the submodule, first listed will be used otherwise.'),
+			'boolean' => false,
+			'default' => 'all'
+		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));;
+
+		$searchParser->addArgument('term', array(
+			'help' => __('Search for a Cake Package to be add.'),
+			'required' => true
+		))->description(__('Search <info>cakepackages.com</info> for Vendors or Plugins to add as submodules to Application'));
+
+		$browseParser->addArgument('group', array(
+			'help' => __('name or number of group.'),
+			'required' => false
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Specify a group of submodules, or all groups will be displayed.'),
+			'boolean' => false
+		))->description(__('Browse listed submodules (or groups of submodules) via name or index number.'));
+
+		$parser->addSubcommand('bake', array(
+			'help' => 'Generates a new app using bakeplate',
+			'parser' => $bakeParser
+		))->addSubcommand('browse', array(
+			'help' => 'List available submodules',
+			'parser' => $browseParser
+		))->addSubcommand('add', array(
+			'help' => 'Add specific submodule',
+			'parser' => $addParser
+		))->addSubcommand('all', array(
+			'help' => 'All submodules in a specified batch group',
+			'parser' => $allParser
+		))->addSubcommand('search', array(
+			'help' => 'Search for a specific submodule to install from CakePackages.com',
+			'parser' => $searchParser
+		))->addOption('group', array(
+			'short' => 'g',
+			'help' => __('Group of submodules to browse either Plugins or Vendors.')
+		))->addOption('config', array(
+			'short' => 'c',
+			'help' => __('Specify if a custom configuration build script should be used')
+		))->description(__('BakingPlate Plate Shell Help.'));
+		return $parser;
+	}
 
 	/**
 	 * Overridden method so the heading message stops getting spit out
@@ -26,19 +104,6 @@ class PlateShell extends AppShell {
 		$this->out("\nWelcome to BakingPlate");
 		$this->hr();
 		$this->_loadCustom();
-	}
-
-	/**
-	 * Shows a list of available commands
-	 */
-	function main() {
-		$this->out("\n<info>Available Commands:</info>\n");
-		$this->out('bake				- <comment>Generates a new app using bakeplate</comment>');
-		$this->out('browse				- <comment>List available submodules</comment>');
-		$this->out('add <submodule_name|#>		- <comment>Add a specific submodule</comment>');
-		$this->out('all <group|#>			- <comment>Add all available submodules</comment>');
-		$this->out('search <term>			- <comment>Search CakePackages.com</comment>');
-		$this->out("\nAll commands take a -group param to narrow the list of submodules to a specific group. All <params> are optional.");
 	}
 
 	/**
