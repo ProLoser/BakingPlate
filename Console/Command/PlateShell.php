@@ -70,17 +70,18 @@ class PlateShell extends AppShell {
 				chmod($working . DS . $dir, 0777);
 			}
 		}
-
-		if (!config('database')) {
+		
+		$this->args = null;
+		if (!file_exists($working . 'Config' . DS . 'database.php')) {
 			$this->DbConfig->path = $working . 'Config' . DS;
-			$this->out(__d('cake_console', 'Your database configuration was not found. Take a moment to create one.'));
+			$this->out();
+			$this->out(__d('baking_plate', '<warning>Your database configuration was not found. Take a moment to create one.</warning>'));
 			$this->DbConfig->execute();
 		}
-
+		
 		chdir($working);
 		$this->out();
 		$this->out(passthru('git init'));
-		$this->args = null;
 		$this->all();
 	}
 
