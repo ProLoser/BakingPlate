@@ -1,4 +1,5 @@
 <?php
+App::uses('Folder', 'Utility');
 /**
 * BakingPlate Class
 */
@@ -52,7 +53,7 @@ class PlateShell extends AppShell {
 			$this->params['group'] = 'core';
 		}
 		if (!isset($this->params['skel'])) {
-			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'vendors' . DS . 'shells' . DS . 'skel ' . implode(' ', $this->args);
+			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel ' . implode(' ', $this->args);
 		}
 		$working = $this->params['working'];
 		if (!$this->Project->execute()) {
@@ -238,7 +239,7 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
-		$path = Inflector::underscore($path);
+		$path = Inflector::camelize($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
