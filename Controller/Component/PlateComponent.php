@@ -9,7 +9,7 @@
  * @version $Id$
  * @copyright Art Engineered
  **/
-class PlateComponent extends Object {
+class PlateComponent extends Component {
 
 /**
  * Array containing the names of components this component uses. Component names
@@ -26,6 +26,8 @@ class PlateComponent extends Object {
  * @var object
  */
 	var $controller;
+	
+	var $__settings = array();
 
 /**
  * Called before the Controller::beforeFilter().

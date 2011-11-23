@@ -127,7 +127,7 @@ class PlateComponentTestController extends Controller {
 	}
 }
 
-class TestComponent extends Object {
+class TestComponent extends Component {
 	var $__settings = array();
 	var $controller = null;
 	public function initialize($controller, $settings = array()) {

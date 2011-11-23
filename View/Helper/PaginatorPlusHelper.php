@@ -60,7 +60,7 @@ class PaginatorPlusHelper extends PaginatorHelper {
 				if (!is_string($label))
 					$label = $limit;
 				$params = $this->params();
-				if ($params['options']['limit'] == $limit) {
+				if ($params['limit'] == $limit) {
 					if (empty($options['tag'])) {
 						$result .= $label . "\n";
 					} else {
