@@ -34,9 +34,9 @@ class AppController extends Controller {
     
     public $helpers = array(
         'BakingPlate.Plate',
-        'BakingPlate.Html',
-        'Form' => array('className' => 'BakingPlate.FormPlus'),
-        'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
+		'Html' => array('className' => 'BakingPlate.HtmlPlus'),
+		'Form' => array('className' => 'BakingPlate.FormPlus'),
+		'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
         'Session',
         'AssetCompress.AssetCompress'
     );
@@ -44,24 +44,49 @@ class AppController extends Controller {
     public $components = array(
         'DebugKit.Toolbar',
         'Session',
-        'Auth' => array(
-            'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-            'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-            'authorize' => array('Controller') // Added this line
-        )
+        'Auth',
+		'BakingPlate.Plate',
     );
-    
-    public $uses = array('Configuration.Configuration');
 
-    public function beforeFilter() {
-		$this->Configuration->load('Site');
-        $this->Auth->allow('index', 'view', 'display');
-    }
-    
-    public function isAuthorized($user) {
-        if (isset($user['role']) && $user['role'] === 'admin') {
-            return true; //Admin can access every action
-        }
-        return false; // The rest don't
-    }
+/**
+ * Used to set a max for the pagination limit
+ *
+ * @var int
+ */
+    var $paginationMaxLimit = 25;
+
+/**
+ * $_GET keyword to force debug mode. Set to false or delete to disable.
+ *
+ * @var string
+ */
+	var $debugOverride = 'debug';
+
+/**
+ * This allows the enabling of debug mode even if debug is set to off. 
+ * Simply pass ?debug=1 in the url
+ */
+	public function __construct($request = null, $response = null) {
+		if (!empty($this->debugOverride) && !empty($_GET[$this->debugOverride])) {
+			Configure::write('debug', 2);
+		}
+		if (Configure::read('debug')) {
+			// TODO: add interactive for debugkit or not
+			$this->components[] = 'DebugKit.Toolbar';
+			App::uses('FireCake', 'DebugKit.Lib');
+		}
+		parent::__construct($request, $response);
+	}
+
+/**
+ * Configure your Auth environment here
+ */
+	protected function _setAuth() {
+		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
+		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
+		
+		if (!$this->Plate->prefix('admin')) {
+			$this->Auth->allow();
+		}
+	}
 }
