@@ -27,6 +27,14 @@
 Cache::config('default', array('engine' => 'File'));
 
 /**
+ * As of 1.3, additional rules for the inflector are added below
+ *
+ * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ */
+
+
+/**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
  * App::build(array(
@@ -45,13 +53,6 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
-/**
- * As of 1.3, additional rules for the inflector are added below
- *
- * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- */
-
 
 /**
  * Translation and Localization
@@ -66,6 +67,7 @@ $languages = array(
 	'ch',
 );
 Configure::write('Languages.all', $languages);
+#!# Configure::read('Site.useLocalizeTheme', true);
 /*^*/
 
 /**
