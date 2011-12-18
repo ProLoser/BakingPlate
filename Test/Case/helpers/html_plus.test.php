@@ -9,7 +9,7 @@ if (!defined('FULL_BASE_URL')) {
 
 
 if (!defined('TEST_APP')) {
-	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE . 'Test' . DS . 'test_app' . DS);
+	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS . 'test_app' . DS);
 }
 
 if (!defined('JS')) {

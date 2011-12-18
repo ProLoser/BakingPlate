@@ -27,6 +27,14 @@
 Cache::config('default', array('engine' => 'File'));
 
 /**
+ * As of 1.3, additional rules for the inflector are added below
+ *
+ * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ */
+
+
+/**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
  * App::build(array(
@@ -46,13 +54,79 @@ Cache::config('default', array('engine' => 'File'));
  */
 
 /**
- * Custom Inflector rules, can be set to correctly pluralize or singularize table, model, controller names or whatever other
- * string is passed to the inflection functions
- *
- * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- *
+ * Translation and Localization
+ *#!#/
+Configure::write('Languages.default', 'en');
+$languages = array(
+	'en',
+	'sp',
+	'fr',
+	'de',
+	'jp',
+	'ch',
+);
+Configure::write('Languages.all', $languages);
+#!# Configure::read('Site.useLocalizeTheme', true);
+/*^*/
+
+/**
+ * AppEMail
  */
+
+//Configure::write('App.defaultEmail', 'noreply@example.com');
+
+/**
+ * AppError
+ */
+
+//App::uses('AppError', 'Lib');
+
+/**
+ * AppException
+ */
+//App::uses('AppExceptionHandler', 'Lib');
+
+/**
+ * debug() + die() goodness
+ */
+function diebug($var = false, $showHtml = true, $showFrom = true, $die = true) {
+	if (Configure::read() > 0) {
+		$file = '';
+		$line = '';
+		if ($showFrom) {
+			$calledFrom = debug_backtrace();
+			$file = substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1);
+			$line = $calledFrom[0]['line'];
+		}
+		$html = <<<HTML
+<strong>%s</strong> (line <strong>%s</strong>)
+<pre class="cake-debug">
+%s
+</pre>
+HTML;
+		$text = <<<TEXT
+
+%s (line %s)
+########## DEBUG ##########
+%s
+###########################
+
+TEXT;
+		$template = $html;
+		if (php_sapi_name() == 'cli') {
+			$template = $text;
+		}
+		if ($showHtml === null && $template !== $text) {
+			$showHtml = true;
+		}
+		$var = print_r($var, true);
+		if ($showHtml && php_sapi_name() != 'cli') {
+			$var = str_replace(array('<', '>'), array('&lt;', '&gt;'), $var);
+		}
+		printf($template, $file, $line, $var);
+		if ($die) die;
+	}
+}
 
 /**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
@@ -63,3 +137,4 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+CakePlugin::loadAll();

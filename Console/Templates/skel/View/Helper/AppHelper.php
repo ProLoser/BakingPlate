@@ -30,8 +30,8 @@ App::uses('Helper', 'View');
  *
  * @package       app.View.Helper
  */
-// App::import('Vendor', 'UrlCache.url_cache_app_helper');
-// class AppHelper extends UrlCacheAppHelper {
+#!# App::uses('UrlCacheAppHelper', 'UrlCache.Vendor');
+#!# class AppHelper extends UrlCacheAppHelper {
 class AppHelper extends Helper {
 	
 	/**
