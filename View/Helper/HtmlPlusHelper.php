@@ -1,52 +1,36 @@
 <?php
 /**
- * Html Helper class file.
- *
- * Simplifies the construction of HTML elements.
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * HtmlPlus Helper class file.
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.cake.libs.view.helpers
- * @since         CakePHP(tm) v 0.9.1
+ * @package BakingPlate
+ * @author Dean Sofer
+ * @version $Id$
+ * @copyright Art Engineered
+ * @since       BakingPlate v 0.1
+ * @package       BakingPlate.View.Helper
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::uses('HtmlHelper', 'View/Helper');
-/**
- * Html Helper class for easy use of HTML widgets.
- *
- * HtmlHelper encloses all methods needed while working with HTML pages.
- *
- * @package       cake
- * @subpackage    cake.cake.libs.view.helpers
- * @link http://book.cakephp.org/view/1434/HTML
- */
+
 class HtmlPlusHelper extends HtmlHelper {
 	
-	public $helpers = array(
-		'Time'
-	);
-
 	/**
 	 * html tags used by this helper.
 	 *
 	 * @var array
 	 * @access public
 	 */
-	var $tags = array(
+	protected $_tags = array(
 	    'html' => '<html%s>',
 	    'htmlend' => '</html>',
 	    'meta' => '<meta%s>',
 	    'metalink' => '<link href="%s"%s>',
 	    'link' => '<a href="%s"%s>%s</a>',
 	    'mailto' => '<a href="mailto:%s" %s>%s</a>',
-	    'form' => '<form %s>',
+	    'form' => '<form action="%s"%s>',
 	    'formend' => '</form>',
 	    'input' => '<input name="%s" %s>',
 	    'textarea' => '<textarea name="%s" %s>%s</textarea>',
@@ -138,7 +122,7 @@ class HtmlPlusHelper extends HtmlHelper {
 	 */
 	function script($url, $options = array()) {
 		if (strpos((string) $url, '//') !== false) {
-			return sprintf($this->tags['javascriptlink'], $url, null);
+			return sprintf($this->_tags['javascriptlink'], $url, null);
 		}
 		return parent::script($url, $options);
 	}
@@ -207,20 +191,20 @@ class HtmlPlusHelper extends HtmlHelper {
 					'format' => false,
 	        ), $options);
 
-	        // if ($options['format'] !== null) {
-	        //         App::import('helper', 'Time');
-	        //         $t = &new TimeHelper;
-	        // }
+	         if ($options['format'] !== null) {
+	                 App::uses('TimeHelper', 'View/Helper');
+	                 $t = &new TimeHelper($this->_View);
+	         }
 	        if ($options['format']) {
 	                $time = $content;
-	                if (method_exists($this->Time, $options['format'])) {
-	                        $content = $this->Time->$options['format']($content);
+	                if (method_exists($t, $options['format'])) {
+	                        $content = $t->$options['format']($content);
 	                } else {
-	                        $content = $this->Time->format($options['format'], $content);
+	                        $content = $t->format($options['format'], $content);
 	                }
-	                $options['datetime'] = $this->Time->format($options['datetime'], strtotime($time));
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($time));
 	        } elseif ($options['format'] === false && $options['datetime']) {
-	                $options['datetime'] = $this->Time->format($options['datetime'], strtotime($content));
+	                $options['datetime'] = $t->format($options['datetime'], strtotime($content));
 	        }
 
 			if ($options['pubdate'])
@@ -233,6 +217,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	        if (isset($pubdate))
 	                $attributes .= ' pubdate';
 
-	        return sprintf($this->tags['time'],  $attributes, $content);
+	        return sprintf($this->_tags['time'],  $attributes, $content);
 	}
 }

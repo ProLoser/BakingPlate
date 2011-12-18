@@ -4,9 +4,13 @@
  *
  * PlateHelper misc helper methods for use with apps baked with BakingPlate
  *
- * @package       cake
- * @subpackage    cake.cake.libs.view.helpers
- * @link http://book.cakephp.org/view/1434/HTML
+ * @package BakingPlate
+ * @author Dean Sofer
+ * @version $Id$
+ * @copyright Art Engineered
+ * @since       BakingPlate v 0.1
+ * @package       BakingPlate.View.Helper
+ * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::uses('AppHelper', 'View/Helper');
 class PlateHelper extends AppHelper {
