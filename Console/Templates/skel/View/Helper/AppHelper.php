@@ -30,5 +30,43 @@ App::uses('Helper', 'View');
  *
  * @package       app.View.Helper
  */
+#!# App::uses('UrlCacheAppHelper', 'UrlCache.Vendor');
+#!# class AppHelper extends UrlCacheAppHelper {
 class AppHelper extends Helper {
+	
+	/**
+	 * Specifies whether the url prefix should be left alone in array urls when unspecified
+	 *
+	 * @var boolean True: leave prefix in url, False: strip prefix from url if unset
+	 */
+	var $maintainPrefix = true;
+	
+	/**
+	 * The Html->url() function overridden to support local prefixes
+	 *
+	 * @param string $url 
+	 * @param string $full 
+	 * @return void
+	 * @author Dean Sofer
+	 */
+	function url($url = null, $full = false) {
+		if (is_array($url)) {
+			if (!isset($url['lang']) && isset($this->params['lang'])) {
+				$url['lang'] = $this->params['lang'];
+			} elseif (isset($url['lang']) && $url['lang'] == Configure::read('Languages.default')) {
+				unset($url['lang']);
+			}
+			if (!isset($url['plugin'])) {
+				$url['plugin'] = false;
+			}
+			if (!$this->maintainPrefix) {
+				$routing = Configure::read('Routing');
+				if (!empty($routing['prefixes'])) {
+					$prefixes = array_diff_key(array_flip($routing['prefixes']), $url);
+					$url = array_merge($url, array_fill_keys(array_keys($prefixes), false)); 
+				}
+			}
+		}
+		return parent::url($url, $full);
+	}
 }
