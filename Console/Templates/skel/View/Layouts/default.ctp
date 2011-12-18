@@ -15,7 +15,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo $this->Html->docType('html5');
+echo $this->Html->docType();
 echo $this->Plate->html();
 ?>
 <head>
@@ -40,8 +40,9 @@ echo $this->Plate->html();
 
 	<?php
 		echo $this->Html->meta('icon');
-		echo $this->AssetCompress->css('bootstrap.css');
-		#echo $this->AssetCompress->includeCss();
+		echo $this->Html->css(array('style.css'));
+		#!# echo $this->AssetCompress->css('style.css');
+		#!# echo $this->AssetCompress->includeCss();
 		echo $this->Html->script('libs/modernizr-2.0.6.min', array('type' => false));
 	?>
 </head>
@@ -65,12 +66,8 @@ echo $this->Plate->html();
 	</div>
 <?php
 	echo $this->Plate->lib('jquery', array('compressed' => true));
-	echo $this->Html->script(
-	#!# echo $this->AssetCompress->script(
-	array(
-		'plugins',
-		'script',
-	));
+	echo $this->Html->script(array('plugins', 'script'));
+	#!# echo $this->AssetCompress->script('script');
 	
 	#!# echo $this->AssetCompress->includeJs();
 	echo $scripts_for_layout;
