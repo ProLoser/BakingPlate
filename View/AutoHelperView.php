@@ -10,6 +10,7 @@
  *
  * @author Joe Beeson <jbeeson@gmail.com>
  */
+App::uses('View', 'View');
 class AutoHelperView extends View {
 
 /**
