@@ -6,18 +6,17 @@
  *
  * Use it to configure database for ACL
  *
- * PHP versions 4 and 5
+ * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.config.sql
+ * @package       app.Config.Schema
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
@@ -30,16 +29,16 @@
  */
 class DbAclSchema extends CakeSchema {
 
-	var $name = 'DbAcl';
+	public $name = 'DbAcl';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
-	function after($event = array()) {
+	public function after($event = array()) {
 	}
 
-	var $acos = array(
+	public $acos = array(
 			'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 			'parent_id' => array('type'=>'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 			'model' => array('type'=>'string', 'null' => true),
@@ -50,7 +49,7 @@ class DbAclSchema extends CakeSchema {
 			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 		);
 
-	var $aros = array(
+	public $aros = array(
 			'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 			'parent_id' => array('type'=>'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 			'model' => array('type'=>'string', 'null' => true),
@@ -61,7 +60,7 @@ class DbAclSchema extends CakeSchema {
 			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 		);
 
-	var $aros_acos = array(
+	public $aros_acos = array(
 			'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 			'aro_id' => array('type'=>'integer', 'null' => false, 'length' => 10, 'key' => 'index'),
 			'aco_id' => array('type'=>'integer', 'null' => false, 'length' => 10),
