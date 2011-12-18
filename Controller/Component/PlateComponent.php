@@ -18,16 +18,16 @@ class PlateComponent extends Component {
  * @var array
  * @access public
  */
-	var $components = array('RequestHandler');
+	public $components = array('RequestHandler');
 	
 /**
  * Stores instance of the related controller
  *
  * @var object
  */
-	var $controller;
-	
-	var $__settings = array();
+	protected $controller;
+
+	protected $__settings = array();
 
 /**
  * Called before the Controller::beforeFilter().
@@ -103,15 +103,15 @@ class PlateComponent extends Component {
 		if (!isset($this->controller->secureActions)) {
 			return;
 		} elseif (
-			!$this->request->is('ssl') && $this->controller->secureActions === true 
-			|| !$this->request->is('ssl') && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
-			|| !$this->request->is('ssl') && $this->controller->secureActions === $this->controller->action
+			!$this->controller->request->is('ssl') && $this->controller->secureActions === true 
+			|| !$this->controller->request->is('ssl') && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
+			|| !$this->controller->request->is('ssl') && $this->controller->secureActions === $this->controller->action
 		) {
 			$this->controller->redirect('https://' . env('SERVER_NAME') . $this->controller->here);
 		} elseif (
-			$this->request->is('ssl') && !$this->controller->secureActions 
-			|| $this->request->is('ssl') && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
-			|| $this->request->is('ssl') && $this->controller->secureActions !== $this->controller->action
+			$this->controller->request->is('ssl') && !$this->controller->secureActions 
+			|| $this->controller->request->is('ssl') && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
+			|| $this->controller->request->is('ssl') && $this->controller->secureActions !== $this->controller->action
 		) {
 			$this->controller->redirect('http://' . env('SERVER_NAME') . $this->controller->here);
 		}

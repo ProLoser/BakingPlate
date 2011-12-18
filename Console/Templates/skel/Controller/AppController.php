@@ -31,37 +31,96 @@ App::uses('Controller', 'Controller');
  * @package       app.Controller
  */
 class AppController extends Controller {
-    
-    public $helpers = array(
-        'BakingPlate.Plate',
-        'BakingPlate.Html',
-        'Form' => array('className' => 'BakingPlate.FormPlus'),
-        'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
-        'Session',
-        'AssetCompress.AssetCompress'
-    );
-    
-    public $components = array(
-        'DebugKit.Toolbar',
-        'Session',
-        'Auth' => array(
-            'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-            'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-            'authorize' => array('Controller') // Added this line
-        )
-    );
-    
-    public $uses = array('Configuration.Configuration');
 
-    public function beforeFilter() {
-		$this->Configuration->load('Site');
-        $this->Auth->allow('index', 'view', 'display');
-    }
-    
-    public function isAuthorized($user) {
-        if (isset($user['role']) && $user['role'] === 'admin') {
-            return true; //Admin can access every action
-        }
-        return false; // The rest don't
-    }
+	public $helpers = array(
+		'BakingPlate.Plate',
+		'Html' => array('className' => 'BakingPlate.HtmlPlus'),
+		'Form' => array('className' => 'BakingPlate.FormPlus'),
+		'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
+		'Session',
+		#!# 'AssetCompress.AssetCompress'
+	);
+
+	public $components = array(
+		'BakingPlate.Plate',
+		'Paginator' ,
+		'Session',
+		/**
+		 *#!#/
+		 'Auth' => array(
+			'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+			'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+			'authorize' => array('Controller')
+		) /*#^#*/
+	);
+
+	#!#public $uses = array('Configuration.Configuration');
+	
+	public $view = 'BakingPlate.ThemedAutoHelperView';
+	
+	#!# public $viewClass = 'Theme';
+	#!# public $theme = 'MyTheme';
+
+	/**
+	 * Specifies if an action should be under SSL
+	 *
+	 * @var mixed set to true for all controller actions, set to an array of action names for specific ones
+	 */
+	 public $secureActions = false;
+
+	 /**
+	  * $_GET keyword to force debug mode. Set to false or delete to disable.
+	  */
+	 public $debugOverride = 'debug';
+
+	/**
+	 * Used to set a max for the pagination limit
+	 *
+	 * @var int
+	 */
+	public $paginationMaxLimit = 25;
+
+	public function __construct($request = null, $response = null) {
+		if (!empty($this->debugOverride) && !empty($request->query[$this->debugOverride])) {
+			Configure::write('debug', 2);
+		}
+		if (Configure::read('debug')) {
+			$this->components[] = 'DebugKit.Toolbar';
+			// @todo firebug firephp appuses
+		}
+		parent::__construct($request, $response);
+	}
+
+	public function beforeFilter() {
+		#!# $this->_setConfiguration();
+		#!# $this->_setAuth();
+		#!# $this->_setMaintenance();
+		if(!empty($this->Auth)) $this->Auth->allow('index', 'view', 'display');
+	}
+
+	public function beforeRender() {
+			parent::beforeRender();
+	}
+
+	private function _setConfiguration($prefix = 'Site') {
+		if(isset($this->Configuration)) {
+			$this->Configuration->load($prefix);
+		}
+	}
+
+	private function _setAuth() {
+	}
+
+	private function _setMaintenance() {
+		if(Configure::read('WebmasterTools.Maintenance.active') === true) {
+			$this->Maintenance->activate();
+		}
+	}
+
+	public function isAuthorized($user) {
+		if (isset($user['role']) && $user['role'] === 'admin') {
+			return true; //Admin can access every action
+		}
+		return false; // The rest don't
+	}
 }

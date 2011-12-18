@@ -37,10 +37,12 @@ class PagesController extends AppController {
 
 /**
  * Default helper
+ * do not list helpers aliased in AppController as this will
+ * overirde the alias
  *
  * @var array
  */
-	public $helpers = array('Html');
+	#!# public $helpers = array();
 
 /**
  * This controller does not use a model
@@ -48,6 +50,10 @@ class PagesController extends AppController {
  * @var array
  */
 	public $uses = array();
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+	}
 
 /**
  * Displays a view

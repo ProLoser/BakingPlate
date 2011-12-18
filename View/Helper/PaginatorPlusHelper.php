@@ -4,13 +4,18 @@
  * 
  * Slight tweak on the original paginator
  *
- * @package default
+ * @package BakingPlate
  * @author Dean Sofer
  * @version $Id$
  * @copyright Art Engineered
+ * @since       BakingPlate v 0.1
+ * @package       BakingPlate.View.Helper
+ * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 App::uses('PaginatorHelper', 'View/Helper');
 class PaginatorPlusHelper extends PaginatorHelper {
+	
+	public $helpers = array('Html');
 	
 /**
  * Tweaked the arrows and disabled options use regular options as defaults

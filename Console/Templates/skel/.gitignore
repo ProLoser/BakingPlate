@@ -8,13 +8,7 @@
 tmp/*
 Config/database.php
 Config/email.php
-app/tmp/*
-app/Config/database.php
-app/Config/email.php
 !empty
-webroot/ccss/*
-webroot/cjs/*
-webroot/cache/*
 
 ## Operating Systems ##
 
