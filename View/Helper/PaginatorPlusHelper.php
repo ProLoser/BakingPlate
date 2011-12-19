@@ -15,8 +15,6 @@
 App::uses('PaginatorHelper', 'View/Helper');
 class PaginatorPlusHelper extends PaginatorHelper {
 	
-	public $helpers = array('Html');
-	
 /**
  * Tweaked the arrows and disabled options use regular options as defaults
  *
