@@ -36,24 +36,12 @@ class PagesController extends AppController {
 	public $name = 'Pages';
 
 /**
- * Default helper
- * do not list helpers aliased in AppController as this will
- * overirde the alias
- *
- * @var array
- */
-	#!# public $helpers = array();
-
-/**
  * This controller does not use a model
  *
  * @var array
  */
 	public $uses = array();
 
-	public function beforeFilter() {
-		parent::beforeFilter();
-	}
 
 /**
  * Displays a view

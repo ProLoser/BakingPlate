@@ -113,34 +113,34 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	function bake() {
-		$project = $projectfulldir = null;
-		if (isset($this->args[0])) {
-			$project = $this->args[0];
-			$projectfulldir = $_SERVER['PWD'] . $project;
-		}
 		if (!isset($this->params['group'])) {
 			$this->params['group'] = 'core';
 		}
 		if (!isset($this->params['skel'])) {
 			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel';
 		}
-		$working = (isset($this->params['working'])) ? $this->params['working'] : $_SERVER['PWD'];
-		$this->params['working'] = $working;
-		$project = $this->Project->execute($projectfulldir);
-		if (!$project) {
+		$working = $this->Project->execute();
+		if (!$working) {
 			return;
 		}
-		$working = $project;
+		$this->out("\n<info>Making temp folders writeable...</info>");
+		$tmp = array(
+			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
+			'tmp'.DS.'logs', 'tmp'.DS.'sessions', 'tmp'.DS.'tests',
+			'webroot'.DS.'ccss', 'webroot'.DS.'cjs', 'webroot'.DS.'uploads',
+		);
+		foreach ($tmp as $dir) {
+			if (is_dir($working . DS . $dir)) {
+				$this->out($dir);
+				chmod($working . DS . $dir, 0777);
+			}
+		}
 		
-		$this->nl();
-		chdir($working);
-		$this->out(passthru('git init'));
-		$this->all();
-		
-		$this->DbConfig->path = $project . DS . 'Config' . DS;
-		if (!config('database')) {
-			$this->out(__("\nYour database configuration was not found. Take a moment to create one."));
-			$this->args = null;
+		$this->args = null;
+		if (!file_exists($working . 'Config' . DS . 'database.php')) {
+			$this->DbConfig->path = $working . 'Config' . DS;
+			$this->out();
+			$this->out(__d('baking_plate', '<warning>Your database configuration was not found. Take a moment to create one.</warning>'));
 			$this->DbConfig->execute();
 		}
 		
@@ -208,7 +208,8 @@ class PlateShell extends AppShell {
 		$packages = array();
 		foreach ($data['results'] as $package) {
 			$i++;
-			$this->out("\n{$package['id']}) <warning>{$package['name']}</warning> by {$package['data']['Maintainer.name']}: <comment>{$package['summary']}</comment>");
+			$this->out("\n{$package['id']}) <warning>{$package['name']}</warning> by {$package['data']['Maintainer.name']} <comment>{$package['data']['Package.repository_url']}</comment>");
+			$this->out("{$package['summary']}");
 			$packages[$package['id']] = $package['data']['Package.repository_url'];
 		}
 		if ($data['count'] == 1) {
@@ -217,10 +218,8 @@ class PlateShell extends AppShell {
 			$install = $this->in("\nWhich package ID# would you like to install?");
 		}
 		if ($install) {
-			// build optins for this extracting id and merging q for quit (in case you did not find what you were looking for quit should ask for another search)
 			$folder = $this->in("\nPlease enter the plugin folder name");
 			if (!empty($folder)) {
-				// it may be a vendor
 				$this->_install($packages[trim($install)], 'Plugin' . DS . $folder);
 			}
 		}
@@ -230,11 +229,7 @@ class PlateShell extends AppShell {
 	 * Render a list of submodules
 	 */
 	function browse() {
-		if(isset($this->args[0])) {
-			$this->params['group'] = $this->args[0];	
-		}
 		if (!isset($this->params['group'])) {
-			//$this->_prepGroup();
 			$this->out("\n<info>Available Groups:</info>\n");
 			$i = 0;
 			$this->out('#) All');
@@ -243,8 +238,7 @@ class PlateShell extends AppShell {
 				$this->out($i . ') ' . Inflector::humanize($group));
 			}
 		} else {
-			$this->_prepGroup();
-			$this->out("\n<info>Available Submodules:"  . Inflector::humanize($this->params['group']) . "</info>\n");
+			$this->out("\n<info>Available Submodules:</info>\n");
 			$i = 0;
 			$submodules = $this->_getSubmodules();
 			foreach ($submodules as $path => $url) {
@@ -258,8 +252,10 @@ class PlateShell extends AppShell {
 	/**
 	 * Add all submodules
 	 */
-	function all() {		
-		if (!isset($this->params['group'])) {		
+	function all() {
+		if (isset($this->args[0])) {
+			$this->params['group'] = $this->args[0];
+		} elseif (!isset($this->params['group'])) {		
 			$this->browse();
 			$this->params['group'] = $this->in('Specify a group name or #');
 			$this->_prepGroup();
@@ -270,7 +266,6 @@ class PlateShell extends AppShell {
 		foreach ($submodules as $path => $url) {
 			$this->_addSubmodule($path);
 		}
-		$this->out("\n<info> Finished Adding Submodules </info>");
 	}
 	
 	/**
@@ -309,15 +304,11 @@ class PlateShell extends AppShell {
 	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
-		//$path = Inflector::underscore($path);
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
-			// or not isset
-			if (isset($submodules[$items[$path-1]])) {
+			if (!isset($submodules[$items[$path-1]]))
 				$url = $submodules[$items[$path-1]];
-				$path = $items[$path-1];
-			}
 		} elseif (isset($submodules[$path])) {
 			$url = $submodules[$path];
 		} 
@@ -326,7 +317,7 @@ class PlateShell extends AppShell {
 			return false;
 		}
 		$folder = (isset($this->submodules['vendors'][$path])) ? 'Vendor': 'Plugin';
-		$this->_install($url, $folder . '/'  . Inflector::camelize($path));
+		$this->_install($url, $folder . DS . Inflector::camelize($path));
 	}
 	
 	/**
@@ -363,8 +354,7 @@ class PlateShell extends AppShell {
 				$submodules = array_merge($submodules, $items);
 			}
 		} else {
-			$this->_prepGroup();
-			$submodules = $this->submodules[inflector::underscore($this->params['group'])];
+			$submodules = $this->submodules[$this->params['group']];
 		}
 		return $submodules;
 	}

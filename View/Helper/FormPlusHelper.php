@@ -22,10 +22,10 @@ App::uses('FormHelper', 'View/Helper');
  * Form helper library.
  *
  * Automatic generation of HTML FORMs from given data.
+ *
+ * @link https://developer.mozilla.org/en/HTML/HTML5/Forms_in_HTML5
  */
 class FormPlusHelper extends FormHelper {
-
-# https://developer.mozilla.org/en/HTML/HTML5/Forms_in_HTML5
 	
 /**
  * Creates a text input widget.
