@@ -54,9 +54,6 @@ class AppController extends Controller {
 	);
 
 	#!# public $uses = array('Configuration.Configuration');
-	
-	#!# public $viewClass = 'Theme';
-	#!# public $theme = 'MyTheme';
 
 	/**
 	 * Specifies if an action should be under SSL
@@ -92,14 +89,13 @@ class AppController extends Controller {
 		#!# $this->_setConfiguration();
 		#!# $this->_setAuth();
 		#!# $this->_setMaintenance();
-		if(!empty($this->Auth)) $this->Auth->allow('index', 'view', 'display');
 	}
 
 	public function beforeRender() {
-			parent::beforeRender();
+		#!# $this->_setTheme();
 	}
 
-	private function _setConfiguration($prefix = 'Site') {
+	protected function _setConfiguration($prefix = 'Site') {
 		if(isset($this->Configuration)) {
 			$this->Configuration->load($prefix);
 		}
@@ -108,15 +104,31 @@ class AppController extends Controller {
 	/**
 	 * Configure your Auth environment here
 	 */
-	private function _setAuth() {
+	protected function _setAuth() {
 		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
 		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
 		if (!$this->Plate->prefix('admin')) {
 			$this->Auth->allow();
 		}
+			
+	}
+	
+	/**
+	 * Configure the current theme here
+	 */
+	protected function _setTheme() {
+		if ($this->viewClass !== 'Webservice.Webservice') {
+			if ($this->Plate->prefix('admin')) {
+				$this->viewClass = 'Theme';
+				$this->theme = 'admin';
+			} elseif (Configure::read('Config.language')) {
+				$this->viewClass = 'Theme';
+				$this->theme = Configure::read('Config.language');
+			}
+		}
 	}
 
-	private function _setMaintenance() {
+	protected function _setMaintenance() {
 		if(Configure::read('WebmasterTools.Maintenance.active') === true) {
 			$this->Maintenance->activate();
 		}
