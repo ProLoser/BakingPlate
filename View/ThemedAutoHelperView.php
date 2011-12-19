@@ -10,7 +10,7 @@
  *
  * @author Joe Beeson <jbeeson@gmail.com>
  */
-App::import('View', 'Theme');
+App::uses('ThemeView', 'View');
 class ThemedAutoHelperView extends ThemeView {
 
 /**

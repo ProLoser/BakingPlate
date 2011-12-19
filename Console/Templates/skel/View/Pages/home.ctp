@@ -5,7 +5,7 @@
 <h2>Sweet, "Baking Plate" got Baked by CakePHP!</h2>
 <?php
 App::uses('Debugger', 'Utility');
-if (Configure::read('debug') > 0):
+if (Configure::read() > 0):
 	Debugger::checkSecurityKeys();
 endif;
 ?>
@@ -113,22 +113,47 @@ if (isset($filePresent)):
 <p>Now that you're app has been generated, here are a few areas you should checkout to see some 'best practices' examples.</p>
 <ul>
 	<li>The BakingPlate Plugin! Read the documentation on the assorted helpers/components/views</li>
-	<li>Controller/AppController.php</li>
+	<li>Controller/AppController.php - base functions here to buidl upon flesh out</li>
 	<li>Model/AppModel.php</li>
 	<li>Lib/AppError.php</li>
 	<li>Lib/AppException.php</li>
-	<li>Config/bootstrap.php</li>
+	<li>Config/bootstrap.php - CakePlugin::loadAll(); is called at bottom of this file</li>
 	<li>View/Layouts/default.ctp</li>
-	<li>views/elements</li>
+	<li>View/Elements/layout - collection place for elements used in layouts to group them apaprt from plugin override elements</li>
 	<li>webroot/css</li>
 	<li>webroot/js</li>
-	<li>webroot/less</li>
-	<li>Setup asset compression by running the following commands:
+	<li>
+		<h4>Plugins</h4>
+		<ul>
+			<li>By default 3 plugins are added <?php echo $this->Html->link('DebugKit', 'http://github.com/cakephp/debug_kit/'); ?>, <?php echo $this->Html->link('Linkable', 'http://github.com/dereuromark/linkable/'); ?> &amp; <?php echo $this->Html->link('Batch', 'http://github.com/ProLoser/Cakephp-Batch/'); ?></li>
+		        <li><code>cake BakingPlate.plate browse -h</code> browse Plugins indexed by BakingPlate</li>
+			<li><code>cake BakingPlate.plate add -h</code> browse Plugins indexed by BakingPlate</li>
+			<li><code>cake BakingPlate.plate search TERM</code> Search <?php echo $this->Html->link('cakepakackages.com', 'http://www.cakepakages.com/'); ?> for code<li>
+		</ul>
+		<h4>Themes</h4>
+		<ul>
+		        <li>Make a dir in View/Themed/MyName uncomment property in Controller/AppController</li>
+			<li>A start Admin theme exists in View/Themed/Admin it is switched to by default if prefix is admin<li>
+
+		</ul>
+		<h4>Adding less (plugins for Cake Sass exist but you can of course compile using node to appropriate dir)</h4>
+		<ul>
+			<li>mkdir webroot/less</li>
+			<li>a) <code>cake plate add lessphp -g vendors</code></li>
+			<li>b) <code>cake plate add less -g hyra</code></li>
+			<li>c) enable AssetCompress and make a less filter</li>
+
+		</ul>
+		<h4>Setup asset compression by running the following commands:</h4>
 		<ul>
 			<li><code>cake plate add jsmin</code></li>
 			<li><code>cake plate add cssmin</code></li>
+			<li><code>cake plate add asset_compress -g markstory</code> switch out comments to enable the plugin</li>
 			<li><code>cake asset_compress build</code></li>
 		</ul>
+	</li>
+	<li>
+		<h5>This skel is Html5 based upon <?php echo $this->Html->link('Html5Boilerplate', 'http://html5boilerplate.com'); ?> by Paul Irish &amp; Divya Manian  (and many others); Paul &amp; Divya are working <?php echo $this->Html->link('Html5 Please', 'http://html5please.github.com'); ?></h5>
 	</li>
 </ul>
 <p>Baking Plate is delete-key friendly. Just search the project for #!# to see different options you can enable.</p>

@@ -38,55 +38,87 @@ class AppController extends Controller {
 		'Form' => array('className' => 'BakingPlate.FormPlus'),
 		'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
         'Session',
-        'AssetCompress.AssetCompress'
+        #!# 'AssetCompress.AssetCompress'
     );
-    
-    public $components = array(
-        'DebugKit.Toolbar',
-        'Session',
-        'Auth',
+
+	public $components = array(
 		'BakingPlate.Plate',
-    );
+		'Paginator',
+		'Session',
+		/* AUTH CONFIG *v/
+		 'Auth' => array(
+			'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+			'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+			'authorize' => array('Controller')
+		) /*^*/
+	);
 
-/**
- * Used to set a max for the pagination limit
- *
- * @var int
- */
-    var $paginationMaxLimit = 25;
+	#!# public $uses = array('Configuration.Configuration');
+	
+	#!# public $viewClass = 'Theme';
+	#!# public $theme = 'MyTheme';
 
-/**
- * $_GET keyword to force debug mode. Set to false or delete to disable.
- *
- * @var string
- */
-	var $debugOverride = 'debug';
+	/**
+	 * Specifies if an action should be under SSL
+	 *
+	 * @var mixed set to true for all controller actions, set to an array of action names for specific ones
+	 */
+	 public $secureActions = false;
 
-/**
- * This allows the enabling of debug mode even if debug is set to off. 
- * Simply pass ?debug=1 in the url
- */
+	 /**
+	  * $_GET keyword to force debug mode. Set to false or delete to disable.
+	  */
+	 public $debugOverride = 'debug';
+
+	/**
+	 * Used to set a max for the pagination limit
+	 *
+	 * @var int
+	 */
+	public $paginationMaxLimit = 25;
+
 	public function __construct($request = null, $response = null) {
-		if (!empty($this->debugOverride) && !empty($_GET[$this->debugOverride])) {
+		if (!empty($this->debugOverride) && !empty($request->query[$this->debugOverride])) {
 			Configure::write('debug', 2);
 		}
 		if (Configure::read('debug')) {
-			// TODO: add interactive for debugkit or not
 			$this->components[] = 'DebugKit.Toolbar';
-			App::uses('FireCake', 'DebugKit.Lib');
+			// @todo firebug firephp appuses
 		}
 		parent::__construct($request, $response);
 	}
 
-/**
- * Configure your Auth environment here
- */
-	protected function _setAuth() {
+	public function beforeFilter() {
+		#!# $this->_setConfiguration();
+		#!# $this->_setAuth();
+		#!# $this->_setMaintenance();
+		if(!empty($this->Auth)) $this->Auth->allow('index', 'view', 'display');
+	}
+
+	public function beforeRender() {
+			parent::beforeRender();
+	}
+
+	private function _setConfiguration($prefix = 'Site') {
+		if(isset($this->Configuration)) {
+			$this->Configuration->load($prefix);
+		}
+	}
+
+	/**
+	 * Configure your Auth environment here
+	 */
+	private function _setAuth() {
 		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
 		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
-		
 		if (!$this->Plate->prefix('admin')) {
 			$this->Auth->allow();
+		}
+	}
+
+	private function _setMaintenance() {
+		if(Configure::read('WebmasterTools.Maintenance.active') === true) {
+			$this->Maintenance->activate();
 		}
 	}
 }
