@@ -31,35 +31,29 @@ App::uses('Controller', 'Controller');
  * @package       app.Controller
  */
 class AppController extends Controller {
-
-	public $helpers = array(
-		'BakingPlate.Plate',
+    
+    public $helpers = array(
+        'BakingPlate.Plate',
 		'Html' => array('className' => 'BakingPlate.HtmlPlus'),
 		'Form' => array('className' => 'BakingPlate.FormPlus'),
 		'Paginator' => array('className' => 'BakingPlate.PaginatorPlus'),
-		'Session',
-		#!# 'AssetCompress.AssetCompress'
-	);
+        'Session',
+        #!# 'AssetCompress.AssetCompress'
+    );
 
 	public $components = array(
 		'BakingPlate.Plate',
-		'Paginator' ,
+		'Paginator',
 		'Session',
-		/**
-		 *#!#/
+		/* AUTH CONFIG *v/
 		 'Auth' => array(
 			'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
 			'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
 			'authorize' => array('Controller')
-		) /*#^#*/
+		) /*^*/
 	);
 
-	#!#public $uses = array('Configuration.Configuration');
-	
-	public $view = 'BakingPlate.ThemedAutoHelperView';
-	
-	#!# public $viewClass = 'Theme';
-	#!# public $theme = 'MyTheme';
+	#!# public $uses = array('Configuration.Configuration');
 
 	/**
 	 * Specifies if an action should be under SSL
@@ -95,32 +89,48 @@ class AppController extends Controller {
 		#!# $this->_setConfiguration();
 		#!# $this->_setAuth();
 		#!# $this->_setMaintenance();
-		if(!empty($this->Auth)) $this->Auth->allow('index', 'view', 'display');
 	}
 
 	public function beforeRender() {
-			parent::beforeRender();
+		#!# $this->_setTheme();
 	}
 
-	private function _setConfiguration($prefix = 'Site') {
+	protected function _setConfiguration($prefix = 'Site') {
 		if(isset($this->Configuration)) {
 			$this->Configuration->load($prefix);
 		}
 	}
 
-	private function _setAuth() {
+	/**
+	 * Configure your Auth environment here
+	 */
+	protected function _setAuth() {
+		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
+		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
+		if (!$this->Plate->prefix('admin')) {
+			$this->Auth->allow();
+		}
+			
+	}
+	
+	/**
+	 * Configure the current theme here
+	 */
+	protected function _setTheme() {
+		if ($this->viewClass !== 'Webservice.Webservice') {
+			if ($this->Plate->prefix('admin')) {
+				$this->viewClass = 'Theme';
+				$this->theme = 'admin';
+			} elseif (Configure::read('Config.language')) {
+				$this->viewClass = 'Theme';
+				$this->theme = Configure::read('Config.language');
+			}
+		}
 	}
 
-	private function _setMaintenance() {
+	protected function _setMaintenance() {
 		if(Configure::read('WebmasterTools.Maintenance.active') === true) {
 			$this->Maintenance->activate();
 		}
-	}
-
-	public function isAuthorized($user) {
-		if (isset($user['role']) && $user['role'] === 'admin') {
-			return true; //Admin can access every action
-		}
-		return false; // The rest don't
 	}
 }
