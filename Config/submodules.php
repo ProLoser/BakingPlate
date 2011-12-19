@@ -64,14 +64,11 @@ $config['BakingPlate']['dereuromark'] = array(
 	'upgrade' 			=> 'git://github.com/dereuromark/upgrade.git',
 	'tools' 			=> 'git://github.com/dereuromark/tools.git',
 	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
-	'auto_cache'			=> 'git://github.com/dereuromark/CakephpAutocacheBehavior.git'
 );
 
-$config['BakingPlate']['dereuromark'] = array(
-	'ndejong'			=> 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
+$config['BakingPlate']['ndejong'] = array(
+	'auto_cache'		=> 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
 );
-
-
 
 $config['BakingPlate']['neilcrookes'] = array(
 	'searchable'			=> 'git://github.com/neilcrookes/searchable.git',
