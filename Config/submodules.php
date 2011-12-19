@@ -67,8 +67,8 @@ $config['BakingPlate']['dereuromark'] = array(
 	'auto_cache'			=> 'git://github.com/dereuromark/CakephpAutocacheBehavior.git'
 );
 
-$config['BakingPlate']['dereuromark'] = array(
-	'ndejong'			=> 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
+$config['BakingPlate']['ndejong'] = array(
+	'auto_cache'			=> 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
 );
 
 
