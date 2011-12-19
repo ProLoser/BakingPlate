@@ -183,7 +183,7 @@ class PlateComponent extends Component {
 			if (isset($this->controller->{$componentName})) {
 				continue;
 			}
-			App::import('Component', $component);
+			App::uses($component, 'Component');
 
 			$componentFullName = $componentName.'Component';
 			$component = new $componentFullName($config);

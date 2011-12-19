@@ -155,6 +155,7 @@ $config['BakingPlate']['proloser'] = array(
 	'wizard'			=> 'git://github.com/ProLoser/wizard.git',	
 	'csv'				=> 'git://github.com/ProLoser/CakePHP-CSV.git',
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
+	'webservice'		=> 'git://github.com/ProLoser/webservice_plugin.git',
 );
 
 $config['BakingPlate']['sams'] = array(
