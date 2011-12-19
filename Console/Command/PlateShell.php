@@ -208,7 +208,8 @@ class PlateShell extends AppShell {
 		$packages = array();
 		foreach ($data['results'] as $package) {
 			$i++;
-			$this->out("\n{$package['id']}) <warning>{$package['name']}</warning> by {$package['data']['Maintainer.name']}: <comment>{$package['summary']}</comment>");
+			$this->out("\n{$package['id']}) <warning>{$package['name']}</warning> by {$package['data']['Maintainer.name']} <comment>{$package['data']['Package.repository_url']}</comment>");
+			$this->out("{$package['summary']}");
 			$packages[$package['id']] = $package['data']['Package.repository_url'];
 		}
 		if ($data['count'] == 1) {
