@@ -85,7 +85,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	    'javascriptend' => '</script>'
 	);
 	
-	
 	/**
 	 * contruct
 	 * 	- allow defaults to be overridden
@@ -95,36 +94,6 @@ class HtmlPlusHelper extends HtmlHelper {
 		parent::__construct($View, $settings);
 		// Used to append styles in $this->css()
 		$this->_View->viewVars['styles_for_layout'] = '';
-	}
-
-	/**
-	 * Returns one or many `<script>` tags depending on the number of scripts given.
-	 *
-	 * If the filename is prefixed with "//", it will be returned early as its a special http(s) indepenent url.
-	 *
-	 * If the filename is prefixed with "/", the path will be relative to the base path of your
-	 * application.  Otherwise, the path will be relative to your JavaScript path, usually webroot/js.
-	 *
-	 * Can include one or many Javascript files.
-	 *
-	 * ### Options
-	 *
-	 * - `inline` - Whether script should be output inline or into scripts_for_layout.
-	 * - `once` - Whether or not the script should be checked for uniqueness. If true scripts will only be
-	 *   included once, use false to allow the same script to be included more than once per request.
-	 *
-	 * @param mixed $url String or array of javascript files to include
-	 * @param mixed $options Array of options, and html attributes see above. If boolean sets $options['inline'] = value
-	 * @return mixed String of `<script />` tags or null if $inline is false or if $once is true and the file has been
-	 *   included before.
-	 * @access public
-	 * @link http://book.cakephp.org/view/1589/script
-	 */
-	function script($url, $options = array()) {
-		if (strpos((string) $url, '//') !== false) {
-			return sprintf($this->_tags['javascriptlink'], $url, null);
-		}
-		return parent::script($url, $options);
 	}
 	
 	/**
