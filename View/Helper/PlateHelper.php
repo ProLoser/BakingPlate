@@ -231,18 +231,20 @@ class PlateHelper extends AppHelper {
 			'group' => 'ul',
 			'attributes' => array(),
 			'item' => 'li',
-			'callback' => null, // Set to false to disable autolinking. Set to a methodname as declared in AppHelper
+			'callback' => null, // Set to false to disable autolinking. Set to a methodname as declared in AppHelper, or use an anonymous function
 		), $options);
 			
 		$result = '';
 		$model = key($data[key($data)]);
 		$i = 0;
 		foreach ($data as $row) {
-			if ($options['callback'] && method_exists($this, $options['callback'])) {
+			if (is_string($options['callback']) && method_exists($this, $options['callback'])) {
 				$callbackOptions['top'] = $top;
 				$content = $this->$options['callback']($row, $callbackOptions);
 			} elseif ($options['callback'] === null) {
 				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));				
+			} elseif ($options['callback']) {
+				$content = $options['callback']($this, $row, $callbackOptions);
 			} else {
 				$content = $row[$model][$options['displayField']];
 			}
