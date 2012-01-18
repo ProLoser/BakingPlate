@@ -32,7 +32,7 @@ $fields = array_filter($fields, 'clean');
 			<h1><?php echo "<?php echo __('{$singularHumanName}');?>";?></h1>
 		</hgroup>
 		<?php echo "<?php echo \$this->Plate->start('sidebar'); ?>\n"; ?>
-		<ul class="actions">
+		<ul>
 		<?php
 		echo "\t\t<li><?php echo \$this->Html->link(__('Edit " . $singularHumanName ."'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
 		echo "\t\t<li><?php echo \$this->Html->link(__('Delete " . $singularHumanName . "'), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), null, sprintf(__('Are you sure you want to delete # %s?'), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
