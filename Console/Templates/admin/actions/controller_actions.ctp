@@ -80,7 +80,7 @@
 		endforeach;
 	endforeach;
 	if (in_array('Tree', $modelObj->actsAs)) {
-		echo "\t\t\$parents = \$this->{$currentModelName}->generatetreelist(array(), null, null, '» ');\n";
+		echo "\t\t\$parents = \$this->{$currentModelName}->generateTreeList(array(), null, null, '» ');\n";
 		$compact[] = "'parents'";
 	}
 	if (!empty($compact)):
@@ -129,7 +129,7 @@
 			endforeach;
 		endforeach;
 		if (in_array('Tree', $modelObj->actsAs)) {
-			echo "\t\t\$parents = \$this->{$currentModelName}->generatetreelist(array('{$currentModelName}.id !=' => \$this->data['{$currentModelName}']['id']), null, null, '» ');\n";
+			echo "\t\t\$parents = \$this->{$currentModelName}->generateTreeList(array('{$currentModelName}.id !=' => \$this->data['{$currentModelName}']['id']), null, null, '» ');\n";
 			$compact[] = "'parents'";
 		}
 		if (!empty($compact)):

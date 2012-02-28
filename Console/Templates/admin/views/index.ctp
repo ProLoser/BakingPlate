@@ -125,15 +125,13 @@ $fields = array_filter($fields, 'clean');
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?> 
 	<footer>
 		<h3>Records:</h3>
-		<nav class="paging">
-			<p class="limit">
-				<?php echo "<?php echo \$this->Paginator->limit(array(10,20,50,100));?>\n"?>
-			</p>
-			<ul class="list">
-				<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-				<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
-				<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-			</ul>
-		</nav>
+		<p class="limit">
+			<?php echo "<?php echo \$this->Paginator->limit(array(10,20,50,100));?>\n"?>
+		</p>
+		<ul class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+		</ul>
 	</footer>
 </article>
