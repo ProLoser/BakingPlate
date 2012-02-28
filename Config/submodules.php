@@ -23,7 +23,7 @@
 // Required submodules
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
-	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
+	'linkable'			=> 'git://github.com/ProLoser/linkable.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git'
 );
 // Submodules that don't fall under any other group
@@ -54,7 +54,8 @@ $config['BakingPlate']['hyra'] = array(
 $config['BakingPlate']['bmcclure'] = array(
 	'order'				=> 'git://github.com/bmcclure/CakePHP-Order-Plugin.git',
 	'disqus'			=> 'git://github.com/bmcclure/CakePHP-Disqus-API-Plugin.git',
-	'media'				=> 'git://github.com/bmcclure/CakePHP-Menu-Plugin.git',
+	'menu'				=> 'git://github.com/bmcclure/CakePHP-Menu-Plugin.git',
+	'media'				=> 'git://github.com/bmcclure/CakePHP-Media-Plugin.git',
 	'auto_asset'			=> 'git://github.com/bmcclure/CakePHP-AutoAsset-Plugin.git',
 	'webmaster_tools'		=> 'git://github.com/bmcclure/CakePHP-WebmasterTools-Plugin.git',
 	'blog'				=> 'git://github.com/bmcclure/CakePHP-Blog-Plugin.git'
@@ -64,6 +65,7 @@ $config['BakingPlate']['dereuromark'] = array(
 	'upgrade' 			=> 'git://github.com/dereuromark/upgrade.git',
 	'tools' 			=> 'git://github.com/dereuromark/tools.git',
 	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
+	'phpunit'			=> 'git://github.com/dereuromark/PHPUnit-Cake2.git',
 );
 
 $config['BakingPlate']['ndejong'] = array(
@@ -294,6 +296,7 @@ $config['BakingPlate']['vendors'] = array(
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
 	'phpthumb'			=> 'git://github.com/masterexploder/PHPThumb.git',
 	'http_socket_oauth'		=> 'git://github.com/neilcrookes/http_socket_oauth.git',
+	'magic_mime'			=> 'git://github.com/davidpersson/mm.git'
 );
 
 
