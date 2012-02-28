@@ -360,7 +360,11 @@ class PlateShell extends AppShell {
 	}
 	
 	protected function _install($url, $folder) {
-		$this->out("\n<info>Adding {$url} to {$folder}</info>");
+    $os = env('OS');
+    if (!empty ($os) && strpos($os, 'Windows') !== false) {
+        $folder = str_replace("\\", "/", $folder);
+    }
+    $this->out("\n<info>Adding {$url} to {$folder}</info>");
 		exec("git submodule add {$url} {$folder}");
 	}
 }
