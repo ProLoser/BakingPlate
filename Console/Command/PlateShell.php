@@ -23,7 +23,8 @@ class PlateShell extends AppShell {
 			'skel' => array(
 				'short' => 's',
 				'help' => __('Skel to bake from.'),
-				'boolean' => false
+				'boolean' => false,
+				'default' => $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel',
 			),
 			'config' => array(
 				'short' => 'c',
@@ -44,6 +45,16 @@ class PlateShell extends AppShell {
 				'config' => $options['config']
 			),
 			'subcommands' => array(
+				'init' => array(
+					'help' => __('Initializes BakingPlate tweaks onto an existing project'),
+					'parser' => array(
+						'description' => array(__('Initializes a git repository'),__('Makes necessary folders writeable'),__('Adds core (or specified) plugins to the project')),
+						'options' => array(
+							'config' => $options['config'],
+							'group' => $options['group'],
+						),
+					)
+				),
 				'bake' => array(
 					'help' => __('Generates a new app using bakeplate.'),
 					'parser' => array(
@@ -52,7 +63,7 @@ class PlateShell extends AppShell {
 							'working' => $options['working'],
 							'skel' => $options['skel'],
 							'config' => $options['config'],
-							'group' => $options['group'],
+							'group' => array_merge(array('default' => 'core'), $options['group']),
 						),
 						'arguments' => array(
 							'working' => array(
@@ -137,24 +148,13 @@ class PlateShell extends AppShell {
 		$this->hr();
 		$this->_loadCustom();
 	}
-
+	
 	/**
-	 * Generates a new project with a little bit of added fluff
+	 * Initializes git, makes tmp folders writeable, and adds the core submodules (or specified group)
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
-	function bake() {
-		if (!isset($this->params['group'])) {
-			$this->params['group'] = 'core';
-		}
-		if (!isset($this->params['skel'])) {
-			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel';
-		}
-		$working = $this->Project->execute();
-		if (!$working) {
-			return;
-		}
+	function init() {
 		$this->out("\n<info>Making temp folders writeable...</info>");
 		$tmp = array(
 			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
@@ -183,10 +183,22 @@ class PlateShell extends AppShell {
 	}
 
 	/**
+	 * Generates a new project with a little bit of added fluff
+	 *
+	 * @return void
+	 */
+	function bake() {
+		$working = $this->Project->execute();
+		if (!$working) {
+			return;
+		}
+		$this->init();
+	}
+
+	/**
 	 * Add a specific submodule/plugin
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	function add() {
 		if (!isset($this->args[0])) {
@@ -304,7 +316,6 @@ class PlateShell extends AppShell {
 	 * Loads in a custom configuration file if passed
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _loadCustom() {
 		if (isset($this->params['config'])) {
@@ -330,7 +341,6 @@ class PlateShell extends AppShell {
 	 * @param string $path 
 	 * @param string $url 
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
 		$submodules = $this->_getSubmodules();
@@ -354,7 +364,6 @@ class PlateShell extends AppShell {
 	 * Converts -g short-param to -group and converts number to group name
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _prepGroup() {
 		if (isset($this->params['g']))
@@ -374,7 +383,6 @@ class PlateShell extends AppShell {
 	 * References the group param to return an array of submodules
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _getSubmodules() {
 		if (strtolower($this->params['group']) === 'all') {
@@ -388,6 +396,13 @@ class PlateShell extends AppShell {
 		return $submodules;
 	}
 	
+	/**
+	 * Installs a submodule into the project
+	 *
+	 * @param string $url 
+	 * @param string $folder
+	 * @return void
+	 */
 	protected function _install($url, $folder) {
 		$this->out("\n<info>Adding {$url} to {$folder}</info>");
 		exec("git submodule add {$url} {$folder}");
