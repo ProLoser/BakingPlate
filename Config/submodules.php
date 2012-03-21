@@ -23,7 +23,7 @@
 // Required submodules
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
-	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
+	'linkable'			=> 'git://github.com/ProLoser/linkable.git',
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git'
 );
 // Submodules that don't fall under any other group
@@ -144,7 +144,7 @@ $config['BakingPlate']['mariano'] = array(
 
 $config['BakingPlate']['proloser'] = array(
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
-	'joinable'			=> 'git://github.com/ProLoser/CakePHP-Joinable.git',
+	'linkable'			=> 'git://github.com/ProLoser/linkable.git',
 	'cacheable'			=> 'git://github.com/ProLoser/CakePHP-Cacheable.git',
 	'supervalidateable'		=> 'git://github.com/ProLoser/cakephp-supervalidatable-behavior.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
