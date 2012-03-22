@@ -168,6 +168,12 @@ class PlateShell extends AppShell {
 			}
 		}
 		
+		$this->nl();
+		chdir($working);
+		$this->out();
+		$this->out(passthru('git init'));
+		$this->all();
+		
 		$this->args = null;
 		if (!file_exists($working . 'Config' . DS . 'database.php')) {
 			$this->DbConfig->path = $working . 'Config' . DS;
@@ -176,10 +182,6 @@ class PlateShell extends AppShell {
 			$this->DbConfig->execute();
 		}
 		
-		chdir($working);
-		$this->out();
-		$this->out(passthru('git init'));
-		$this->all();
 	}
 
 	/**
@@ -211,7 +213,11 @@ class PlateShell extends AppShell {
 			$submodule = $this->in('Specify a submodule_name or #');
 		} else {
 			$this->_prepGroup();
-			$submodule = (strpos($this->args[0], ',') !== false) ? explode(',', $this->args[0]) : $this->args[0];
+			if($this->args[0] == 'all' && isset($this->params['group'])) {
+				$submodule = array_keys($this->submodules[$this->params['group']]);
+			} else {
+				$submodule = (strpos($this->args[0], ',') !== false) ? explode(',', $this->args[0]) : $this->args[0];
+			}
 		}
 		if (is_array($submodule)) {
 			foreach($submodule as $path) {
@@ -273,6 +279,9 @@ class PlateShell extends AppShell {
 	 * Render a list of submodules
 	 */
 	function browse() {
+		if(isset($this->args[0])) {
+			$this->params['group'] = $this->args[0];
+		}
 		if (!isset($this->params['group'])) {
 			$this->out("\n<info>Available Groups:</info>\n");
 			$i = 0;
@@ -282,7 +291,8 @@ class PlateShell extends AppShell {
 				$this->out($i . ') ' . Inflector::humanize($group));
 			}
 		} else {
-			$this->out("\n<info>Available Submodules:</info>\n");
+			$this->_prepGroup();
+			$this->out("\n<info>Available Submodules:"  . Inflector::humanize($this->params['group']) . "</info>\n");
 			$i = 0;
 			$submodules = $this->_getSubmodules();
 			foreach ($submodules as $path => $url) {
@@ -297,7 +307,7 @@ class PlateShell extends AppShell {
 	 * Add all submodules
 	 */
 	function all() {
-		if (isset($this->args[0])) {
+		if (isset($this->args[0]) && !isset($this->params['group']) && array_key_exists($this->args[0], $this->submodules)) {
 			$this->params['group'] = $this->args[0];
 		} elseif (!isset($this->params['group'])) {		
 			$this->browse();
@@ -346,8 +356,10 @@ class PlateShell extends AppShell {
 		$submodules = $this->_getSubmodules();
 		if (is_numeric($path)) {
 			$items = array_keys($submodules);
-			if (!isset($submodules[$items[$path-1]]))
+			if (isset($submodules[$items[$path-1]])) {
 				$url = $submodules[$items[$path-1]];
+				$path = $items[$path-1];
+			}
 		} elseif (isset($submodules[$path])) {
 			$url = $submodules[$path];
 		} 
@@ -391,7 +403,8 @@ class PlateShell extends AppShell {
 				$submodules = array_merge($submodules, $items);
 			}
 		} else {
-			$submodules = $this->submodules[$this->params['group']];
+				$this->_prepGroup();
+				$submodules = $this->submodules[inflector::underscore($this->params['group'])];
 		}
 		return $submodules;
 	}
@@ -404,6 +417,10 @@ class PlateShell extends AppShell {
 	 * @return void
 	 */
 	protected function _install($url, $folder) {
+		$os = env('OS');
+		if (!empty ($os) && strpos($os, 'Windows') !== false) {
+				$folder = str_replace("\\", "/", $folder);
+		}
 		$this->out("\n<info>Adding {$url} to {$folder}</info>");
 		exec("git submodule add {$url} {$folder}");
 	}
