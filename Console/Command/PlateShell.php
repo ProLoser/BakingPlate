@@ -154,7 +154,7 @@ class PlateShell extends AppShell {
 	 *
 	 * @return void
 	 */
-	function init() {
+	function init($working) {
 		$this->out("\n<info>Making temp folders writeable...</info>");
 		$tmp = array(
 			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
@@ -194,7 +194,7 @@ class PlateShell extends AppShell {
 		if (!$working) {
 			return;
 		}
-		$this->init();
+		$this->init($working);
 	}
 
 	/**
@@ -245,7 +245,7 @@ class PlateShell extends AppShell {
 
 		$Http = new HttpSocket();
 
-		$Response = $Http->request('http://cakepackages.com/1/search/' . urlencode($this->args[0]));
+		$Response = $Http->request('http://api.cakepackages.com/1/search/' . urlencode($this->args[0]));
 
 		if (!$Response->isOk()) {
 			$this->out("\n<error>Search requires an active internet connection</error>");
