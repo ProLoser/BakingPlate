@@ -22,17 +22,15 @@ echo $this->Plate->html();
 	<?php echo $this->Html->charset(); ?>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>
-		<?php echo $title_for_layout; ?> 
+		<?php echo $this->fetch('title'); ?> 
 	</title>
 	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
 	<!-- in some cases we have empty description meta - keywords are of debatable worth-->
 	<meta name="description" content="<?php if (!empty($description_for_layout)) echo $description_for_layout; ?>">
 	<meta name="keywords" content="<?php if (!empty($keywords_for_layout)) echo $keywords_for_layout; ?>">
 	<meta name="author" content="CakePHP with Baking Plate">
 	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width">
 	
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon')); ?> 
 	<?php echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon', 'rel' => 'shortcut icon')); ?> 
@@ -40,13 +38,16 @@ echo $this->Plate->html();
 
 	<?php
 		echo $this->Html->meta('icon');
-		echo $this->Html->css(array('style.css'));
+		echo $this->fetch('meta');
+		$this->Html->css(array('style.css'), null, array('inline' => false));
+		echo $this->fetch('css');
 		#!# echo $this->AssetCompress->css('style.css');
 		#!# echo $this->AssetCompress->includeCss();
-		echo $this->Html->script('libs/modernizr-2.0.6.min', array('type' => false));
+		echo $this->Html->script('libs/modernizr-2.5.3.min', array('type' => false));
 	?>
 </head>
 <body>
+	<?php $this->element('common/browsehappy'); ?>
 	<div id="container">
 		<header>
 			<?php echo $this->element('layout/header'); ?>
@@ -57,8 +58,7 @@ echo $this->Plate->html();
 
 			<?php echo $this->Session->flash('auth'); ?>
 
-			<?php echo $content_for_layout; ?>
-
+			<?php echo $this->fetch('content'); ?>
 		</div>
 		<footer>
 			<?php echo $this->element('layout/footer'); ?>
@@ -66,13 +66,11 @@ echo $this->Plate->html();
 	</div>
 <?php
 	echo $this->Plate->lib('jquery', array('compressed' => true));
-	echo $this->Html->script(array('plugins', 'script'));
+	$this->Html->script(array('plugins', 'script'), array('inline' => false));
 	#!# echo $this->AssetCompress->script('script');
-	
 	#!# echo $this->AssetCompress->includeJs();
-	echo $scripts_for_layout;
+	echo $this->fetch('script');
 
-	echo $this->Plate->pngFix();
 	echo $this->Plate->analytics();
 	echo $this->Plate->chrome();
 ?>
