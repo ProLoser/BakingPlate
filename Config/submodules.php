@@ -54,7 +54,8 @@ $config['BakingPlate']['hyra'] = array(
 $config['BakingPlate']['bmcclure'] = array(
 	'order'				=> 'git://github.com/bmcclure/CakePHP-Order-Plugin.git',
 	'disqus'			=> 'git://github.com/bmcclure/CakePHP-Disqus-API-Plugin.git',
-	'media'				=> 'git://github.com/bmcclure/CakePHP-Menu-Plugin.git',
+	'media'				=> 'git://github.com/bmcclure/CakePHP-Media-Plugin.git',
+	'menu'				=> 'git://github.com/bmcclure/CakePHP-Menu-Plugin.git',
 	'auto_asset'			=> 'git://github.com/bmcclure/CakePHP-AutoAsset-Plugin.git',
 	'webmaster_tools'		=> 'git://github.com/bmcclure/CakePHP-WebmasterTools-Plugin.git',
 	'blog'				=> 'git://github.com/bmcclure/CakePHP-Blog-Plugin.git'
@@ -268,8 +269,8 @@ $config['BakingPlate']['mi'] = array(
 );
 
 $config['BakingPlate']['predominant'] = array(
-        'twig_view'                   	=> 'git://github.com/predominant/TwigView.git',
-	'cake_social' 			=> 'git://github.com/predominant/cake_social.git',
+	'twig_view'			=> 'git://github.com/predominant/TwigView.git',
+	'cake_social'		=> 'git://github.com/predominant/cake_social.git',
 	'woopra'			=> 'git://github.com/predominant/Woopra.git',
 	'goodies'			=> 'git://github.com/predominant/goodies.git',
 );
@@ -277,6 +278,10 @@ $config['BakingPlate']['predominant'] = array(
 
 $config['BakingPlate']['jrbasso'] = array(
 	'json_plugin' 			=> 'git://github.com/jrbasso/json_plugin.git'
+);
+
+$config['BakingPlate']['slywalker'] = array(
+	'TwitterBootstrap' => 'git://github.com/slywalker/TwitterBootstrap.git'
 );
 
 $config['BakingPlate']['simkimsia'] = array(
@@ -294,6 +299,7 @@ $config['BakingPlate']['vendors'] = array(
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
 	'phpthumb'			=> 'git://github.com/masterexploder/PHPThumb.git',
 	'http_socket_oauth'		=> 'git://github.com/neilcrookes/http_socket_oauth.git',
+	'magic_mime'			=> 'git://github.com/davidpersson/mm.git'
 );
 
 
