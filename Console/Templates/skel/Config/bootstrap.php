@@ -90,7 +90,7 @@ Configure::write('Languages.all', $languages);
  * debug() + die() goodness
  */
 function diebug($var = false, $showHtml = true, $showFrom = true, $die = true) {
-	if (Configure::read() > 0) {
+	if (Configure::read('debug') > 0) {
 		$file = '';
 		$line = '';
 		if ($showFrom) {
