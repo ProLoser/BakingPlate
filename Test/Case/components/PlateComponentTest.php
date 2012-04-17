@@ -7,41 +7,46 @@ Mock::generatePartial('RequestHandlerComponent', 'NoStopRequestHandler', array('
 
 class PlateComponentTestController extends Controller {
 
-	var $controllerName = 'PlateCompTest';
+	public $controllerName = 'PlateCompTest';
+
 /**
  * components property
  *
  * @var array
  * @access public
  */
-	var $components = array('BakingPlate.Plate');
-	var $attributesForLayout = array(
+	public $components = array('BakingPlate.Plate');
+
+	public $attributesForLayout = array(
 		'id' => 'home',
 		'class' => 'home',
 		'isGreat' => false
 	);
-	var $descriptionForLayout = '';
-	var $keywordsForLayout = '';
-	var $navsForLayout = false;
-	
+
+	public $descriptionForLayout = '';
+
+	public $keywordsForLayout = '';
+
+	public $navsForLayout = false;
+
 /**
  * Specifies if an action should be under SSL
  *
  * @var mixed set to true for all controller actions, set to an array of action names for specific ones
  */
-	var $secureActions = false;
-	
+	public $secureActions = false;
+
 /**
  * $_GET keyword to force debug mode. Set to false or delete to disable.
  */
-	var $debugOverride = 'debug';
-	
+	public $debugOverride = 'debug';
+
 /**
  * Used to set a max for the pagination limit
  *
  * @var int
  */
-    var $paginationMaxLimit = 25;
+	public $paginationMaxLimit = 25;
 
 /**
  * beforeFilter method
@@ -49,36 +54,34 @@ class PlateComponentTestController extends Controller {
  * @access public
  * @return void
  */
-	function beforeFilter() {
-	  $this->attributesForLayout['id'] = $this->controllerName;
-	  $this->attributesForLayout['class'] = $this->action;
+	public function beforeFilter() {
+		$this->attributesForLayout['id'] = $this->controllerName;
+		$this->attributesForLayout['class'] = $this->action;
 	}
-	
-	function index() {
-	  
+
+	public function index() {
 	}
-	
-	function admin_index() {
-	  
+
+	public function admin_index() {
 	}
-	
-	function beforeRender() {
-	  
+
+	public function beforeRender() {
 		$this->_setTheme();
 	}
-	
+
 /**
  * Configure your Auth environment here
  */
 	protected function _setAuth() {
-		if (isset($this->Acl))
-			$this->Acl->allow($aroAlias, $acoAlias);	
+		if (isset($this->Acl)) {
+			$this->Acl->allow($aroAlias, $acoAlias);
+		}
 		$this->Auth->authError = __('Sorry, but you need to login to access this location.');
 		$this->Auth->loginError = __('Invalid e-mail / password combination.  Please try again');
 		$this->Auth->allow('index', 'view', 'display');
-		
+
 		$user = $this->Auth->user();
-		
+
 		if ($this->Plate->prefix('admin')) {
 			if ($user['User']['username'] == 'admin') {
 				$this->Auth->allow('*');
@@ -89,13 +92,14 @@ class PlateComponentTestController extends Controller {
 		}
 		Configure::write('Site.User', $user);
 	}
-	
+
 /**
  * Place your language switching logic here (if you use it)
  */
 	protected function _setLanguage() {
-		if (isset($this->params['lang']) && $this->params['lang'] == Configure::read('Languages.default'))
+		if (isset($this->params['lang']) && $this->params['lang'] == Configure::read('Languages.default')) {
 			$this->redirect(array('lang' => false));
+		}
 		$lang = isset($this->params['lang']) ? $this->params['lang'] : Configure::read('Languages.default');
 		Configure::write('Config.language', $lang);
 	}
@@ -106,8 +110,8 @@ class PlateComponentTestController extends Controller {
 	protected function _setMaintenance() {
 		$user = Configure::read('Site.User') ? Configure::read('Site.User') : false;
 		$mainMode = Configure::read('WebmasterTools.Maintenance');
-		if(!isset($user['User']) && $this->action !== 'login') {
-			if($mainMode['active']) {
+		if (!isset($user['User']) && $this->action !== 'login') {
+			if ($mainMode['active']) {
 				$this->Plate->loadComponent(array('WebmasterTools.Maintenance'));
 				$this->Maintenance->activate($mainMode['message']);
 			}
@@ -127,21 +131,30 @@ class PlateComponentTestController extends Controller {
 	}
 }
 
+/**
+ * Test Component
+ */
 class TestComponent extends Component {
-	var $__settings = array();
-	var $controller = null;
+
+	protected $_Settings = array();
+
+	protected $_Controller = null;
+
 	public function initialize($controller, $settings = array()) {
-		$this->controller = $controller;
+		$this->_Controller = $controller;
 		if (!isset($this->__settings[$controller->name])) {
-			$this->__settings[$controller->name] = $settings;
+			$this->_Settings[$controller->name] = $settings;
 		}
 	}
-	
-	function aMethod($a, $b) {
-	  return $a * $b;
+
+	public function aMethod($a, $b) {
+		return $a * $b;
 	}
 }
 
+/**
+ * PlateComponentTest
+ */
 class PlateComponentTest extends CakeTestCase {
 
 /**
@@ -150,10 +163,13 @@ class PlateComponentTest extends CakeTestCase {
  * @var CookieComponentTestController
  * @access public
  */
-	var $Controller;
-	var $RequestHandler;
-	var $Plate;
-	var $Auth;
+	protected $_Controller;
+
+	public $RequestHandler;
+
+	public $Plate;
+
+	public $Auth;
 
 /**
  * start
@@ -161,13 +177,12 @@ class PlateComponentTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function start() {
+	public function start() {
 		$this->_init();
 		//$this->Controller->Plate->destroy();
 	}
-	
-	function initialize() {
-	  
+
+	public function initialize() {
 	}
 
 /**
@@ -176,7 +191,7 @@ class PlateComponentTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function end() {
+	public function end() {
 		//$this->Controller->Plate->destroy();
 	}
 
@@ -186,14 +201,14 @@ class PlateComponentTest extends CakeTestCase {
  * @access protected
  * @return void
  */
-	function _init() {
-		$this->Controller = new PlateComponentTestController(array('components' => array('Auth', 'Plate', 'Plate')));
-		$this->Controller->constructClasses();
-		//$this->RequestHandler = $this->Controller->RequestHandler;
-		//$this->RequestHandler->initialize($this->Controller);
-		$this->Controller->Plate->initialize($this->Controller);
-		$this->Controller->beforeFilter();
-		$this->Controller->Plate->startup($this->Controller);
+	protected function _init() {
+		$this->_Controller = new PlateComponentTestController(array('components' => array('Auth', 'Plate', 'Plate')));
+		$this->_Controller->constructClasses();
+		//$this->RequestHandler = $this->_Controller->RequestHandler;
+		//$this->RequestHandler->initialize($this->_Controller);
+		$this->_Controller->Plate->initialize($this->_Controller);
+		$this->_Controller->beforeFilter();
+		$this->_Controller->Plate->startup($this->_Controller);
 	}
 
 /**
@@ -201,80 +216,79 @@ class PlateComponentTest extends CakeTestCase {
  *
  * @return void
  */
-	function testInitialize() {
-		$settings = array(
-		);
-		$this->Controller->Plate->initialize($this->Controller, $settings);
+	public function testInitialize() {
+		$settings = array();
+		$this->_Controller->Plate->initialize($this->Controller, $settings);
 	}
-	
-	function beforeRender($controller) {
+
+	public function beforeRender($controller) {
 		$this->Plate->beforeRender($controller);
 	}
-	
-	function shutdown($controller) {
+
+	public function shutdown($controller) {
 	}
-	
-	function testLoadComponent() {
-		$this->Controller->params['prefix'] = null;
-		$this->Controller->action = 'index';
-		$this->Controller->params['controller'] = 'widgets';
-		$this->Controller->params = array('url' => array('url' => '/widgets/index'));
+
+	public function testLoadComponent() {
+		$this->_Controller->params['prefix'] = null;
+		$this->_Controller->action = 'index';
+		$this->_Controller->params['controller'] = 'widgets';
+		$this->_Controller->params = array('url' => array('url' => '/widgets/index'));
 		$this->_init();
 		$expected = 20;
-		$this->Controller->Plate->loadComponent('Test');
+		$this->_Controller->Plate->loadComponent('Test');
 		$result = $this->Controller->Test->aMethod(5, 4);
 		$this->assertEqual($result, $expected);
 	}
-	
-	function testPrefix() {
-		$this->Controller->params['prefix'] = 'admin';
-		$this->Controller->params['controller'] = 'widgets';
-		$this->Controller->action = 'index';
-		$this->Controller->params = array('url' => array('url' => '/admin/widgets/index'));
+
+	public function testPrefix() {
+		$this->_Controller->params['prefix'] = 'admin';
+		$this->_Controller->params['controller'] = 'widgets';
+		$this->_Controller->action = 'index';
+		$this->_Controller->params = array('url' => array('url' => '/admin/widgets/index'));
 		$this->_init();
 		$expected = 'admin';
-		$result = $this->Controller->Plate->prefix('admin');
+		$result = $this->_Controller->Plate->prefix('admin');
 		$this->assertEqual($result, $expected);
-		
-		$this->Controller->params['prefix'] = null;
-		$this->Controller->params['controller'] = 'widgets';
-		$this->Controller->action = 'index';
-		$this->Controller->params = array('url' => array('url' => '/admin/widgets/index'));
+
+		$this->_Controller->params['prefix'] = null;
+		$this->_Controller->params['controller'] = 'widgets';
+		$this->_Controller->action = 'index';
+		$this->_Controller->params = array('url' => array('url' => '/admin/widgets/index'));
 		$this->_init();
-		$result = $this->Controller->Plate->prefix('admin');
+		$result = $this->_Controller->Plate->prefix('admin');
 		$this->assertfalse($result);
-		
-		$this->Controller->params['prefix'] = 'members';
-		$this->Controller->params['controller'] = 'profiles';
-		$this->Controller->action = 'index';
-		$this->Controller->params = array('url' => array('url' => '/members/profiles/index'));
+
+		$this->_Controller->params['prefix'] = 'members';
+		$this->_Controller->params['controller'] = 'profiles';
+		$this->_Controller->action = 'index';
+		$this->_Controller->params = array('url' => array('url' => '/members/profiles/index'));
 		$this->_init();
-		$result = $this->Controller->Plate->prefix('members');
+		$result = $this->_Controller->Plate->prefix('members');
 		$this->assertEqual($result, 'members');
 	}
-	
-	function testSetTheme() {
-		$this->Controller->params['prefix'] = 'admin';
-		$this->Controller->params['controller'] = 'widgets';
-		$this->controller->params = array('url' => array('url' => '/admin/widgets/index'));
-		$this->Controller->action = 'index';
+
+	public function testSetTheme() {
+		$this->_Controller->params['prefix'] = 'admin';
+		$this->_Controller->params['controller'] = 'widgets';
+		$this->_Controller->params = array('url' => array('url' => '/admin/widgets/index'));
+		$this->_Controller->action = 'index';
 		$this->_init();
-		$this->Controller->layout = false;
-		$this->Controller->render(false);
+		$this->_Controller->layout = false;
+		$this->_Controller->render(false);
 		$expected = 'admin';
 		$result = $this->Controller->theme;
 		$this->assertEqual($result, $expected);
-		
-		$this->Controller->params['prefix'] = null;
-		$this->Controller->params['controller'] = 'widgets';
-		$this->Controller->params = array('url' => array('url' => '/widgets/index'));
-		$this->Controller->action = 'index';
+
+		$this->_Controller->params['prefix'] = null;
+		$this->_Controller->params['controller'] = 'widgets';
+		$this->_Controller->params = array('url' => array('url' => '/widgets/index'));
+		$this->_Controller->action = 'index';
 		$this->_init();
-		$this->Controller->index();
-		$this->Controller->layout = false;
-		$this->Controller->render(false);
+		$this->_Controller->index();
+		$this->_Controller->layout = false;
+		$this->_Controller->render(false);
 		$expected = 'en-gb';
-		$result = $this->Controller->theme;
+		$result = $this->_Controller->theme;
 		$this->assertEqual($result, $expected);
 	}
 }
