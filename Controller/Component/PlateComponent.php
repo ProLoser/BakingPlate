@@ -97,7 +97,7 @@ class PlateComponent extends Component {
 
 /**
  * Redirect check for SSL
- * Works in conjunction with var $secureActions in the controller
+ * Works in conjunction with public $secureActions in the controller
  *
  */
 	protected function _checkSSL() {

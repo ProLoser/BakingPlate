@@ -9,8 +9,8 @@
 # MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 CREATE TABLE cake_sessions (
-  id varchar(255) NOT NULL default '',
+  id varchar(255) NOT null default '',
   data text,
-  expires int(11) default NULL,
+  expires int(11) default null,
   PRIMARY KEY  (id)
 );

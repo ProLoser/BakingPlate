@@ -10,7 +10,7 @@ App::uses('FormPlusHelper', 'BakingPlate.View/Helper');
  * FormPlusHelper Test Case
  *
  */
-class FormPlusHelperTestCase extends CakeTestCase {
+class FormPlusHelperTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -27,7 +27,7 @@ class FormPlusHelperTestCase extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->FormPlus = new FormPlusHelper();
+		$this->FormPlus = new FormPlusHelper(new View(null));
 	}
 
 /**
