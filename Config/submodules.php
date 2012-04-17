@@ -113,7 +113,7 @@ $config['BakingPlate']['jmcneese'] = array(
 	'bitmasked'			=> 'git://github.com/jmcneese/bitmasked.git',
 	'cacheable'			=> 'git://github.com/jmcneese/cacheable.git',
 	'metadata'			=> 'git://github.com/jmcneese/metadata.git',
-	'permissionable'		=> 'git://github.com/jmcneese/permissionable.git'	
+	'permissionable'		=> 'git://github.com/jmcneese/permissionable.git'
 );
 
 $config['BakingPlate']['joebeeson'] = array(
@@ -151,7 +151,7 @@ $config['BakingPlate']['proloser'] = array(
 	'supervalidateable'		=> 'git://github.com/ProLoser/cakephp-supervalidatable-behavior.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
 	'github'			=> 'git://github.com/ProLoser/CakePHP-Github.git',
-	'wizard'			=> 'git://github.com/ProLoser/wizard.git',	
+	'wizard'			=> 'git://github.com/ProLoser/wizard.git',
 	'csv'				=> 'git://github.com/ProLoser/CakePHP-CSV.git',
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
 	'webservice'		=> 'git://github.com/ProLoser/webservice_plugin.git',
@@ -266,7 +266,6 @@ $config['BakingPlate']['mi'] = array(
 	'mi_js'				=> 'git://github.com/AD7six/mi_js.git',
 	'mi_tags'			=> 'git://github.com/AD7six/mi_tags.git',
 	'mi_queue'			=> 'git://github.com/AD7six/mi_queue.git',
-	
 );
 
 $config['BakingPlate']['predominant'] = array(
@@ -294,7 +293,7 @@ $config['BakingPlate']['simkimsia'] = array(
 $config['BakingPlate']['vendors'] = array(
 	'php_arrays'			=> 'git://github.com/debuggable/php_arrays.git',
 	'lessphp'			=> 'git://github.com/leafo/lessphp.git',
-	'swift_mailer'			=> 'git://github.com/swiftmailer/swiftmailer.git', 
+	'swift_mailer'			=> 'git://github.com/swiftmailer/swiftmailer.git',
 	'phpunit'			=> 'git://github.com/sebastianbergmann/phpunit.git',
 	'cssmin'			=> 'git://gist.github.com/911988.git',
 	'jsmin'				=> 'git://github.com/rgrove/jsmin-php.git',
@@ -302,6 +301,3 @@ $config['BakingPlate']['vendors'] = array(
 	'http_socket_oauth'		=> 'git://github.com/neilcrookes/http_socket_oauth.git',
 	'magic_mime'			=> 'git://github.com/davidpersson/mm.git'
 );
-
-
-
