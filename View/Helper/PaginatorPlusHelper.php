@@ -14,7 +14,7 @@
  **/
 App::uses('PaginatorHelper', 'View/Helper');
 class PaginatorPlusHelper extends PaginatorHelper {
-	
+
 /**
  * Tweaked the arrows and disabled options use regular options as defaults
  *
@@ -30,12 +30,12 @@ class PaginatorPlusHelper extends PaginatorHelper {
 		$disabledOptions = array_merge($options, $disabledOptions);
 		return parent::prev($title, $options, $disabledTitle, $disabledOptions);
 	}
-	
+
 	public function next($title = 'next »', $options = array(), $disabledTitle = null, $disabledOptions = array()) {
 		$disabledOptions = array_merge($options, $disabledOptions);
 		return parent::next($title, $options, $disabledTitle, $disabledOptions);
 	}
-	
+
 /**
  * Generates a series of links for adjusting the # of records shown
  *
@@ -60,8 +60,9 @@ class PaginatorPlusHelper extends PaginatorHelper {
 			$count = 0;
 			foreach ($limits as $label => $limit) {
 				$count++;
-				if (!is_string($label))
+				if (!is_string($label)) {
 					$label = $limit;
+				}
 				$params = $this->params();
 				if ($params['limit'] == $limit) {
 					if (empty($options['tag'])) {
@@ -82,8 +83,9 @@ class PaginatorPlusHelper extends PaginatorHelper {
 			}
 			return $result;
 		} else {
-			if (!$label)
+			if (!$label) {
 				$label = $limits;
+			}
 			return $this->Html->link($label, array('limit' => $limits));
 		}
 	}
