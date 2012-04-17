@@ -124,7 +124,9 @@ TEXT;
 			$var = str_replace(array('<', '>'), array('&lt;', '&gt;'), $var);
 		}
 		printf($template, $file, $line, $var);
-		if ($die) die;
+		if ($die) {
+			die;
+		}
 	}
 }
 

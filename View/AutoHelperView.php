@@ -148,14 +148,14 @@ class AutoHelperView extends View {
 		if ($caching) {
 			if (is_a($this->loaded['cache'], 'CacheHelper')) {
 				$cache = $this->loaded['cache'];
-				$cache->base = $this->base;
-				$cache->here = $this->here;
-				$cache->helpers = $this->helpers;
-				$cache->action = $this->action;
-				$cache->controllerName = $this->name;
-				$cache->layout = $this->layout;
-				$cache->cacheAction = $this->cacheAction;
-				$cache->cache($___viewFn, $out, $cached);
+				$this->Cache->base = $this->request->base;
+				$this->Cache->here = $this->request->here;
+				$this->Cache->helpers = $this->helpers;
+				$this->Cache->action = $this->request->action;
+				$this->Cache->controllerName = $this->name;
+				$this->Cache->layout = $this->layout;
+				$this->Cache->cacheAction = $this->cacheAction;
+				$this->Cache->cache($___viewFn, $out, $cached);
 			}
 		}
 		return $out;

@@ -9,16 +9,16 @@
  **/
 class PlateBehavior extends ModelBehavior {
 
-	/**
-	 * Allows the mapping of preg-compatible regular expressions to public or
-	 * private methods in this class, where the array key is a /-delimited regular
-	 * expression, and the value is a class method.  Similar to the functionality of
-	 * the findBy* / findAllBy* magic methods.
-	 *
-	 * @var array
-	 * @access public
-	 */
-	var $mapMethods = array();
+/**
+ * Allows the mapping of preg-compatible regular expressions to public or
+ * private methods in this class, where the array key is a /-delimited regular
+ * expression, and the value is a class method.  Similar to the functionality of
+ * the findBy* / findAllBy* magic methods.
+ *
+ * @var array
+ * @access public
+ */
+	public $mapMethods = array();
 
 /**
  * Convenience method to update one record without invoking any callbacks
@@ -31,14 +31,16 @@ class PlateBehavior extends ModelBehavior {
  * @author Jose Diaz-Gonzalez
  * @link http://book.cakephp.org/view/1031/Saving-Your-Data
  **/
-    function update($model, $fields, $conditions = array()) {
-        $conditions = (array) $conditions;
-        if (!$model->id) return false;
+	public function update($model, $fields, $conditions = array()) {
+		$conditions = (array)$conditions;
+		if (!$model->id) {
+			return false;
+		}
 
-        $conditions = array_merge(array("{$model->alias}.{$model->primaryKey}" => $model->id), $conditions);
+		$conditions = array_merge(array("{$model->alias}.{$model->primaryKey}" => $model->id), $conditions);
 
-        return $model->updateAll($fields, $conditions);
-    }
+		return $model->updateAll($fields, $conditions);
+	}
 
 /**
  * Custom Model::paginateCount() method to support custom model find pagination
@@ -48,20 +50,20 @@ class PlateBehavior extends ModelBehavior {
  * @param array $extra
  * @return array
  */
-    function paginateCount($model, $conditions = array(), $recursive = 0, $extra = array()) {
-        $parameters = compact('conditions');
+	public function paginateCount($model, $conditions = array(), $recursive = 0, $extra = array()) {
+		$parameters = compact('conditions');
 
-        if ($recursive != $model->recursive) {
-            $parameters['recursive'] = $recursive;
-        }
+		if ($recursive != $model->recursive) {
+				$parameters['recursive'] = $recursive;
+		}
 
-        if (isset($extra['type'])) {
-            $extra['operation'] = 'count';
-            return $model->find($extra['type'], array_merge($parameters, $extra));
-        } else {
-            return $model->find('count', array_merge($parameters, $extra));
-        }
-    }
+		if (isset($extra['type'])) {
+				$extra['operation'] = 'count';
+				return $model->find($extra['type'], array_merge($parameters, $extra));
+		} else {
+				return $model->find('count', array_merge($parameters, $extra));
+		}
+	}
 
 /**
  * Removes 'fields' key from count query on custom finds when it is an array,
@@ -74,16 +76,16 @@ class PlateBehavior extends ModelBehavior {
  * @access protected
  * @see Model::find()
  */
-    function _findCount($model, $state, $query, $results = array()) {
-        if ($state == 'before' && isset($query['operation'])) {
-            if (!empty($query['fields']) && is_array($query['fields'])) {
-                if (!preg_match('/^count/i', $query['fields'][0])) {
-                    unset($query['fields']);
-                }
-            }
-        }
-        return parent::_findCount($state, $query, $results);
-    }
+	protected function _findCount($model, $state, $query, $results = array()) {
+		if ($state == 'before' && isset($query['operation'])) {
+			if (!empty($query['fields']) && is_array($query['fields'])) {
+				if (!preg_match('/^count/i', $query['fields'][0])) {
+					unset($query['fields']);
+				}
+			}
+		}
+		return parent::_findCount($state, $query, $results);
+	}
 
 /**
  * Disables/detaches all behaviors from model
@@ -94,16 +96,16 @@ class PlateBehavior extends ModelBehavior {
  * @access public
  * @author Jose Diaz-Gonzalez
  */
-    function disableAllBehaviors($model, $except = array(), $detach = false) {
-        $behaviors = array_diff($model->Behaviors->attached(), (array) $except);
-        foreach ($behaviors as $behavior) {
-            if ($detach) {
-                $model->Behaviors->detach($behavior);
-            } else {
-                $model->Behaviors->disable($behavior);
-            }
-        }
-    }
+	public function disableAllBehaviors($model, $except = array(), $detach = false) {
+		$behaviors = array_diff($model->Behaviors->attached(), (array)$except);
+		foreach ($behaviors as $behavior) {
+			if ($detach) {
+				$model->Behaviors->detach($behavior);
+			} else {
+				$model->Behaviors->disable($behavior);
+			}
+		}
+	}
 
 /**
  * Enables all previously disabled attachments
@@ -112,12 +114,12 @@ class PlateBehavior extends ModelBehavior {
  * @access public
  * @author Jose Diaz-Gonzalez
  */
-    function enableAllBehaviors($model) {
-        $behaviors = $model->Behaviors->attached();
-        foreach ($behaviors as $behavior) {
-            if (!$model->Behaviors->enabled($behavior)) {
-                $model->Behaviors->enable($behavior);
-            }
-        }
-    }
+	public function enableAllBehaviors($model) {
+		$behaviors = $model->Behaviors->attached();
+		foreach ($behaviors as $behavior) {
+			if (!$model->Behaviors->enabled($behavior)) {
+				$model->Behaviors->enable($behavior);
+			}
+		}
+	}
 }
