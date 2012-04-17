@@ -12,13 +12,14 @@
  * @link     http://www.croogo.org
  */
 class LangRouter {
-	
+
 /**
  * Regex key for searching the url for lang prefixes
  *
  * @var string
  */
 	public static $langCode = '(?!js|css|img)[a-z]{2,3}(?<!js|css|img)';
+
 /**
  * Create an extra Route for lang-based URLs
  *
@@ -33,21 +34,20 @@ class LangRouter {
  * @param array $params			An array matching the named elements in the route to regular expressions which that element should match.
  * @return void
  */
-    public function connect($route, $default = array(), $params = array()) {
-        Router::connect($route, $default, $params);
-        if ($route == '/') {
-            $route = '';
-        }
+	public function connect($route, $default = array(), $params = array()) {
+		Router::connect($route, $default, $params);
+		if ($route == '/') {
+				$route = '';
+		}
 		Router::connect('/:lang' . $route, $default, array_merge(array('lang' => LangRouter::$langCode), $params));
-    }
+	}
 /**
  * If you want your non-routed controler actions (like /users/add) to support lang based urls,
  * this method must be called AFTER all the routes.
  *
  * @return void
  */
-    public function localize() {
+	public function localize() {
 		Router::connect('/:lang/:controller/:action/*', array(), array('lang' => LangRouter::$langCode));
-    }
+	}
 }
-?>

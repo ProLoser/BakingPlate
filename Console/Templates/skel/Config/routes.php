@@ -25,13 +25,14 @@
  * Parse common extensions...
  */
 Router::parseExtensions('json', 'xml', 'rss', 'ajax');
- 
+
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+
 /**
  * ...and connect the rest of 'Pages' controller's urls. or use plate add page_route
  */
@@ -43,7 +44,7 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 Router::connect('/login', array('admin' => false, 'controller' => 'users', 'action' => 'login'));
 Router::connect('/logout', array('admin' => false, 'controller' => 'users', 'action' => 'logout'));
 
-/*
+/**
  * Localization
  *#!#/
 App::import('Lib', 'LocalizedRouter');
@@ -51,7 +52,7 @@ LocalizedRouter::connect('/', array('controller' => 'pages', 'action' => 'displa
 LocalizedRouter::localize();
 /*^*/
 
-/*
+/**
  * Asset Compress
  *#!#/
 Router::connect('/ccss/*', array(
@@ -78,7 +79,7 @@ Router::connect('/cjs/*', array(
 
 /*
  * PageRoute - not needed if you add route to cake load in bootstrap
- *#!#/        
+ *#!#/
 App::uses('PageRoute', 'PageRoute.Lib');
 Router::connect('/:page', array('controller' => 'pages', 'action' => 'display'),
     array('routeClass' => 'PageRoute')

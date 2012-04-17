@@ -7,11 +7,11 @@
 # MIT License (http://www.opensource.org/licenses/mit-license.php)
 
 CREATE TABLE i18n (
-	id int(10) NOT NULL auto_increment,
-	locale varchar(6) NOT NULL,
-	model varchar(255) NOT NULL,
-	foreign_key int(10) NOT NULL,
-	field varchar(255) NOT NULL,
+	id int(10) NOT null auto_increment,
+	locale varchar(6) NOT null,
+	model varchar(255) NOT null,
+	foreign_key int(10) NOT null,
+	field varchar(255) NOT null,
 	content mediumtext,
 	PRIMARY KEY	(id),
 #	UNIQUE INDEX I18N_LOCALE_FIELD(locale, model, foreign_key, field),

@@ -1,4 +1,6 @@
-<?php $this->Html->css('cake.generic', null, array('inline' => false))?>
+<?php
+	$this->assign('title', 'Sweet, "Reduxy" got Baked by CakePHP!');
+?>
 <iframe src="http://cakephp.org/bake-banner" width="830" height="160" style="overflow:hidden; border:none;">
 	<p>For updates and important announcements, visit http://cakefest.org</p>
 </iframe>

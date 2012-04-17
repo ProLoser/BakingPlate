@@ -29,19 +29,11 @@
 class PagesController extends AppController {
 
 /**
- * Controller name
- *
- * @var string
- */
-
-
-/**
  * This controller does not use a model
  *
  * @var array
  */
 	public $uses = array();
-
 
 /**
  * Displays a view
@@ -55,7 +47,7 @@ class PagesController extends AppController {
 		if (!$count) {
 			$this->redirect('/');
 		}
-		$page = $subpage = $title_for_layout = null;
+		$page = $subpage = $titleForLayout = null;
 
 		if (!empty($path[0])) {
 			$page = $path[0];
@@ -64,9 +56,9 @@ class PagesController extends AppController {
 			$subpage = $path[1];
 		}
 		if (!empty($path[$count - 1])) {
-			$title_for_layout = Inflector::humanize($path[$count - 1]);
+			$titleForLayout = Inflector::humanize($path[$count - 1]);
 		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
+		$this->set(compact('page', 'subpage', 'titleForLayout'));
 		$this->render(implode('/', $path));
 	}
 }
