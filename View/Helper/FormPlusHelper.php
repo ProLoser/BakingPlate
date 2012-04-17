@@ -26,7 +26,7 @@ App::uses('FormHelper', 'View/Helper');
  * @link https://developer.mozilla.org/en/HTML/HTML5/Forms_in_HTML5
  */
 class FormPlusHelper extends FormHelper {
-	
+
 /**
  * Creates a text input widget.
  *
@@ -36,11 +36,11 @@ class FormPlusHelper extends FormHelper {
  * @access public
  * @link http://book.cakephp.org/view/1432/text
  */
-	function text($fieldName, $options = array()) {
+	public function text($fieldName, $options = array()) {
 		$options = $this->_addPlaceholder($fieldName, $options);
 		return parent::text($fieldName, $options);
 	}
-	
+
 /**
  * Creates a textarea widget.
  *
@@ -54,18 +54,18 @@ class FormPlusHelper extends FormHelper {
  * @access public
  * @link http://book.cakephp.org/view/1433/textarea
  */
-	function textarea($fieldName, $options = array()) {
+	public function textarea($fieldName, $options = array()) {
 		$options = $this->_addPlaceholder($fieldName, $options);
 		return parent::textarea($fieldName, $options);
 	}
-	
+
 /**
  * Formats a string into a human-readable format
  *
  * @param string $text 
  * @return string A formatted version of $text
  */
-	function _labelText($text) {
+	protected function _labelText($text) {
 		if (strpos($text, '.') !== false) {
 			$text = array_pop(explode('.', $text));
 		} else {
@@ -85,7 +85,7 @@ class FormPlusHelper extends FormHelper {
  * @param string $options 
  * @return array reformed version of $options
  */
-	function _addPlaceholder($fieldName, $options) {
+	protected function _addPlaceholder($fieldName, $options) {
 		if (isset($options['placeholder']) && $options['placeholder'] === true) {
 			if (!empty($options['label'])) {
 				$options['placeholder'] = $options['label'];
