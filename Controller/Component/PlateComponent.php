@@ -19,15 +19,15 @@ class PlateComponent extends Component {
  * @access public
  */
 	public $components = array('RequestHandler');
-	
+
 /**
  * Stores instance of the related controller
  *
  * @var object
  */
-	protected $controller;
+	protected $_Controller;
 
-	protected $__settings = array();
+	protected $_Settings = array();
 
 /**
  * Called before the Controller::beforeFilter().
@@ -38,9 +38,9 @@ class PlateComponent extends Component {
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
 	public function initialize($controller, $settings = array()) {
-		$this->controller = $controller;
-		if (!isset($this->__settings[$controller->name])) {
-			$this->__settings[$controller->name] = $settings;
+		$this->_Controller = $controller;
+		if (!isset($this->_Settings[$controller->name])) {
+			$this->_Settings[$controller->name] = $settings;
 		}
 		$this->_checkSSL();
 	}
@@ -67,9 +67,10 @@ class PlateComponent extends Component {
  */
 	public function beforeRender($controller) {
 		// An annoying fix for asset_compress
-		if (empty($this->controller))
-			$this->controller = $controller;
-			
+		if (empty($this->_Controller)) {
+			$this->_Controller = $controller;
+		}
+
 		$this->_habtmValidation();
 		$this->_populateView();
 	}
@@ -93,31 +94,30 @@ class PlateComponent extends Component {
  */
 	public function beforeRedirect($controller, $url, $status = null, $exit = true) {
 	}
-	
+
 /**
  * Redirect check for SSL
  * Works in conjunction with var $secureActions in the controller
  *
  */
 	protected function _checkSSL() {
-		if (!isset($this->controller->secureActions)) {
+		if (!isset($this->_Controller->secureActions)) {
 			return;
 		} elseif (
-			!$this->controller->request->is('ssl') && $this->controller->secureActions === true 
-			|| !$this->controller->request->is('ssl') && is_array($this->controller->secureActions) && in_array($this->controller->action, $this->controller->secureActions)
-			|| !$this->controller->request->is('ssl') && $this->controller->secureActions === $this->controller->action
+			!$this->_Controller->request->is('ssl') && $this->_Controller->secureActions === true
+			 || !$this->_Controller->request->is('ssl') && is_array($this->_Controller->secureActions) && in_array($this->_Controller->action, $this->_Controller->secureActions)
+			 || !$this->_Controller->request->is('ssl') && $this->_Controller->secureActions === $this->_Controller->action
 		) {
-			$this->controller->redirect('https://' . env('SERVER_NAME') . $this->controller->here);
+			$this->_Controller->redirect('https://' . env('SERVER_NAME') . $this->_Controller->here);
 		} elseif (
-			$this->controller->request->is('ssl') && !$this->controller->secureActions 
-			|| $this->controller->request->is('ssl') && is_array($this->controller->secureActions) && !in_array($this->controller->action, $this->controller->secureActions)
-			|| $this->controller->request->is('ssl') && $this->controller->secureActions !== $this->controller->action
+			$this->_Controller->request->is('ssl') && !$this->_Controller->secureActions
+			 || $this->_Controller->request->is('ssl') && is_array($this->_Controller->secureActions) && !in_array($this->_Controller->action, $this->_Controller->secureActions)
+			 || $this->_Controller->request->is('ssl') && $this->_Controller->secureActions !== $this->_Controller->action
 		) {
-			$this->controller->redirect('http://' . env('SERVER_NAME') . $this->controller->here);
+			$this->_Controller->redirect('http://' . env('SERVER_NAME') . $this->_Controller->here);
 		}
 	}
-	
-	
+
 /**
  * Generates validation error messages for HABTM fields
  *
@@ -125,16 +125,17 @@ class PlateComponent extends Component {
  * @author Dean
  */
 	protected function _habtmValidation() {
-		$model = $this->controller->modelClass;
-		if (isset($this->controller->{$model}) && isset($this->controller->{$model}->hasAndBelongsToMany)) {
-			foreach($this->controller->{$model}->hasAndBelongsToMany as $alias => $options) { 
-				if(isset($this->controller->{$model}->validationErrors[$alias])) { 
-					$this->controller->{$model}->{$alias}->validationErrors[$alias] = $this->controller->{$model}->validationErrors[$alias]; 
-				} 
+		$model = $this->_Controller->modelClass;
+		if (isset($this->_Controller->{$model}) && isset($this->_Controller->{$model}->hasAndBelongsToMany)) {
+
+			foreach ($this->_Controller->{$model}->hasAndBelongsToMany as $alias => $options) {
+				if (isset($this->_Controller->{$model}->validationErrors[$alias])) {
+					$this->_Controller->{$model}->{$alias}->validationErrors[$alias] = $this->_Controller->{$model}->validationErrors[$alias];
+				}
 			}
 		}
 	}
-	
+
 /**
  * Checks to see if there is a limit set for pagination results
  * to prevent overloading the database
@@ -144,12 +145,12 @@ class PlateComponent extends Component {
  * @author Jose Gonzalez (savant)
  */
 	protected function _paginationLimit() {
-	    if (isset($this->passedArgs['limit']) && isset($this->controller->paginationMaxLimit) && is_numeric($this->controller->paginationMaxLimit)) {
-	        $this->passedArgs['limit'] = min(
-	            $this->paginationMaxLimit,
-	            $this->passedArgs['limit']
-	        );
-	    }
+		if (isset($this->passedArgs['limit']) && isset($this->_Controller->paginationMaxLimit) && is_numeric($this->_Controller->paginationMaxLimit)) {
+			$this->passedArgs['limit'] = min(
+					$this->paginationMaxLimit,
+					$this->passedArgs['limit']
+			);
+		}
 	}
 
 /**
@@ -159,10 +160,12 @@ class PlateComponent extends Component {
  * @author Dean Sofer
  */
 	protected function _populateView() {
-		if (!isset($this->controller->forLayout))
+		if (!isset($this->_Controller->forLayout)) {
 			return;
-		foreach ($this->controller->forLayout as $name => $value) {
-			$this->controller->set($name . '_for_layout', $value);
+		}
+
+		foreach ($this->_Controller->forLayout as $name => $value) {
+			$this->_Controller->set($name . '_for_layout', $value);
 		}
 	}
 
@@ -180,21 +183,21 @@ class PlateComponent extends Component {
 				$config = null;
 			}
 			list($plugin, $componentName) = pluginSplit($component);
-			if (isset($this->controller->{$componentName})) {
+			if (isset($this->_Controller->{$componentName})) {
 				continue;
 			}
 			App::uses($component, 'Component');
 
-			$componentFullName = $componentName.'Component';
+			$componentFullName = $componentName . 'Component';
 			$component = new $componentFullName($config);
 
 			if (method_exists($component, 'initialize')) {
-				$component->initialize($this->controller);
+				$component->initialize($this->_Controller);
 			}
 			if (method_exists($component, 'startup')) {
-				$component->startup($this->controller);
+				$component->startup($this->_Controller);
 			}
-			$this->controller->{$componentName} = $component;
+			$this->_Controller->{$componentName} = $component;
 		}
 	}
 
@@ -207,17 +210,17 @@ class PlateComponent extends Component {
  * @access protected
  **/
 	public function prefix($prefix = null) {
-		if (isset($this->controller->params['prefix'])) {
+		if (isset($this->_Controller->params['prefix'])) {
 			if ($prefix) {
-				return ($this->controller->params['prefix'] == $prefix);
+				return ($this->_Controller->params['prefix'] == $prefix);
 			} else {
-				return $this->controller->params['prefix'];
+				return $this->_Controller->params['prefix'];
 			}
 		} else {
 			return false;
 		}
 	}
-	
+
 /**
  * Convenience method to perform both a flash and a redirect in one call
  *
@@ -229,7 +232,7 @@ class PlateComponent extends Component {
  * @return void
  * @access protected
  */
-    public function flash($message = null, $redirect = array(), $options = array()) {
+	public function flash($message = null, $redirect = array(), $options = array()) {
 		$options = array_merge(array(
 			'status'	=> null,
 			'exit'		=> true,
@@ -237,21 +240,21 @@ class PlateComponent extends Component {
 			'key'		=> 'flash',
 		), $options);
 
-        if ($message === null) {
-            $message = __('Access Error');
-        } elseif ($message !== false) {
-			// TODO: add session component to plate helper?
-            $this->controller->Session->setFlash($message, $options['element']);
-        }
-        if (is_array($redirect)) {
-			if (!isset($this->controller->redirect)) {
-				$this->controller->redirect = array('action' => 'index');
+		if ($message === null) {
+				$message = __('Access Error');
+		} elseif ($message !== false) {
+				// TODO: add session component to plate helper?
+				$this->_Controller->Session->setFlash($message, $options['element']);
+		}
+		if (is_array($redirect)) {
+			if (!isset($this->_Controller->redirect)) {
+				$this->_Controller->redirect = array('action' => 'index');
 			}
-            $redirect = array_merge($this->controller->redirect, $redirect);
-        }
+			$redirect = array_merge($this->_Controller->redirect, $redirect);
+		}
 
-        $this->controller->redirect($redirect, $options['status'], $options['exit'], $options['key']);
-    }
+		$this->_Controller->redirect($redirect, $options['status'], $options['exit'], $options['key']);
+	}
 
 /**
  * Redirect to some url if a given piece of information evaluates to false
@@ -261,11 +264,11 @@ class PlateComponent extends Component {
  * @return void
  * @access protected
  */
-	function redirectUnless($data = null, $message = null) {
+	public function redirectUnless($data = null, $message = null) {
 		if (empty($data)) {
 			$redirect = (isset($message['redirect'])) ? $message['redirect'] : array();
 			$this->flash($message, $redirect);
 		}
 	}
-	
+
 }
