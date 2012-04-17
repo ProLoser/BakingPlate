@@ -1,5 +1,9 @@
 <?php
-/* FormPlus Test cases generated on: 2011-11-14 04:34:41 : 1321245281*/
+
+/**
+ * FormPlus Test Cases
+ * generated on: 2011-11-14 04:34:41 : 1321245281
+ */
 App::uses('FormPlusHelper', 'BakingPlate.View/Helper');
 
 /**
@@ -7,6 +11,7 @@ App::uses('FormPlusHelper', 'BakingPlate.View/Helper');
  *
  */
 class FormPlusHelperTestCase extends CakeTestCase {
+
 /**
  * Fixtures
  *
@@ -42,7 +47,6 @@ class FormPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	public function testText() {
-
 	}
 
 }
