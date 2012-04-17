@@ -9,7 +9,7 @@ if (!defined('FULL_BASE_URL')) {
 
 
 if (!defined('TEST_APP')) {
-	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS . 'test_app' . DS);
+	define('TEST_APP', CAKE_CORE_INCLUDE_PATH . DS . CAKE . 'Test' . DS . 'test_app' . DS);
 }
 
 if (!defined('JS')) {
@@ -39,7 +39,7 @@ if(!class_exists('TheHtmlTestController')) {
 		 * @var string 'TheTest'
 		 * @access public
 		 */
-		var $name = 'TheTest';
+		public $name = 'TheTest';
 	
 		/**
 		 * uses property
@@ -47,7 +47,7 @@ if(!class_exists('TheHtmlTestController')) {
 		 * @var mixed null
 		 * @access public
 		 */
-		var $uses = null;
+		public $uses = null;
 	}
 }
 
@@ -60,26 +60,26 @@ Mock::generate('View', 'HtmlHelperMockView');
  * @subpackage    cake.tests.cases.libs.view.helpers
  */
 
-class HtmlPlusHelperTestCase extends CakeTestCase {
+class HtmlPlusHelperTest extends CakeTestCase {
 /**
  * Regexp for CDATA start block
  *
  * @var string
  */
-	var $cDataStart = 'preg:/^\/\/<!\[CDATA\[[\n\r]*/';
+	public $cDataStart = 'preg:/^\/\/<!\[CDATA\[[\n\r]*/';
 /**
  * Regexp for CDATA end block
  *
  * @var string
  */
-	var $cDataEnd = 'preg:/[^\]]*\]\]\>[\s\r\n]*/';
+	public $cDataEnd = 'preg:/[^\]]*\]\]\>[\s\r\n]*/';
 /**
  * html property
  *
  * @var object
  * @access public
  */
-	var $Html = null;
+	public $Html = null;
 
 /**
  * Backup of app encoding configuration setting
@@ -87,7 +87,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @var string
  * @access protected
  */
-	var $_appEncoding;
+	public $_appEncoding;
 
 /**
  * Backup of asset configuration settings
@@ -95,7 +95,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @var string
  * @access protected
  */
-	var $_asset;
+	public $_asset;
 
 /**
  * Backup of debug configuration setting
@@ -103,7 +103,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @var integer
  * @access protected
  */
-	var $_debug;
+	public $_debug;
 
 /**
  * setUp method
@@ -112,13 +112,13 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	function startTest() {
-		$this->Html = new HtmlPlusHelper();
+		$this->Html = new HtmlPlusHelper(new View(null));
 		$view = new View(new TheHtmlTestController());
 		ClassRegistry::addObject('view', $view);
 		$this->_appEncoding = Configure::read('App.encoding');
 		$this->_asset = Configure::read('Asset');
 		$this->_debug = Configure::read('debug');
-		App::import('Core', 'Folder');
+		App::uses('Folder', 'Utility');
 		$Folder = new Folder();
 		$Folder->create(JS);
 		
@@ -140,7 +140,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		Configure::write('Asset', $this->_asset);
 		Configure::write('debug', $this->_debug);
 		ClassRegistry::flush();
-		App::import('Core', 'Folder');
+		App::uses('Folder', 'Utility');
 		unset($this->Html);
 	}
 
@@ -337,7 +337,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		if ($this->skipIf(!is_writable(WWW_ROOT . 'theme'), 'Cannot write to webroot/theme')) {
 			return;
 		}
-		App::import('Core', 'File');
+		App::uses('File', 'Utility');
 
 		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'img' . DS . '__cake_test_image.gif';
 		$file = new File($testfile, true);
@@ -415,12 +415,12 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	function testStyle() {
 		$result = $this->Html->style(array('display'=> 'none', 'margin'=>'10px'));
 		$expected = 'display:none; margin:10px;';
-		$this->assertPattern('/^display\s*:\s*none\s*;\s*margin\s*:\s*10px\s*;?$/', $expected);
+		$this->assertRegExp('/^display\s*:\s*none\s*;\s*margin\s*:\s*10px\s*;?$/', $expected);
 
 		$result = $this->Html->style(array('display'=> 'none', 'margin'=>'10px'), false);
 		$lines = explode("\n", $result);
-		$this->assertPattern('/^\s*display\s*:\s*none\s*;\s*$/', $lines[0]);
-		$this->assertPattern('/^\s*margin\s*:\s*10px\s*;?$/', $lines[1]);
+		$this->assertRegExp('/^\s*display\s*:\s*none\s*;\s*$/', $lines[0]);
+		$this->assertRegExp('/^\s*margin\s*:\s*10px\s*;?$/', $lines[1]);
 	}
 
 /**
@@ -472,7 +472,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$this->assertTags($result[0], $expected, 'html5 arrayed[0] css');
 		$expected['link']['href'] = 'preg:/.*css\/vendor\.generic\.css/';
 		$this->assertTags($result[1], $expected, 'html5 arrayed[1] css');
-		$this->assertEqual(count($result), 2);
+		$this->assertEquals(count($result), 2);
 
 		ClassRegistry::removeObject('view');
 		$view = new HtmlHelperMockView();
@@ -543,12 +543,12 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		$timestamp = substr(strtotime('now'), 0, 8);
 
 		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertRegExp('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 
 		Configure::write('debug', 0);
 		Configure::write('Asset.timestamp', 'force');
 		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertPattern('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertRegExp('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 		unlink(WWW_ROOT . 'js' . DS. '__cake_js_test.js');
 		Configure::write('Asset.timestamp', false);
 	}
@@ -644,7 +644,7 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 		if ($this->skipIf(!is_writable(WWW_ROOT . 'theme'), 'Cannot write to webroot/theme')) {
 			return;
 		}
-		App::import('Core', 'File');
+		App::uses('File', 'Utility');
 
 		$testfile = WWW_ROOT . 'theme' . DS . 'test_theme' . DS . 'js' . DS . '__test_js.js';
 		$file = new File($testfile, true);
@@ -682,7 +682,7 @@ EXPECTEDHEREDOC;
 		$this->assertTags($result, $expected);
 		echo "<pre style='color: blue'>". htmlspecialchars($result), "</pre>";
 		echo "<pre style='color: red'>". htmlspecialchars($expectedHeredoc), "</pre>";
-		$this->assertEqual($result, $expectedHeredoc);
+		$this->assertEquals($result, $expectedHeredoc);
 
 		$result = $this->Html->scriptBlock('window.foo = 2;', array('safe' => false));
 		$expected = array(
@@ -808,10 +808,10 @@ EXPECTEDHEREDOC;
 		);
 		$this->assertTags($result, $expected, true, 'test breadChrumb 2');
 
-		$this->assertPattern('/^<a[^<>]+>First<\/a> &gt; <a[^<>]+>Second<\/a> &gt; <a[^<>]+>Third<\/a>$/', $result);
-		$this->assertPattern('/<a\s+href=["\']+\#first["\']+[^<>]*>First<\/a>/', $result);
-		$this->assertPattern('/<a\s+href=["\']+\#second["\']+[^<>]*>Second<\/a>/', $result);
-		$this->assertPattern('/<a\s+href=["\']+\#third["\']+[^<>]*>Third<\/a>/', $result);
+		$this->assertRegExp('/^<a[^<>]+>First<\/a> &gt; <a[^<>]+>Second<\/a> &gt; <a[^<>]+>Third<\/a>$/', $result);
+		$this->assertRegExp('/<a\s+href=["\']+\#first["\']+[^<>]*>First<\/a>/', $result);
+		$this->assertRegExp('/<a\s+href=["\']+\#second["\']+[^<>]*>Second<\/a>/', $result);
+		$this->assertRegExp('/<a\s+href=["\']+\#third["\']+[^<>]*>Third<\/a>/', $result);
 		$this->assertNoPattern('/<a[^<>]+[^href]=[^<>]*>/', $result);
 
 		$this->Html->addCrumb('Fourth', null);
@@ -1148,7 +1148,7 @@ EXPECTEDHEREDOC;
 		$result = $this->Html->meta('keywords', 'these, are, some, meta, keywords');
 		$expected = array('meta' => array('name' => 'keywords', 'content' => 'these, are, some, meta, keywords'));
 		$this->assertTags($result, $expected, true, 'meta keywords is being funny ironically search engines ignore them');
-		//$this->assertPattern('/\s+([\/]*)>$/', $result);
+		//$this->assertRegExp('/\s+([\/]*)>$/', $result);
 
 
 		$result = $this->Html->meta('description', 'this is the meta description');
@@ -1229,7 +1229,7 @@ EXPECTEDHEREDOC;
 		);
 		$result = $this->Html->tableCells($tr, array('class' => 'odd'), array('class' => 'even'));
 		$expected = "<tr class=\"even\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"odd\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"even\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>";
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 
 		$tr = array(
 			array('td content 1', 'td content 2', 'td content 3'),
@@ -1239,7 +1239,7 @@ EXPECTEDHEREDOC;
 		);
 		$result = $this->Html->tableCells($tr, array('class' => 'odd'), array('class' => 'even'));
 		$expected = "<tr class=\"odd\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"even\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"odd\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"even\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>";
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 
 		$tr = array(
 			array('td content 1', 'td content 2', 'td content 3'),
@@ -1249,7 +1249,7 @@ EXPECTEDHEREDOC;
 		$this->Html->tableCells($tr, array('class' => 'odd'), array('class' => 'even'));
 		$result = $this->Html->tableCells($tr, array('class' => 'odd'), array('class' => 'even'), false, false);
 		$expected = "<tr class=\"odd\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"even\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>\n<tr class=\"odd\"><td>td content 1</td> <td>td content 2</td> <td>td content 3</td></tr>";
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 	}
 
 /**

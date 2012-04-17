@@ -74,7 +74,7 @@ if(!class_exists('TheHtmlTestController')) {
 		 * @var string 'TheTest'
 		 * @access public
 		 */
-		var $name = 'TheTest';
+		public $name = 'TheTest';
 	
 		/**
 		 * uses property
@@ -82,7 +82,7 @@ if(!class_exists('TheHtmlTestController')) {
 		 * @var mixed null
 		 * @access public
 		 */
-		var $uses = null;
+		public $uses = null;
 	}
 }
 
@@ -90,16 +90,16 @@ Mock::generate('View', 'HtmlHelperMockView');
 
 
 
-class PlateHelperTestCase extends CakeTestCase {
+class PlateHelperTest extends CakeTestCase {
 
 	/**
 	 * @var object
 	 * @access public
 	 */
-	var $Html = null;
-	var $Form = null;
-	var $Plate = null;
-	var $View = null;
+	public $Html = null;
+	public $Form = null;
+	public $Plate = null;
+	public $View = null;
 
 	/**
 	 * Backup of app encoding configuration setting
@@ -107,7 +107,7 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @var string
 	 * @access protected
 	 */
-	var $_appEncoding;
+	public $_appEncoding;
 
 	/**
 	 * Backup of lang setting
@@ -115,7 +115,7 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @var string
 	 * @access protected
 	 */
-	var $_lang;
+	public $_lang;
 
 	/**
 	 * Backup of asset configuration settings
@@ -123,7 +123,7 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @var string
 	 * @access protected
 	 */
-	var $_asset;
+	public $_asset;
 
 	/**
 	 * Backup of debug configuration setting
@@ -131,7 +131,7 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @var integer
 	 * @access protected
 	 */
-	var $_debug;
+	public $_debug;
 
 	/**
 	 * setUp method
@@ -140,13 +140,13 @@ class PlateHelperTestCase extends CakeTestCase {
 	 * @return void
 	 */
 	function startTest() {
-		$this->Html = new HtmlPlusHelper();
+		$this->Html = new HtmlPlusHelper(new View(null));
 		$view = new View(new TheHtmlTestController());
 		ClassRegistry::addObject('view', $view);
-		$appHelper = new TheTestAppHelper();
+		$appHelper = new TheTestAppHelper(new View(null));
 		ClassRegistry::addObject('app_helper', $appHelper);
-		$this->Plate = new PlateHelper();
-		$this->Plate->HtmlPlus = new HtmlPlusHelper();
+		$this->Plate = new PlateHelper(new View(null));
+		$this->Plate->HtmlPlus = new HtmlPlusHelper(new View(null));
 		$this->View = $view;
 		$this->_appEncoding = Configure::read('App.encoding');
 		$this->_lang = Configure::read('Config.language');
@@ -177,28 +177,28 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'no settings passed');
+		$this->assertEquals($result, $expected, 'no settings passed');
 		
 		$result = $this->Plate->html(array('ie' => true, 'manifest' => '/app.cache', 'lang' => 'en-Cockney', 'class' => 'joy'));
 		$result = str_replace(array("\n", "\r"), '', $result);
 		$expected = '<!--[if lt IE 7]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie6"> <![endif]--><!--[if IE 7]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie7"> <![endif]--><!--[if IE 8]> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js ie8"> <![endif]--><!--[if gt IE 8]><!--> <html lang="en-Cockney" manifest="/app.cache" class="joy no-js"> <!--<![endif]-->';$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));$this->Html->link('display', array('controller' => 'Pages', 'action' => 'display', 'home'));
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'settings passed');
+		$this->assertEquals($result, $expected, 'settings passed');
 		
 		$result = $this->Plate->html(array('ie' => false));
 		$expected = '<html lang="'.$this->_lang.'" class="no-js">';
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'ie false');
+		$this->assertEquals($result, $expected, 'ie false');
 		
 		$result = $this->Plate->html(array('ie' => false, 'lang' => false));
 		$expected = '<html class="no-js">';
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'ie false');
+		$this->assertEquals($result, $expected, 'ie false');
 	}
 
 	function estIecc() {
@@ -208,21 +208,21 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie');
+		$this->assertEquals($result, $expected, 'just for ie');
 		
 		$result = '';
 		$result = $this->Plate->iecc('<p>Just for IE</p>');
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie more basic');
+		$this->assertEquals($result, $expected, 'just for ie more basic');
 		
 		$result = '';
 		$result = $this->Plate->iecc('<p>Just for IE</p>', true);
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie TRUE basic ');
+		$this->assertEquals($result, $expected, 'just for ie TRUE basic ');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Just for IE 5.5</p>', '5.5');
@@ -230,7 +230,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Just for IE 5.5');
+		$this->assertEquals($result, $expected, 'Just for IE 5.5');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Just for IE less than or equal to 5.5</p>', '5.5<');
@@ -238,7 +238,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Just for IE less than or equal to 5.5');
+		$this->assertEquals($result, $expected, 'Just for IE less than or equal to 5.5');
 		
 		//<!--[if IE 7]> <html lang="en-gb" class="no-js ie7"> <![endif]--><!--[if IE 8]> <html lang="en-gb" class="no-js ie8"> <![endif]--><!--[if gt IE 8]><!--> <html lang="en-gb" class="no-js"> <!--<![endif]-->
 		
@@ -248,7 +248,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie 8 and less ');
+		$this->assertEquals($result, $expected, 'just for ie 8 and less ');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>just for ie 9 and non ie browsers</p>', 9, true);
@@ -256,7 +256,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie 9 and non ie browsers');
+		$this->assertEquals($result, $expected, 'just for ie 9 and non ie browsers');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>just for ie 9 and non ie browsers STRING</p>', '9', true);
@@ -264,7 +264,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'just for ie 9 and non ie browsers STRING');
+		$this->assertEquals($result, $expected, 'just for ie 9 and non ie browsers STRING');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE and just the really nice, nice browsers</p>', '!IE', true);
@@ -272,7 +272,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Just not for IE and just the really nice, nice browsers');
+		$this->assertEquals($result, $expected, 'Just not for IE and just the really nice, nice browsers');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE and just the really nice, nice browsers</p>', '>9', true);
@@ -280,7 +280,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Not for IE and just the really nice, nice browsers');
+		$this->assertEquals($result, $expected, 'Not for IE and just the really nice, nice browsers');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE < 9; just the really nice, nice browsers (including ie9)</p>', '9>', true);
@@ -288,7 +288,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
+		$this->assertEquals($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', '9>');
@@ -296,7 +296,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Not for IE < 9; just the ie9+');
+		$this->assertEquals($result, $expected, 'Not for IE < 9; just the ie9+');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', 'gte IE 9');
@@ -304,7 +304,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Passing a built string');
+		$this->assertEquals($result, $expected, 'Passing a built string');
 		
 		$result = $expected = '';
 		$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', '(gte IE 9|!IE)');
@@ -312,7 +312,7 @@ class PlateHelperTestCase extends CakeTestCase {
 		$result = str_replace(array("\n", "\r"), '', $result);
 		echo "<pre>". htmlspecialchars($result) . "</pre>";
 		echo "<pre>". htmlspecialchars($expected) . "</pre>";
-		$this->assertEqual($result, $expected, 'Passing a built string - that auto escapes');
+		$this->assertEquals($result, $expected, 'Passing a built string - that auto escapes');
 	}
 
 	function testLib() {
@@ -343,12 +343,12 @@ class PlateHelperTestCase extends CakeTestCase {
 		$expected = '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>' . "\n" . 
 		    '<script>window.jQuery || document.write(\'<script src="/js/libs/jquery-1.3.2.min.js">\x3C/script>\')</script>';
 		$result = $this->Plate->lib('jquery', $settings);
-		$this->assertEqual($result, $expected, 'JS Lib Test Using jquery default 1.3.2 from google its minified with fallback');
+		$this->assertEquals($result, $expected, 'JS Lib Test Using jquery default 1.3.2 from google its minified with fallback');
 
 		$expected = '<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>' . "\n" . 
 		    '<script>window.swfobject || document.write(\'<script src="/js/libs/swfobject.js">\x3C/script>\')</script>';
 		$result = $this->Plate->lib('swfobject', array('fallback' => 'libs/swfobject'));
-		$this->assertEqual($result, $expected, 'JS Lib Test Using SwfOject 2.2 with fallback');
+		$this->assertEquals($result, $expected, 'JS Lib Test Using SwfOject 2.2 with fallback');
 	}
 
 	function testAnalytics() {
@@ -385,7 +385,7 @@ GA2;
 		Configure::write('debug', $this->_debug);
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
-		$this->assertEqual($result, $expected, 'Google Analytics no arg');
+		$this->assertEquals($result, $expected, 'Google Analytics no arg');
 		
 		$expected = $GA2;
 		Configure::write('debug', 0);
@@ -393,7 +393,7 @@ GA2;
 		Configure::write('debug', $this->_debug);
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
-		$this->assertEqual($result, $expected, 'Google Anlaytics Passing id');
+		$this->assertEquals($result, $expected, 'Google Anlaytics Passing id');
 	}
 	function testStartStop() {
 	    $aside_for_layout = '';
@@ -418,7 +418,7 @@ AS1;
 		$expected = $AS1;
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
-		$this->assertEqual($result, $expected, 'Capture Output');
+		$this->assertEquals($result, $expected, 'Capture Output');
 
 		$aside_for_layout = '';
 		
@@ -442,7 +442,7 @@ AS2;
 		$expected = $AS2;
 		$result = str_replace(array("\n", "\r", "\t"), '', $result);
 		$expected = str_replace(array("\n", "\r", "\t"), '', $expected);
-		$this->assertEqual($result, $expected, 'Capture Output');
+		$this->assertEquals($result, $expected, 'Capture Output');
 
 
 	}
@@ -454,21 +454,21 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie');
+			$this->assertEquals($result, $expected, 'just for ie');
 
 			$result = '';
 			$result = $this->Plate->iecc('<p>Just for IE</p>');
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie more basic');
+			$this->assertEquals($result, $expected, 'just for ie more basic');
 
 			$result = '';
 			$result = $this->Plate->iecc('<p>Just for IE</p>', true);
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie TRUE basic ');
+			$this->assertEquals($result, $expected, 'just for ie TRUE basic ');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Just for IE 5.5</p>', '5.5');
@@ -476,7 +476,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Just for IE 5.5');
+			$this->assertEquals($result, $expected, 'Just for IE 5.5');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Just for ie</p>', 'ie');
@@ -484,7 +484,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just ie');
+			$this->assertEquals($result, $expected, 'just ie');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for ie</p>', '!ie');
@@ -492,7 +492,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'not ie');
+			$this->assertEquals($result, $expected, 'not ie');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Just for IE less than or equal to 5.5</p>', '5.5<');
@@ -500,7 +500,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Just for IE less than or equal to 5.5');
+			$this->assertEquals($result, $expected, 'Just for IE less than or equal to 5.5');
 			
 			//<!--[if IE 7]> <html lang="en-gb" class="no-js ie7"> <![endif]--><!--[if IE 8]> <html lang="en-gb" class="no-js ie8"> <![endif]--><!--[if
 			
@@ -510,7 +510,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie 8 and less ');
+			$this->assertEquals($result, $expected, 'just for ie 8 and less ');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>just for ie 9 and non ie browsers</p>', 9, true);
@@ -518,7 +518,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie 9 and non ie browsers');
+			$this->assertEquals($result, $expected, 'just for ie 9 and non ie browsers');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>just for ie 9 and non ie browsers STRING</p>', '9', true);
@@ -526,7 +526,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'just for ie 9 and non ie browsers STRING');
+			$this->assertEquals($result, $expected, 'just for ie 9 and non ie browsers STRING');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE and just the really nice, nice browsers</p>', '!IE', true);
@@ -534,7 +534,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Just not for IE and just the really nice, nice browsers');
+			$this->assertEquals($result, $expected, 'Just not for IE and just the really nice, nice browsers');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE and just the really nice, nice browsers</p>', '>9', true);
@@ -542,7 +542,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Not for IE and just the really nice, nice browsers');
+			$this->assertEquals($result, $expected, 'Not for IE and just the really nice, nice browsers');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the really nice, nice browsers (including ie9)</p>', '9>', true);
@@ -550,7 +550,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
+			$this->assertEquals($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', '9>');
@@ -558,13 +558,13 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Not for IE < 9; just the ie9+');
+			$this->assertEquals($result, $expected, 'Not for IE < 9; just the ie9+');
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the really nice, nice browsers (including ie9)</p>', '9>', true);
 			$expected = '<!--[if gte IE 9]><!--> <p>Not for IE < 9; just the really nice, nice browsers (including ie9)</p> <!--<![endif]-->';
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
+			$this->assertEquals($result, $expected, 'Not for IE < 9; just the really nice, nice browsers (including ie9)');
 			
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', '9>');
@@ -572,7 +572,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Not for IE < 9; just the ie9+');
+			$this->assertEquals($result, $expected, 'Not for IE < 9; just the ie9+');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', 'gte IE 9');
@@ -580,7 +580,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Passing a built string');
+			$this->assertEquals($result, $expected, 'Passing a built string');
 
 			$result = $expected = '';
 			$result = $this->Plate->iecc('<p>Not for IE < 9; just the ie9+</p>', '(gte IE 9|!IE)');
@@ -588,7 +588,7 @@ AS2;
 			$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Passing a built string - that auto escapes');
+			$this->assertEquals($result, $expected, 'Passing a built string - that auto escapes');
 	  
 	}
 
@@ -599,7 +599,7 @@ AS2;
 			//$result = str_replace(array("\n", "\r"), '', $result);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			$this->assertEqual($result, $expected, 'Png Fix');
+			$this->assertEquals($result, $expected, 'Png Fix');
 	}
 	
 	function testTree() {
@@ -660,7 +660,7 @@ AS2;
 			$expected = str_replace(array("\n","\t", "\r"), '', $expected);
 			echo "<pre>". htmlspecialchars($result) . "</pre>";
 			echo "<pre>"; echo htmlspecialchars($expected); echo  "</pre>";
-			$this->assertEqual($result, $expected, 'Tree with basic params');
+			$this->assertEquals($result, $expected, 'Tree with basic params');
 			
 			//$treeOptions = array('model' => 'Page');
 			//$result = $this->Plate->tree($treeData, $treeOptions);
@@ -668,7 +668,7 @@ AS2;
 			////$result = str_replace(array("\n", "\r"), '', $result);
 			//echo "<pre>". htmlspecialchars($result) . "</pre>";
 			//echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			//$this->assertEqual($result, $expected, 'Tree with options');
+			//$this->assertEquals($result, $expected, 'Tree with options');
 			//
 			//
 			//$treeCallbacks = array(
@@ -682,7 +682,7 @@ AS2;
 			////$result = str_replace(array("\n", "\r"), '', $result);
 			//echo "<pre>". htmlspecialchars($result) . "</pre>";
 			//echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			//$this->assertEqual($result, $expected, 'Tree with callbacks and options');
+			//$this->assertEquals($result, $expected, 'Tree with callbacks and options');
 			//
 			//$treeCallbacks = array(
 			//'displayField' => 'name',
@@ -739,7 +739,7 @@ AS2;
 			////$result = str_replace(array("\n", "\r"), '', $result);
 			//echo "<pre>". htmlspecialchars($result) . "</pre>";
 			//echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			//$this->assertEqual($result, $expected, 'Deep Tree with callbacks and options');
+			//$this->assertEquals($result, $expected, 'Deep Tree with callbacks and options');
 			
 			// with slugs
 			//$result = $this->Plate->tree($treeData, $treeOptions);
@@ -747,7 +747,7 @@ AS2;
 			////$result = str_replace(array("\n", "\r"), '', $result);
 			//echo "<pre>". htmlspecialchars($result) . "</pre>";
 			//echo "<pre>". htmlspecialchars($expected) . "</pre>";
-			//$this->assertEqual($result, $expected, 'With slugs');
+			//$this->assertEquals($result, $expected, 'With slugs');
 	}
 }
 

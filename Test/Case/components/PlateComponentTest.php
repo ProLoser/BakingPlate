@@ -237,7 +237,7 @@ class PlateComponentTest extends CakeTestCase {
 		$expected = 20;
 		$this->_Controller->Plate->loadComponent('Test');
 		$result = $this->Controller->Test->aMethod(5, 4);
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 	}
 
 	public function testPrefix() {
@@ -248,7 +248,7 @@ class PlateComponentTest extends CakeTestCase {
 		$this->_init();
 		$expected = 'admin';
 		$result = $this->_Controller->Plate->prefix('admin');
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 
 		$this->_Controller->params['prefix'] = null;
 		$this->_Controller->params['controller'] = 'widgets';
@@ -264,7 +264,7 @@ class PlateComponentTest extends CakeTestCase {
 		$this->_Controller->params = array('url' => array('url' => '/members/profiles/index'));
 		$this->_init();
 		$result = $this->_Controller->Plate->prefix('members');
-		$this->assertEqual($result, 'members');
+		$this->assertEquals($result, 'members');
 	}
 
 	public function testSetTheme() {
@@ -277,7 +277,7 @@ class PlateComponentTest extends CakeTestCase {
 		$this->_Controller->render(false);
 		$expected = 'admin';
 		$result = $this->Controller->theme;
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 
 		$this->_Controller->params['prefix'] = null;
 		$this->_Controller->params['controller'] = 'widgets';
@@ -289,6 +289,6 @@ class PlateComponentTest extends CakeTestCase {
 		$this->_Controller->render(false);
 		$expected = 'en-gb';
 		$result = $this->_Controller->theme;
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($result, $expected);
 	}
 }

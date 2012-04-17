@@ -39,7 +39,7 @@ class AppHelper extends Helper {
 	 *
 	 * @var boolean True: leave prefix in url, False: strip prefix from url if unset
 	 */
-	var $maintainPrefix = true;
+	public $maintainPrefix = true;
 	
 	/**
 	 * The Html->url() function overridden to support local prefixes
@@ -51,8 +51,8 @@ class AppHelper extends Helper {
 	 */
 	function url($url = null, $full = false) {
 		if (is_array($url)) {
-			if (!isset($url['lang']) && isset($this->params['lang'])) {
-				$url['lang'] = $this->params['lang'];
+			if (!isset($url['lang']) && isset($this->request->params['lang'])) {
+				$url['lang'] = $this->request->params['lang'];
 			} elseif (isset($url['lang']) && $url['lang'] == Configure::read('Languages.default')) {
 				unset($url['lang']);
 			}

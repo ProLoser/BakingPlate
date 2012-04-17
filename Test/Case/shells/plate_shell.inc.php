@@ -6,6 +6,6 @@
  * class PlateShellTestCase
  */
 
-class PlateShellTestCase extends CakeTestCase {
+class PlateShellTest extends CakeTestCase {
 }
 ?>

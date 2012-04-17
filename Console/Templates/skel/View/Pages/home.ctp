@@ -5,7 +5,7 @@
 <h2>Sweet, "Baking Plate" got Baked by CakePHP!</h2>
 <?php
 App::uses('Debugger', 'Utility');
-if (Configure::read() > 0):
+if (Configure::read('debug') > 0):
 	Debugger::checkSecurityKeys();
 endif;
 ?>

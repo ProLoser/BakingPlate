@@ -6,7 +6,7 @@ App::uses('PlateComponent', 'BakingPlate.Controller/Component');
  * PlateComponent Test Case
  *
  */
-class PlateComponentTestCase extends CakeTestCase {
+class PlateComponentTest extends CakeTestCase {
 /**
  * Fixtures
  *

@@ -33,7 +33,7 @@ class PagesController extends AppController {
  *
  * @var string
  */
-	public $name = 'Pages';
+
 
 /**
  * This controller does not use a model

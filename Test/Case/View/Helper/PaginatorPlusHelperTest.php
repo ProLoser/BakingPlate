@@ -6,7 +6,7 @@ App::uses('PaginatorPlusHelper', 'BakingPlate.View/Helper');
  * PaginatorPlusHelper Test Case
  *
  */
-class PaginatorPlusHelperTestCase extends CakeTestCase {
+class PaginatorPlusHelperTest extends CakeTestCase {
 /**
  * Fixtures
  *
@@ -22,7 +22,7 @@ class PaginatorPlusHelperTestCase extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->PaginatorPlus = new PaginatorPlusHelper();
+		$this->PaginatorPlus = new PaginatorPlusHelper(new View(null));
 	}
 
 /**
