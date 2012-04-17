@@ -31,9 +31,10 @@ $config['BakingPlate']['Libs']['jquery'] = array(
 	// (optional) url to uncompressed version
 	'cdnu' => '//ajax.googleapis.com/ajax/libs/jquery/:version/jquery.js',
 	// default version to use
-	'version' => '1.7',
+	'version' => '1.7.1',
 	// (optional) snippet of js to check if the lib is active
 	'fallback_check' => 'window.jQuery',
+	'fallback' => 'libs/jquery-1.7.1',
 );
 $config['BakingPlate']['Libs']['jqueryui'] = array(
 	'cdn' => '//ajax.googleapis.com/ajax/libs/jqueryui/:version/jquery-ui.min.js',

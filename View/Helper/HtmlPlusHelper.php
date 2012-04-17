@@ -97,52 +97,6 @@ class HtmlPlusHelper extends HtmlHelper {
 	}
 	
 	/**
-	 * Separates styles from scripts
-	 *
-	 * @param string $url 
-	 * @param string $options 
-	 * @return void
-	 * @author Dean Sofer
-	 */
-	function css($url, $rel = null, $options = array()) {
-		if (isset($options['inline']) && !$options['inline']) {
-			unset($options['inline']);
-			$content = parent::css($url, $rel, $options) . "\n\t";
-			$this->_View->viewVars['styles_for_layout'] .= $content;
-		} else {
-			return parent::css($url, $rel, $options);
-		}
-	}
-	
-	/**
-	 * Creates a link to an external resource and handles basic meta tags
-	 *
-	 * ### Options
-	 *
-	 * - `inline` Whether or not the link element should be output inline, or in scripts_for_layout.
-	 *
-	 * @param string $type The title of the external resource
-	 * @param mixed $url The address of the external resource or string for content attribute
-	 * @param array $options Other attributes for the generated tag. If the type attribute is html,
-	 *    rss, atom, or icon, the mime-type is returned.
-	 * @return string A completed `<link />` element.
-	 * @access public
-	 * @link http://book.cakephp.org/view/1438/meta
-	 */
-	function meta($type, $url = null, $options = array()) {
-		if (isset($options['inline']) && !$options['inline']) {
-			unset($options['inline']);
-			$uninline = true;
-		}
-		$content = parent::meta($type, $url, $options);
-		if (isset($uninline)) {
-			$this->_View->viewVars['styles_for_layout'] .= $content;
-		} else {
-			return $content;
-		}
-	}
-	
-	/**
 	 * The time element represents either a time on a 24 hour clock,
 	 * or a precise date in the proleptic Gregorian calendar,
 	 * optionally with a time and a time-zone offset.

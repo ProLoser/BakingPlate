@@ -14,81 +14,124 @@ class PlateShell extends AppShell {
 	var $submodules = array();
 	
 	public function getOptionParser() {
-		$parser = parent::getOptionParser();
+		$options = array(
+			'working' => array(
+				'short' => 'w',
+				'help' => __('Set working directory for project to be baked in.'),
+				'boolean' => false
+			),
+			'skel' => array(
+				'short' => 's',
+				'help' => __('Skel to bake from.'),
+				'boolean' => false,
+				'default' => $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel',
+			),
+			'config' => array(
+				'short' => 'c',
+				'help' => __('Config file of submodules to bake into project.'),
+				'boolean' => false
+			),
+			'group' => array(
+				'short' => 'g',
+				'help' => __('Specify a group of submodules, or core will be used.'),
+				'boolean' => false,
+			),
+		); // Hello, 24 m usa here looking for an intelligent girl with a freaky fantasy
+		return ConsoleOptionParser::buildFromArray(array(
+			'command' => 'plate',
+			'description' => __('BakingPlate Plate Shell Help.'),
+			'options' => array(
+				'group' => $options['group'],
+				'config' => $options['config']
+			),
+			'subcommands' => array(
+				'init' => array(
+					'help' => __('Initializes BakingPlate tweaks onto an existing project'),
+					'parser' => array(
+						'description' => array(__('Initializes a git repository'),__('Makes necessary folders writeable'),__('Adds core (or specified) plugins to the project')),
+						'options' => array(
+							'config' => $options['config'],
+							'group' => $options['group'],
+						),
+					)
+				),
+				'bake' => array(
+					'help' => __('Generates a new app using bakeplate.'),
+					'parser' => array(
+						'description' => __('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'),
+						'options' => array(
+							'working' => $options['working'],
+							'skel' => $options['skel'],
+							'config' => $options['config'],
+							'group' => array_merge(array('default' => 'core'), $options['group']),
+						),
+						'arguments' => array(
+							'working' => array(
 
-		// add options, descripts and arguments - build parsers for subcommands
-		$bakeParser = parent::getOptionParser();
-		$browseParser = parent::getOptionParser();
-		$addParser = parent::getOptionParser();
-		$allParser = parent::getOptionParser();
-		$searchParser = parent::getOptionParser();
+							),
+						),
+					),
+				),
+				'browse' => array(
+					'help' => __('List available submodules.'),
+					'parser' => array(
+						'description' => __('Browse listed submodules (or groups of submodules) via name or index number.'),
+						'options' => array(
+							'group' => $options['group'],
+							'config' => $options['config'],
+						),
+						'arguments' => array(
+							'group' => array(
+								'help' => __('name or number of group.'),
+								'required' => false
+							),
+						),
+					),
+				),
+				'add' => array(
+					'help' => __('Add specific submodule.'),
+					'parser' => array(
+						'description' => __('Add individual plugins as submodules to your project'),
+						'options' => array(
+							'group' => $options['group']
+						),
+						'arguments' => array(
+							'submodule' => array(
+								'help' => __('Submodule to be added.'),
+								'required' => true
+							)
+						),
+					),
+				),
+				'all' => array(
+					'help' => __('All submodules in a specified batch group'),
+					'parser' => array(
+						'description' => __('All submodules in a specified batch group'),
+						'options' => array(
 
-		$bakeParser->addOption('working', array(
-			'short' => 'w',
-			'help' => __('Set working directory for project to be baked in.'),
-			'boolean' => false
-		))->addOption('skel', array(
-			'short' => 's',
-			'help' => __('Skel to bake from.'),
-			'boolean' => false
-		))->addOption('config', array(
-			'short' => 'c',
-			'help' => __('Config file of submodules to bake into project.'),
-			'boolean' => false
-		))->addOption('group', array(
-			'short' => 'g',
-			'help' => __('Specify a group of submodules, or core will be used.'),
-			'boolean' => false,
-			'default' => 'core'
-		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));
+						),
+						'arguments' => array(
 
-		$addParser->addArgument('submodule', array(
-			'help' => __('Submodule to be added.'),
-			'required' => true
-		))->addOption('group', array(
-			'short' => 'g',
-			'help' => __('Specify a group containing the submodule, first listed will be used otherwise.'),
-			'boolean' => false,
-			'default' => 'all'
-		))->description(__('The plate shell will bake a project from a skel. It will then add submodules and set permissions on folders.'));;
+						),
+					),
+				),
+				'search' => array(
+					'help' => __('Search for a specific submodule to install from CakePackages.com'),
+					'parser' => array(
+						'description' => __('Search <info>cakepackages.com</info> for Vendors or Plugins to add as submodules to Application'),
+						'options' => array(
 
-		$searchParser->addArgument('term', array(
-			'help' => __('Search for a Cake Package to be add.'),
-			'required' => true
-		))->description(__('Search <info>cakepackages.com</info> for Vendors or Plugins to add as submodules to Application'));
-
-		$browseParser->addArgument('group', array(
-			'help' => __('name or number of group.'),
-			'required' => false
-		))->addOption('group', array(
-			'short' => 'g',
-			'help' => __('Specify a group of submodules, or all groups will be displayed.'),
-			'boolean' => false
-		))->description(__('Browse listed submodules (or groups of submodules) via name or index number.'));
-
-		$parser->addSubcommand('bake', array(
-			'help' => 'Generates a new app using bakeplate.',
-			'parser' => $bakeParser
-		))->addSubcommand('browse', array(
-			'help' => 'List available submodules.',
-			'parser' => $browseParser
-		))->addSubcommand('add', array(
-			'help' => 'Add specific submodule.',
-			'parser' => $addParser
-		))->addSubcommand('all', array(
-			'help' => 'All submodules in a specified batch group',
-			'parser' => $allParser
-		))->addSubcommand('search', array(
-			'help' => 'Search for a specific submodule to install from CakePackages.com',
-			'parser' => $searchParser
-		))->addOption('group', array(
-			'short' => 'g',
-			'help' => __('Group of submodules to browse either Plugins or Vendors.')
-		))->addOption('config', array(
-			'short' => 'c',
-			'help' => __('Specify if a custom configuration build script should be used')
-		))->description(__('BakingPlate Plate Shell Help.'));
-		return $parser;
+						),
+						'arguments' => array(
+							'term' => array(
+								'help' => __('Search for a Cake Package to be add.'),
+								'required' => true
+							),
+						),
+					),
+				),
+			),
+		));
 	}
 
 	/**
@@ -105,24 +148,13 @@ class PlateShell extends AppShell {
 		$this->hr();
 		$this->_loadCustom();
 	}
-
+	
 	/**
-	 * Generates a new project with a little bit of added fluff
+	 * Initializes git, makes tmp folders writeable, and adds the core submodules (or specified group)
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
-	function bake() {
-		if (!isset($this->params['group'])) {
-			$this->params['group'] = 'core';
-		}
-		if (!isset($this->params['skel'])) {
-			$this->params['skel'] = $this->_pluginPath('BakingPlate') . 'Console' . DS . 'Templates' . DS . 'skel';
-		}
-		$working = $this->Project->execute();
-		if (!$working) {
-			return;
-		}
+	function init($working) {
 		$this->out("\n<info>Making temp folders writeable...</info>");
 		$tmp = array(
 			'tmp', 'tmp'.DS.'cache', 'tmp'.DS.'cache'.DS.'models', 'tmp'.DS.'cache'.DS.'persistent', 'tmp'.DS.'cache'.DS.'views', 
@@ -153,10 +185,22 @@ class PlateShell extends AppShell {
 	}
 
 	/**
+	 * Generates a new project with a little bit of added fluff
+	 *
+	 * @return void
+	 */
+	function bake() {
+		$working = $this->Project->execute();
+		if (!$working) {
+			return;
+		}
+		$this->init($working);
+	}
+
+	/**
 	 * Add a specific submodule/plugin
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	function add() {
 		if (!isset($this->args[0])) {
@@ -201,7 +245,7 @@ class PlateShell extends AppShell {
 
 		$Http = new HttpSocket();
 
-		$Response = $Http->request('http://cakepackages.com/1/search/' . urlencode($this->args[0]));
+		$Response = $Http->request('http://api.cakepackages.com/1/search/' . urlencode($this->args[0]));
 
 		if (!$Response->isOk()) {
 			$this->out("\n<error>Search requires an active internet connection</error>");
@@ -282,17 +326,13 @@ class PlateShell extends AppShell {
 	 * Loads in a custom configuration file if passed
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _loadCustom() {
-		if (isset($this->params['c'])) {
-			$this->params['custom'] = $this->params['c'];
-		}
-		if (isset($this->params['custom'])) {
-			$custom = $this->params['custom'];
-			$name = pluginSplit($custom);
-			if (!Configure::load($custom)) {
-				$this->out("<error>Failed to load custom configuration '{$custom}'</error>\n");
+		if (isset($this->params['config'])) {
+			$config = $this->params['config'];
+			$name = pluginSplit($config);
+			if (!Configure::load($config)) {
+				$this->out("<error>Failed to load custom configuration '{$config}'</error>\n");
 				return;
 			}
 			$data = Configure::read('BakingPlate');
@@ -301,7 +341,7 @@ class PlateShell extends AppShell {
 				unset($data['skel']);
 			}
 			$this->submodules = array_merge($this->submodules, $data);
-			$this->out("<info>Custom configuration '{$custom}' loaded</info>\n");
+			$this->out("<info>Custom configuration '{$config}' loaded</info>\n");
 		}
 	}
 	
@@ -311,7 +351,6 @@ class PlateShell extends AppShell {
 	 * @param string $path 
 	 * @param string $url 
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _addSubmodule($path) {
 		$submodules = $this->_getSubmodules();
@@ -337,7 +376,6 @@ class PlateShell extends AppShell {
 	 * Converts -g short-param to -group and converts number to group name
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _prepGroup() {
 		if (isset($this->params['g']))
@@ -357,7 +395,6 @@ class PlateShell extends AppShell {
 	 * References the group param to return an array of submodules
 	 *
 	 * @return void
-	 * @author Dean Sofer
 	 */
 	protected function _getSubmodules() {
 		if (strtolower($this->params['group']) === 'all') {
@@ -372,6 +409,13 @@ class PlateShell extends AppShell {
 		return $submodules;
 	}
 	
+	/**
+	 * Installs a submodule into the project
+	 *
+	 * @param string $url 
+	 * @param string $folder
+	 * @return void
+	 */
 	protected function _install($url, $folder) {
 		$os = env('OS');
 		if (!empty ($os) && strpos($os, 'Windows') !== false) {
