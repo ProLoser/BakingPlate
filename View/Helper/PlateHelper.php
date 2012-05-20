@@ -14,29 +14,29 @@
  */
 App::uses('AppHelper', 'View/Helper');
 class PlateHelper extends AppHelper {
-	
-	var $helpers = array('BakingPlate.HtmlPlus');
-	
+
+	public $helpers = array('BakingPlate.HtmlPlus');
+
 /**
  * Used for naming a store block of output
  *
  * @var string
  */
-	var $__blockName = null;
-	
+	protected $_blockName = null;
+
 /**
  * contruct
- * 	- allow defaults to be overridden
+ * allow defaults to be overridden
  * @param $settings array
- */	
+ */
 	public function __construct(View $View, $settings = array()) {
 		Configure::load('BakingPlate.libs');
 		parent::__construct($View, $settings);
 	}
 
 /**
- * Creates an opening html tag with optional classes, conditional comments, manifet and language
- *
+ * creates an opening html tag with optional classes, conditional comments, manifest and language
+ * 
  * @param array $options
  * @example echo $this->Plate->html(array('ie' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
  * @link https://developer.mozilla.org/En/Offline_resources_in_Firefox
@@ -49,13 +49,13 @@ class PlateHelper extends AppHelper {
 			'js' => true,
 			'class' => '',
 		), $options);
-		
+
 		if ($options['js']) {
 			// incase of existing class add space
 			$options['class'] .= ' no-js';
 		}
 		unset($options['js']);
-		
+
 		if ($options['ie']) {
 			$ie = $options['ie'];
 			unset($options['ie']);
@@ -68,10 +68,10 @@ class PlateHelper extends AppHelper {
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '<7') . "\n";
 			$options = $backup;
 			$options['class'] .= ' ie7';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 7) . "\n"; 
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 7) . "\n";
 			$options = $backup;
 			$options['class'] .= ' ie8';
-			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n"; 
+			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), 8) . "\n";
 			$options = $backup;
 			$content .= $this->iecc($this->HtmlPlus->tag('html', null, $options), '>8', true);
 		} else {
@@ -87,7 +87,7 @@ class PlateHelper extends AppHelper {
  * Returns a script tag to a cdn hosted js library
  *
  * @param string $name 
- * @param string $options 
+ * @param string $options
  * @return void
  * @author Dean Sofer
  */
@@ -126,7 +126,7 @@ class PlateHelper extends AppHelper {
  * @param mixed $condition [true, false, '<7', '>8']
  * @param boolean $escape set to true to escape the cc for non-ie browsers
  */
-	function iecc($content, $condition, $escape = false) {
+	public function iecc($content, $condition, $escape = false) {
 		if ($condition === false) {
 			$condition = ' !IE';
 		} else {
@@ -143,7 +143,7 @@ class PlateHelper extends AppHelper {
 			}
 			$condition = $cond . ' IE ' . $condition;
 		}
-		
+
 		$pre = '<!--[if' . $condition . ']>';
 		$post = '<![endif]-->';
 
@@ -152,9 +152,9 @@ class PlateHelper extends AppHelper {
 			$pre .= '<!-->';
 			$post = '<!--' . $post;
 		}
-		return $pre . ' ' .  $content . ' ' . $post;
+		return $pre . ' ' . $content . ' ' . $post;
 	}
-	
+
 /**
  * analytics
  * outputs google analytics code - only if on live domain and the GA id is set
@@ -163,48 +163,52 @@ class PlateHelper extends AppHelper {
  * 	- make the app elements override the plugins
  * @param $element string to override the default (elements should be moved into plugin)
  */
-	public function analytics($code = '') {
-		if (empty($code))
+	public function analytics($code = '', $element = 'BakingPlate.analytics') {
+		if (empty($code)) {
 			$code = Configure::read('Site.analytics');
-			
-		if (!empty($code) && !Configure::read('debug')) {	
-			if (substr($code, 0, 3) != 'UA-')
+		}
+
+		if (!empty($code) && !Configure::read('debug')) {
+			if (substr($code, 0, 3) != 'UA-') {
 				$code = 'UA-' . $code;
-	    	return $this->_View->element('analytics', array('plugin' => 'BakingPlate', 'code' => $code));
+			}
+			return $this->_View->element($element, array('code' => $code));
 		}
 	}
 
-/** 
+/**
  * Start a block of output to display in layout 
  * 
  * @param string $name Will be prepended to form {$name}_for_layout variable  or leave blank to just use the output
- */ 
-	function start($name = false) {
-		if (!is_null($this->__blockName)) 
-			trigger_error('PlateHelper::start - Blocks cannot overlap'); 
+ */
+	public function start($name = false) {
+		if (!is_null($this->_blockName)) {
+			trigger_error('PlateHelper::start - Blocks cannot overlap');
+		}
 
-		$this->__blockName = $name; 
-		ob_start(); 
-		return null; 
+		$this->_blockName = $name;
+		ob_start();
+		return null;
 	}
 
-/** 
+/**
  * Ends a block of output to display in layout
  * 
  * @return string $buffer
- */ 
-	function stop() { 
-		if(is_null($this->__blockName)) 
+ */
+	public function stop() {
+		if (is_null($this->_blockName)) {
 			trigger_error('PlateHelper::stop - No blocks currently running');
-		$buffer = @ob_get_contents(); 
+		}
+		$buffer = @ob_get_contents();
 		@ob_end_clean();
-		if ($this->__blockName) {
-			$this->_View->set($this->__blockName.'_for_layout', $buffer);
-		}	
-		$this->__blockName = null;
+		if ($this->_blockName) {
+			$this->_View->set($this->_blockName . '_for_layout', $buffer);
+		}
+		$this->_blockName = null;
 		return $buffer;
 	}
-	
+
 /**
  * A tree list generator because all the other crap out there sucks
  *
@@ -222,10 +226,11 @@ class PlateHelper extends AppHelper {
  * @return string output
  * @author Dean Sofer
  */
-	function tree($data, $options = array(), $callbackOptions = array(), $top = true) {
-		if (empty($data))
+	public function tree($data, $options = array(), $callbackOptions = array(), $top = true) {
+		if (empty($data)) {
 			return;
-			
+		}
+
 		$options = array_merge(array(
 			'displayField' => 'name',
 			'group' => 'ul',
@@ -233,7 +238,7 @@ class PlateHelper extends AppHelper {
 			'item' => 'li',
 			'callback' => null, // Set to false to disable autolinking. Set to a methodname as declared in AppHelper, or use an anonymous function
 		), $options);
-			
+
 		$result = '';
 		$model = key($data[key($data)]);
 		$i = 0;
@@ -242,7 +247,7 @@ class PlateHelper extends AppHelper {
 				$callbackOptions['top'] = $top;
 				$content = $this->$options['callback']($row, $callbackOptions);
 			} elseif ($options['callback'] === null) {
-				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));				
+				$content = $this->HtmlPlus->link($row[$model][$options['displayField']], array('controller' => Inflector::tableize($model), 'action' => 'view', $row[$model]['id']));
 			} elseif ($options['callback']) {
 				$content = $options['callback']($this, $row, $callbackOptions);
 			} else {
@@ -257,13 +262,12 @@ class PlateHelper extends AppHelper {
 		}
 		return $this->HtmlPlus->tag($options['group'], $result . "\n", $options['attributes']);
 	}
-	
-	
-	/**
-	 * Prompts IE6 users to install chrome frame if they don't have it. Remove to support IE6
-	 *
-	 * @return string
-	 */
+
+/**
+ * Prompts IE6 users to install chrome frame if they don't have it. Remove to support IE6
+ *
+ * @return string
+ */
 	public function chrome() {
 		$cfcc = $this->lib('chrome-frame');
 		$cfcc .= $this->HtmlPlus->scriptBlock('window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})', array('safe' => false));

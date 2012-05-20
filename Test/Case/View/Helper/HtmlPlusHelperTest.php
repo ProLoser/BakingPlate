@@ -1,5 +1,7 @@
 <?php
-/* HtmlPlus Test cases generated on: 2011-11-14 04:35:01 : 1321245301*/
+/* HtmlPlus Test Cases
+ * generated on: 2011-11-14 04:35:01 : 1321245301
+ */
 App::uses('Controller', 'Controller');
 App::uses('Helper', 'View');
 App::uses('AppHelper', 'View/Helper');
@@ -35,7 +37,8 @@ class TheHtmlTestController extends Controller {
  * HtmlPlusHelper Test Case
  *
  */
-class HtmlPlusHelperTestCase extends CakeTestCase {
+class HtmlPlusHelperTest extends CakeTestCase {
+
 /**
  * Fixtures
  *
@@ -153,7 +156,6 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
  * @return void
  */
 	public function testTime() {
-
 	}
 
 /**
@@ -164,14 +166,12 @@ class HtmlPlusHelperTestCase extends CakeTestCase {
 	public function testDocType() {
 		$result = $this->Html->docType();
 		$expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-		$this->assertEqual($expected, $result);
-		
+		$this->assertEquals($expected, $result);
+
 		$result = $this->Html->docType('html4-strict');
 		$expected = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-		$this->assertEqual($expected, $result);
-		
+		$this->assertEquals($expected, $result);
+
 		$this->assertNull($this->Html->docType('non-existing-doctype'));
-
 	}
-
 }
