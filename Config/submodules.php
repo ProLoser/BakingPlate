@@ -146,7 +146,7 @@ $config['BakingPlate']['mariano'] = array(
 
 $config['BakingPlate']['proloser'] = array(
 	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
-	'joinable'			=> 'git://github.com/ProLoser/CakePHP-Joinable.git',
+	'linkable'			=> 'git://github.com/ProLoser/linkable.git',
 	'cacheable'			=> 'git://github.com/ProLoser/CakePHP-Cacheable.git',
 	'supervalidateable'		=> 'git://github.com/ProLoser/cakephp-supervalidatable-behavior.git',
 	'cart'				=> 'git://github.com/ProLoser/CakePHP-Cart.git',
