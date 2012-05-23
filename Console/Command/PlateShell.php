@@ -36,7 +36,7 @@ class PlateShell extends AppShell {
 				'help' => __('Specify a group of submodules, or core will be used.'),
 				'boolean' => false,
 			),
-		); // Hello, 24 m usa here looking for an intelligent girl with a freaky fantasy
+		);
 		return ConsoleOptionParser::buildFromArray(array(
 			'command' => 'plate',
 			'description' => __('BakingPlate Plate Shell Help.'),
