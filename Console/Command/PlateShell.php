@@ -406,7 +406,7 @@ class PlateShell extends AppShell {
 			}
 		} else {
 			$this->_prepGroup();
-			$submodules = $this->submodules[inflector::underscore($this->params['group'])];
+			$submodules = $this->submodules[Inflector::underscore($this->params['group'])];
 		}
 		return $submodules;
 	}
