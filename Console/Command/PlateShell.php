@@ -425,5 +425,7 @@ class PlateShell extends AppShell {
 		}
 		$this->out("\n<info>Adding {$url} to {$folder}</info>");
 		exec("git submodule add {$url} {$folder}");
+		// Delete the plugin cache
+		Cache::delete('object_map', '_cake_core_');
 	}
 }
