@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<?php echo $this->Plate->iecc('<html class="ie">', '<9'); ?> 
+<?php echo $this->Plate->iecc('<html class="ie">', '<9'); ?>
 <?php echo $this->Plate->iecc('<html>', false); ?>
 <head>
 	<?php echo $this->Html->charset(); ?>
@@ -13,7 +13,7 @@
 			'layout',
 			'/batch/css/batch',
 		));
-		echo $styles_for_layout;
+		echo $this->fetch('css');
 		echo $this->Html->script('libs/modernizr-1.7.min');
 	?>
 </head>
@@ -21,13 +21,13 @@
 	<aside id="sidebar">
 		<?php echo $this->element('layout/navigation'); ?>
 	</aside>
-	
+
 	<section id="main">
-		
+
 		<?php echo $this->Session->flash(); ?>
 		<?php echo $this->Session->flash('email'); ?>
-		<?php echo $content_for_layout; ?>
-		
+		<?php echo $this->fetch('content'); ?>
+
 		<div class="spacer"></div>
 	</section>
 <?php
@@ -37,7 +37,7 @@
 		'/batch/js/jquery',
 		'script',
 	));
-	echo $scripts_for_layout;
+	echo $this->fetch('scripts');
 ?>
 </body>
 </html>
