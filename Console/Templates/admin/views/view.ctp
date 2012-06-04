@@ -38,7 +38,7 @@ $fields = array_filter($fields, 'clean');
 		echo "\t\t<li><?php echo \$this->Html->link(__('Delete " . $singularHumanName . "'), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), null, sprintf(__('Are you sure you want to delete # %s?'), \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
 		echo "\t\t<li><?php echo \$this->Html->link(__('List " . $pluralHumanName . "'), array('action' => 'index')); ?> </li>\n";
 		echo "\t\t<li><?php echo \$this->Html->link(__('New " . $singularHumanName . "'), array('action' => 'add')); ?> </li>\n";
-	
+
 		$done = array();
 		foreach ($associations as $type => $data) {
 			foreach ($data as $alias => $details) {
@@ -69,7 +69,15 @@ foreach ($fields as $field) {
 	}
 	if ($isKey !== true) {
 		echo "\t\t<dt<?php if (\$i % 2 == 0) echo \$class;?>><?php echo __('" . Inflector::humanize($field) . "'); ?></dt>\n";
-		echo "\t\t<dd<?php if (\$i++ % 2 == 0) echo \$class;?>>\n\t\t\t<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\n\t\t\t&nbsp;\n\t\t</dd>\n";
+		if ($schema[$field]['type'] === 'datetime') {
+			echo "\t\t<td><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+		} elseif($schema[$field]['type'] === 'date') {
+			echo "\t\t<td><?php echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+		} elseif($schema[$field]['type'] === 'boolean') {
+			echo "\t\t<dd<?php if (\$i++ % 2 == 0) echo \$class;?>>\n\t\t\t<?php echo (\${$singularVar}['{$modelClass}']['{$field}']) ? __('Yes') : __('No'); ?>\n\t\t\t&nbsp;\n\t\t</dd>\n";
+		} else {
+			echo "\t\t<dd<?php if (\$i++ % 2 == 0) echo \$class;?>>\n\t\t\t<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\n\t\t\t&nbsp;\n\t\t</dd>\n";
+		}
 	}
 }
 ?>
