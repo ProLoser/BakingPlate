@@ -55,11 +55,11 @@ $fields = array_filter($fields, 'clean');
 		));
 		?>";?>
 		</h3>
-		<p class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<?php echo "<?php echo \$this->Paginator->numbers();?>"?>
-			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-		</p>
+		<ul class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class' => 'disabled'));?>\n";?>
+		</ul>
 	</header>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$modelClass}')?>"?>
 	<table cellpadding="0" cellspacing="0">
@@ -137,9 +137,9 @@ $fields = array_filter($fields, 'clean');
 			<?php echo "<?php echo \$this->Paginator->limit(array(10,20,50,100));?>\n"?>
 		</p>
 		<ul class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class'=>'disabled'));?>\n";?>
 			<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
-			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class' => 'disabled'));?>\n";?>
 		</ul>
 	</footer>
 </article>
