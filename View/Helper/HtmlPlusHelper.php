@@ -92,8 +92,6 @@ class HtmlPlusHelper extends HtmlHelper {
  */
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
-		// Used to append styles in $this->css()
-		$this->_View->viewVars['styles_for_layout'] = '';
 	}
 
 /**
