@@ -31,7 +31,6 @@ $fields = array_filter($fields, 'clean');
 		<hgroup>
 			<h1><?php echo "<?php echo __('{$singularHumanName}');?>";?></h1>
 		</hgroup>
-		<?php echo "<?php echo \$this->start('sidebar'); ?>\n"; ?>
 		<ul>
 		<?php
 		echo "\t\t<li><?php echo \$this->Html->link(__('Edit " . $singularHumanName ."'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?> </li>\n";
@@ -51,7 +50,6 @@ $fields = array_filter($fields, 'clean');
 		}
 		?>
 		</ul>
-		<?php echo "<?php echo \$this->end(); ?>\n"; ?>
 	</header>
 	<dl><?php echo "<?php \$i = 0; \$class = ' class=\"altrow\"';?>\n";?>
 <?php
