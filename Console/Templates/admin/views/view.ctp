@@ -68,9 +68,9 @@ foreach ($fields as $field) {
 	if ($isKey !== true) {
 		echo "\t\t<dt<?php if (\$i % 2 == 0) echo \$class;?>><?php echo __('" . Inflector::humanize($field) . "'); ?></dt>\n";
 		if ($schema[$field]['type'] === 'datetime') {
-			echo "\t\t<dd><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</dd>\n";
+			echo "\t\t<dd><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</dd>\n";
 		} elseif($schema[$field]['type'] === 'date') {
-			echo "\t\t<dd><?php echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</dd>\n";
+			echo "\t\t<dd><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</dd>\n";
 		} elseif($schema[$field]['type'] === 'boolean') {
 			echo "\t\t<dd<?php if (\$i++ % 2 == 0) echo \$class;?>>\n\t\t\t<?php echo (\${$singularVar}['{$modelClass}']['{$field}']) ? __('Yes') : __('No'); ?>\n\t\t\t&nbsp;\n\t\t</dd>\n";
 		} else {

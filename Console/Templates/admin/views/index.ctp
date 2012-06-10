@@ -102,9 +102,9 @@ $fields = array_filter($fields, 'clean');
 			}
 			if ($isKey !== true) {
 				if ($schema[$field]['type'] === 'datetime') {
-					echo "\t\t<td><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+					echo "\t\t<td><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
 				} elseif($schema[$field]['type'] === 'date') {
-					echo "\t\t<td><?php echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+					echo "\t\t<td><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
 				} elseif($schema[$field]['type'] === 'boolean') {
 					echo "\t\t<td><?php echo (\${$singularVar}['{$modelClass}']['{$field}']) ? __('Yes') : __('No'); ?>&nbsp;</td>\n";
 				} else {
