@@ -51,15 +51,15 @@ $fields = array_filter($fields, 'clean');
 		<h3>
 		<?php echo "<?php
 		echo \$this->Paginator->counter(array(
-		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%')
+		'format' => __('Showing %start% to %end% out of %count% total')
 		));
 		?>";?>
 		</h3>
-		<p class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
-			<?php echo "<?php echo \$this->Paginator->numbers();?>"?>
-			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
-		</p>
+		<ul class="paging">
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class' => 'disabled'));?>\n";?>
+		</ul>
 	</header>
 	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->create('{$modelClass}')?>"?>
 	<table cellpadding="0" cellspacing="0">
@@ -101,10 +101,18 @@ $fields = array_filter($fields, 'clean');
 				}
 			}
 			if ($isKey !== true) {
-				echo "\t\t<td><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+				if ($schema[$field]['type'] === 'datetime') {
+					echo "\t\t<td><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+				} elseif($schema[$field]['type'] === 'date') {
+					echo "\t\t<td><?php if (!empty(\${$singularVar}['{$modelClass}']['{$field}'])) echo \$this->Time->timeAgoInWords(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+				} elseif($schema[$field]['type'] === 'boolean') {
+					echo "\t\t<td><?php echo (\${$singularVar}['{$modelClass}']['{$field}']) ? __('Yes') : __('No'); ?>&nbsp;</td>\n";
+				} else {
+					echo "\t\t<td><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+				}
 			}
 		}
-	
+
 		echo "\t\t<td class=\"actions\">\n";
 		echo "\t\t\t<?php echo \$this->Html->link(__('View'), array('action' => 'view', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'view')); ?>\n";
 	 	echo "\t\t\t<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'edit')); ?>\n";
@@ -113,25 +121,25 @@ $fields = array_filter($fields, 'clean');
 		 	echo "\t\t\t<?php echo \$this->Batch->checkbox(\${$singularVar}['{$modelClass}']['{$primaryKey}']); ?>\n";
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
-	
+
 	echo "\t<?php endforeach;";
 	if (in_array('Batch', $plugins))
 		echo "\n\t\techo \$this->Batch->batch(array(
 			{$filterFields}
 		));";
 	echo "?>";
-	?> 
+	?>
 	</table>
-	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?> 
+	<?php if (in_array('Batch', $plugins)) echo "<?php echo \$this->Batch->end()?>"?>
 	<footer>
 		<h3>Records:</h3>
 		<p class="limit">
 			<?php echo "<?php echo \$this->Paginator->limit(array(10,20,50,100));?>\n"?>
 		</p>
 		<ul class="paging">
-			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false), null, array('escape' => false, 'class'=>'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->prev('&laquo; ' . __('previous'), array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class'=>'disabled'));?>\n";?>
 			<?php echo "<?php echo \$this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));?>"?>
-			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false), null, array('escape' => false, 'class' => 'disabled'));?>\n";?>
+			<?php echo "<?php echo \$this->Paginator->next(__('next') . ' &raquo;', array('escape' => false, 'tag' => 'li'), null, array('escape' => false, 'tag' => 'li', 'class' => 'disabled'));?>\n";?>
 		</ul>
 	</footer>
 </article>

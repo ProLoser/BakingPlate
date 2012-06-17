@@ -36,7 +36,7 @@ class PlateHelper extends AppHelper {
 
 /**
  * creates an opening html tag with optional classes, conditional comments, manifest and language
- * 
+ *
  * @param array $options
  * @example echo $this->Plate->html(array('ie' => true, 'manifest' => 'manifestname', 'lang' => 'override cfg', ''))
  * @link https://developer.mozilla.org/En/Offline_resources_in_Firefox
@@ -86,7 +86,7 @@ class PlateHelper extends AppHelper {
 /**
  * Returns a script tag to a cdn hosted js library
  *
- * @param string $name 
+ * @param string $name
  * @param string $options
  * @return void
  * @author Dean Sofer
@@ -177,43 +177,10 @@ class PlateHelper extends AppHelper {
 	}
 
 /**
- * Start a block of output to display in layout 
- * 
- * @param string $name Will be prepended to form {$name}_for_layout variable  or leave blank to just use the output
- */
-	public function start($name = false) {
-		if (!is_null($this->_blockName)) {
-			trigger_error('PlateHelper::start - Blocks cannot overlap');
-		}
-
-		$this->_blockName = $name;
-		ob_start();
-		return null;
-	}
-
-/**
- * Ends a block of output to display in layout
- * 
- * @return string $buffer
- */
-	public function stop() {
-		if (is_null($this->_blockName)) {
-			trigger_error('PlateHelper::stop - No blocks currently running');
-		}
-		$buffer = @ob_get_contents();
-		@ob_end_clean();
-		if ($this->_blockName) {
-			$this->_View->set($this->_blockName . '_for_layout', $buffer);
-		}
-		$this->_blockName = null;
-		return $buffer;
-	}
-
-/**
  * A tree list generator because all the other crap out there sucks
  *
  * @param array $data - works with find(threaded), untested with generateTreeList()
- * @param array $options 
+ * @param array $options
  *	displayField - name: field to use for the link texts
  *	group - ul: tag to use for groups
  *	item - li: tag to use for items
