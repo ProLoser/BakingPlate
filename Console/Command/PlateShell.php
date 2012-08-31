@@ -155,16 +155,19 @@ class PlateShell extends AppShell {
  * @return void
  */
 	public function init($working) {
-		$this->out("\n<info>Making temp folders writeable...</info>");
+		$this->out(__d('baking_plate', "\n<info>Making temp folders writeable...</info>"));
 		$tmp = array(
-			'tmp', 'tmp' . DS . 'cache', 'tmp' . DS . 'cache' . DS . 'models',
+			'tmp' . DS . 'cache', 'tmp' . DS . 'cache' . DS . 'models',
 			'tmp' . DS . 'cache' . DS . 'persistent', 'tmp' . DS . 'cache' . DS . 'views',
 			'tmp' . DS . 'logs', 'tmp' . DS . 'sessions', 'tmp' . DS . 'tests',
 			'webroot' . DS . 'ccss', 'webroot' . DS . 'cjs', 'webroot' . DS . 'uploads',
 		);
 		foreach ($tmp as $dir) {
-			if (is_dir($working . DS . $dir)) {
-				$this->out($dir);
+			if (!is_dir($working . DS . $dir)) {
+				$this->out(__d('baking_plate', "\n<info>Creating Directory %s with permissions 0777</info>", $dir));
+				mkdir($working . DS . $dir, 0777);
+			} else {
+				$this->out(__d('baking_plate', "\n<info>Setting Permissions of %s to 0777</info>", $dir));
 				chmod($working . DS . $dir, 0777);
 			}
 		}
@@ -348,8 +351,8 @@ class PlateShell extends AppShell {
 /**
  * Adds a submodule via git
  *
- * @param string $path 
- * @param string $url 
+ * @param string $path
+ * @param string $url
  * @return void
  */
 	protected function _addSubmodule($path) {
@@ -414,7 +417,7 @@ class PlateShell extends AppShell {
 /**
  * Installs a submodule into the project
  *
- * @param string $url 
+ * @param string $url
  * @param string $folder
  * @return void
  */
