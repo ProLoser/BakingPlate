@@ -1,7 +1,7 @@
 <?php
 /**
  * PlateComponent
- * 
+ *
  * A collection of common controller-level fixes and functionality in baking plate
  *
  * @package BakingPlate Plugin
@@ -37,7 +37,7 @@ class PlateComponent extends Component {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	public function initialize($controller, $settings = array()) {
+	public function initialize(Controller $controller, $settings = array()) {
 		$this->_Controller = $controller;
 		if (!isset($this->_Settings[$controller->name])) {
 			$this->_Settings[$controller->name] = $settings;
@@ -53,7 +53,7 @@ class PlateComponent extends Component {
  * @access public
  * @link http://book.cakephp.org/view/65/MVC-Class-Access-Within-Components
  */
-	public function startup($controller) {
+	public function startup(Controller $controller) {
 		$this->_paginationLimit();
 	}
 
@@ -65,7 +65,7 @@ class PlateComponent extends Component {
  * @return void
  * @access public
  */
-	public function beforeRender($controller) {
+	public function beforeRender(Controller $controller) {
 		// An annoying fix for asset_compress
 		if (empty($this->_Controller)) {
 			$this->_Controller = $controller;
@@ -82,7 +82,7 @@ class PlateComponent extends Component {
  * @return void
  * @access public
  */
-	public function shutdown($controller) {
+	public function shutdown(Controller $controller) {
 	}
 
 /**
@@ -92,7 +92,7 @@ class PlateComponent extends Component {
  * @param mixed  A string or array containing the redirect location
  * @access public
  */
-	public function beforeRedirect($controller, $url, $status = null, $exit = true) {
+	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
 	}
 
 /**
@@ -140,7 +140,7 @@ class PlateComponent extends Component {
  * Checks to see if there is a limit set for pagination results
  * to prevent overloading the database
  *
- * @param string $value 
+ * @param string $value
  * @return void
  * @author Jose Gonzalez (savant)
  */
@@ -171,7 +171,7 @@ class PlateComponent extends Component {
 
 /**
  * Add component just in time (inside actions - only when needed)
- * aware of plugins and config array (if passed). Doesn't load 
+ * aware of plugins and config array (if passed). Doesn't load
  * dependent components.
  *
  * @param mixed $components (single string or multiple array)

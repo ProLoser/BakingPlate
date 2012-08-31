@@ -31,9 +31,9 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
-	
-	var $recursive = -1;
-	
+
+	public $recursive = -1;
+
 	public $actsAs = array(
 		'Containable',
 	);
@@ -46,7 +46,7 @@ class AppModel extends Model {
 	 * @param string $table 
 	 * @param string $ds 
 	 */
-	function __construct($id = false, $table = null, $ds = null) {
+	public function __construct($id = false, $table = null, $ds = null) {
 		foreach ($this->validate as $field => $rules) {
 			if (isset($this->validate[$field]['message'])) {
 				$this->validate[$field]['message'] = __($this->validate[$field]['message']);
@@ -70,7 +70,7 @@ class AppModel extends Model {
 	 * @return void
 	 * @author Dean
 	 */
-	public function beforeValidate() {
+	public function beforeValidate($options = array()) {
 		// Makes the HABTM fields validateable
 		foreach($this->hasAndBelongsToMany as $alias => $options) { 
 			if (isset($this->data[$alias][$alias])) { 
@@ -87,7 +87,7 @@ class AppModel extends Model {
 	 * @param array $extra
 	 * @return array
 	 */
-	function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
+	public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 		$parameters = compact('conditions');
 
 		if ($recursive != $this->recursive) {
