@@ -1,5 +1,5 @@
 <?php
-	$this->assign('title', 'Sweet, "Reduxy" got Baked by CakePHP!');
+	$this->assign('title', 'Sweet, "Baking Plate" got Baked by CakePHP!');
 ?>
 <iframe src="http://cakephp.org/bake-banner" width="830" height="160" style="overflow:hidden; border:none;">
 	<p>For updates and important announcements, visit http://cakefest.org</p>
@@ -128,30 +128,30 @@ if (isset($filePresent)):
 		<h4>Plugins</h4>
 		<ul>
 			<li>By default 3 plugins are added <?php echo $this->Html->link('DebugKit', 'http://github.com/cakephp/debug_kit/'); ?>, <?php echo $this->Html->link('Linkable', 'http://github.com/dereuromark/linkable/'); ?> &amp; <?php echo $this->Html->link('Batch', 'http://github.com/ProLoser/Cakephp-Batch/'); ?></li>
-		        <li><code>cake BakingPlate.plate browse -h</code> browse Plugins indexed by BakingPlate</li>
+	        <li><code>cake BakingPlate.plate browse -h</code> browse Plugins indexed by BakingPlate</li>
 			<li><code>cake BakingPlate.plate add -h</code> browse Plugins indexed by BakingPlate</li>
-			<li><code>cake BakingPlate.plate search TERM</code> Search <?php echo $this->Html->link('cakepakackages.com', 'http://www.cakepakages.com/'); ?> for code<li>
+			<li><code>cake BakingPlate.plate search TERM</code> Search <?php echo $this->Html->link('cakepakackages.com', 'http://www.cakepakages.com/'); ?> for code</li>
 		</ul>
 		<h4>Themes</h4>
 		<ul>
-		        <li>Make a dir in View/Themed/MyName uncomment property in Controller/AppController</li>
-			<li>A start Admin theme exists in View/Themed/Admin it is switched to by default if prefix is admin<li>
+            <li>Make a dir in View/Themed/MyName uncomment property in Controller/AppController</li>
+			<li>A start Admin theme exists in View/Themed/Admin it is switched to by default if prefix is admin</li>
 
 		</ul>
 		<h4>Adding less (plugins for Cake Sass exist but you can of course compile using node to appropriate dir)</h4>
 		<ul>
 			<li>mkdir webroot/less</li>
-			<li>a) <code>cake plate add lessphp -g vendors</code></li>
-			<li>b) <code>cake plate add less -g hyra</code></li>
-			<li>c) enable AssetCompress and make a less filter</li>
+			<li>a) <code>cake BakingPlate.plate add lessphp -g vendors</code></li>
+			<li>b) <code>cake BakingPlate.plate add less -g hyra</code></li>
+            <li>c) enable AssetCompress and use the less filter</li>
 
 		</ul>
 		<h4>Setup asset compression by running the following commands:</h4>
 		<ul>
-			<li><code>cake plate add jsmin</code></li>
-			<li><code>cake plate add cssmin</code></li>
-			<li><code>cake plate add asset_compress -g markstory</code> switch out comments to enable the plugin</li>
-			<li><code>cake asset_compress build</code></li>
+			<li><code>cake BakingPlate.plate add jsmin</code></li>
+			<li><code>cake BakingPlate.plate add cssmin</code></li>
+			<li><code>cake BakingPlate.plate add asset_compress -g markstory</code> switch out comments to enable the plugin</li>
+			<li><code>cake AssetCompress.asset_compress build_ini</code></li>
 		</ul>
 	</li>
 	<li>

@@ -1,12 +1,9 @@
-# CakePHP BakingPlate
+# CakePHP BakingPlate v2.0.2
 
-* Cleanup Old - some old unrequired files, check choas with mobile boilerplate
-* Boilerplate Update - check update with 2.0 latest and htaccess
-* Bootstrapify - some minor alterations to skel and even more minor alterations to templates
-* Style.less - a modified set of less files from the Twitter Bootstrap lib
+* Up to date with the latest Boilerplate updates
 
 BakingPlate assists in creating enhanced CakePHP projects containing extra features and conventions normally employed by the CakePHP community and built on
- top of the [Html5BoilerPlate](https://github.com/paulirish/html5-boilerplate).
+ top of the [Html5BoilerPlate](https://github.com/h5bp/html5-boilerplate).
 
 Once the app is baked, several tools within the plugin are re-used by the skeleton app including HTML5 support and plugin installers and can easily be added or removed. In fact, you don't even need to use our skeleton to use the plugin!
 
