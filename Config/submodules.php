@@ -39,12 +39,16 @@ $config['BakingPlate']['acl'] = array(
 	'acl_extras'                    => 'git://github.com/markstory/acl_extras.git',
 );
 
+$config['BakingPlate']['burzum'] = array(
+	'file_storage' 		        => 'git://github.com/burzum/FileStorage.git',
+	'cart' 		        => 'git://github.com/burzum/Cart.git',
+	'html_purifier' 		        => 'git://github.com/burzum/HtmlPurifier.git',
+	'bz_utils' 		        => 'git://github.com/burzum/BzUtils.git',
+);
+
 $config['BakingPlate']['ceeram'] = array(
 	'clear_cache' 		        => 'git://github.com/ceeram/clear_cache.git',
 );
-
-
-
 
 $config['BakingPlate']['hyra'] = array(
 	'phpunit' 			=> 'git://github.com/Hyra/PHPUnit-Cake2.git',
@@ -68,6 +72,7 @@ $config['BakingPlate']['dereuromark'] = array(
 	'upgrade' 			=> 'git://github.com/dereuromark/upgrade.git',
 	'tools' 			=> 'git://github.com/dereuromark/tools.git',
 	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
+	'setup'			=> 'git://github.com/dereuromark/setup.git',
 	'phpunit'			=> 'git://github.com/dereuromark/PHPUnit-Cake2.git',
 );
 
@@ -237,9 +242,11 @@ $config['BakingPlate']['webtechnick'] = array(
 $config['BakingPlate']['cakedc'] = array(
 	'bitly'				=> 'git://github.com/CakeDC/bitly.git',
 	'categories'			=> 'git://github.com/CakeDC/categories.git',
+	'config'			=> 'git://github.com/CakeDC/Config.git',
 	'comments'			=> 'git://github.com/CakeDC/comments.git',
 	'favorites'			=> 'git://github.com/CakeDC/favorites.git',
 	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
+	'imagine'				=> 'git://github.com/CakeDC/Imagine.git',
 	'markup_parsers'		=> 'git://github.com/CakeDC/markup_parsers.git',
 	'migrations'			=> 'git://github.com/CakeDC/migrations.git',
 	'problems'			=> 'git://github.com/CakeDC/problems.git',
