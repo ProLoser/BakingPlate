@@ -24,24 +24,31 @@
 $config['BakingPlate']['core'] = array(
 	'debug_kit'			=> 'git://github.com/cakephp/debug_kit.git',
 	'linkable'			=> 'git://github.com/ProLoser/linkable.git',
-	'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git'
+        'batch'				=> 'git://github.com/ProLoser/CakePHP-Batch.git',
+        'url_cache'                     => 'http://github.com/lorenzo/url_cache.git'
 );
 // Submodules that don't fall under any other group
 $config['BakingPlate']['extra'] = array(
 	'mongodb'			=> 'git://github.com/ichikaway/cakephp-mongodb.git',
-	'asset_mapper'		=> 'git://github.com/1Marc/cakephp-asset-mapper.git',
+	'asset_mapper'		        => 'git://github.com/1Marc/cakephp-asset-mapper.git',
 );
 
 // acl plugins
 $config['BakingPlate']['acl'] = array(
-	'acl'                       => 'git://github.com/sams/alaxos_acl.git',
-	'acl_extras'            => 'git://github.com/markstory/acl_extras.git',
+	'acl'                           => 'git://github.com/sams/alaxos_acl.git',
+	'acl_extras'                    => 'git://github.com/markstory/acl_extras.git',
+);
+
+$config['BakingPlate']['burzum'] = array(
+	'file_storage' 		        => 'git://github.com/burzum/FileStorage.git',
+	'cart' 		        => 'git://github.com/burzum/Cart.git',
+	'html_purifier' 		        => 'git://github.com/burzum/HtmlPurifier.git',
+	'bz_utils' 		        => 'git://github.com/burzum/BzUtils.git',
 );
 
 $config['BakingPlate']['ceeram'] = array(
-	'clear_cache' 		=> 'git://github.com/ceeram/clear_cache.git',
+	'clear_cache' 		        => 'git://github.com/ceeram/clear_cache.git',
 );
-
 
 $config['BakingPlate']['hyra'] = array(
 	'phpunit' 			=> 'git://github.com/Hyra/PHPUnit-Cake2.git',
@@ -65,11 +72,16 @@ $config['BakingPlate']['dereuromark'] = array(
 	'upgrade' 			=> 'git://github.com/dereuromark/upgrade.git',
 	'tools' 			=> 'git://github.com/dereuromark/tools.git',
 	'linkable'			=> 'git://github.com/dereuromark/linkable.git',
+	'setup'			=> 'git://github.com/dereuromark/setup.git',
 	'phpunit'			=> 'git://github.com/dereuromark/PHPUnit-Cake2.git',
 );
 
+$config['BakingPlate']['ad7six'] = array(
+        'completion'                    => 'git://github.com/AD7six/cakephp-completion.git'
+);
+
 $config['BakingPlate']['ndejong'] = array(
-	'auto_cache'		=> 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
+	'auto_cache'		        => 'git://github.com/ndejong/CakephpAutocacheBehavior.git'
 );
 
 $config['BakingPlate']['neilcrookes'] = array(
@@ -154,7 +166,7 @@ $config['BakingPlate']['proloser'] = array(
 	'wizard'			=> 'git://github.com/ProLoser/wizard.git',
 	'csv'				=> 'git://github.com/ProLoser/CakePHP-CSV.git',
 	'geoip'				=> 'git://github.com/ProLoser/cakephp-geoip.git',
-	'webservice'		=> 'git://github.com/ProLoser/webservice_plugin.git',
+	'webservice'		        => 'git://github.com/ProLoser/webservice_plugin.git',
 );
 
 $config['BakingPlate']['sams'] = array(
@@ -228,12 +240,13 @@ $config['BakingPlate']['webtechnick'] = array(
 );
 
 $config['BakingPlate']['cakedc'] = array(
-	'asset_compress'		=> 'git://github.com/CakeDC/asset_compress.git',
 	'bitly'				=> 'git://github.com/CakeDC/bitly.git',
 	'categories'			=> 'git://github.com/CakeDC/categories.git',
+	'config'			=> 'git://github.com/CakeDC/Config.git',
 	'comments'			=> 'git://github.com/CakeDC/comments.git',
 	'favorites'			=> 'git://github.com/CakeDC/favorites.git',
 	'i18n'				=> 'git://github.com/CakeDC/i18n.git',
+	'imagine'				=> 'git://github.com/CakeDC/Imagine.git',
 	'markup_parsers'		=> 'git://github.com/CakeDC/markup_parsers.git',
 	'migrations'			=> 'git://github.com/CakeDC/migrations.git',
 	'problems'			=> 'git://github.com/CakeDC/problems.git',
@@ -270,7 +283,7 @@ $config['BakingPlate']['mi'] = array(
 
 $config['BakingPlate']['predominant'] = array(
 	'twig_view'			=> 'git://github.com/predominant/TwigView.git',
-	'cake_social'		=> 'git://github.com/predominant/cake_social.git',
+	'cake_social'		        => 'git://github.com/predominant/cake_social.git',
 	'woopra'			=> 'git://github.com/predominant/Woopra.git',
 	'goodies'			=> 'git://github.com/predominant/goodies.git',
 );
@@ -284,9 +297,13 @@ $config['BakingPlate']['slywalker'] = array(
 	'TwitterBootstrap' => 'git://github.com/slywalker/TwitterBootstrap.git'
 );
 
+
+$config['BakingPlate']['octobear'] = array(
+	'environments' 			=> 'git://github.com/OctoBear/cakephp-environments.git'
+);
+
 $config['BakingPlate']['simkimsia'] = array(
-    'utility_lib' 			=> 'git://github.com/simkimsia/UtilityLib.git',
-    'clear_cache' 			=> 'git://github.com/simkimsia/ClearCache.git'
+    'utility_lib' 			=> 'git://github.com/simkimsia/UtilityLib.git'
 );
 
 // Commonly Used Vendors

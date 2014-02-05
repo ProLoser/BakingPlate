@@ -139,4 +139,5 @@ TEXT;
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+#!# CakePlugin::load('AssetCompress', array('bootstrap' => true));
 CakePlugin::loadAll();
